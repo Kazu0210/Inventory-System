@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Frame</class>
+ <widget class="QFrame" name="Frame">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>397</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="minLength_label">
+     <property name="text">
+      <string>Minimum Lenght</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="constainsChar_label">
+     <property name="text">
+      <string>Only contains (letters, numbers, underscore)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="letterFirst_label">
+     <property name="text">
+      <string>Starts with a letter</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="noSpace_label">
+     <property name="text">
+      <string>No spaces</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="uniqueUser_label">
+     <property name="text">
+      <string>Unique Username</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <zorder>uniqueUser_label</zorder>
+  <zorder>minLength_label</zorder>
+  <zorder>constainsChar_label</zorder>
+  <zorder>letterFirst_label</zorder>
+  <zorder>noSpace_label</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

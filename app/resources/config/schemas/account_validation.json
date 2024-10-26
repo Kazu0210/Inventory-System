@@ -1,0 +1,32 @@
+{
+    "$jsonSchema":{
+        "bsonType": "object",
+        "required": ["first_name", "last_name", "username", "password", "job", "user_type"],
+        "properties": {
+            "first_name": {
+                "bsonType": "string",
+                "description": ""
+            },
+            "last_name": {
+                "bsonType": "string",
+                "description": ""
+            },
+            "username": {
+                "bsonType": "string",
+                "description": ""
+            },
+            "password": {
+                "bsonType": "string",
+                "description": ""
+            },
+            "job": {
+                "bsonType": "string",
+                "description": ""
+            },
+            "user_type": {
+                "bsonType": "string",
+                "description": ""
+            }
+        }
+    } 
+}

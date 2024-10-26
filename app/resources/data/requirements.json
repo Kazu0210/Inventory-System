@@ -1,0 +1,11 @@
+[
+    "sys",
+    "pymongo",
+    "json",
+    "pyqt6",
+    "pynput",
+    "keyboard",
+    "bson",
+    "pywin32",
+    "python-docx"
+]

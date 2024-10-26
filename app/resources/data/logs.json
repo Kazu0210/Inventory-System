@@ -1,0 +1,17 @@
+{
+    "categories": [
+        {"Default": "None"},
+        {"Login Activity": "Login Activity"},
+        {"Logout Activity": "Logout Activity"},
+        {"Failed Login Attempt": "Failed Login Attempt"},
+        {"User Exit": "User Exit"},
+        {"Delete Account": "Delete Account"},
+        {"Create Account": "Create Account"},
+        {"Edit Account": "Edit Account"}
+    ],
+    "status": [
+        {"Default": "None"},
+        {"Success": "Success"},
+        {"Failed": "Failed"}
+    ]
+}

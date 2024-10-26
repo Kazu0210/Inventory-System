@@ -1,0 +1,40 @@
+{
+    "time_date": [
+        {
+            "time_format": "12hr"
+        }
+    ],
+    "create_account_validation": [
+        {
+            "username_min_lenght": 5
+        },
+        {
+            "username_max_lenght": 20
+        },
+        {
+            "email_max_lenght": 254
+        }
+    ],
+    "db": [
+        {
+            "db_name": "LPGTrading_DB"
+        },
+        {
+            "db_url": "mongodb://localhost:27017/"
+        },
+        {
+            "account_collection_name": "accounts"
+        },
+        {
+            "default_account_collection_name": "default_account"
+        }
+    ],
+    "default_admin": [
+        {
+            "username": "admin"
+        },
+        {
+            "password": "admin123"
+        }
+    ]
+}

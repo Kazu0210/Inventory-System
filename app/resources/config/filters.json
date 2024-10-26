@@ -1,0 +1,40 @@
+{
+    "job": [
+        {"Default": "Show All"},
+        {"Developer": "Developer"},
+        {"Manager": "Manager"},
+        {"Tester": "Tester"},
+        {"Kargador": "Kargador"}
+    ],
+    "account_status": [
+        {"Default": "Show All"},
+        {"Active": "Active"},
+        {"Inactive": "Inactive"},
+        {"Pending": "Pending"},
+        {"Blocked": "Blocked"}
+    ],
+    "role": [
+        {"Default": "Show All"},
+        {"Admin": "Admin"},
+        {"Employee": "Employee"}
+    ],
+    "cylinder_size": [
+        {"Default": "Show All"},
+        {"5kg": "5kg"},
+        {"11kg": "11kg"},
+        {"22kg": "22kg"},
+        {"50kg": "50kg"}
+    ],
+    "item_status": [
+        {"Default": ""},
+        {"Active": "Active"},
+        {"Discontinued": "Discontinued"},
+        {"On Hold": "On Hold"}
+    ],
+    "product_status": [
+        {"Default":"Show All"},
+        {"Active":"Active"},
+        {"Discountinued":"Discountinued"},
+        {"On Hold":"On Hold"}
+    ]
+}

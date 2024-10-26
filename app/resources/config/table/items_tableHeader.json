@@ -1,0 +1,11 @@
+[
+    "Product ID",
+    "Product Name",
+    "Cylinder Size",
+    "Quantity in Stock",
+    "Price per Unit",
+    "Supplier",
+    "Last Restocked Date",
+    "Total Value",
+    "Inventory Status"
+]
