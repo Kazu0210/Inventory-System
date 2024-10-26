@@ -18,7 +18,7 @@ class NewOrderPage(QWidget, Ui_newOrder_Form):
 
         # BUTTONS
         self.addItem_pushButton.clicked.connect(lambda: self.addItem())
-        self.testAdd_pushButton.clicked.connect(lambda: self.testAddItem())
+        # self.testAdd_pushButton.clicked.connect(lambda: self.testAddItem())
 
         self.getItemFromDB()
 
@@ -27,7 +27,9 @@ class NewOrderPage(QWidget, Ui_newOrder_Form):
         self.timer.timeout.connect(self.update_all)
         self.timer.start(1000)
 
-        self.updateTable()
+
+        self.updateProductsTable()
+        # self.updateTable()
 
     def testAddItem(self):
         print(f'Test add button clicked')
@@ -68,7 +70,8 @@ class NewOrderPage(QWidget, Ui_newOrder_Form):
 
     def update_all(self):
         # self.updateTable()
-        self.updateProductsTable()
+        # self.updateProductsTable()
+        pass
     
     def updateTable(self):
         table = self.orderList_tableWidget
@@ -98,22 +101,38 @@ class NewOrderPage(QWidget, Ui_newOrder_Form):
         table.verticalHeader().hide()
         table.horizontalHeader().hide()
         table.setRowCount(0)  # Clear the table
-        # Stretch the column to fill the entire width of the table
-        self.products_tableWidget.horizontalHeader().setStretchLastSection(True)
+        table.horizontalHeader().setStretchLastSection(True)
 
-        # Set column width based on the table's viewport width
-        for column in range(table.columnCount()):
-            table.setColumnWidth(column, table.viewport().width() // table.columnCount())
+        # Check if the column count is greater than zero before setting widths
+        column_count = table.columnCount()
+        if column_count > 0:
+            # Calculate and set column widths
+            column_width = table.viewport().width() // column_count
+            for column in range(column_count):
+                table.setColumnWidth(column, column_width)
 
+        # Retrieve data from the database
         data = list(self.connect_to_product_collection().find({}))
+        print("Retrieved data:", data)  # Debugging line
         if not data:
+            print("No data found")  # Debugging line
             return
 
-        # Loop through the data and populate the table
+        # Populate the table with retrieved data
         for row_index, product_data in enumerate(data):
-            table.insertRow(row_index)  # Insert a new row at the given index
-            product_template = ProductTemplate(self, product_data)  # Create a new ProductTemplate for each product
-            table.setCellWidget(row_index, 0, product_template)  # Set the ProductTemplate widget in the first column
+            table.insertRow(row_index)
+
+            # Create a new ProductTemplate for each product
+            product_template = ProductTemplate(self, product_data)
+            print(f"Adding product template for row {row_index}: {product_data}")  # Debugging line
+            
+            # Set the ProductTemplate widget in the first column
+            table.setCellWidget(row_index, 0, product_template)
+            
+            # Ensure the row height is set appropriately
+            table.setRowHeight(row_index, 200)
+
+        table.update()  # Force table update
 
     def addItem(self):
         currentRowCount = self.orderList_tableWidget.rowCount()
