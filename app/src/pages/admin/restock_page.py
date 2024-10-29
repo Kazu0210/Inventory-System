@@ -60,9 +60,6 @@ class RestockProduct(QWidget, Ui_restock_form):
 
         # self.save(self.received_data)
 
-    def cancelBtnClicked(self):
-        self.close()
-
     def UpdateTotalValue(self):
         try:
             newQuantity = int(self.restockQuantity_lineEdit.text()) + int(self.received_data.get('quantity'))
@@ -107,3 +104,7 @@ class RestockProduct(QWidget, Ui_restock_form):
         db = "LPGTrading_DB"
         collection_name = "products_items"
         return client[db][collection_name]
+    
+    def cancelBtnClicked(self):
+        self.close()
+        # hatdog
