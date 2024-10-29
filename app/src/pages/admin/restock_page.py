@@ -50,29 +50,64 @@ class RestockProduct(QWidget, Ui_restock_form):
             print('Error saving data to database', e)
 
     def restockBtnClicked(self):
-        print(f'restock button clicked')
-        print(f'TOTAL BALYU: {self.UpdateTotalValue()}')
 
-        self.received_data['quantity'] = self.UpdateTotalValue().get('quantity_in_stock')
-        self.received_data['total_value'] = self.UpdateTotalValue().get('total_value')
+        try:
+            print(f'restock button clicked')
 
-        print(f'KLEPOOOORD: {self.received_data}')
+            newQuantity = self.UpdateTotalValue().get('quantity_in_stock')
+            newTotalVal = self.getNewTotalVal()
+            oldQuantity = self.received_data['quantity']
+            oldTotalVal = self.received_data['total_value']
 
-        # self.save(self.received_data)
+            print(f'NEW TOTAL VALUE: {newTotalVal}')
+            print(f'NEW QUANTITY: {newQuantity}')
+
+            print(f'OLD QUANTITY: {oldQuantity}')
+            print(f'OLD TOTAL VALUE :{oldTotalVal}')
+
+            # self.received_data['quantity'] = self.UpdateTotalValue().get('quantity_in_stock')
+            # print(f"ADDING NEW QUANTITY: {self.received_data['quantity']}")
+            # self.received_data['total_value'] = self.UpdateTotalValue().get('total_value')
+            # print(f"ADDING NEW TOTAL VALUE: {self.received_data['total_value']}")
+            # print(f'RECEIVED DATA FROM RESTOCK PAGE: {self.received_data}')
+
+            # self.received_data['quantity'] = self.UpdateTotalValue().get('quantity_in_stock')
+            # self.received_data['total_value'] = self.UpdateTotalValue().get('total_value')
+
+            # print(f'KLEPOOOORD: {self.received_data}')
+
+            # self.save(self.received_data)
+        except Exception as e:
+            print('Error restocking product', e)
+
+    def getNewTotalVal(self):
+
+        # combine old and new quantity
+        newQuantity = int(self.restockQuantity_lineEdit.text())
+        oldQuantity = int(self.received_data['quantity'])
+        TotalQuantity = oldQuantity + newQuantity
+
+        # get current price of the product
+        currentPrice = int(self.received_data['price'])
+
+        # get total value currentPrice x totalQuantity
+        newTotalVal = currentPrice * TotalQuantity
+
+        return newTotalVal
 
     def UpdateTotalValue(self):
         try:
             newQuantity = int(self.restockQuantity_lineEdit.text()) + int(self.received_data.get('quantity'))
-            print(f'new quantity: {newQuantity}')
+            # print(f'new quantity: {newQuantity}')
 
             self.addQuantity_label.setText(f'+{self.restockQuantity_lineEdit.text()} = {newQuantity}') # set new added quantity to label
 
-            self.totalValue = newQuantity * int(self.received_data.get('price'))
-            print(f'Total value: {self.totalValue}')
-            self.totalCost_label.setText(str(self.totalValue))
+            totalValue = newQuantity * int(self.received_data.get('price'))
+            # print(f'Total value: {totalValue}')
+            self.totalCost_label.setText(str(totalValue))
 
             data = {
-                'total_value': self.totalValue,
+                'total_value': totalValue,
                 'quantity_in_stock': str(newQuantity)
             }
             return data
@@ -107,4 +142,3 @@ class RestockProduct(QWidget, Ui_restock_form):
     
     def cancelBtnClicked(self):
         self.close()
-        # hatdog
