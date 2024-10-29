@@ -33,7 +33,7 @@ class RestockProduct(QWidget, Ui_restock_form):
                 'product_id': data['product_id'],
                 'product_name': data['product_name'],
                 'cylinder_size': data['cylinder_size'],
-                'quantity_in_stock': data['quantity'],
+                'quantity_in_stock': str(data['quantity']),
                 'price_per_unit': data['price'],
                 'supplier': data['supplier'],
                 'last_restocked_date': current_date,
@@ -53,34 +53,33 @@ class RestockProduct(QWidget, Ui_restock_form):
         try:
             print(f'restock button clicked')
 
-            newQuantity = self.UpdateTotalValue().get('quantity_in_stock')
+            newQuantity = self.getNewTotalQuantity()
             newTotalVal = self.getNewTotalVal()
-            oldQuantity = self.received_data['quantity']
-            oldTotalVal = self.received_data['total_value']
 
             print(f'NEW TOTAL VALUE: {newTotalVal}')
             print(f'NEW QUANTITY: {newQuantity}')
 
-            print(f'OLD QUANTITY: {oldQuantity}')
-            print(f'OLD TOTAL VALUE :{oldTotalVal}')
+            self.received_data['quantity'] = newQuantity
+            print(f"ADDING NEW QUANTITY: {self.received_data['quantity']}")
 
-            # self.received_data['quantity'] = self.UpdateTotalValue().get('quantity_in_stock')
-            # print(f"ADDING NEW QUANTITY: {self.received_data['quantity']}")
-            # self.received_data['total_value'] = self.UpdateTotalValue().get('total_value')
-            # print(f"ADDING NEW TOTAL VALUE: {self.received_data['total_value']}")
-            # print(f'RECEIVED DATA FROM RESTOCK PAGE: {self.received_data}')
+            self.received_data['total_value'] = newTotalVal
+            print(f"ADDING NEW TOTAL VALUE: {self.received_data['total_value']}")
 
-            # self.received_data['quantity'] = self.UpdateTotalValue().get('quantity_in_stock')
-            # self.received_data['total_value'] = self.UpdateTotalValue().get('total_value')
-
+            print(f'RECEIVED DATA FROM RESTOCK PAGE: {self.received_data}')
             # print(f'KLEPOOOORD: {self.received_data}')
 
-            # self.save(self.received_data)
+            self.save(self.received_data)
         except Exception as e:
             print('Error restocking product', e)
 
     def getNewTotalQuantity(self):
-        pass
+        # combine old and new quantity
+        newQuantity = int(self.restockQuantity_lineEdit.text())
+        oldQuantity = int(self.received_data['quantity'])
+        TotalQuantity = oldQuantity + newQuantity
+
+        return TotalQuantity
+
 
     def getNewTotalVal(self):
         # combine old and new quantity

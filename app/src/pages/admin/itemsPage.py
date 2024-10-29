@@ -212,7 +212,7 @@ class ItemsPage(QWidget, items_page):
         self.productID_label.setText(document['product_id'])
         self.productName_label.setText(document['product_name'])
         self.cylinderSize_label.setText(document['cylinder_size'])
-        self.quantity_label.setText(document['quantity_in_stock'])
+        self.quantity_label.setText((document['quantity_in_stock']))
         self.price_label.setText(document['price_per_unit'])
         self.supplier_label.setText(document['supplier'])
         self.restockedDate_label.setText(document['last_restocked_date'])
@@ -249,7 +249,6 @@ class ItemsPage(QWidget, items_page):
             self.selected_row = None
 
             # clear preview section
-
         self.timer.start()
 
     def on_item_clicked(self, item):
