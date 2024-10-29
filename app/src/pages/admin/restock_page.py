@@ -58,7 +58,7 @@ class RestockProduct(QWidget, Ui_restock_form):
 
         print(f'KLEPOOOORD: {self.received_data}')
 
-        self.save(self.received_data)
+        # self.save(self.received_data)
 
     def cancelBtnClicked(self):
         self.close()
@@ -67,6 +67,8 @@ class RestockProduct(QWidget, Ui_restock_form):
         try:
             newQuantity = int(self.restockQuantity_lineEdit.text()) + int(self.received_data.get('quantity'))
             print(f'new quantity: {newQuantity}')
+
+            self.addQuantity_label.setText(f'+{self.restockQuantity_lineEdit.text()} = {newQuantity}') # set new added quantity to label
 
             self.totalValue = newQuantity * int(self.received_data.get('price'))
             print(f'Total value: {self.totalValue}')
@@ -79,6 +81,7 @@ class RestockProduct(QWidget, Ui_restock_form):
             return data
         except Exception as e:
             print(f'Error: {e}')
+            self.addQuantity_label.setText('')
 
     def numberOnly(self):
         regex = QRegularExpression(r"^\d{1,4}(\.\d{1,3})?$")  # 1 to 4 digits before decimal, 1 to 3 digits after

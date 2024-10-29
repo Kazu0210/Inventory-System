@@ -108,9 +108,9 @@ class ItemsPage(QWidget, items_page):
                 print(f"An error occurred: {e}")
 
             document = self.collection.find_one({'product_id': row_data[productID_header_index]})
-            print(f"Data from items page (document): {document}")
+            # print(f"Data from items page (document): {document}")
             object_id = document['_id'] # get _id of product id
-            print(f'Object Id from items page: {object_id}')
+            # print(f'Object Id from items page: {object_id}')
 
             self.productID = document['product_id']
             self.productName = document['product_name']
@@ -179,7 +179,7 @@ class ItemsPage(QWidget, items_page):
 
     def restockProduct(self, product_data):
         print(f'Restock button clicked.')
-        print(f'Product data from restock button clicked: {product_data}')
+        # print(f'Product data from restock button clicked: {product_data}')
         self.restockPage = RestockProduct(product_data)
         self.restockPage.show()
         self.restockPage.save_signal.connect(self.handleSave)
