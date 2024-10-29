@@ -4,6 +4,7 @@ from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
 from employee_account.dashboard import employee_dashboard
 from pages.admin.main_window import MainWindow
+from utils.create_default_admin import createDefaultAdmin
 
 from pages.employee.main_window import MainWindow as employee_mainWindow
 import pymongo
@@ -15,6 +16,9 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.setupUi(self)
         self.logs = Activity_Logs()
         self.login_btn.clicked.connect(self.LoginBtn_clicked)
+
+        self.defaultAdmin = createDefaultAdmin()
+        self.defaultAdmin
 
     def LoginBtn_clicked(self):
         self.login_attempt()
