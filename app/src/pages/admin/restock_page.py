@@ -50,7 +50,6 @@ class RestockProduct(QWidget, Ui_restock_form):
             print('Error saving data to database', e)
 
     def restockBtnClicked(self):
-
         try:
             print(f'restock button clicked')
 
@@ -80,8 +79,10 @@ class RestockProduct(QWidget, Ui_restock_form):
         except Exception as e:
             print('Error restocking product', e)
 
-    def getNewTotalVal(self):
+    def getNewTotalQuantity(self):
+        pass
 
+    def getNewTotalVal(self):
         # combine old and new quantity
         newQuantity = int(self.restockQuantity_lineEdit.text())
         oldQuantity = int(self.received_data['quantity'])
