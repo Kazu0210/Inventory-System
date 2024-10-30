@@ -161,7 +161,17 @@
     <string>Add Item</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="testAdd_pushButton">
+  <widget class="QTableWidget" name="products_tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>170</y>
+     <width>811</width>
+     <height>281</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="createOrder_pushButton">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -171,38 +181,27 @@
     </rect>
    </property>
    <property name="text">
-    <string>Test Add</string>
+    <string>Create Order</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>130</y>
-     <width>831</width>
-     <height>301</height>
+     <y>150</y>
+     <width>121</width>
+     <height>16</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QTableWidget" name="orderList_tableWidget"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QTableWidget" name="products_tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>440</y>
-     <width>811</width>
-     <height>281</height>
-    </rect>
+   <property name="text">
+    <string>Products Table:</string>
    </property>
   </widget>
  </widget>
