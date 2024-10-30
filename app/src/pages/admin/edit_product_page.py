@@ -40,18 +40,23 @@ class EditProductInformation(QWidget, editProductPage):
         except Exception as e:
             print('Error saving data to database', e)
 
-    def calculateTotalVal(self, currentProductPrice):
-        data = self.collection.find_one({"product_id": self.productID})
-        quantity_in_stock = data.get('quantity_in_stock')
-        
-        totalValue = int(currentProductPrice) * int(quantity_in_stock)
-        return totalValue
+    def getNewTotalVal(self, current_price, quantity):
+        # compute new total value
+        newTotalVal = int(current_price) * int(quantity)
+
+        return newTotalVal
 
     def saveBtnClicked(self):
-        currentPrice = self.getData().get('price_per_unit')
-        totalValue = self.calculateTotalVal(currentPrice)
+        # get data from edit product form
         data = self.getData()
-        data['total_value'] = totalValue
+
+        # get new total value
+        newTotalVal = self.getNewTotalVal(data['price_per_unit'], data['quantity_in_stock'])
+        print(f'New total value: {newTotalVal}')
+
+        # add the new total value to the dict
+        data['total_value'] = newTotalVal
+
         self.saveNewData(data)
 
     def getData(self):
@@ -66,7 +71,7 @@ class EditProductInformation(QWidget, editProductPage):
             'inventory_status': self.status_comboBox_2.currentText(),
             'quantity_in_stock': self.quantity_lineEdit.text()
         }
-        print(f'Data collected: {data}')
+        # print(f'Data collected: {data}')
         return data
     
     def limitProductName(self):
