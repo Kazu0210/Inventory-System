@@ -13,6 +13,7 @@ from utils.Activity_logs import Activity_Logs as activity_logs
 from pages.admin.settings_page import settingsPage
 from pages.admin.new_account_page import NewAccountPage
 from pages.admin.order_page import OrderPage
+from pages.admin.backp_restore import BackupRestorePage
 import re
 import json
 import os
@@ -66,6 +67,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         order_section = OrderPage(self) # index 7
         self.content_window_layout.addWidget(order_section)
 
+        backupRestore_section = BackupRestorePage(self) # index 8
+        self.content_window_layout.addWidget(backupRestore_section)
+
         self.buttons = [
             self.dashboard_btn,
             self.activitylogs_btn,
@@ -74,7 +78,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.accounts_btn,
             self.logout_btn,
             self.settings_btn,
-            self.orders_btn
+            self.orders_btn,
+            self.backup_btn
         ]
 
         self.dashboard_btn.clicked.connect(lambda: self.button_clicked(self.dashboard_btn, 0))
@@ -84,6 +89,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logout_btn.clicked.connect(self.logout_btn_clicked)
         self.settings_btn.clicked.connect(lambda: self.button_clicked(self.settings_btn, 6))
         self.orders_btn.clicked.connect(lambda: self.button_clicked(self.orders_btn, 7))
+        self.backup_btn.clicked.connect(lambda: self.button_clicked(self.backup_btn, 8))
 
         # print(f'Current index: {self.get_current_index()}')
 
