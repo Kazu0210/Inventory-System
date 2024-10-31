@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_newOrder_Form(object):
     def setupUi(self, newOrder_Form):
         newOrder_Form.setObjectName("newOrder_Form")
-        newOrder_Form.resize(937, 730)
+        newOrder_Form.resize(620, 395)
         self.label = QtWidgets.QLabel(parent=newOrder_Form)
         self.label.setGeometry(QtCore.QRect(10, 10, 81, 16))
         font = QtGui.QFont()
@@ -56,22 +56,12 @@ class Ui_newOrder_Form(object):
         self.addItem_pushButton = QtWidgets.QPushButton(parent=newOrder_Form)
         self.addItem_pushButton.setGeometry(QtCore.QRect(10, 130, 81, 23))
         self.addItem_pushButton.setObjectName("addItem_pushButton")
-        self.products_tableWidget = QtWidgets.QTableWidget(parent=newOrder_Form)
-        self.products_tableWidget.setGeometry(QtCore.QRect(100, 170, 811, 281))
-        self.products_tableWidget.setObjectName("products_tableWidget")
-        self.products_tableWidget.setColumnCount(0)
-        self.products_tableWidget.setRowCount(0)
         self.createOrder_pushButton = QtWidgets.QPushButton(parent=newOrder_Form)
         self.createOrder_pushButton.setGeometry(QtCore.QRect(10, 160, 81, 23))
         self.createOrder_pushButton.setObjectName("createOrder_pushButton")
-        self.label_7 = QtWidgets.QLabel(parent=newOrder_Form)
-        self.label_7.setGeometry(QtCore.QRect(100, 150, 121, 16))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_7.setFont(font)
-        self.label_7.setObjectName("label_7")
+        self.products_comboBox = QtWidgets.QComboBox(parent=newOrder_Form)
+        self.products_comboBox.setGeometry(QtCore.QRect(110, 160, 501, 21))
+        self.products_comboBox.setObjectName("products_comboBox")
 
         self.retranslateUi(newOrder_Form)
         QtCore.QMetaObject.connectSlotsByName(newOrder_Form)
@@ -88,7 +78,6 @@ class Ui_newOrder_Form(object):
         self.orderDate_label.setText(_translate("newOrder_Form", "Order Date:"))
         self.addItem_pushButton.setText(_translate("newOrder_Form", "Add Item"))
         self.createOrder_pushButton.setText(_translate("newOrder_Form", "Create Order"))
-        self.label_7.setText(_translate("newOrder_Form", "Products Table:"))
 
 
 if __name__ == "__main__":

@@ -34,6 +34,38 @@ class NewOrderPage(QWidget, Ui_newOrder_Form):
         # self.updateProductsTable()
         # self.updateTable()
 
+        self.loadTable()
+
+    def loadTable(self):
+        print('loading table')
+
+        products = self.getProducts()
+        print(f'Products: {products}')
+
+    def getProducts(self):
+        # get all products from database
+        print('get all the products from database')
+
+        document = list(self.connect_to_product_collection().find({}))
+        print(f"DOCUMENT: {document}")
+
+        # Access specific data only on the products
+        product_names = [product['product_name'] for product in document]
+        product_prices = [product['price_per_unit'] for product in document]
+        product_quantities = [product['quantity_in_stock'] for product in document]
+
+        return product_names, product_prices, product_quantities
+       
+
+    # def getProducts(self):
+    #     # get all products from database
+    #     print('get all the products from database')
+
+    #     document = list(self.connect_to_product_collection().find({}))
+    #     print(f"DOCUMENT: {document}")
+
+    #     return document
+
     def createOrderBtn_clicked(self):
         print("Create order button clicked")
 
@@ -180,16 +212,16 @@ class NewOrderPage(QWidget, Ui_newOrder_Form):
     #         button.clicked.connect(lambda checked, r=rowIndex: self.removeItem(r))  # Connect to the new row index
 
 
-    # def connect_to_product_collection(self):
-    #     connection_string = "mongodb://localhost:27017/"
-    #     client = pymongo.MongoClient(connection_string)
-    #     db = "LPGTrading_DB"
-    #     collection_name = "products_items"
-    #     return client[db][collection_name]
-    
-    # def connect_to_orders_collection(self):
+    def connect_to_product_collection(self):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "orders"
+        collection_name = "products_items"
         return client[db][collection_name]
+    
+    # def connect_to_orders_collection(self):
+    #     connection_string = "mongodb://localhost:27017/"
+    #     client = pymongo.MongoClient(connection_string)
+    #     db = "LPGTrading_DB"
+    #     collection_name = "orders"
+    #     return client[db][collection_name]
