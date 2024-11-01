@@ -8,3 +8,8 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         super().__init__()
         self.setupUi(self)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+        self.backupNow_pushButton.clicked.connect(lambda: self.backupNow_pushButton_clicked())
+
+    def backupNow_pushButton_clicked(self):
+        print('Backup now button clicked')
