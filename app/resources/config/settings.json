@@ -36,5 +36,10 @@
         {
             "password": "admin123"
         }
+    ],
+    "backup_frequency": [
+        {"Daily": "Daily"},
+        {"Weekly": "Weekly"},
+        {"Monthly": "Monthly"}
     ]
 }
