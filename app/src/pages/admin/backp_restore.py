@@ -12,17 +12,14 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.setupUi(self)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
-        # # connect to database
-        # self.accounts_collection = self.connect_to_db("accounts")
-
         self.backupNow_pushButton.clicked.connect(lambda: self.backupNow_pushButton_clicked())
-
 
         # run all function
         self.loadAll()
 
     def loadAll(self):
         self.fillFormatComboBox()
+        self.fillFrequencyComboBox()
 
     def getAccountsData(self):
         print('Getting data from accounts collection')
@@ -102,6 +99,17 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         for format in data['backup_file_format']:
             print(f"JOB FILTERS: {list(format.values())[0]}")
             self.fileFormat_comboBox.addItem(list(format.values())[0])
+
+    def fillFrequencyComboBox(self):
+        settings_dir = "app/resources/config/settings.json"
+
+        with open(settings_dir, 'r') as f:
+            frequency = json.load(f)
+
+        self.frequency_comboBox.clear()
+
+        for fre in frequency['backup_frequency']:
+            self.frequency_comboBox.addItem(list(fre.values())[0])
 
     def connect_to_db(self, collectionN):
         connection_string = "mongodb://localhost:27017/"

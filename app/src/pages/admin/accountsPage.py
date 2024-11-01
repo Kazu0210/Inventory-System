@@ -83,7 +83,6 @@ class AccountsPage(QWidget, accounts_page):
         self.job_filter.clear()
 
         for job in data['job']:
-            print(f"JOB FILTERS: {list(job.values())[0]}")
             self.job_filter.addItem(list(job.values())[0])
 
     def get_accounts_table(self):
