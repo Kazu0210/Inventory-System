@@ -109,6 +109,4 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         db = "LPGTrading_DB"
         collection_name = collectionN
         return client[db][collection_name]
-
-    def testfunction(self):
-        print('hello world')
+        
