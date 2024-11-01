@@ -1,5 +1,5 @@
 # BACKUP AND RESTORE PAGE for admin account
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtCore import Qt
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 
@@ -69,14 +69,14 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         }
 
         # Define the backup file name and save to JSON
-        backup_filename = f"backup_{current_date_time}{backup_format}"
+        backup_name = f"backup_{current_date_time}{backup_format}"
 
         backup_dir = "app/resources/backup/"
 
         # Ensure the directory exist
         os.makedirs(backup_dir, exist_ok=True)
 
-        backup_filename = os.path.join(backup_dir, backup_filename)
+        backup_filename = os.path.join(backup_dir, backup_name)
 
         # FORMAT (backup_YYYY-MM-DD_HH-MM.sql)
         
@@ -84,6 +84,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
             json.dump(backup_data, f, indent=4, default=str)  # default=str handles any MongoDB ObjectId or datetime fields
 
         print("Backup created")
+        QMessageBox.information(self, "Backup Created", f'Backup "{backup_name}" created successfully.')
 
     def backupNow_pushButton_clicked(self):
         os.system('cls')
@@ -108,3 +109,6 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         db = "LPGTrading_DB"
         collection_name = collectionN
         return client[db][collection_name]
+
+    def testfunction(self):
+        print('hello world')
