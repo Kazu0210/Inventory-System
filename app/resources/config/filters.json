@@ -36,5 +36,10 @@
         {"Active":"Active"},
         {"Discountinued":"Discountinued"},
         {"On Hold":"On Hold"}
+    ],
+    "backup_file_format": [
+        {"Default": ".json"},
+        {"Sql": ".sql"},
+        {"Csv": ".csv"}
     ]
 }

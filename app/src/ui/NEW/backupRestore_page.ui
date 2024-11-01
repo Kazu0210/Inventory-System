@@ -106,7 +106,7 @@
     <rect>
      <x>10</x>
      <y>180</y>
-     <width>131</width>
+     <width>141</width>
      <height>16</height>
     </rect>
    </property>
@@ -117,7 +117,7 @@
   <widget class="QComboBox" name="fileFormat_comboBox">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>160</x>
      <y>180</y>
      <width>141</width>
      <height>22</height>
