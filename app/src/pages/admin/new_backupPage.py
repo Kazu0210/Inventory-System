@@ -41,8 +41,115 @@ class NewBackupPage(QWidget, Ui_Form):
         # settings.json directory for saving backups
         self.settings_dir = "app/resources/config/settings.json"
 
+    def saveMonthlyBackup(self):
+        selected_date = self.monthlyBackupPage.calendarWidget.selectedDate()
+        selected_date_str = selected_date.toString('dd') # only get the day
+
+        try:
+            # get time
+            time_selection = self.monthlyBackupPage.timeEdit.time()
+            time_str = time_selection.toString("hh:mm AP")
+
+            # check if notification checkBox is Checked
+            notification = self.monthlyBackupPage.enableNotif_checkBox.isChecked()
+
+            # check if auto backup checkBox is checked
+            auto_backup = self.monthlyBackupPage.enable_checkBox.isChecked()
+
+            print(f'Selected time: {time_str}')
+            print(f'Enable Backup: {auto_backup}')
+            print(f'Get Notification: {notification}')
+
+            new_backup = {
+                "frequency": f"{self.getCurrentFrequency()}",
+                "days": selected_date_str,
+                "backup_time": time_str,
+                "enable_backup": auto_backup,
+                "enable_notification": notification
+            }   
+
+            # Read the existing data from the JSON file
+            with open(self.settings_dir, "r") as json_file:
+                data = json.load(json_file)
+
+            # Append the new backup entry to the "backups" list
+            data["backups_settings"].append(new_backup)
+
+            # Write the updated data back to the JSON file
+            with open(self.settings_dir, "w") as json_file:
+                json.dump(data, json_file, indent=4)
+
+            self.save_signal.emit(f"{self.getCurrentFrequency()} Backup Created Successfully.") # send signal to backp_restore.py
+            QMessageBox.information(self, "Back Created", f"{self.getCurrentFrequency()} Backup Created Successfully.")
+            self.close()
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def weeklyOneDay(self):
+        # selected day
+        selected_day = self.weeklyBackupPage.oneDay_comboBox.currentText()
+        return selected_day
+    
+    def weeklyMultipleDay(self):
+        # return multiple days
+        page = self.weeklyBackupPage
+
+        # Assuming each QCheckBox has a text label with the day name
+        selected_days = [day.text() for day in [page.sunday_checkBox, page.monday_checkBox, page.tues_checkBox, page.wed_checkBox, page.thurs_checkBox, page.fri_checkBox, page.sat_checkBox] if day.isChecked()]
+        return selected_days
+
     def saveWeeklyBackup(self):
-        pass
+        selection = None
+        try:
+            if self.weeklyBackupPage.oneDay_radioButton.isChecked():
+                print('one day is checked')
+                selection = self.weeklyOneDay()
+            if  self.weeklyBackupPage.multipleDays_radioButton.isChecked():
+                print('multiple days is checked')
+                selection = self.weeklyMultipleDay()
+
+            print(selection)
+
+            # get time
+            time_selection = self.weeklyBackupPage.timeEdit.time()
+            time_str = time_selection.toString("hh:mm AP")
+
+            # check if notification checkBox is Checked
+            notification = self.weeklyBackupPage.enableNotif_checkBox.isChecked()
+
+            # check if auto backup checkBox is checked
+            auto_backup = self.weeklyBackupPage.enable_checkBox.isChecked()
+
+            print(f'Selected time: {time_str}')
+            print(f'Enable Backup: {auto_backup}')
+            print(f'Get Notification: {notification}')
+
+            new_backup = {
+                "frequency": f"{self.getCurrentFrequency()}",
+                "days": selection,
+                "backup_time": time_str,
+                "enable_backup": auto_backup,
+                "enable_notification": notification
+            }   
+
+            # Read the existing data from the JSON file
+            with open(self.settings_dir, "r") as json_file:
+                data = json.load(json_file)
+
+            # Append the new backup entry to the "backups" list
+            data["backups_settings"].append(new_backup)
+
+            # Write the updated data back to the JSON file
+            with open(self.settings_dir, "w") as json_file:
+                json.dump(data, json_file, indent=4)
+
+            self.save_signal.emit(f"{self.getCurrentFrequency()} Backup Created Successfully.") # send signal to backp_restore.py
+            QMessageBox.information(self, "Back Created", f"{self.getCurrentFrequency()} Backup Created Successfully.")
+            self.close()
+
+        except Exception as e:
+            print(f"Error: {e}")
 
     def saveDailyBackup(self):
         try:
@@ -84,8 +191,6 @@ class NewBackupPage(QWidget, Ui_Form):
         except Exception as e:
             print(f"Error: {e}")
 
-
-
     def saveButtonClicked(self):
         os.system('cls')
         print('Save button clicked')
@@ -96,9 +201,9 @@ class NewBackupPage(QWidget, Ui_Form):
         if frequency == "Daily":
             self.saveDailyBackup()
         elif frequency == "Weekly":
-            pass
+            self.saveWeeklyBackup()
         elif frequency == "Monthly":
-            pass
+            self.saveMonthlyBackup()
 
     def changedForm(self):
         frequency = self.getCurrentFrequency()

@@ -15,9 +15,9 @@ class MonthlyBackup(QWidget, Ui_Form):
         self.calendarWidget.clicked.connect(self.showSelectedDate)
         
         self.showSelectedDate()
+
     def showSelectedDate(self):
         selected_date = self.calendarWidget.selectedDate()
 
-        date_str = selected_date.toString("yyyy-MM-dd")
-
-        self.selectedDate_label.setText(f"Selected Date: {date_str}")
+        date_str = selected_date.toString("dd")
+        self.selectedDate_label.setText(date_str)
