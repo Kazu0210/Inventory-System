@@ -3,6 +3,10 @@ from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtCore import Qt
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 
+from pages.admin.daily_backup_page import DailyBackup
+from pages.admin.new_backupPage import NewBackupPage
+
+
 import os, json, pymongo
 from datetime import datetime
 
@@ -13,13 +17,26 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         self.backupNow_pushButton.clicked.connect(lambda: self.backupNow_pushButton_clicked())
+        self.setSched_pushButton.clicked.connect(lambda: self.setSched_pushButton_clicked())
 
         # run all function
         self.loadAll()
 
     def loadAll(self):
         self.fillFormatComboBox()
-        self.fillFrequencyComboBox()
+        # self.fillFrequencyComboBox()
+
+    # def getSchedFrequency(self):
+    #     frequency = self.frequency_comboBox.currentText()
+    #     return frequency
+
+    def setSched_pushButton_clicked(self):
+        os.system('cls')
+        print("set scheduled backup button clicked")
+
+        self.newBackupPage = NewBackupPage()
+        self.newBackupPage.show()
+        self.newBackupPage.cancel_signal.connect(lambda message: print(message))
 
     def getAccountsData(self):
         print('Getting data from accounts collection')
@@ -97,19 +114,18 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
             data =  json.load(f)
 
         for format in data['backup_file_format']:
-            print(f"JOB FILTERS: {list(format.values())[0]}")
             self.fileFormat_comboBox.addItem(list(format.values())[0])
 
-    def fillFrequencyComboBox(self):
-        settings_dir = "app/resources/config/settings.json"
+    # def fillFrequencyComboBox(self):
+    #     settings_dir = "app/resources/config/settings.json"
 
-        with open(settings_dir, 'r') as f:
-            frequency = json.load(f)
+    #     with open(settings_dir, 'r') as f:
+    #         frequency = json.load(f)
 
-        self.frequency_comboBox.clear()
+    #     self.frequency_comboBox.clear()
 
-        for fre in frequency['backup_frequency']:
-            self.frequency_comboBox.addItem(list(fre.values())[0])
+    #     for fre in frequency['backup_frequency']:
+    #         self.frequency_comboBox.addItem(list(fre.values())[0])
 
     def connect_to_db(self, collectionN):
         connection_string = "mongodb://localhost:27017/"

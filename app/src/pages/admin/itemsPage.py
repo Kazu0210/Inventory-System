@@ -157,7 +157,7 @@ class ItemsPage(QWidget, items_page):
                 self.deleteProduct_pushButton.clicked.connect(lambda: self.deleteProduct())
                 self.delete_btn_connected = True
 
-            # Connect the delete button only once
+            # Connect the edit button only once
             if not hasattr(self, 'edit_btn_connected'):
                 if self.product_data.get('product_id') is not None:
                     self.editProduct_pushButton.clicked.connect(lambda: self.editProduct(self.product_data))
