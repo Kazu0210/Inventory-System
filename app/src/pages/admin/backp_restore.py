@@ -25,11 +25,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
     def loadAll(self):
         self.fillFormatComboBox()
         # self.fillFrequencyComboBox()
-
-    # def getSchedFrequency(self):
-    #     frequency = self.frequency_comboBox.currentText()
-    #     return frequency
-
+        
     def setSched_pushButton_clicked(self):
         os.system('cls')
         print("set scheduled backup button clicked")
@@ -37,6 +33,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.newBackupPage = NewBackupPage()
         self.newBackupPage.show()
         self.newBackupPage.cancel_signal.connect(lambda message: print(message))
+        self.newBackupPage.save_signal.connect(lambda message: print(message))
 
     def getAccountsData(self):
         print('Getting data from accounts collection')
@@ -115,17 +112,6 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
 
         for format in data['backup_file_format']:
             self.fileFormat_comboBox.addItem(list(format.values())[0])
-
-    # def fillFrequencyComboBox(self):
-    #     settings_dir = "app/resources/config/settings.json"
-
-    #     with open(settings_dir, 'r') as f:
-    #         frequency = json.load(f)
-
-    #     self.frequency_comboBox.clear()
-
-    #     for fre in frequency['backup_frequency']:
-    #         self.frequency_comboBox.addItem(list(fre.values())[0])
 
     def connect_to_db(self, collectionN):
         connection_string = "mongodb://localhost:27017/"

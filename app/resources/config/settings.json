@@ -38,17 +38,45 @@
         }
     ],
     "backup_frequency": [
-        {"Daily": "Daily"},
-        {"Weekly": "Weekly"},
-        {"Monthly": "Monthly"}
+        {
+            "Daily": "Daily"
+        },
+        {
+            "Weekly": "Weekly"
+        },
+        {
+            "Monthly": "Monthly"
+        }
     ],
     "days_in_week": [
-        {"Sunday": "Sunday"},
-        {"Monday": "Monday"},
-        {"Tuesday": "Tuesday"},
-        {"Wednesday": "Wednesday"},
-        {"Thursday": "Thursday"},
-        {"Friday": "Friday"},
-        {"Saturday": "Saturday"}
+        {
+            "Sunday": "Sunday"
+        },
+        {
+            "Monday": "Monday"
+        },
+        {
+            "Tuesday": "Tuesday"
+        },
+        {
+            "Wednesday": "Wednesday"
+        },
+        {
+            "Thursday": "Thursday"
+        },
+        {
+            "Friday": "Friday"
+        },
+        {
+            "Saturday": "Saturday"
+        }
+    ],
+    "backups_settings": [
+        {
+            "frequency": "Daily",
+            "backup_time": "12:00 AM",
+            "enable_backup": false,
+            "enable_notification": false
+        }
     ]
 }
