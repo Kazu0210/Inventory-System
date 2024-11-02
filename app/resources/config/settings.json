@@ -102,6 +102,13 @@
             "backup_time": "12:00 AM",
             "enable_backup": false,
             "enable_notification": false
+        },
+        {
+            "frequency": "Monthly",
+            "days": "21",
+            "backup_time": "12:00 AM",
+            "enable_backup": false,
+            "enable_notification": false
         }
     ]
 }
