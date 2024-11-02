@@ -153,6 +153,16 @@
     <string>File name</string>
    </property>
   </widget>
+  <widget class="QTableWidget" name="sched_tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>441</width>
+     <height>221</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

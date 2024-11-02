@@ -46,6 +46,11 @@ class Ui_Form(object):
         self.label_7 = QtWidgets.QLabel(parent=Form)
         self.label_7.setGeometry(QtCore.QRect(10, 460, 91, 16))
         self.label_7.setObjectName("label_7")
+        self.sched_tableWidget = QtWidgets.QTableWidget(parent=Form)
+        self.sched_tableWidget.setGeometry(QtCore.QRect(10, 120, 441, 221))
+        self.sched_tableWidget.setObjectName("sched_tableWidget")
+        self.sched_tableWidget.setColumnCount(0)
+        self.sched_tableWidget.setRowCount(0)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
