@@ -41,5 +41,18 @@
         {"Default": ".json"},
         {"Sql": ".sql"},
         {"Csv": ".csv"}
+    ],
+    "order_status":[
+        {"Default": "Show All"},
+        {"Processing":"Processing"},
+        {"On-Going":"On-Going"},
+        {"Delivered":"Delivered"}
+    ],
+    "payment_status":[
+        {"Default":"Show All"},
+        {"Pending":"Pending"},
+        {"Unpaid":"Unpaid"},
+        {"Paid":"Paid"}
     ]
+    
 }

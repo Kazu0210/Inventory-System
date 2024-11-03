@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import *
+from PyQt6.QtCore import QTimer
 import pymongo
 from ui.employee.orderPage import Ui_Form as Ui_order_page
 from ui.employee.update_order_form import Ui_Frame as Ui_update_form
@@ -10,10 +11,11 @@ from PyQt6 import uic
 class FormFrame(QFrame, Ui_update_form):
     def __init__(self, order_id):
         super().__init__()
-        self.setupUi(self)  # Sets up the UI from Ui_update_form
+        self.setupUi(self)  # Sets up the UI from Ui_update_form    
 
         # Set up the form with the provided order_id
         self.order_id = order_id
+
         self.quantity_box.valueChanged.connect(self.calculate_total_amount)
         self.price_input.textChanged.connect(self.calculate_total_amount)
         # Initialize the database connection
@@ -24,8 +26,6 @@ class FormFrame(QFrame, Ui_update_form):
         # Load data for the given order_id and populate the form
         self.load_data()
 
-        # Connect the submit button
-        # self.delete_btn.clicked.connect(self.delete_order)
         self.cancel_Btn.clicked.connect(self.close_form)
         self.save_Btn.clicked.connect(self.submit_form)
 
@@ -39,6 +39,7 @@ class FormFrame(QFrame, Ui_update_form):
             self.amount_input.setText(f"{total_amount:.2f}")
         except ValueError:
             self.amount_input.setText("0.00")
+
     def close_form(self):
         self.close()
     def delete_order(self, order_id):
@@ -115,7 +116,7 @@ class FormFrame(QFrame, Ui_update_form):
                 "quantity": quantity,
                 "price": price,
                 "total_amount": total_amount,
-                "status": status,
+                "order_status": status,
                 "delivery_address": delivery_address,
                 "payment_status": payment_status,
                 "contact_info": contact_info,
@@ -147,6 +148,9 @@ class OrdersPage(QWidget, Ui_order_page):
     def __init__(self, username, dashboard_mainWindow=None):
         super().__init__()
         self.setupUi(self)
+        
+        self.update_filters()
+
         self.dashboard_mainWindow = dashboard_mainWindow
 
         self.setWindowTitle("Main Window")
@@ -181,7 +185,18 @@ class OrdersPage(QWidget, Ui_order_page):
         self.tableWidget.setShowGrid(False)
         self.tableWidget.verticalHeader().setVisible(False)
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_all)
+        self.timer.start(100)
+
+        self.update_processing_count()
+    def update_all(self):
         self.update_table()
+
+    def update_processing_count(self):
+        # Retrieve the current processing count from the database
+        processing_count = self.collection.count_documents({"order_status": "Processing"})
+        self.count_label.setText(f"Processing Count: {processing_count}")
 
     def get_order_table(self):
         return self.tableWidget
@@ -286,6 +301,31 @@ class OrdersPage(QWidget, Ui_order_page):
                 print(f"Error during deletion: {e}")
                 QMessageBox.critical(self, "Delete Error", "An error occurred while trying to delete the order.")
 
+    def payment_status_filter(self):
+        filter_dir = "app/resources/config/filters.json"
+
+        with open(filter_dir, 'r') as f:
+            data = json.load(f)
+
+        self.paymentStatus.clear()
+        for status in data['payment_status']:
+            self.paymentStatus.addItem(list(status.values())[0])
+
+    def order_status_filter(self):
+        filter_dir = "app/resources/config/filters.json"
+
+        with open(filter_dir, 'r') as f:
+            data = json.load(f)
+
+        self.orderStatus.clear()
+        for status in data['order_status']:
+
+            self.orderStatus.addItem(list(status.values())[0])
+
+    def update_filters(self):
+        self.payment_status_filter()
+        self.order_status_filter()
+
     def update_table(self):
         table = self.tableWidget
         table.setRowCount(0)  # Clear the table
@@ -302,7 +342,17 @@ class OrdersPage(QWidget, Ui_order_page):
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
-        data = list(self.collection.find())
+        filter_query = {}
+        order_filter = self.orderStatus.currentText()
+        paymentStatus_filter = self.paymentStatus.currentText()
+
+        if order_filter != "Show All":
+            filter_query['order_status'] = order_filter
+
+        if paymentStatus_filter != "Show All":
+            filter_query['payment_status'] = paymentStatus_filter
+
+        data = list(self.collection.find(filter_query).sort("_id", -1))
         if not data:
             return  # Exit if the collection is empty
 
