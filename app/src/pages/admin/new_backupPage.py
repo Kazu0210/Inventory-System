@@ -61,9 +61,6 @@ class NewBackupPage(QWidget, Ui_Form):
         return random_id
 
     def saveToDB(self, data):
-        os.system('cls')
-        print(f'Received data to be send to db: {data}')
-        print('saving to database.')
         schedID = self.generateSchedID()
         try:
             # append generated id to the data

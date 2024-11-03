@@ -1,5 +1,5 @@
 # BACKUP AND RESTORE PAGE for admin account
-from PyQt6.QtWidgets import QWidget, QMessageBox
+from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget
 from PyQt6.QtCore import Qt
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 
@@ -27,6 +27,21 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
 
     def showSchedList(self):
         print('showing list of schedules')
+
+        # get data from database
+        collection = self.connect_to_db("auto_backup_sched")
+        data = list(collection.find({}))
+        
+        for i in data:
+            print(f'schedule: {i}')
+            item = QListWidgetItem(self.listWidget)
+            customItem = CustomListItem(i)
+
+            # Set size hint to ensure QListWidgetItem matches custom widget size
+            item.setSizeHint(customItem.sizeHint())
+
+            self.listWidget.setItemWidget(item, customItem)
+        
 
 
 
@@ -130,7 +145,25 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         
 from ui.NEW.custom_listItem import Ui_Form as Ui_ListItem
 class CustomListItem(QWidget, Ui_ListItem):
-    def __init__(self):
+    def __init__(self, list_of_data):
         super().__init__()
         self.setupUi(self)
-        
+
+        self.data = list_of_data
+
+        print(f'received data: {list_of_data}')
+
+        # set text to all the label
+        self.setText()
+
+    def setText(self):
+        # put all the data on the labels
+        self.schedID_label.setText(self.data['schedID'])
+        self.freq_label.setText(self.data['frequency'])
+        self.time_label.setText(self.data['backup_time'])
+
+        if self.data['enable_backup'] == True:
+            self.enableAutoBackup_checkBox.setChecked(True)
+
+        if self.data['enable_notification'] == True:
+            self.enableNotif_checkBox.setChecked(True)

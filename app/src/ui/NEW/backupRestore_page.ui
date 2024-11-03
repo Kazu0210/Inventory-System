@@ -153,14 +153,20 @@
     <string>File name</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="sched_tableWidget">
+  <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>120</y>
-     <width>441</width>
+     <width>721</width>
      <height>221</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>721</width>
+     <height>192</height>
+    </size>
    </property>
   </widget>
  </widget>
