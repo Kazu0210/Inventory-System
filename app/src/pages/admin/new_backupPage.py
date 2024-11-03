@@ -6,7 +6,7 @@ from pages.admin.daily_backup_page import DailyBackup
 from pages.admin.weekly_backup_page import WeeklyBackup
 from pages.admin.monthly_backup_page import MonthlyBackup
 
-import json, os
+import json, os, pymongo
 
 class NewBackupPage(QWidget, Ui_Form):
     # signals 
@@ -237,3 +237,10 @@ class NewBackupPage(QWidget, Ui_Form):
 
         for fre in frequency['backup_frequency']:
             self.frequency_comboBox.addItem(list(fre.values())[0])
+
+    def connect_to_db(self):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        collection_name = "accounts"
+        return client[db][collection_name]
