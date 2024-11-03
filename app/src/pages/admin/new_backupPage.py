@@ -41,6 +41,19 @@ class NewBackupPage(QWidget, Ui_Form):
         # settings.json directory for saving backups
         self.settings_dir = "app/resources/config/settings.json"
 
+        # connect to db
+        self.collection = self.connect_to_db()
+
+    def saveToDB(self, data):
+        os.system('cls')
+        print(f'Received data to be send to db: {data}')
+        print('saving to database.')
+        try:
+            self.collection.insert_one(data)
+        except Exception as e:
+            print(f'Error saving to db: {e}')
+            QMessageBox.warning(self, "Error", "An error occurred while attempting to save. Please try again.")
+
     def saveMonthlyBackup(self):
         selected_date = self.monthlyBackupPage.calendarWidget.selectedDate()
         selected_date_str = selected_date.toString('dd') # only get the day
@@ -66,18 +79,9 @@ class NewBackupPage(QWidget, Ui_Form):
                 "backup_time": time_str,
                 "enable_backup": auto_backup,
                 "enable_notification": notification
-            }   
+            }  
 
-            # Read the existing data from the JSON file
-            with open(self.settings_dir, "r") as json_file:
-                data = json.load(json_file)
-
-            # Append the new backup entry to the "backups" list
-            data["backups_settings"].append(new_backup)
-
-            # Write the updated data back to the JSON file
-            with open(self.settings_dir, "w") as json_file:
-                json.dump(data, json_file, indent=4)
+            self.collection.insert_one(new_backup)
 
             self.save_signal.emit(f"{self.getCurrentFrequency()} Backup Created Successfully.") # send signal to backp_restore.py
             QMessageBox.information(self, "Back Created", f"{self.getCurrentFrequency()} Backup Created Successfully.")
@@ -131,18 +135,9 @@ class NewBackupPage(QWidget, Ui_Form):
                 "backup_time": time_str,
                 "enable_backup": auto_backup,
                 "enable_notification": notification
-            }   
+            }  
 
-            # Read the existing data from the JSON file
-            with open(self.settings_dir, "r") as json_file:
-                data = json.load(json_file)
-
-            # Append the new backup entry to the "backups" list
-            data["backups_settings"].append(new_backup)
-
-            # Write the updated data back to the JSON file
-            with open(self.settings_dir, "w") as json_file:
-                json.dump(data, json_file, indent=4)
+            self.collection.insert_one(new_backup)
 
             self.save_signal.emit(f"{self.getCurrentFrequency()} Backup Created Successfully.") # send signal to backp_restore.py
             QMessageBox.information(self, "Back Created", f"{self.getCurrentFrequency()} Backup Created Successfully.")
@@ -175,17 +170,8 @@ class NewBackupPage(QWidget, Ui_Form):
                 "enable_notification": notification
             }   
 
-            # Read the existing data from the JSON file
-            with open(self.settings_dir, "r") as json_file:
-                data = json.load(json_file)
-
-            # Append the new backup entry to the "backups" list
-            data["backups_settings"].append(new_backup)
-
-            # Write the updated data back to the JSON file
-            with open(self.settings_dir, "w") as json_file:
-                json.dump(data, json_file, indent=4)
-
+            self.saveToDB(new_backup) # insert data to DB
+            
             self.save_signal.emit(f"{self.getCurrentFrequency()} Backup Created Successfully.") # send signal to backp_restore.py
             QMessageBox.information(self, "Back Created", "Daily Backup Created Successfully.")
             self.close()
@@ -242,5 +228,5 @@ class NewBackupPage(QWidget, Ui_Form):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "accounts"
+        collection_name = "auto_backup_sched"
         return client[db][collection_name]
