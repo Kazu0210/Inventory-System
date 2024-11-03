@@ -2,11 +2,9 @@
     "Order ID",
     "Customer Name",
     "Order Date",
-    "Products",
+    "Product Name",
     "Quantity",
-    "Total Order Value",
+    "Total Amount",
     "Order Status",
-    "Payment Status",
-    "Delivery Method",
-    "Created By"
+    "Payment Status"
 ]
