@@ -127,6 +127,13 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
+          <widget class="QLabel" name="count_label">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QComboBox" name="paymentStatus">
            <property name="minimumSize">
             <size>
@@ -140,23 +147,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="orderStatus">
-           <item>
-            <property name="text">
-             <string>Processing</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Delivered</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ongoing</string>
-            </property>
-           </item>
-          </widget>
+          <widget class="QComboBox" name="orderStatus"/>
          </item>
         </layout>
        </widget>

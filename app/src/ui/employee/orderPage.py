@@ -63,6 +63,10 @@ class Ui_Form(object):
         self.frame_3.setObjectName("frame_3")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_3)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.count_label = QtWidgets.QLabel(parent=self.frame_3)
+        self.count_label.setText("")
+        self.count_label.setObjectName("count_label")
+        self.horizontalLayout_4.addWidget(self.count_label)
         self.paymentStatus = QtWidgets.QComboBox(parent=self.frame_3)
         self.paymentStatus.setMinimumSize(QtCore.QSize(20, 0))
         self.paymentStatus.setStyleSheet("")
@@ -70,9 +74,6 @@ class Ui_Form(object):
         self.horizontalLayout_4.addWidget(self.paymentStatus)
         self.orderStatus = QtWidgets.QComboBox(parent=self.frame_3)
         self.orderStatus.setObjectName("orderStatus")
-        self.orderStatus.addItem("")
-        self.orderStatus.addItem("")
-        self.orderStatus.addItem("")
         self.horizontalLayout_4.addWidget(self.orderStatus)
         self.verticalLayout_2.addWidget(self.frame_3)
         self.tableWidget = QtWidgets.QTableWidget(parent=self.frame)
@@ -249,8 +250,7 @@ class Ui_Form(object):
 "color:black;\n"
 "padding:5px;\n"
 "width:70px;\n"
-"height:40px;\n"
-"cursor:pointer;")
+"height:40px;")
         self.delete_btn.setObjectName("delete_btn")
         self.horizontalLayout_7.addWidget(self.delete_btn)
         self.verticalLayout.addWidget(self.frame_6, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -265,9 +265,6 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "ORDERS"))
         self.order_btn.setText(_translate("Form", "ADD"))
         self.print_btn.setText(_translate("Form", "PRINT"))
-        self.orderStatus.setItemText(0, _translate("Form", "Processing"))
-        self.orderStatus.setItemText(1, _translate("Form", "Delivered"))
-        self.orderStatus.setItemText(2, _translate("Form", "Ongoing"))
         self.label_2.setText(_translate("Form", "ORDER INFORMATION"))
         self.label_3.setText(_translate("Form", "Customer Name:"))
         self.label_4.setText(_translate("Form", "Order Date:"))
