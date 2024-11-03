@@ -169,6 +169,7 @@ class NewBackupPage(QWidget, Ui_Form):
 
             new_backup = {
                 "frequency": "Daily",
+                "days": "1",
                 "backup_time": time_str,
                 "enable_backup": auto_backup,
                 "enable_notification": notification
