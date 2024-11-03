@@ -72,43 +72,6 @@
         }
     ],
     "backups_settings": [
-        {
-            "frequency": "Daily",
-            "backup_time": "12:00 AM",
-            "enable_backup": false,
-            "enable_notification": false
-        },
-        {
-            "frequency": "Weekly",
-            "days": "Wednesday",
-            "backup_time": "03:00 AM",
-            "enable_backup": true,
-            "enable_notification": true
-        },
-        {
-            "frequency": "Weekly",
-            "days": [
-                "Tuesday",
-                "Thursday",
-                "Saturday"
-            ],
-            "backup_time": "12:00 AM",
-            "enable_backup": true,
-            "enable_notification": true
-        },
-        {
-            "frequency": "Monthly",
-            "days": "20",
-            "backup_time": "12:00 AM",
-            "enable_backup": false,
-            "enable_notification": false
-        },
-        {
-            "frequency": "Monthly",
-            "days": "21",
-            "backup_time": "12:00 AM",
-            "enable_backup": false,
-            "enable_notification": false
-        }
+        
     ]
 }
