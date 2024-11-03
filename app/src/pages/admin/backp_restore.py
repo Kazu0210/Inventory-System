@@ -26,14 +26,12 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.showSchedList()
 
     def showSchedList(self):
-        print('showing list of schedules')
 
         # get data from database
         collection = self.connect_to_db("auto_backup_sched")
         data = list(collection.find({}))
         
         for i in data:
-            print(f'schedule: {i}')
             item = QListWidgetItem(self.listWidget)
             customItem = CustomListItem(i)
 
@@ -41,17 +39,12 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
             item.setSizeHint(customItem.sizeHint())
 
             self.listWidget.setItemWidget(item, customItem)
-        
-
-
 
     def loadAll(self):
         self.fillFormatComboBox()
         # self.fillFrequencyComboBox()
         
     def setSched_pushButton_clicked(self):
-        os.system('cls')
-        print("set scheduled backup button clicked")
 
         self.newBackupPage = NewBackupPage()
         self.newBackupPage.show()
@@ -150,8 +143,6 @@ class CustomListItem(QWidget, Ui_ListItem):
         self.setupUi(self)
 
         self.data = list_of_data
-
-        print(f'received data: {list_of_data}')
 
         # set text to all the label
         self.setText()
