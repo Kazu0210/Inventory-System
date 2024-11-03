@@ -1,12 +1,13 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox, QStackedLayout
 from PyQt6.QtCore import Qt, pyqtSignal
 from ui.NEW.new_backupSched_page import Ui_Form
+from datetime import datetime
 
 from pages.admin.daily_backup_page import DailyBackup
 from pages.admin.weekly_backup_page import WeeklyBackup
 from pages.admin.monthly_backup_page import MonthlyBackup
 
-import json, os, pymongo
+import json, os, pymongo, random
 
 class NewBackupPage(QWidget, Ui_Form):
     # signals 
@@ -44,11 +45,30 @@ class NewBackupPage(QWidget, Ui_Form):
         # connect to db
         self.collection = self.connect_to_db()
 
+    def generateSchedID(self):
+        # get current date
+        current_day = datetime.now().strftime('%d')
+
+        # Generate 4 random numbers between 0 and 9999
+        random_number = random.randint(0, 9999)
+        
+        # Format the random number as a 5-digit string with leading zeros
+        formatted_random_number = f"{random_number:05d}"
+        
+        # Combine the day and the random number
+        random_id = f"{current_day}{formatted_random_number}"
+        
+        return random_id
+
     def saveToDB(self, data):
         os.system('cls')
         print(f'Received data to be send to db: {data}')
         print('saving to database.')
+        schedID = self.generateSchedID()
         try:
+            # append generated id to the data
+            data['schedID'] = schedID
+            # save data to db
             self.collection.insert_one(data)
         except Exception as e:
             print(f'Error saving to db: {e}')

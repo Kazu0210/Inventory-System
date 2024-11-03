@@ -22,6 +22,14 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         # run all function
         self.loadAll()
 
+        # show schedules on list once
+        self.showSchedList()
+
+    def showSchedList(self):
+        print('showing list of schedules')
+
+
+
     def loadAll(self):
         self.fillFormatComboBox()
         # self.fillFrequencyComboBox()
@@ -119,4 +127,10 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         db = "LPGTrading_DB"
         collection_name = collectionN
         return client[db][collection_name]
+        
+from ui.NEW.custom_listItem import Ui_Form as Ui_ListItem
+class CustomListItem(QWidget, Ui_ListItem):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
         
