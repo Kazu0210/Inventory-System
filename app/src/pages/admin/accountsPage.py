@@ -54,7 +54,6 @@ class AccountsPage(QWidget, accounts_page):
         # get total number of account and set text label
         self.total_accounts = str(self.collection.count_documents({}))
         self.total_account_label.setText(self.total_accounts)
-        # print(f"TOTAL ACCOUNT: {self.total_accounts}")
 
     def update_filters(self):
         self.add_job_filter()
@@ -139,7 +138,6 @@ class AccountsPage(QWidget, accounts_page):
             document = self.collection.find_one({'username': row_data[username_header_index]}) # get all data by username on the database
             print(f"USERNAME: {row_data[username_header_index]}")
             object_id = document['_id'] # get _id of username
-            print(f'Object Id: {object_id}')
 
             # get all the index from the database using the objectId
             self.username = document['username']
