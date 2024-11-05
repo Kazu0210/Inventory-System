@@ -90,6 +90,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.settings_btn.clicked.connect(lambda: self.button_clicked(self.settings_btn, 6))
         self.orders_btn.clicked.connect(lambda: self.button_clicked(self.orders_btn, 7))
         self.backup_btn.clicked.connect(lambda: self.button_clicked(self.backup_btn, 8))
+        self.archive_pushButton.clicked.connect(lambda: print('archive button clicked'))
 
         # print(f'Current index: {self.get_current_index()}')
 

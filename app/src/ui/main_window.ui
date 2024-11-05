@@ -305,6 +305,13 @@ padding: 10px 0;
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="archive_pushButton">
+            <property name="text">
+             <string>Archive</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="backup_btn">
             <property name="minimumSize">
              <size>
