@@ -98,7 +98,8 @@ class NewBackupPage(QWidget, Ui_Form):
                 "enable_notification": notification
             }  
 
-            self.collection.insert_one(new_backup)
+            # self.collection.insert_one(new_backup)
+            self.saveToDB(new_backup)
 
             self.save_signal.emit(f"{self.getCurrentFrequency()} Backup Created Successfully.") # send signal to backp_restore.py
             QMessageBox.information(self, "Back Created", f"{self.getCurrentFrequency()} Backup Created Successfully.")

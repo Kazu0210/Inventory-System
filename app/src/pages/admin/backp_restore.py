@@ -148,13 +148,22 @@ class CustomListItem(QWidget, Ui_ListItem):
         self.setText()
 
     def setText(self):
-        # put all the data on the labels
-        self.schedID_label.setText(self.data['schedID'])
-        self.freq_label.setText(self.data['frequency'])
-        self.time_label.setText(self.data['backup_time'])
+        try:        
+            # Set all the data on the labels
+            self.schedID_label.setText(self.data.get('schedID', 'N/A'))
+            self.freq_label.setText(self.data.get('frequency', 'N/A'))
+            self.time_label.setText(self.data.get('backup_time', 'N/A'))
 
-        if self.data['enable_backup'] == True:
-            self.enableAutoBackup_checkBox.setChecked(True)
+            # Check and set the checkboxes based on data
+            self.enableAutoBackup_checkBox.setChecked(self.data.get('enable_backup', False))
+            self.enableNotif_checkBox.setChecked(self.data.get('enable_notification', False))
 
-        if self.data['enable_notification'] == True:
-            self.enableNotif_checkBox.setChecked(True)
+        except KeyError as e:
+            # Handle specific missing keys
+            print(f"Error: Missing expected key in data: {e}")
+            self.schedID_label.setText("Error: Missing data")
+
+        except Exception as e:
+            # Handle any other exceptions
+            print(f"Unexpected Error: {e}")
+            self.schedID_label.setText(f"Error: {e}")
