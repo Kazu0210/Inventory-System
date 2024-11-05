@@ -733,11 +733,16 @@ class Ui_Form(object):
         self.delete_btn.setObjectName("delete_btn")
         self.horizontalLayout_5.addWidget(self.delete_btn)
         self.archive_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
+        self.archive_pushButton.setStyleSheet("background-color: red;\n"
+"color: #fff;\n"
+"border: 1px solid red;\n"
+"border-radius: 5px;\n"
+"padding: 5px;")
         self.archive_pushButton.setObjectName("archive_pushButton")
         self.horizontalLayout_5.addWidget(self.archive_pushButton)
+        self.archive_pushButton.raise_()
         self.delete_btn.raise_()
         self.edit_btn.raise_()
-        self.archive_pushButton.raise_()
         self.verticalLayout_3.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_2.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.horizontalLayout.addWidget(self.info_cont)
