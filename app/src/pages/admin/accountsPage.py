@@ -23,7 +23,8 @@ class AccountsPage(QWidget, accounts_page):
 
         self.createAccount_btn.clicked.connect(self.create_account)
 
-        self.collection = self.connect_to_db()
+        self.collection = self.connect_to_db('accounts')
+        self.archive_collection = self.connect_to_db('account_archive')
 
         self.selected_row = None
 
@@ -99,11 +100,13 @@ class AccountsPage(QWidget, accounts_page):
         # hide buttons when no item or product is selected
         self.edit_btn.hide()
         self.delete_btn.hide()
+        self.archive_pushButton.hide()
 
     def show_buttons(self):
         # show buttons when an item or product is clicked
         self.edit_btn.show()
         self.delete_btn.show()
+        self.archive_pushButton.show()
 
     def on_row_clicked(self):
         selected_rows = self.tableWidget.selectionModel().selectedRows()
@@ -186,6 +189,10 @@ class AccountsPage(QWidget, accounts_page):
                     self.edit_btn_connected = True
                 else:
                     print("Account ID is None")     
+
+            if not hasattr(self, 'archive_btn_clicked'):
+                self.archive_pushButton.clicked.connect(lambda: self.add_to_archive(document))
+                self.archive_btn_clicked = True
         else:
             self.selected_row = None
             self.hide_buttons()
@@ -202,6 +209,52 @@ class AccountsPage(QWidget, accounts_page):
             self.last_login_label.setText("")
             print("No row is selected")
             self.timer.start()
+
+    def add_to_archive(self, data):
+        os.system('cls')
+
+        if not self.object_id:
+            print('Object ID is empty')
+            return
+        
+        selected_rows = self.tableWidget.selectionModel().selectedRows()
+
+        print('archive button clicked')
+        reply = QMessageBox.question(
+            self, 
+            "Archive Confirmation", 
+            "Are you certain you want to add this account to the archive?", 
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if reply == QMessageBox.StandardButton.Yes:
+            print('Clicked yes')
+
+            # Get the ObjectId of the account to be deleted
+            self.collection.delete_one({'_id': self.object_id})
+
+            # Remove the row from the table
+            row_index = selected_rows[0].row()
+            self.tableWidget.removeRow(row_index)
+
+            # Add the account to the archive collection
+            self.archive_collection.insert_one(data)
+
+
+            # Update the selected_row variable
+            self.selected_row = None
+
+            # Clear the account information section
+            self.username_label.setText("")
+            self.fname_label.setText("")
+            self.lname_label.setText("")
+            self.pass_label.setText("")
+            self.job_label.setText("")
+            self.usertype_label.setText("")
+        
+        self.timer.start()
+
+
 
     def delete_account(self, deleted_account_username):
         print(f'selected object id: {self.object_id}')
@@ -415,11 +468,10 @@ class AccountsPage(QWidget, accounts_page):
         self.timer.start()
 
 
-    def connect_to_db(self):
+    def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "accounts"
         return client[db][collection_name]
 
     def update_table(self):

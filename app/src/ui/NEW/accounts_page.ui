@@ -1464,7 +1464,22 @@ padding: 5px;
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="archive_pushButton">
+              <property name="styleSheet">
+               <string notr="true">background-color: red;
+color: #fff;
+border: 1px solid red;
+border-radius: 5px;
+padding: 5px;</string>
+              </property>
+              <property name="text">
+               <string>Add to Archive</string>
+              </property>
+             </widget>
+            </item>
            </layout>
+           <zorder>archive_pushButton</zorder>
            <zorder>delete_btn</zorder>
            <zorder>edit_btn</zorder>
           </widget>
