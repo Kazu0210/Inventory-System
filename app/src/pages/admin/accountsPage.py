@@ -6,6 +6,8 @@ from PyQt6.QtGui import QBrush, QColor
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
 from pages.admin.edit_account_page import editAccountPage
+
+from utils.Inventory_Monitor import InventoryMonitor
 from datetime import datetime
 import re
 import json
@@ -17,6 +19,10 @@ class AccountsPage(QWidget, accounts_page):
         super().__init__()
         self.setupUi(self)
         self.dashboard_mainWindow = dashboard_mainWindow
+
+        # initialize inventory monitor for change in database
+        self.inventory_monitor = InventoryMonitor("accounts")
+        self.inventory_monitor.start_listener_in_background()
 
         # username of the account logged in
         self.account_username = username
