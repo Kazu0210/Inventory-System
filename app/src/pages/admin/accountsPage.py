@@ -243,6 +243,11 @@ class AccountsPage(QWidget, accounts_page):
             row_index = selected_rows[0].row()
             self.tableWidget.removeRow(row_index)
 
+            print(f"DATA NA KELANGAN KOOO: {data}")
+            data.pop('_id')
+
+            print(f'BAGONG DATA: {data}')
+
             try:
                 # Add the account to the archive collection
                 data['status'] = "Inactive"
