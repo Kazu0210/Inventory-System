@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor
 from datetime import datetime
@@ -39,6 +39,20 @@ class ArchivePage(QWidget, Ui_archive):
         # MongoDB connection
         self.db_client = pymongo.MongoClient("mongodb://localhost:27017/")
         self.db = self.db_client["LPGTrading_DB"]
+
+        # For table
+        self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
+        self.tableWidget.itemClicked.connect(self.on_item_clicked)
+        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.tableWidget.setShowGrid(False)
+        self.tableWidget.verticalHeader().setVisible(False)
+
+    def on_item_clicked(self, item):
+        row = self.tableWidget.row(item)
+        self.tableWidget.selectRow(row)
+
+    def on_row_clicked(self):
+        selected_rows = self.tableWidget.selectionModel().selectedRows()
 
     def handle_signal(self, collection_name):
         # Called when a change in any monitored collection is detected.
