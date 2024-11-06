@@ -269,8 +269,6 @@ class AccountsPage(QWidget, accounts_page):
         
         self.timer.start()
 
-
-
     def delete_account(self, deleted_account_username):
         print(f'selected object id: {self.object_id}')
 
