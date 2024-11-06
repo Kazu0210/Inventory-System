@@ -82,10 +82,6 @@ class FormFrame(QFrame, Ui_update_form):
         else:
                 print("Order not found in database")    
 
-            # Add other fields as needed
-        # else:
-        #     QMessageBox.warning(self, "Error", f"No data found for Order ID: {self.order_id}")
-
     def submit_form(self):
         try:
             # Retrieve the input data from form fields
@@ -105,6 +101,16 @@ class FormFrame(QFrame, Ui_update_form):
             # Ensure price and total_amount can be converted to float
             price = float(price_text) if price_text else 0.0
             total_amount = float(amount_text) if amount_text else 0.0
+            
+            if len(contact_info) == 11 and contact_info.startswith("09"):
+                formatted_contact_info = f"09{contact_info[2:]}"  # Ensure format and display as '09xxxxxxxxx'
+                print(formatted_contact_info)
+                # Optionally, set it in the input field
+                self.info_input.setText(formatted_contact_info)
+            else:
+                print("Invalid contact info format")
+                # Optionally clear or set a default message
+                self.info_input.setText("")
 
             # Create the order data dictionary
             order_data = {
@@ -152,7 +158,6 @@ class OrdersPage(QWidget, Ui_order_page):
         self.update_filters()
 
         self.dashboard_mainWindow = dashboard_mainWindow
-
         self.setWindowTitle("Main Window")
         self.open_form_button = QPushButton("Open Form")
         self.open_form_button.clicked.connect(lambda: self.on_open_form_clicked(order_id=None)) 
