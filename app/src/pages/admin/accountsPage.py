@@ -197,8 +197,11 @@ class AccountsPage(QWidget, accounts_page):
                     print("Account ID is None")     
 
             if not hasattr(self, 'archive_btn_clicked'):
-                self.archive_pushButton.clicked.connect(lambda: self.add_to_archive(document))
-                self.archive_btn_clicked = True
+                if self.accountID is not None:
+                    self.archive_pushButton.clicked.connect(lambda: self.add_to_archive(self.accountID))
+                    self.archive_btn_clicked = True
+                else:
+                    print("Account ID is None")
         else:
             self.selected_row = None
             self.hide_buttons()
@@ -216,12 +219,17 @@ class AccountsPage(QWidget, accounts_page):
             print("No row is selected")
             self.timer.start()
 
-    def add_to_archive(self, data):
+    def add_to_archive(self, account_id):
         os.system('cls')
 
         if not self.object_id:
             print('Object ID is empty')
             return
+        
+        print(f'Received account id: {account_id}')
+
+        data = list(self.collection.find({"account_id": account_id}, {"_id": 0}))
+        print(f'Data collected using the Account id: {account_id}: {data}')
         
         selected_rows = self.tableWidget.selectionModel().selectedRows()
 
@@ -244,16 +252,23 @@ class AccountsPage(QWidget, accounts_page):
             self.tableWidget.removeRow(row_index)
 
             print(f"DATA NA KELANGAN KOOO: {data}")
-            data.pop('_id')
+            # data.pop('_id')
 
             print(f'BAGONG DATA: {data}')
 
             try:
-                # Add the account to the archive collection
-                data['status'] = "Inactive"
-                self.archive_collection.insert_one(data)
+                # If data is a list, iterate over each dictionary
+                if isinstance(data, list):
+                    for item in data:
+                        item['status'] = "Inactive"
+                        self.archive_collection.insert_one(item)
+                else:
+                    # If data is a single dictionary, update it directly
+                    data['status'] = "Inactive"
+                    self.archive_collection.insert_one(data)
             except Exception as e:
                 print(f"Error adding to archive: {e}")
+
 
 
             # Update the selected_row variable
@@ -540,13 +555,17 @@ class AccountsPage(QWidget, accounts_page):
                 value = item.get(original_key)
                 if value is not None:
                     if header == 'lastlogin':
-                        if value:
-                            date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                        try:
+                            if value:
+                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
 
-                            if self.current_time_format == "12hr":
-                                value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
-                            else:
-                                value = date_time.strftime("%Y-%m-%d %H:%M:%S")
+                                if self.current_time_format == "12hr":
+                                    value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
+                                else:
+                                    value = date_time.strftime("%Y-%m-%d %H:%M:%S")
+                        except Exception as e:
+                            pass
+                            # print(f"Error formatting date: {e}")
 
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text

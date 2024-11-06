@@ -109,10 +109,13 @@ class ArchivePage(QWidget, Ui_archive):
                     if value is not None:
                         # Format datetime if necessary
                         if header == 'lastlogin' and value:
-                            date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-                            value = date_time.strftime(
-                                "%Y-%m-%d %I:%M:%S %p" if self.current_time_format == "12hr" else "%Y-%m-%d %H:%M:%S"
-                            )
+                            try:
+                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                                value = date_time.strftime(
+                                    "%Y-%m-%d %I:%M:%S %p" if self.current_time_format == "12hr" else "%Y-%m-%d %H:%M:%S"
+                                )
+                            except Exception as e:
+                                pass
                         table_item = QTableWidgetItem(str(value))
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                         if row % 2 == 0:
@@ -163,10 +166,13 @@ class ArchivePage(QWidget, Ui_archive):
                     if value is not None:
                         # Format datetime if necessary
                         if header == 'lastlogin' and value:
-                            date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-                            value = date_time.strftime(
-                                "%Y-%m-%d %I:%M:%S %p" if self.current_time_format == "12hr" else "%Y-%m-%d %H:%M:%S"
-                            )
+                            try:
+                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                                value = date_time.strftime(
+                                    "%Y-%m-%d %I:%M:%S %p" if self.current_time_format == "12hr" else "%Y-%m-%d %H:%M:%S"
+                                )
+                            except Exception as e:
+                                pass
                         table_item = QTableWidgetItem(str(value))
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                         if row % 2 == 0:

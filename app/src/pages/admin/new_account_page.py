@@ -145,9 +145,6 @@ class NewAccountPage(QWidget, Ui_new_account_page):
                 print("Invalid username or email address.")
 
     def clear_form(self):
-        os.system('cls')
-        print('Clearing create account form.')
-
         lineEdits = [
             self.username_field,
             self.email_field,
