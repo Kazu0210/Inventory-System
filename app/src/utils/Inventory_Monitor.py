@@ -1,8 +1,13 @@
 import threading
 import pymongo
+from PyQt6.QtCore import pyqtSignal, QObject
 
-class InventoryMonitor:
+class InventoryMonitor(QObject):  # Inherit from QObject
+    # signals
+    data_changed_signal = pyqtSignal(bool)
+
     def __init__(self, collection_name):
+        super().__init__()  # Call the constructor of QObject
         # Initialize MongoDB connection
         self.collection = self.connect_to_db(collection_name)
 
@@ -19,13 +24,14 @@ class InventoryMonitor:
         with self.collection.watch() as stream:
             for change in stream:
                 print(f"Change detected: {change}")
-                # Call a method here if you want to process each change further
-                # For example: self.handle_change(change)
+                # Emit the signal when a change is detected
+                self.data_changed_signal.emit(True)
 
     def start_listener_in_background(self):
-        # Corrected typo in variable name
+        # Starts the change stream listener in a background thread
         listener_thread = threading.Thread(target=self.start_change_stream, daemon=True)
         listener_thread.start()
 
-monitor = InventoryMonitor('accounts')
-monitor.start_listener_in_background()
+# Example usage
+# monitor = InventoryMonitor('accounts')
+# monitor.start_listener_in_background()

@@ -243,8 +243,12 @@ class AccountsPage(QWidget, accounts_page):
             row_index = selected_rows[0].row()
             self.tableWidget.removeRow(row_index)
 
-            # Add the account to the archive collection
-            self.archive_collection.insert_one(data)
+            try:
+                # Add the account to the archive collection
+                data['status'] = "Inactive"
+                self.archive_collection.insert_one(data)
+            except Exception as e:
+                print(f"Error adding to archive: {e}")
 
 
             # Update the selected_row variable

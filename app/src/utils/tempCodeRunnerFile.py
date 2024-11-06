@@ -1,1 +1,0 @@
- db_name = self.get_db_name()
