@@ -7,11 +7,8 @@ from pages.admin.username_requirement_section import UsernameAccountRequirementP
 from pages.admin.emali_requirement_section import EmailAccountRequirementPage
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
-import sys
-import json
-import time 
-import random
-import pymongo
+
+import sys, json, time, random, pymongo, os
 
 class NewAccountPage(QWidget, Ui_new_account_page):
     def __init__(self, username, parent_window=None):
@@ -147,6 +144,22 @@ class NewAccountPage(QWidget, Ui_new_account_page):
             else:
                 print("Invalid username or email address.")
 
+    def clear_form(self):
+        os.system('cls')
+        print('Clearing create account form.')
+
+        lineEdits = [
+            self.username_field,
+            self.email_field,
+            self.password_field,
+            self.fname_field,
+            self.lname_field,
+            self.address_field
+        ]
+
+        for field in lineEdits:
+            field.clear()
+
     def create_account(self, username, raw_password, **kwargs):
         # username = kwargs.get("username")
         email = kwargs.get("email")
@@ -182,8 +195,14 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         }      
         print(data)
 
-        result = collection.insert_one(data)
+        collection.insert_one(data)
+
+        # Record to Activity Logs
         self.logger.create_account(self.account_username, username)
+
+        # Clear Create Account Form
+        self.clear_form()
+
         self.parent_window.content_window_layout.setCurrentIndex(2)
 
 

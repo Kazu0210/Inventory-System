@@ -2,6 +2,9 @@ from PyQt6.QtWidgets import *
 from ui.activity_logs_page import Ui_Form as activityLogsPage
 from PyQt6.QtCore import QTimer
 from datetime import datetime
+
+from utils.Inventory_Monitor import InventoryMonitor
+
 import pymongo
 import re
 import json
@@ -18,10 +21,14 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.status_filter() # call status filter
         
         # Create a timer to periodically update
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_all)
-        self.timer.start(100)
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.update_all)
+        # self.timer.start(100)
 
+        # Initialize Inventory Monitory
+        self.logs_monitor = InventoryMonitor('logs')
+        self.logs_monitor.start_listener_in_background()
+        self.logs_monitor.data_changed_signal.connect(lambda: self.update_table())
 
         # settings json file directory
         self.settings_dir = 'app/resources/config/settings.json'
