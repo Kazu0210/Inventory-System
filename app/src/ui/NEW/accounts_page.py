@@ -721,17 +721,6 @@ class Ui_Form(object):
 "}")
         self.edit_btn.setObjectName("edit_btn")
         self.horizontalLayout_5.addWidget(self.edit_btn)
-        self.delete_btn = QtWidgets.QPushButton(parent=self.frame_11)
-        self.delete_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.delete_btn.setStyleSheet("#delete_btn{\n"
-"background-color: red;\n"
-"color: #fff;\n"
-"border: 1px solid red;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"}")
-        self.delete_btn.setObjectName("delete_btn")
-        self.horizontalLayout_5.addWidget(self.delete_btn)
         self.archive_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
         self.archive_pushButton.setStyleSheet("background-color: red;\n"
 "color: #fff;\n"
@@ -741,7 +730,6 @@ class Ui_Form(object):
         self.archive_pushButton.setObjectName("archive_pushButton")
         self.horizontalLayout_5.addWidget(self.archive_pushButton)
         self.archive_pushButton.raise_()
-        self.delete_btn.raise_()
         self.edit_btn.raise_()
         self.verticalLayout_3.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_2.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignTop)
@@ -770,8 +758,7 @@ class Ui_Form(object):
         self.label_8.setText(_translate("Form", "Job:"))
         self.label_4.setText(_translate("Form", "Account Status:"))
         self.label_15.setText(_translate("Form", "Last Login:"))
-        self.edit_btn.setText(_translate("Form", "Edit"))
-        self.delete_btn.setText(_translate("Form", "Delete"))
+        self.edit_btn.setText(_translate("Form", "Update"))
         self.archive_pushButton.setText(_translate("Form", "Add to Archive"))
 
 

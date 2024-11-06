@@ -105,13 +105,11 @@ class AccountsPage(QWidget, accounts_page):
     def hide_buttons(self):
         # hide buttons when no item or product is selected
         self.edit_btn.hide()
-        self.delete_btn.hide()
         self.archive_pushButton.hide()
 
     def show_buttons(self):
         # show buttons when an item or product is clicked
         self.edit_btn.show()
-        self.delete_btn.show()
         self.archive_pushButton.show()
 
     def on_row_clicked(self):
@@ -181,12 +179,7 @@ class AccountsPage(QWidget, accounts_page):
             self.last_login_label.setText(self.last_login)
 
             # Update the object_id variable
-            self.object_id = object_id 
-
-            # Connect the delete button only once
-            if not hasattr(self, 'delete_btn_connected'):
-                self.delete_btn.clicked.connect(lambda: self.delete_account(self.username))
-                self.delete_btn_connected = True
+            self.object_id = object_id
 
             # Connect the edit button
             if not hasattr(self, 'edit_btn_connected'):
@@ -270,49 +263,6 @@ class AccountsPage(QWidget, accounts_page):
                 print(f"Error adding to archive: {e}")
 
 
-
-            # Update the selected_row variable
-            self.selected_row = None
-
-            # Clear the account information section
-            self.username_label.setText("")
-            self.fname_label.setText("")
-            self.lname_label.setText("")
-            self.pass_label.setText("")
-            self.job_label.setText("")
-            self.usertype_label.setText("")
-        
-        self.timer.start()
-
-    def delete_account(self, deleted_account_username):
-        print(f'selected object id: {self.object_id}')
-
-        if not self.object_id:
-            print('Object ID is empty')
-            return
-
-        selected_rows = self.tableWidget.selectionModel().selectedRows()
-
-        print(f"Account: {deleted_account_username}")
-        
-        if not selected_rows:
-            QMessageBox.warning(self, "No Row Selected", "Please select a row to delete.")
-            return
-
-        reply = QMessageBox.question(self, "Delete Account", "Are you sure you want to delete this account?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        if reply == QMessageBox.StandardButton.Yes:
-            # record to activity logs
-            logs = Activity_Logs()
-            # logs.account_deleted(self.account_username, self.username)
-            print(f"Account to be deleted: {deleted_account_username}")
-            logs.delete_account(self.account_username, deleted_account_username)
-            
-            # Get the ObjectId of the account to be deleted
-            self.collection.delete_one({'_id': self.object_id})
-
-            # Remove the row from the table
-            row_index = selected_rows[0].row()
-            self.tableWidget.removeRow(row_index)
 
             # Update the selected_row variable
             self.selected_row = None
