@@ -25,7 +25,7 @@ class ItemsPage(QWidget, items_page):
         # print button
         self.print_btn.clicked.connect(self.print_btn_clicked)
 
-        self.collection = self.connect_to_db()
+        self.collection = self.connect_to_db('products_items')
 
         # create a timer to update
         self.timer = QTimer()
@@ -168,6 +168,9 @@ class ItemsPage(QWidget, items_page):
                     self.restock_pushButton.clicked.connect(lambda: self.restockProduct(self.product_data))
                     self.restock_btn_connected = True
 
+            if not hasattr(self, 'archive_btn_clicked'):
+                if self.productID is not None:
+                    self.archive_pushButton.clicked.connect(lambda: self.add_to_archive(self.productID))
         else:
             selected_rows = None
             self.product_data = None
@@ -176,6 +179,72 @@ class ItemsPage(QWidget, items_page):
             self.HideButtons()
             self.clearPreviewSection()
             self.timer.start()
+
+    def add_to_archive(self, product_id):
+        os.system('cls')
+
+        if not self.object_id:
+            print('Object ID is empty')
+            return
+        
+        print(f'Received account id: {product_id}')
+        
+        # products archive collection
+        archive_collection = self.connect_to_db('account_archive')
+
+        data = list(archive_collection.find({"product_id": product_id}, {"_id": 0}))
+        print(f'Data collected using the Account id: {product_id}: {data}')
+        
+        selected_rows = self.tableWidget.selectionModel().selectedRows()
+
+        print('archive button clicked')
+        reply = QMessageBox.question(
+            self, 
+            "Archive Confirmation", 
+            "Are you certain you want to add this product to the archive?", 
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if reply == QMessageBox.StandardButton.Yes:
+            print('Clicked yes')
+
+            # Get the ObjectId of the account to be deleted
+            self.collection.delete_one({'_id': self.object_id})
+
+            # Remove the row from the table
+            row_index = selected_rows[0].row()
+            self.tableWidget.removeRow(row_index)
+
+            print(f"DATA NA KELANGAN KOOO: {data}")
+            # data.pop('_id')
+
+            print(f'BAGONG DATA: {data}')
+
+            try:
+                # If data is a list, iterate over each dictionary
+                if isinstance(data, list):
+                    for item in data:
+                        item['status'] = "Inactive"
+                        self.archive_collection.insert_one(item)
+                else:
+                    # If data is a single dictionary, update it directly
+                    data['status'] = "Inactive"
+                    self.archive_collection.insert_one(data)
+            except Exception as e:
+                print(f"Error adding to archive: {e}")
+
+            # Update the selected_row variable
+            self.selected_row = None
+
+            # Clear the account information section
+            # self.username_label.setText("")
+            # self.fname_label.setText("")
+            # self.lname_label.setText("")
+            # self.pass_label.setText("")
+            # self.job_label.setText("")
+            # self.usertype_label.setText("")
+        
+        self.timer.start()
 
     def restockProduct(self, product_data):
         print(f'Restock button clicked.')
@@ -237,7 +306,11 @@ class ItemsPage(QWidget, items_page):
             QMessageBox.warning(self, "No Row Selected", "Please select a row to delete.")
             return
         
-        reply = QMessageBox.question(self, "Delete Product", "Are you sure you want to delete this product?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        reply = QMessageBox.question(
+            self, 
+            "Delete Product", 
+            "Are you certain you want to add this product to the archive?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        
         if reply == QMessageBox.StandardButton.Yes:
             self.collection.delete_one({'_id': self.object_id})
 
@@ -247,6 +320,8 @@ class ItemsPage(QWidget, items_page):
 
             # updatea the select row variable
             self.selected_row = None
+
+
 
             # clear preview section
         self.timer.start()
@@ -260,11 +335,10 @@ class ItemsPage(QWidget, items_page):
         self.UpdateTotalStock()
         self.UpdateInventoryTotalValue()
 
-    def connect_to_db(self):
+    def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "products_items"
         return client[db][collection_name]
 
     # def CreateInventoryReport(self):

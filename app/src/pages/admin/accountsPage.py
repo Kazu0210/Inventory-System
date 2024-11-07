@@ -262,8 +262,6 @@ class AccountsPage(QWidget, accounts_page):
             except Exception as e:
                 print(f"Error adding to archive: {e}")
 
-
-
             # Update the selected_row variable
             self.selected_row = None
 

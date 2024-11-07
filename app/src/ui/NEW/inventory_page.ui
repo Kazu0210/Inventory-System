@@ -1475,6 +1475,13 @@ padding: 5px;
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="archive_pushButton">
+              <property name="text">
+               <string>Archive</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="deleteProduct_pushButton">
               <property name="font">
                <font>
@@ -1502,6 +1509,7 @@ padding: 5px;
            </layout>
            <zorder>deleteProduct_pushButton</zorder>
            <zorder>editProduct_pushButton</zorder>
+           <zorder>archive_pushButton</zorder>
           </widget>
          </item>
          <item>
