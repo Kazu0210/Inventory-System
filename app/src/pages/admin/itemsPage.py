@@ -45,11 +45,13 @@ class ItemsPage(QWidget, items_page):
         self.restock_pushButton.show()
         self.editProduct_pushButton.show()
         self.deleteProduct_pushButton.show()
+        self.archive_pushButton.show()
         
     def HideButtons(self):
         self.restock_pushButton.hide()
         self.editProduct_pushButton.hide()
         self.deleteProduct_pushButton.hide()
+        self.archive_pushButton.hide()
 
     def UpdateInventoryTotalValue(self):
         # Define the projection to include only the 'total_value' field
