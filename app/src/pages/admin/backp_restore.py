@@ -28,8 +28,49 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         # show schedules on list once
         self.showSchedList()
 
-    def showSchedList(self):
+        # enable drag and drop feature
+        self.setAcceptDrops(True)
 
+    def dragEnterEvent(self, event):
+        # Only accept drag if it's happening over the dragDrop_frame widget
+        if event.source() == self.dragDrop_frame and event.mimeData().hasUrls():
+            self.drag_in_progress = True
+            self.drag_cancelled = False
+            event.acceptProposedAction()  # Accept the drag event
+            self.dragDrop_frame.setStyleSheet('background-color: #D7D9D7;')  # Change background color to indicate drag is accepted
+        else:
+            self.drag_in_progress = False
+            event.ignore()  # Ignore the event if it's outside of the dragDrop_frame
+
+        # Only reset if drag is leaving the dragDrop_frame
+        if self.drag_in_progress and event.source() == self.dragDrop_frame:
+            self.drag_cancelled = True
+            print("Drag was cancelled or left the widget area.")
+            self.dragDrop_frame.setStyleSheet('background-color: none;')  # Reset the background color
+        self.drag_in_progress = False
+
+    def dropEvent(self, event):
+        # Only handle the drop if it is inside the dragDrop_frame widget
+        if event.source() == self.dragDrop_frame and event.mimeData().hasUrls():
+            file_url = event.mimeData().urls()[0]
+            file_path = file_url.toLocalFile()
+            self.label_7.setText(f"Dropped file path: {file_path}")  # Update the UI with the dropped file path
+            self.drag_in_progress = False  # Reset the drag state
+            self.dragDrop_frame.setStyleSheet('background-color: none;')  # Reset the background color after drop
+        else:
+            self.drag_cancelled = True  # Handle invalid drop outside the frame
+            print("Drag drop was invalid or cancelled.")
+
+    def getDragStatus(self):
+        # Check if the drag event was cancelled or completed
+        if self.drag_cancelled:
+            print("Drag event was cancelled.")
+        elif self.drag_in_progress:
+            print("Drag event is ongoing.")
+        else:
+            print("No drag event occurred.")
+
+    def showSchedList(self):
         # get data from database
         collection = self.connect_to_db("auto_backup_sched")
         data = list(collection.find({}))

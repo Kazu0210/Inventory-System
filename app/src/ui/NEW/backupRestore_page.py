@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(839, 480)
+        Form.resize(839, 621)
         self.label = QtWidgets.QLabel(parent=Form)
         self.label.setGeometry(QtCore.QRect(10, 10, 47, 16))
         self.label.setObjectName("label")
@@ -43,13 +43,27 @@ class Ui_Form(object):
         self.label_6 = QtWidgets.QLabel(parent=Form)
         self.label_6.setGeometry(QtCore.QRect(10, 440, 91, 16))
         self.label_6.setObjectName("label_6")
-        self.label_7 = QtWidgets.QLabel(parent=Form)
-        self.label_7.setGeometry(QtCore.QRect(10, 460, 91, 16))
-        self.label_7.setObjectName("label_7")
+        self.backup_file_name_label = QtWidgets.QLabel(parent=Form)
+        self.backup_file_name_label.setGeometry(QtCore.QRect(10, 460, 91, 16))
+        self.backup_file_name_label.setObjectName("backup_file_name_label")
         self.listWidget = QtWidgets.QListWidget(parent=Form)
         self.listWidget.setGeometry(QtCore.QRect(10, 120, 721, 221))
         self.listWidget.setMinimumSize(QtCore.QSize(721, 192))
         self.listWidget.setObjectName("listWidget")
+        self.dragDrop_frame = QtWidgets.QFrame(parent=Form)
+        self.dragDrop_frame.setGeometry(QtCore.QRect(10, 480, 251, 101))
+        self.dragDrop_frame.setStyleSheet("#dragDrop_frame{\n"
+"border: 1px solid #000;\n"
+"}\n"
+"")
+        self.dragDrop_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.dragDrop_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.dragDrop_frame.setObjectName("dragDrop_frame")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.dragDrop_frame)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label_7 = QtWidgets.QLabel(parent=self.dragDrop_frame)
+        self.label_7.setObjectName("label_7")
+        self.verticalLayout.addWidget(self.label_7, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -66,7 +80,8 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "Select backup file format:"))
         self.label_5.setText(_translate("Form", "backup_YYYY-MM-DD_HH-MM.sql"))
         self.label_6.setText(_translate("Form", "Upload Backup"))
-        self.label_7.setText(_translate("Form", "File name"))
+        self.backup_file_name_label.setText(_translate("Form", "File name"))
+        self.label_7.setText(_translate("Form", "Drag & Drop your Backup File here"))
 
 
 if __name__ == "__main__":
