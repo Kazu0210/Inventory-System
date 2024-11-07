@@ -1,5 +1,5 @@
 # BACKUP AND RESTORE PAGE for admin account
-from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget
+from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget, QAbstractItemView
 from PyQt6.QtCore import Qt
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 
@@ -15,6 +15,9 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         super().__init__()
         self.setupUi(self)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+        # make the scroll on the list widget smoother
+        self.listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         self.backupNow_pushButton.clicked.connect(lambda: self.backupNow_pushButton_clicked())
         self.setSched_pushButton.clicked.connect(lambda: self.setSched_pushButton_clicked())
