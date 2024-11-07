@@ -1,10 +1,11 @@
 # BACKUP AND RESTORE PAGE for admin account
-from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget, QAbstractItemView
+from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget, QAbstractItemView, QFrame, QVBoxLayout
 from PyQt6.QtCore import Qt
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 
 from pages.admin.daily_backup_page import DailyBackup
 from pages.admin.new_backupPage import NewBackupPage
+from pages.admin.dragDrop_frame import DragDropFrame
 
 
 import os, json, pymongo
@@ -21,6 +22,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
 
         self.backupNow_pushButton.clicked.connect(lambda: self.backupNow_pushButton_clicked())
         self.setSched_pushButton.clicked.connect(lambda: self.setSched_pushButton_clicked())
+        self.restore_pushButton.clicked.connect(lambda: self.restore_pushButton_clicked())
 
         # run all function
         self.loadAll()
@@ -28,47 +30,83 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         # show schedules on list once
         self.showSchedList()
 
-        # enable drag and drop feature
-        self.setAcceptDrops(True)
+        # set layout for dragdrop frame
 
-    def dragEnterEvent(self, event):
-        # Only accept drag if it's happening over the dragDrop_frame widget
-        if event.source() == self.dragDrop_frame and event.mimeData().hasUrls():
-            self.drag_in_progress = True
-            self.drag_cancelled = False
-            event.acceptProposedAction()  # Accept the drag event
-            self.dragDrop_frame.setStyleSheet('background-color: #D7D9D7;')  # Change background color to indicate drag is accepted
+        self.dragDrop_frame = DragDropFrame()
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.dragDrop_frame)
+        self.frame.setLayout(layout)
+
+        # hide restore button on start on the program
+        self.restore_pushButton.hide()
+
+        # connect dragdrop frame signal
+        self.dragDrop_frame.dropped_file_signal.connect(lambda message: self.handleDragDropSignal(message))
+
+        self.dragDrop_frame.file_signal.connect(lambda message: self.getDroppedFileData(message))
+
+    def restoreDB(self, json_file_path):
+        with open(json_file_path, 'r') as file:
+            data = json.load(file)
+
+        # Get the keys that hold arrays
+        keys_with_array = self.get_keys_with_arrays(data)
+
+        # Iterate over each key that holds an array of documents
+        for key in keys_with_array:
+            # Print the key for debugging purposes
+            print(f'Inserting data for key: {key}')
+
+            # Retrieve the array of documents (e.g., accounts, logs) from data[key]
+            documents = data[key]
+
+            # Insert data into MongoDB collection associated with the key
+            if isinstance(documents, list):
+                # Insert multiple documents at once for arrays of documents
+                self.connect_to_db(key).insert_many(documents)
+            else:
+                # Insert a single document if it’s not an array (unlikely in this structure but added for completeness)
+                self.connect_to_db(key).insert_one(documents)
+
+
+    def get_keys_with_arrays(self, data):
+        # get keys with arrays (lists) as values
+        keys_with_arrays = []
+
+        if isinstance(data, dict):  # If the data is a dictionary, iterate through its keys
+            for key, value in data.items():
+                if isinstance(value, list):  # Check if the value is a list (array)
+                    keys_with_arrays.append(key)
+                elif isinstance(value, dict):  # If the value is a dictionary, recurse into it
+                    keys_with_arrays.extend(self.get_keys_with_arrays(value))
+        elif isinstance(data, list):  # If the data is a list, we can directly check each element
+            for item in data:
+                if isinstance(item, dict):
+                    keys_with_arrays.extend(self.get_keys_with_arrays(item))
+        
+        return keys_with_arrays
+
+    def restore_pushButton_clicked(self):
+        print('Restore button clicked')
+        print(f'File data: {self.dropped_file_data}')
+
+        file_data = self.dropped_file_data
+        if file_data:
+            self.restoreDB(file_data['file_path'])
+            print('gumana')
+        
+
+    def getDroppedFileData(self, message):
+        self.dropped_file_data = message
+
+    def handleDragDropSignal(self, message):
+        os.system('cls')
+        print(f'File signal message: {message}')
+        if message: 
+            self.restore_pushButton.show()
         else:
-            self.drag_in_progress = False
-            event.ignore()  # Ignore the event if it's outside of the dragDrop_frame
-
-        # Only reset if drag is leaving the dragDrop_frame
-        if self.drag_in_progress and event.source() == self.dragDrop_frame:
-            self.drag_cancelled = True
-            print("Drag was cancelled or left the widget area.")
-            self.dragDrop_frame.setStyleSheet('background-color: none;')  # Reset the background color
-        self.drag_in_progress = False
-
-    def dropEvent(self, event):
-        # Only handle the drop if it is inside the dragDrop_frame widget
-        if event.source() == self.dragDrop_frame and event.mimeData().hasUrls():
-            file_url = event.mimeData().urls()[0]
-            file_path = file_url.toLocalFile()
-            self.label_7.setText(f"Dropped file path: {file_path}")  # Update the UI with the dropped file path
-            self.drag_in_progress = False  # Reset the drag state
-            self.dragDrop_frame.setStyleSheet('background-color: none;')  # Reset the background color after drop
-        else:
-            self.drag_cancelled = True  # Handle invalid drop outside the frame
-            print("Drag drop was invalid or cancelled.")
-
-    def getDragStatus(self):
-        # Check if the drag event was cancelled or completed
-        if self.drag_cancelled:
-            print("Drag event was cancelled.")
-        elif self.drag_in_progress:
-            print("Drag event is ongoing.")
-        else:
-            print("No drag event occurred.")
+            self.restore_pushButton.hide()
 
     def showSchedList(self):
         # get data from database
@@ -179,7 +217,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         db = "LPGTrading_DB"
         collection_name = collectionN
         return client[db][collection_name]
-        
+    
 from ui.NEW.custom_listItem import Ui_Form as Ui_ListItem
 class CustomListItem(QWidget, Ui_ListItem):
     def __init__(self, list_of_data):

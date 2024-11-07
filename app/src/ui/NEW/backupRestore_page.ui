@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>839</width>
-    <height>621</height>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -169,13 +169,13 @@
     </size>
    </property>
   </widget>
-  <widget class="QFrame" name="dragDrop_frame">
+  <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>480</y>
-     <width>251</width>
-     <height>101</height>
+     <width>261</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -190,15 +190,19 @@ border: 1px solid #000;
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Drag &amp; Drop your Backup File here</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+  </widget>
+  <widget class="QPushButton" name="restore_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>480</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Restore Now</string>
+   </property>
   </widget>
  </widget>
  <resources/>
