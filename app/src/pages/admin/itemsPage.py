@@ -173,6 +173,7 @@ class ItemsPage(QWidget, items_page):
             if not hasattr(self, 'archive_btn_clicked'):
                 if self.productID is not None:
                     self.archive_pushButton.clicked.connect(lambda: self.add_to_archive(self.productID))
+                    self.archive_btn_clicked = True
         else:
             selected_rows = None
             self.product_data = None
@@ -192,14 +193,13 @@ class ItemsPage(QWidget, items_page):
         print(f'Received account id: {product_id}')
         
         # products archive collection
-        archive_collection = self.connect_to_db('account_archive')
+        archive_collection = self.connect_to_db('product_archive')
 
-        data = list(archive_collection.find({"product_id": product_id}, {"_id": 0}))
+        data = list(self.collection.find({"product_id": product_id}, {"_id": 0}))
         print(f'Data collected using the Account id: {product_id}: {data}')
         
         selected_rows = self.tableWidget.selectionModel().selectedRows()
 
-        print('archive button clicked')
         reply = QMessageBox.question(
             self, 
             "Archive Confirmation", 
@@ -218,7 +218,6 @@ class ItemsPage(QWidget, items_page):
             self.tableWidget.removeRow(row_index)
 
             print(f"DATA NA KELANGAN KOOO: {data}")
-            # data.pop('_id')
 
             print(f'BAGONG DATA: {data}')
 
@@ -226,12 +225,12 @@ class ItemsPage(QWidget, items_page):
                 # If data is a list, iterate over each dictionary
                 if isinstance(data, list):
                     for item in data:
-                        item['status'] = "Inactive"
-                        self.archive_collection.insert_one(item)
+                        item['inventory_status'] = "Inactive"
+                        archive_collection.insert_one(item)
                 else:
                     # If data is a single dictionary, update it directly
-                    data['status'] = "Inactive"
-                    self.archive_collection.insert_one(data)
+                    data['inventory_status'] = "Inactive"
+                    archive_collection.insert_one(data)
             except Exception as e:
                 print(f"Error adding to archive: {e}")
 

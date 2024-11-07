@@ -105,7 +105,7 @@ class ArchivePage(QWidget, Ui_archive):
 
             # Get data from MongoDB with error handling
             try:
-                data = list(self.db["account_archive"].find().sort("_id", -1))
+                data = list(self.db["product_archive"].find().sort("_id", -1))
             except pymongo.errors.PyMongoError as e:
                 print(f"Error accessing MongoDB: {e}")
                 return
@@ -122,14 +122,14 @@ class ArchivePage(QWidget, Ui_archive):
                     value = item.get(original_key)
                     if value is not None:
                         # Format datetime if necessary
-                        if header == 'lastlogin' and value:
-                            try:
-                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-                                value = date_time.strftime(
-                                    "%Y-%m-%d %I:%M:%S %p" if self.current_time_format == "12hr" else "%Y-%m-%d %H:%M:%S"
-                                )
-                            except Exception as e:
-                                pass
+                        # if header == 'lastlogin' and value:
+                        #     try:
+                        #         date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                        #         value = date_time.strftime(
+                        #             "%Y-%m-%d %I:%M:%S %p" if self.current_time_format == "12hr" else "%Y-%m-%d %H:%M:%S"
+                        #         )
+                        #     except Exception as e:
+                        #         pass
                         table_item = QTableWidgetItem(str(value))
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                         if row % 2 == 0:
