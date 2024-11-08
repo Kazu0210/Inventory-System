@@ -1,15 +1,76 @@
 # BACKUP AND RESTORE PAGE for admin account
 from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget, QAbstractItemView, QFrame, QVBoxLayout
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QThread, QObject, pyqtSignal
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 
 from pages.admin.daily_backup_page import DailyBackup
 from pages.admin.new_backupPage import NewBackupPage
 from pages.admin.dragDrop_frame import DragDropFrame
 
-
 import os, json, pymongo
 from datetime import datetime
+from plyer import notification
+
+class BackupWorker(QObject):
+    finished_signal = pyqtSignal()
+    progress = pyqtSignal(str)
+
+    def __init__(self, file_path):
+        super().__init__()
+        self.file_path = file_path  # Path to the JSON file for backup
+
+    def restoreDB(self):
+        try:
+            with open(self.file_path, 'r') as file:
+                data = json.load(file)
+
+            # Get the keys that hold arrays
+            keys_with_array = self.get_keys_with_arrays(data)
+
+            # Iterate over each key that holds an array of documents
+            for key in keys_with_array:
+                # Print the key for debugging purposes
+                print(f'Inserting data for key: {key}')
+
+                # Retrieve the array of documents (e.g., accounts, logs) from data[key]
+                documents = data[key]
+
+                # Insert data into MongoDB collection associated with the key
+                if isinstance(documents, list):
+                    # Insert multiple documents at once for arrays of documents
+                    self.connect_to_db(key).insert_many(documents)
+                else:
+                    # Insert a single document if it’s not an array (unlikely in this structure but added for completeness)
+                    self.connect_to_db(key).insert_one(documents)
+        except Exception as e:
+            print(f"Error restoring DB: {e}")
+        finally:
+            self.finished_signal.emit()
+
+    def get_keys_with_arrays(self, data):
+        # get keys with arrays (lists) as values
+        keys_with_arrays = []
+
+        if isinstance(data, dict):  # If the data is a dictionary, iterate through its keys
+            for key, value in data.items():
+                if isinstance(value, list):  # Check if the value is a list (array)
+                    keys_with_arrays.append(key)
+                elif isinstance(value, dict):  # If the value is a dictionary, recurse into it
+                    keys_with_arrays.extend(self.get_keys_with_arrays(value))
+        elif isinstance(data, list):  # If the data is a list, we can directly check each element
+            for item in data:
+                if isinstance(item, dict):
+                    keys_with_arrays.extend(self.get_keys_with_arrays(item))
+        
+        return keys_with_arrays
+    
+    def connect_to_db(self, collectionN):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        collection_name = collectionN
+        return client[db][collection_name]
+
 
 class BackupRestorePage(QWidget, Ui_backupRestore):
     def __init__(self, parent_window = None):
@@ -46,56 +107,41 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
 
         self.dragDrop_frame.file_signal.connect(lambda message: self.getDroppedFileData(message))
 
-    def restoreDB(self, json_file_path):
-        with open(json_file_path, 'r') as file:
-            data = json.load(file)
-
-        # Get the keys that hold arrays
-        keys_with_array = self.get_keys_with_arrays(data)
-
-        # Iterate over each key that holds an array of documents
-        for key in keys_with_array:
-            # Print the key for debugging purposes
-            print(f'Inserting data for key: {key}')
-
-            # Retrieve the array of documents (e.g., accounts, logs) from data[key]
-            documents = data[key]
-
-            # Insert data into MongoDB collection associated with the key
-            if isinstance(documents, list):
-                # Insert multiple documents at once for arrays of documents
-                self.connect_to_db(key).insert_many(documents)
-            else:
-                # Insert a single document if it’s not an array (unlikely in this structure but added for completeness)
-                self.connect_to_db(key).insert_one(documents)
-
-
-    def get_keys_with_arrays(self, data):
-        # get keys with arrays (lists) as values
-        keys_with_arrays = []
-
-        if isinstance(data, dict):  # If the data is a dictionary, iterate through its keys
-            for key, value in data.items():
-                if isinstance(value, list):  # Check if the value is a list (array)
-                    keys_with_arrays.append(key)
-                elif isinstance(value, dict):  # If the value is a dictionary, recurse into it
-                    keys_with_arrays.extend(self.get_keys_with_arrays(value))
-        elif isinstance(data, list):  # If the data is a list, we can directly check each element
-            for item in data:
-                if isinstance(item, dict):
-                    keys_with_arrays.extend(self.get_keys_with_arrays(item))
-        
-        return keys_with_arrays
-
     def restore_pushButton_clicked(self):
         print('Restore button clicked')
         print(f'File data: {self.dropped_file_data}')
 
         file_data = self.dropped_file_data
         if file_data:
-            self.restoreDB(file_data['file_path'])
-            print('gumana')
-        
+            # Create the QThread and the Worker
+            self.thread = QThread()
+            self.backup_worker = BackupWorker(file_data['file_path'])
+
+            # Move the worker to the thread and connect the signals
+            self.backup_worker.moveToThread(self.thread)
+            self.backup_worker.finished_signal.connect(self.on_backup_finished)
+            
+            # Connect the thread's started signal to the worker's run_backup method
+            self.thread.started.connect(self.backup_worker.restoreDB)
+
+            # Start the thread
+            self.thread.start()
+
+            # self.restoreDB(file_data['file_path'])
+            # print('gumana')
+
+    def on_backup_finished(self):
+        # QMessageBox.information(
+        #     self,
+        #     "Backup Finished",
+        #     "Backup has been successfully restored",
+        # )
+
+        notification.notify(
+            title="LPG Trading Inventory System",
+            message="Backup Created Successfully.",
+            timeout=10
+        )
 
     def getDroppedFileData(self, message):
         self.dropped_file_data = message

@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor
 from datetime import datetime
-import json, os, pymongo, re
+import json, os, pymongo, re, threading
 
 from ui.NEW.archive_page import Ui_Form as Ui_archive
 from utils.Inventory_Monitor import InventoryMonitor
@@ -58,7 +58,9 @@ class ArchivePage(QWidget, Ui_archive):
         # Called when a change in any monitored collection is detected.
         if self.current_collection == collection_name:
             print(f'Data changed in active collection: {collection_name}, reloading table.')
-            self.loadTable(collection_name)
+            # self.loadTable(collection_name)
+            load_table_thread = threading.Thread(target=self.loadTable(collection_name), daemon=True)
+            load_table_thread.start()
         else:
             print(f"Data changed in {collection_name}, but it's not currently displayed.")
 
