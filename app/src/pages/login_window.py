@@ -120,8 +120,5 @@ class loginWindow(QMainWindow, login_mainWindow):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = client["LPGTrading_DB"]
-        collection = db[collection_name]
 
-        client.close()
-
-        return collection
+        return db[collection_name]

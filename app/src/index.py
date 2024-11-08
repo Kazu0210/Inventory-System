@@ -33,7 +33,7 @@ def on_about_to_quit():
             logs.quit(_id)
 
         # Update the data efficiently
-        data[key] = {"_id": ""}  # Assuming you want to reset the _id value for the same key
+        data[key] = {""}  # Assuming you want to reset the _id value for the same key
 
         # Write back the modified data
         with open(temp_data_dir, 'w') as file:
