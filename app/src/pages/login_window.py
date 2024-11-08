@@ -76,13 +76,9 @@ class loginWindow(QMainWindow, login_mainWindow):
             self.default_admin_login(username, password)
             return True
 
-        connection_string = "mongodb://localhost:27017/"
-        client = pymongo.MongoClient(connection_string)
-        db = client["LPGTrading_DB"]
-        collection = db["accounts"]
+        collection = self.connect_to_db('accounts')
 
         document = collection.find_one({"username": username})
-        client.close()
 
         if document:
             hashed_password = HashPassword(password)
@@ -119,3 +115,13 @@ class loginWindow(QMainWindow, login_mainWindow):
 
         label = QLabel("Invalid username or password", login_fail_dialog)
         login_fail_dialog.exec()
+
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = client["LPGTrading_DB"]
+        collection = db[collection_name]
+
+        client.close()
+
+        return collection
