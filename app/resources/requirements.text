@@ -5,4 +5,5 @@ pyqt6
 pynput 
 keyboard
 bson
+python-magic-bin
 python-magic
