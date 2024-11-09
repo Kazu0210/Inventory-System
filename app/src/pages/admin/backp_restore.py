@@ -274,12 +274,14 @@ class CustomListItem(QWidget, Ui_ListItem):
         # set text to all the label
         self.setText()
 
-        self.enableAutoBackup_checkBox.clicked.connect(self.handleCheckBoxToggle)
+        self.enableAutoBackup_checkBox.clicked.connect(self.handleAutoBackupCheckBox)
+        self.enableNotif_checkBox.clicked.connect(self.handleNotifCheckBox)
 
     def update_sched(self, sched_id, **kwargs):
         enable_backup = kwargs.get('enable_backup')
-        disable_backup = kwargs.get('enable_backup')
+        disable_backup = kwargs.get('disable_backup')
         enable_notification = kwargs.get('enable_notification')
+        disable_notification = kwargs.get('disable_notification')
 
         if sched_id:
             if enable_backup:
@@ -288,8 +290,66 @@ class CustomListItem(QWidget, Ui_ListItem):
                 self.connect_to_db('auto_backup_sched').update_one({'schedID': sched_id}, {'$set': {'enable_backup': False}})
             if enable_notification:
                 self.connect_to_db('auto_backup_sched').update_one({'schedID': sched_id}, {'$set': {'enable_notification': enable_notification}})
+            elif disable_notification:
+                self.connect_to_db('auto_backup_sched').update_one({'schedID': sched_id}, {'$set': {'enable_notification': False}})
 
-    def handleCheckBoxToggle(self):
+    def handleNotifCheckBox(self):
+        if self.enableNotif_checkBox.isChecked():
+            response = QMessageBox.question(
+                self,
+                "Notification",
+                "Do you want to enable notification for this schedule?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel
+            )
+            if response == QMessageBox.StandardButton.Yes:
+                try:
+                    self.update_sched(self.data.get('schedID'), enable_notification=True) # update
+
+                    self.enableNotif_checkBox.setChecked(True) # set checkBox to checked
+
+                    # show notification
+                    plyer.notification.notify(
+                        title="Notification",
+                        message="Backup schedule notification enabled",
+                        timeout = 3
+                    )
+                except Exception as e:
+                    print(e)
+                    self.enableNotif_checkBox.setChecked(False)
+                    return
+            else:
+                self.enableNotif_checkBox.setChecked(False)
+                return
+        else:
+            response = QMessageBox.question(
+                self,
+                "Notification",
+                "Do you want to disable notification for this schedule?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel
+            )
+            if response == QMessageBox.StandardButton.Yes:
+                try:
+                    print('Disabling Auto backup')
+                    print(f"Sched ID: {self.data.get('schedID')}")
+                    self.update_sched(self.data.get('schedID'), disable_notification=True) # update
+
+                    self.enableNotif_checkBox.setChecked(False)
+
+                    plyer.notification.notify(
+                        title="Notification",
+                        message="Backup schedule notification enabled",
+                        timeout = 3
+                    )
+                except Exception as e:
+                    print(e)
+                    self.enableNotif_checkBox.setChecked(True)
+                    return
+            else:
+                self.enableNotif_checkBox.setChecked(True)
+                return
+            
+            
+    def handleAutoBackupCheckBox(self):
         if self.enableAutoBackup_checkBox.isChecked():
             response = QMessageBox.question(
                 self,
@@ -320,12 +380,14 @@ class CustomListItem(QWidget, Ui_ListItem):
         else:
             response = QMessageBox.question(
                 self,
-                "Enable Auto Backup",
+                "Disable Auto Backup",
                 f"Auto Backup disabled for {self.data.get('schedID')}",
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel
             )
             if response == QMessageBox.StandardButton.Yes:
                 try:
+                    print('Disabling Auto backup')
+                    print(f"Sched ID: {self.data.get('schedID')}")
                     self.update_sched(self.data.get('schedID'), disable_backup=True) # update
 
                     self.enableAutoBackup_checkBox.setChecked(False)
