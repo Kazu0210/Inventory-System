@@ -225,7 +225,10 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         # Define the backup file name and save to JSON
         backup_name = f"backup_{current_date_time}{backup_format}"
 
-        backup_dir = "app/resources/backup/"
+        # Get the current window username
+        username = os.getlogin()
+
+        backup_dir = f"C:/Users/{username}/Downloads"
 
         # Ensure the directory exist
         os.makedirs(backup_dir, exist_ok=True)
