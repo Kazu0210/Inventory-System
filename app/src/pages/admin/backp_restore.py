@@ -7,7 +7,7 @@ from pages.admin.daily_backup_page import DailyBackup
 from pages.admin.new_backupPage import NewBackupPage
 from pages.admin.dragDrop_frame import DragDropFrame
 
-import os, json, pymongo
+import os, json, pymongo, plyer
 from datetime import datetime
 from plyer import notification
 
@@ -92,7 +92,6 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.showSchedList()
 
         # set layout for dragdrop frame
-
         self.dragDrop_frame = DragDropFrame()
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -275,6 +274,75 @@ class CustomListItem(QWidget, Ui_ListItem):
         # set text to all the label
         self.setText()
 
+        self.enableAutoBackup_checkBox.clicked.connect(self.handleCheckBoxToggle)
+
+    def update_sched(self, sched_id, **kwargs):
+        enable_backup = kwargs.get('enable_backup')
+        disable_backup = kwargs.get('enable_backup')
+        enable_notification = kwargs.get('enable_notification')
+
+        if sched_id:
+            if enable_backup:
+                self.connect_to_db('auto_backup_sched').update_one({'schedID': sched_id}, {'$set': {'enable_backup': enable_backup}})
+            elif disable_backup:
+                self.connect_to_db('auto_backup_sched').update_one({'schedID': sched_id}, {'$set': {'enable_backup': False}})
+            if enable_notification:
+                self.connect_to_db('auto_backup_sched').update_one({'schedID': sched_id}, {'$set': {'enable_notification': enable_notification}})
+
+    def handleCheckBoxToggle(self):
+        if self.enableAutoBackup_checkBox.isChecked():
+            response = QMessageBox.question(
+                self,
+                "Enable Auto Backup",
+                f"Auto Backup enabled for {self.data.get('schedID')}",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel
+            )
+
+            if response == QMessageBox.StandardButton.Yes:
+                try:
+                    self.update_sched(self.data.get('schedID'), enable_backup=True) # update
+
+                    self.enableAutoBackup_checkBox.setChecked(True) # set checkBox to checked
+
+                    # show notification
+                    plyer.notification.notify(
+                        title="Enable Auto Backup",
+                        message=f"Auto Backup enabled for {self.data.get('schedID')}",
+                        timeout = 3
+                    )
+                except Exception as e:
+                    print(e)
+                    self.enableAutoBackup_checkBox.setChecked(False)
+                    return
+            else:
+                self.enableAutoBackup_checkBox.setChecked(False)
+                return
+        else:
+            response = QMessageBox.question(
+                self,
+                "Enable Auto Backup",
+                f"Auto Backup disabled for {self.data.get('schedID')}",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel
+            )
+            if response == QMessageBox.StandardButton.Yes:
+                try:
+                    self.update_sched(self.data.get('schedID'), disable_backup=True) # update
+
+                    self.enableAutoBackup_checkBox.setChecked(False)
+
+                    plyer.notification.notify(
+                        title="Disable Auto Backup",
+                        message=f"Auto Backup disabled for {self.data.get('schedID')}",
+                        timeout = 3
+                    )
+                except Exception as e:
+                    print(e)
+                    self.enableAutoBackup_checkBox.setChecked(True)
+                    return
+            else:
+                self.enableAutoBackup_checkBox.setChecked(True)
+                return
+
     def setText(self):
         try:        
             # Set all the data on the labels
@@ -295,3 +363,10 @@ class CustomListItem(QWidget, Ui_ListItem):
             # Handle any other exceptions
             print(f"Unexpected Error: {e}")
             self.schedID_label.setText(f"Error: {e}")
+
+    def connect_to_db(self, collectionN):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        collection_name = collectionN
+        return client[db][collection_name]
