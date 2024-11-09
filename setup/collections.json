@@ -1,0 +1,8 @@
+{
+    "collections": [
+        "accounts",
+        "logs",
+        "products",
+        "temp"
+    ]
+}

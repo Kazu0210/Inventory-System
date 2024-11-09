@@ -6,7 +6,7 @@ import os, json, pymongo, sys
 def connect_to_db(collection_name):
     try:
         client = pymongo.MongoClient('mongodb://localhost:27017/')  # Update with your MongoDB URI
-        db = client['your_database_name']  # Replace with your database name
+        db = client['LPGTrading_DB']  # Replace with your database name
         return db[collection_name]
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")
@@ -16,6 +16,23 @@ def connect_to_db(collection_name):
             "Error connecting to MongoDB: " + str(e)
         )
         return None
+    
+def create_collection(collection_name):
+    print(f'Creating collection')
+    collection = connect_to_db(collection_name)
+
+    try:
+        temp_data = {
+            "temp": "temp",
+        }
+        collection.insert_one(temp_data) # insert data to automatically create collection
+        collection.delete_many({}) # delete all the data in the collection
+    except Exception as e:
+        QMessageBox.warning(
+            None,
+            "Warning",
+            "Error creating collection: " + str(e)
+        )
     
 def get_json_data():
     # Define the path to the JSON file
@@ -36,6 +53,13 @@ def get_json_data():
         with open(json_directory, 'r') as f:
             data = json.load(f)
             print("Data loaded successfully:", data)
+
+        for i, collection_name in enumerate(data['collections']):
+            print(f"Collection {i}: {collection_name}")
+            if not is_collection_exist(collection_name):
+                print(f"Collection {collection_name} doesn't exis")
+                create_collection(collection_name)
+
     except FileNotFoundError:
         print(f"File not found: {json_directory}")
     except json.JSONDecodeError as e:
@@ -43,4 +67,19 @@ def get_json_data():
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
-get_json_data()
+def is_collection_exist(collection_name):
+    # returns True if collection exists, False otherwise
+
+    # Connect to MongoDB
+    client = pymongo.MongoClient('mongodb://localhost:27017/')  # Update with your MongoDB URI
+    db = client['LPGTrading_DB']  # Database name
+
+    if collection_name not in db.list_collection_names():
+        print("Collection doesn't exist")
+        return False
+    else:
+        print("Collection already exists")
+        return True
+
+def main():
+    get_json_data()

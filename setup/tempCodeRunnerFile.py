@@ -1,1 +1,1 @@
-    # print(f"Dataaaa: {data}")
+get_json_data()
