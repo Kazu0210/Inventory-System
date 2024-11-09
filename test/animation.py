@@ -1,47 +1,29 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QPushButton
-from PyQt6.QtCore import QPropertyAnimation, pyqtProperty, QVariant
-from PyQt6.QtGui import QColor, QPalette
+from PyQt6.QtWidgets import QApplication, QPushButton, QMainWindow
+from PyQt6.QtCore import QPropertyAnimation
+from PyQt6.QtWidgets import QGraphicsOpacityEffect
 
-class AnimatedButton(QPushButton):
-    def __init__(self, text):
-        super().__init__(text)
-        self.setStyleSheet("background-color: #f0f0f0; border: 1px solid #ccc;")
-        self.hover_color = QColor("red")
-        self.normal_color = QColor("#f0f0f0")
+app = QApplication([])
 
-    def enterEvent(self, event):
-        self.animate_color(self.hover_color)
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setGeometry(100, 100, 400, 300)
 
-    def leaveEvent(self, event):
-        self.animate_color(self.normal_color)
+        # Button to animate
+        self.button = QPushButton("Fade Me", self)
+        self.button.setGeometry(100, 100, 100, 50)
 
-    def animate_color(self, color):
-        animation = QPropertyAnimation(self, b"backgroundColor")
-        animation.setDuration(200)
-        animation.setStartValue(self.palette().color(QPalette.ColorRole.Button))
-        animation.setEndValue(color)
-        animation.valueChanged.connect(self.update_background_color)
-        animation.start()
+        # Set up opacity effect
+        opacity_effect = QGraphicsOpacityEffect(self.button)
+        self.button.setGraphicsEffect(opacity_effect)
 
-    @pyqtProperty(QVariant)
-    def backgroundColor(self):
-        return self.palette().color(QPalette.ColorRole.Button)
+        # Define the fade-out animation
+        self.animation = QPropertyAnimation(opacity_effect, b"opacity")
+        self.animation.setDuration(300)  # Duration in milliseconds
+        self.animation.setStartValue(1)   # Fully visible
+        self.animation.setEndValue(0)     # Fully transparent
+        self.animation.start()
 
-    @backgroundColor.setter
-    def backgroundColor(self, color):
-        palette = self.palette()
-        palette.setColor(QPalette.ColorRole.Button, color)
-        self.setPalette(palette)
-
-    def update_background_color(self, color):
-        self.backgroundColor = color
-
-def main():
-    app = QApplication(sys.argv)
-    button = AnimatedButton("Click me!")
-    button.show()
-    sys.exit(app.exec())
-
-if __name__ == "__main__":
-    main()
+window = MainWindow()
+window.show()
+app.exec()

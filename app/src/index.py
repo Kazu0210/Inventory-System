@@ -1,57 +1,47 @@
-import sys, json
-from pathlib import Path
-from PyQt6.QtWidgets import *
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
+from PyQt6.QtCore import QPropertyAnimation, QRect
 
-from pages.login_window import loginWindow
-from utils.Activity_logs import Activity_Logs
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setGeometry(100, 100, 600, 400)
+        self.setWindowTitle("Slide-out Navbar Example")
 
-def on_about_to_quit():
-    # Define the relative path to the file
-    relative_path = Path("app/resources/data/temp_user_data.json")
+        # Sidebar (Navbar)
+        self.navbar = QWidget(self)
+        self.navbar.setGeometry(0, 0, 200, 400)  # Initial width of 200
+        self.navbar.setStyleSheet("background-color: lightgray;")
 
-    # Get the absolute path (relative to the current working directory)
-    temp_data_dir = Path.cwd() / relative_path
+        # Button to toggle the sidebar
+        self.button = QPushButton("Toggle Navbar", self)
+        self.button.setGeometry(220, 10, 100, 30)  # Position the button outside of the navbar
+        self.button.clicked.connect(self.toggle_navbar)
 
-    # Ensure the directory exists before trying to read/write
-    if not temp_data_dir.exists():
-        print(f"The file {temp_data_dir} does not exist.")
-    else:
-        print(f"File path: {temp_data_dir}")
+        # Flag to track navbar visibility
+        self.navbar_visible = True
 
-    try:
-        with open(temp_data_dir, 'r') as file:
-            data = json.load(file)
+    def toggle_navbar(self):
+        # Create the animation
+        self.animation = QPropertyAnimation(self.navbar, b"geometry")
+        self.animation.setDuration(100)  # Duration in milliseconds
 
-        # Accessing the first key efficiently
-        key = next(iter(data))  # More efficient than list(data.keys())[0]
-        _id = data[key]
+        # Toggle between showing and hiding the navbar
+        if self.navbar_visible:
+            # Animate to hide the navbar (width to 0)
+            self.animation.setStartValue(QRect(0, 0, 200, 400))  # Starting position (visible)
+            self.animation.setEndValue(QRect(0, 0, 0, 400))      # Ending position (hidden)
+        else:
+            # Animate to show the navbar (width to 200)
+            self.animation.setStartValue(QRect(0, 0, 0, 400))    # Starting position (hidden)
+            self.animation.setEndValue(QRect(0, 0, 200, 400))    # Ending position (visible)
 
-        print(f'Key: {key}, _id: {_id}')
+        # Start the animation
+        self.animation.start()
 
-        if _id:  # Check if _id is not empty
-            logs = Activity_Logs()  
-            logs.quit(_id)
+        # Toggle the visibility flag
+        self.navbar_visible = not self.navbar_visible
 
-        # Update the data efficiently
-        data[key] = {""}  # Assuming you want to reset the _id value for the same key
-
-        # Write back the modified data
-        with open(temp_data_dir, 'w') as file:
-            json.dump(data, file, indent=4)
-
-    except FileNotFoundError:
-        print(f"Error: The file '{temp_data_dir}' was not found.")
-    except json.JSONDecodeError:
-        print(f"Error: Failed to decode JSON from '{temp_data_dir}'.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        
-def main():
-    app = QApplication(sys.argv)
-    app.aboutToQuit.connect(on_about_to_quit)
-    login_window = loginWindow()
-    login_window.show()  
-    sys.exit(app.exec())    
-    
-if __name__ == "__main__":
-    main()
+app = QApplication([])
+window = MainWindow()
+window.show()
+app.exec()
