@@ -18,11 +18,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         self.document = self.checker.db[self.collection_name].find({})
 
-        # for doc in self.document:
-        #     print(doc)
-
-        # print(f'collection name: {self.checker.db[self.collection_name]}')
-
         # create a thread to always update the table
         self.update_thread = UpdateThread(self.checker.db[self.collection_name])
         self.update_thread.updated.connect(self.update_total_stock_label)
