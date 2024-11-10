@@ -92,7 +92,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="order_btn">
+             <widget class="QPushButton" name="add_form_button">
               <property name="text">
                <string>ADD</string>
               </property>
@@ -292,13 +292,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_14">
-              <property name="text">
-               <string>Delivery Date:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QLabel" name="label_15">
               <property name="text">
                <string>Payment Status:</string>
@@ -401,16 +394,6 @@
             </item>
             <item>
              <widget class="QLabel" name="ostatus_label">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="ddate_label">
-              <property name="styleSheet">
-               <string notr="true">color:black;</string>
-              </property>
               <property name="text">
                <string/>
               </property>

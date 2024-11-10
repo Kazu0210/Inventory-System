@@ -1,0 +1,18 @@
+{
+    "order_status":[
+        {"Processing":"Processing"},
+        {"On-Going":"On-Going"},
+        {"Delivered":"Delivered"}
+    ],
+    "payment_status":[
+        {"Pending":"Pending"},
+        {"Unpaid":"Unpaid"},
+        {"Paid":"Paid"}
+    ],
+    "cylinder_size": [
+        {"5kg": "5kg"},
+        {"11kg": "11kg"},
+        {"22kg": "22kg"},
+        {"50kg": "50kg"}
+    ]
+}
