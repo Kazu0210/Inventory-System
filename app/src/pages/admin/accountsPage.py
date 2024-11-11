@@ -57,6 +57,16 @@ class AccountsPage(QWidget, accounts_page):
 
         self.hide_buttons()
 
+        self.current_logged_in()
+
+    def current_logged_in(self):
+        # get the current logged in user's account id
+        print(f'Getting current logged in account')
+        logged_in_account = self.account_username
+        print(f'Current logged in account: {logged_in_account}')
+        
+        return logged_in_account
+
     def get_account_total(self):
         # get total number of account and set text label
         self.total_accounts = str(self.collection.count_documents({}))
@@ -134,16 +144,25 @@ class AccountsPage(QWidget, accounts_page):
             with open(account_header_dir, 'r') as f:
                 data = json.load(f)
 
+            # try:
+            #     if 'Username' in data:
+            #         username_header_index = data.index("Username")
+            #     else:
+            #         print("Username column doesn't exist")
+            # except Exception as e:
+            #     print(f"An error occurred: {e}")
+
             try:
-                if 'Username' in data:
-                    username_header_index = data.index("Username")
+                if 'Account ID' in data:
+                    account_id_header_index = data.index("Account ID")
                 else:
-                    print("Username column doesn't exist")
+                    print("Account ID column doesn't exist")
             except Exception as e:
                 print(f"An error occurred: {e}")
 
-            document = self.collection.find_one({'username': row_data[username_header_index]}) # get all data by username on the database
-            print(f"USERNAME: {row_data[username_header_index]}")
+            document = self.collection.find_one({'account_id': row_data[account_id_header_index]}) # get all data by username on the database
+            # print(f"USERNAME: {row_data[username_header_index]}")
+            print(f"ACCOUNT ID: {row_data[account_id_header_index]}")
             object_id = document['_id'] # get _id of username
 
             # get all the index from the database using the objectId
@@ -515,12 +534,17 @@ class AccountsPage(QWidget, accounts_page):
                             pass
                             # print(f"Error formatting date: {e}")
 
+                    if value == self.current_logged_in():
+                        print(f"Current logged-in account is: {self.current_logged_in()}")
+                        name = value
+
+                        value = f"{name} (Logged in)"
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
                     # check if row index is even
                     if row % 2 == 0:
                         table_item.setBackground(QBrush(QColor("#F6F6F6"))) # change item's background color to #F6F6F6 when row index is even
-
+                            
                     table.setItem(row, column, table_item)
 
     def clean_key(self, key):
