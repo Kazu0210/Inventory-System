@@ -121,7 +121,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                 self.close()
             else:
-                print("File not found")
+                QMessageBox.warning(self, "Error", "File not found")
         except FileNotFoundError:
             print("File not found")
         except json.JSONDecodeError:

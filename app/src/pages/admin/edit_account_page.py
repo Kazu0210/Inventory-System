@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QApplication
+from PyQt6.QtCore import Qt
 from ui.NEW.edit_account_page import Ui_Form as edit_account_page_Ui
 from utils.Hashpassword import HashPassword
 import sys, pymongo, json
@@ -7,6 +8,7 @@ class editAccountPage(QWidget, edit_account_page_Ui):
     def __init__(self, account_id=None):
         super().__init__()
         self.setupUi(self)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         self.cancel_btn.clicked.connect(lambda: self.cancel_btn_clicked())
         self.save_btn.clicked.connect(lambda: self.save_btn_clicked())

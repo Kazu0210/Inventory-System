@@ -61,10 +61,7 @@ class AccountsPage(QWidget, accounts_page):
 
     def current_logged_in(self):
         # get the current logged in user's account id
-        print(f'Getting current logged in account')
         logged_in_account = self.account_username
-        print(f'Current logged in account: {logged_in_account}')
-        
         return logged_in_account
 
     def get_account_total(self):
@@ -535,9 +532,7 @@ class AccountsPage(QWidget, accounts_page):
                             # print(f"Error formatting date: {e}")
 
                     if value == self.current_logged_in():
-                        print(f"Current logged-in account is: {self.current_logged_in()}")
                         name = value
-
                         value = f"{name} (Logged in)"
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text

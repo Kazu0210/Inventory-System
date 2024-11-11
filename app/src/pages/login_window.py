@@ -25,26 +25,90 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.username.clear()
         self.password.clear()
 
+    def is_account_pending(self):
+        username = self.username.text().strip()
+        data = self.connect_to_db('accounts').find_one({"username": username})
+        try:
+            if data['status'] == 'Pending':
+                return True
+            else:
+                return False  
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    def is_account_inactive(self):
+        # check if the account is inactive
+        username = self.username.text().strip()
+        data = self.connect_to_db('accounts').find_one({"username": username})
+
+        try:
+            if data['status'] == 'Inactive':
+                return True
+            else:
+                return False  
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    def is_account_blocked(self):
+        # check if the account is inactive
+        username = self.username.text().strip()
+        data = self.connect_to_db('accounts').find_one({"username": username})
+
+        try:
+            if data['status'] == 'Blocked':
+                return True
+            else:
+                return False  
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
     def login_attempt(self):
         username = self.username.text().strip()
         password = self.password.text().strip()
 
-        user_role = self.validate_credentials(username, password)
-        if user_role:
-            self.logs.login_attempt_success(username)
-            self.close()
-
-            if user_role == 'Admin':
-                print('User is an admin')
-                self.main_window = MainWindow(username)
-                self.main_window.show()
-            elif user_role == 'Employee':
-                print('User is an employee')
-                self.employee_dashboard = employee_mainWindow(username)
-                self.employee_dashboard.show()
+        if self.is_account_inactive():
+            self.logs.login_attempt_failed(f"Login failed: {username} account is inactive")
+            QMessageBox.warning(
+                self,
+                "Login Attempt Failed",
+                "Your account is inactive. Please contact the admin to reactivate your account.",
+            )
+        elif self.is_account_pending():
+            self.logs.login_attempt_failed(f"Login failed: {username} account is pending")
+            QMessageBox.warning(
+                self,
+                "Login Attempt Failed",
+                "Your account is pending. Please contact the admin to activate your account.",
+            )
+        elif self.is_account_blocked():
+            self.logs.login_attempt_failed(f"Login failed: {username} account is blocked")
+            QMessageBox.warning(
+                self,
+                "Login Attempt Failed",
+                "Your account is blocked. Please contact the admin to unblock your account.",
+            )
         else:
-            self.logs.login_attempt_failed(username)
-            self.show_login_fail_dialog()
+            user_role = self.validate_credentials(username, password)
+            if user_role:
+                self.logs.login_attempt_success(username)
+                self.close()
+
+                if user_role == 'Admin':
+                    print('User is an admin')
+                    self.admin_dashboard = MainWindow(username)
+                    self.admin_dashboard.show()
+
+                elif user_role == 'Employee':
+                    print('User is an employee')
+                    self.employee_dashboard = employee_mainWindow(username)
+                    self.employee_dashboard.show()
+            else:
+                self.logs.login_attempt_failed(username)
+                QMessageBox.warning(
+                    self,
+                    "Login Attempt Failed",
+                    "Invalid username or password. Please try again.",
+                )
 
     def default_admin_login(self, username, password):
         print('logging in default admin account.')
@@ -107,15 +171,7 @@ class loginWindow(QMainWindow, login_mainWindow):
             print('_id saved successfully')
         except (FileNotFoundError, json.JSONDecodeError) as e:
             print(f"Error saving user ID: {e}")
-
-    def show_login_fail_dialog(self):
-        login_fail_dialog = QDialog(self)
-        login_fail_dialog.setWindowTitle("Login Failed")
-        login_fail_dialog.setModal(True)
-
-        label = QLabel("Invalid username or password", login_fail_dialog)
-        login_fail_dialog.exec()
-
+            
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
