@@ -58,7 +58,8 @@ class newItem_page(QWidget, Ui_addItemPage):
             "last_restocked_date": current_date,
             "description": data['description'],
             "total_value": total_value,
-            "inventory_status": data['status']
+            "inventory_status": data['status'],
+            "minimum_stock_level": 5
         }
 
         try:

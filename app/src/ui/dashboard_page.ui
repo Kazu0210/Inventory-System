@@ -37,16 +37,41 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="total_stock_label">
+     <widget class="QLabel" name="stock_value_label">
       <property name="text">
-       <string>Total Stock</string>
+       <string>Total Stock Value</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>190</y>
+     <width>251</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Total Product:</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="stock_value_label">
+     <widget class="QLabel" name="total_product_label">
       <property name="text">
-       <string>Total Stock Value</string>
+       <string>Total Product</string>
       </property>
      </widget>
     </item>
