@@ -131,7 +131,7 @@
                 <widget class="QLineEdit" name="name_input"/>
                </item>
                <item>
-                <widget class="QLineEdit" name="productname_input"/>
+                <widget class="QComboBox" name="productName_comboBox"/>
                </item>
                <item>
                 <widget class="QComboBox" name="cylindersize_box"/>

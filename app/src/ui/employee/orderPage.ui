@@ -94,7 +94,7 @@
             <item>
              <widget class="QPushButton" name="add_form_button">
               <property name="text">
-               <string>ADD</string>
+               <string>Create Order</string>
               </property>
              </widget>
             </item>

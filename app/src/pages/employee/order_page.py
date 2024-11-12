@@ -3,288 +3,13 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QTimer
 import pymongo
 from ui.employee.orderPage import Ui_Form as Ui_order_page
-from ui.employee.update_order_form import Ui_Frame as Ui_update_form
-from ui.employee.add_order_item import Ui_Frame as Ui_add_form
+# from ui.employee.update_order_form import Ui_Frame as Ui_update_form
+# from ui.employee.add_order_item import Ui_Frame as Ui_add_form
+
+from pages.employee.new_order_page import AddOrderForm
+from pages.employee.update_order_page import UpdateOrderForm
 import json
 import re
-from PyQt6 import uic
-
-class FormFrame(QFrame, Ui_update_form):
-    def __init__(self, order_id):
-        super().__init__()
-        self.setupUi(self)  # Sets up the UI from Ui_update_form    
-
-        # Initialize the database connection
-        self.client = pymongo.MongoClient("mongodb://localhost:27017/")  # Replace with your MongoDB URI
-        self.db = self.client["LPGTrading_DB"]  # Replace with your database name
-        self.collection = self.db["orders"]  # Replace with your collection name
-
-        # Initialize the form with the provided order_id
-        self.order_id = order_id
-        self.load_data()
-
-        # Connect signals to slots
-        self.quantity_box.valueChanged.connect(self.calculate_total_amount)
-        self.price_input.textChanged.connect(self.calculate_total_amount)
-
-        self.cancel_Btn.clicked.connect(self.close_form)
-        self.save_Btn.clicked.connect(self.submit_form)
-
-    def calculate_total_amount(self):
-        try:
-            quantity = self.quantity_box.value()
-            price = float(self.price_input.text()) if self.price_input.text() else 0.0
-            total_amount = quantity * price
-            self.amount_input.setText(f"{total_amount:.2f}")
-        except ValueError:
-            self.amount_input.setText("0.00")
-
-    def close_form(self):
-        self.close()
-
-    def delete_order(self):
-        reply = QMessageBox.question(
-            self,
-            "Confirm Delete",
-            "Are you sure you want to delete this order?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-        if reply == QMessageBox.StandardButton.Yes:
-            result = self.collection.delete_one({"order_id": self.order_id})
-            if result.deleted_count > 0:
-                QMessageBox.information(self, "Deleted", "Order deleted successfully!")
-                self.close()  # Close the form after deletion
-            else:
-                QMessageBox.warning(self, "Error", "Failed to delete the order.")
-
-    def load_data(self):
-        order_data = self.collection.find_one({"order_id": self.order_id})
-
-        order_date = order_data.get("order_date", "")
-        date = QDate.fromString(order_date, "yyyy-MM-dd")
-        self.order_input.setSelectedDate(date)
-
-        if order_data:
-            # Populate fields with data from the database
-            self.name_input.setText(order_data.get("customer_name", ""))
-            # self.order_input.selectedDate(order_data.get("order_date", ""))
-            
-            self.productname_input.setText(order_data.get("product_name", ""))
-            self.cylindersize_box.setCurrentText(order_data.get("cylinder_size", ""))
-            self.quantity_box.setValue(order_data.get("quantity", 1))
-            self.price_input.setText(str(order_data.get("price", 0.0)))
-            self.amount_input.setText(str(order_data.get("total_amoun`t", 0.0)))
-            self.status_box.setCurrentText(order_data.get("order_status", ""))
-            self.address_input.setText(order_data.get("delivery_address", ""))
-            self.payment_box.setCurrentText(order_data.get("payment_status", ""))
-            self.info_input.setText(order_data.get("contact_info", ""))
-            self.note_input.setText(order_data.get("order_note", ""))
-        else:
-            QMessageBox.warning(self, "Error", f"No data found for Order ID: {self.order_id}")
-
-    def submit_form(self):
-        try:
-            # Retrieve the input data from form fields
-            customer_name = self.name_input.text().strip()
-            order_date = self.order_input.selectedDate().toString("yyyy-MM-dd")
-            product_name = self.productname_input.text().strip()
-            cylinder_size = self.cylindersize_box.currentText()
-            quantity = self.quantity_box.value()
-            price_text = self.price_input.text().strip()
-            amount_text = self.amount_input.text().strip()
-            status = self.status_box.currentText()
-            delivery_address = self.address_input.text().strip()
-            payment_status = self.payment_box.currentText()
-            contact_info = self.info_input.text().strip()
-            order_note = self.note_input.text().strip()
-
-            # Convert price and total amount to float, handling potential ValueErrors
-            price = float(price_text) if price_text else 0.0
-            total_amount = float(amount_text) if amount_text else 0.0
-
-            # Prepare data for update
-            order_data = {
-                "order_id": self.order_id,
-                "customer_name": customer_name,
-                "order_date": order_date,
-                "product_name": product_name,
-                "cylinder_size": cylinder_size,
-                "quantity": quantity,
-                "price": price,
-                "total_amount": total_amount,
-                "order_status": status,
-                "delivery_address": delivery_address,
-                "payment_status": payment_status,
-                "contact_info": contact_info,
-                "order_note": order_note
-            }
-
-            # Update or insert the order data
-            result = self.collection.update_one(
-                {"order_id": self.order_id},
-                {"$set": order_data},
-                upsert=True
-            )
-
-            # Show confirmation message
-            if result.upserted_id:
-                QMessageBox.information(self, "Form Submitted", "New order inserted successfully!")
-            else:
-                QMessageBox.information(self, "Form Submitted", "Order updated successfully!")
-            self.close()
-        
-        except ValueError:
-            QMessageBox.warning(self, "Input Error", "Please enter valid numbers for price and total amount.")
-        except Exception as e:
-            # Print or log the exception for debugging
-            print(f"An error occurred while saving the order: {e}")
-            QMessageBox.critical(self, "Database Error", f"An error occurred while saving the order: {e}")
-
-class AddOrderForm(QFrame, Ui_add_form):
-    def __init__(self, order_id=None):
-        super().__init__()
-        self.setupUi(self)
-        
-        # Initialize the database connection
-        self.client = pymongo.MongoClient("mongodb://localhost:27017/")  # Replace with your MongoDB URI
-        self.db = self.client["LPGTrading_DB"]  # Replace with your database name
-        self.collection = self.db["orders"]  # Replace with your collection name
-        
-        self.load_payment_status_options()
-        self.load_order_status_options()
-        self.load_cylinder_status_options()
-
-        # Initialize the form with the provided order_id
-        self.order_id = order_id if order_id else self.generate_order_id()
-
-        # Connect signals to slots for automatic calculation
-        self.quantity_box.valueChanged.connect(self.calculate_total_amount)  # When quantity changes
-        self.price_input.textChanged.connect(self.calculate_total_amount)  # When price changes
-
-        # Connect "Add Item" button click event to the save_form method
-        self.addItem_btn.clicked.connect(self.save_form)
-
-    def generate_order_id(self):
-        new_order_id = str(self.collection.estimated_document_count() + 1).zfill(3)
-        return f"ORD{new_order_id}"  # ORD00001
-
-    def load_payment_status_options(self):
-        try:
-            filter_dir = "app/resources/config/filters_box.json"
-
-            with open(filter_dir, 'r') as f:
-                data = json.load(f)
-
-            self.payment_box.clear()
-            for status in data['payment_status']:
-
-                self.payment_box.addItem(list(status.values())[0])
-                
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Error loading payment status options: {e}")
-            QMessageBox.warning(self, "Error", "Could not load payment status options.")
-    
-    def load_cylinder_status_options(self):
-        try:
-            filter_dir = "app/resources/config/filters_box.json"
-
-            with open(filter_dir, 'r') as f:
-                data = json.load(f)
-
-            self.cylindersize_box.clear()
-            for status in data['cylinder_size']:
-
-                self.cylindersize_box.addItem(list(status.values())[0])
-                
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Error loading cylinder status options: {e}")
-            QMessageBox.warning(self, "Error", "Could not load cylinder status options.")
-
-    def load_order_status_options(self):
-        try:
-            filter_dir = "app/resources/config/filters_box.json"
-
-            with open(filter_dir, 'r') as f:
-                data = json.load(f)
-
-            self.status_box.clear()
-            for status in data['order_status']:
-
-                self.status_box.addItem(list(status.values())[0])
-                
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Error loading order status options: {e}")
-            QMessageBox.warning(self, "Error", "Could not load order status options.")
-
-    def load_order_data(self, order_data):
-
-        self.productname_input.setText(order_data.get("product_name", ""))
-        self.cylindersize_box.setCurrentText(order_data.get("cylinder_size", ""))
-        self.quantity_box.setValue(order_data.get("quantity", 1))
-        self.price_input.setText(str(order_data.get("price", 0.0)))
-        self.amount_input.setText(str(order_data.get("total_amount", 0.0)))
-        self.status_box.setCurrentText(order_data.get("order_status", ""))
-        self.delivery_address_input.setPlainText(order_data.get("delivery_address", ""))
-        self.payment_box.setCurrentText(order_data.get("payment_status", ""))
-        self.contact_info.setText(order_data.get("contact_info", ""))
-        self.note_input.setText(order_data.get("order_note", ""))
-
-    def calculate_total_amount(self):
-        """Calculate and update the total amount based on quantity and price."""
-        try:
-            quantity = self.quantity_box.value()
-            price = float(self.price_input.text() or "0.0")  # Handle empty input gracefully
-            total_amount = quantity * price
-            self.amount_input.setText(f"{total_amount:.2f}")
-        except ValueError:
-            self.amount_input.setText("0.00")
-            QMessageBox.warning(self, "Input Error", "Please enter a valid number for price.")
-
-    def save_form(self):
-        """Save the order data after validating the input."""
-        try:
-            # Collect the input data
-            customer_name = self.name_input.text().strip()
-            product_name = self.productname_input.text().strip()
-            quantity = self.quantity_box.value()
-            price = float(self.price_input.text().strip() or "0.0")
-            order_date = self.order_input.selectedDate().toString("yyyy-MM-dd")
-            order_status = self.status_box.currentText()
-            delivery_address = self.delivery_address_input.toPlainText().strip()
-            payment_status = self.payment_box.currentText()
-            contact_info = self.contact_info.text().strip()
-            order_note = self.note_input.text().strip()
-            total_amount = float(self.amount_input.text() or "0.0")
-
-            # Prepare data for saving
-            order_data = {
-                "order_id": self.order_id,
-                "customer_name": customer_name,
-                "order_date": order_date,
-                "product_name": product_name,
-                "cylinder_size": self.cylindersize_box.currentText(),
-                "quantity": quantity,
-                "price": price,
-                "total_amount": total_amount,
-                "order_status": order_status,
-                "delivery_address": delivery_address,
-                "payment_status": payment_status,
-                "contact_info": contact_info,
-                "order_note": order_note
-            }
-
-            # Insert or update the order data in the database
-            self.collection.insert_one(order_data)
-
-            # Show confirmation message
-            QMessageBox.information(self, "Form Submitted", "New order added successfully!")
-            self.close()
-        
-        except ValueError:
-            QMessageBox.warning(self, "Input Error", "Please enter valid numbers for price and total amount.")
-        except Exception as e:
-            print(f"An error occurred while saving the order: {e}")
-            QMessageBox.critical(self, "Database Error", f"An error occurred while saving the order: {e}")
 
 class OrdersPage(QWidget, Ui_order_page):
     def __init__(self, username, dashboard_mainWindow=None):
@@ -333,6 +58,7 @@ class OrdersPage(QWidget, Ui_order_page):
         self.timer.start(100)
 
         self.update_processing_count()
+
     def update_all(self):
         self.update_table()
 
@@ -398,7 +124,7 @@ class OrdersPage(QWidget, Ui_order_page):
 
     def show_form_frame(self, order_id):
         # Create and display the QFrame as a popup
-        self.form_frame = FormFrame(order_id)
+        self.form_frame = UpdateOrderForm(order_id)
         self.form_frame.show()
 
     def on_open_form_clicked(self, order_id):
@@ -514,12 +240,11 @@ class OrdersPage(QWidget, Ui_order_page):
     def clean_header(self, header):
         return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    Form = QWidget()
-    ui = OrdersPage(None, None) 
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     import sys
+#     app = QApplication(sys.argv)
+#     Form = QWidget()
+#     ui = OrdersPage(None, None) 
+#     ui.setupUi(Form)
+#     Form.show()
+#     sys.exit(app.exec())
