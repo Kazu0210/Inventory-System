@@ -33,7 +33,7 @@ class RestockProduct(QWidget, Ui_restock_form):
                 'product_id': data['product_id'],
                 'product_name': data['product_name'],
                 'cylinder_size': data['cylinder_size'],
-                'quantity_in_stock': str(data['quantity']),
+                'quantity_in_stock': data['quantity'],
                 'price_per_unit': data['price'],
                 'supplier': data['supplier'],
                 'last_restocked_date': current_date,
@@ -128,7 +128,7 @@ class RestockProduct(QWidget, Ui_restock_form):
         self.supplier_label.setText(self.received_data.get('supplier'))
         self.pricePerUnit_label.setText(self.received_data.get('price'))
         self.totalCost_label.setText(str(self.received_data.get('total_value')))
-        self.quantityInStock_label.setText(self.received_data.get('quantity'))
+        self.quantityInStock_label.setText(str(self.received_data.get('quantity')))
 
         self.numberOnly()
 

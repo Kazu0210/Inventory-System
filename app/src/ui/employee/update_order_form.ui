@@ -276,6 +276,18 @@ color:black;</string>
           <widget class="QLineEdit" name="note_input"/>
          </item>
         </layout>
+        <zorder>order_input</zorder>
+        <zorder>name_input</zorder>
+        <zorder>productname_input</zorder>
+        <zorder>cylindersize_box</zorder>
+        <zorder>quantity_box</zorder>
+        <zorder>price_input</zorder>
+        <zorder>amount_input</zorder>
+        <zorder>status_box</zorder>
+        <zorder>address_input</zorder>
+        <zorder>payment_box</zorder>
+        <zorder>info_input</zorder>
+        <zorder>note_input</zorder>
        </widget>
       </item>
      </layout>
