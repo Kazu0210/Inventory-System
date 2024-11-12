@@ -132,8 +132,8 @@ class ItemsPage(QWidget, items_page):
 
             self.productID_label.setText(self.productID)
             self.productName_label.setText(self.productName)
-            self.cylinderSize_label.setText(self.cylinderSize)
-            self.quantity_label.setText(self.quantity)
+            self.cylinderSize_label.setText(str(self.cylinderSize))
+            self.quantity_label.setText(str(self.quantity))
             self.price_label.setText(self.price)
             self.supplier_label.setText(self.supplier)
             self.restockedDate_label.setText(self.restockDate)
