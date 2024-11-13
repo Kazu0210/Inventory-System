@@ -151,6 +151,7 @@ class Ui_Form(object):
         self.verticalLayout_3.addWidget(self.recentAct_listWidget)
         self.updateProfile_pushButton = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
         self.updateProfile_pushButton.setGeometry(QtCore.QRect(20, 340, 151, 23))
+        self.updateProfile_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.updateProfile_pushButton.setObjectName("updateProfile_pushButton")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_2.addWidget(self.scrollArea)
