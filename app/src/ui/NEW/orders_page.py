@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_orderPage_Form(object):
     def setupUi(self, orderPage_Form):
         orderPage_Form.setObjectName("orderPage_Form")
-        orderPage_Form.resize(658, 443)
+        orderPage_Form.resize(767, 443)
         self.createOrder_pushButton = QtWidgets.QPushButton(parent=orderPage_Form)
         self.createOrder_pushButton.setGeometry(QtCore.QRect(10, 10, 131, 23))
         self.createOrder_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -29,6 +29,11 @@ class Ui_orderPage_Form(object):
         self.orderHistory_pushButton.setGeometry(QtCore.QRect(10, 100, 131, 23))
         self.orderHistory_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.orderHistory_pushButton.setObjectName("orderHistory_pushButton")
+        self.orders_tableWidget = QtWidgets.QTableWidget(parent=orderPage_Form)
+        self.orders_tableWidget.setGeometry(QtCore.QRect(10, 130, 751, 301))
+        self.orders_tableWidget.setObjectName("orders_tableWidget")
+        self.orders_tableWidget.setColumnCount(0)
+        self.orders_tableWidget.setRowCount(0)
 
         self.retranslateUi(orderPage_Form)
         QtCore.QMetaObject.connectSlotsByName(orderPage_Form)

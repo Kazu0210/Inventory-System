@@ -33,7 +33,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         # settings json file directory
         self.settings_dir = 'app/resources/config/settings.json'
 
-        self.update_all()
+        self.update_all() # call update table once
         
     def update_all(self):
         self.update_table() # update the activity logs table

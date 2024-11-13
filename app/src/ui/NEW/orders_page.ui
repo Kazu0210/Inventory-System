@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>767</width>
     <height>443</height>
    </rect>
   </property>
@@ -75,6 +75,16 @@
    </property>
    <property name="text">
     <string>Order History</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="orders_tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>751</width>
+     <height>301</height>
+    </rect>
    </property>
   </widget>
  </widget>
