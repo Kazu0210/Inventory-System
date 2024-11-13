@@ -92,7 +92,7 @@ class Validator:
         return self.collection.find_one({"username": account_id}) is None
 
 # Example usage:
-# validator = Validator()
+validator = Validator()
 
 # # Validate username
 # print(validator.validate_username("User_123"))  # True
@@ -101,4 +101,4 @@ class Validator:
 # print(validator.validate_email("user@example.com"))  # True
 
 # # Validate password
-# print(validator.validate_password("StrongPass1!"))  # True
+print(validator.validate_password("StrongPass1!"))  # True

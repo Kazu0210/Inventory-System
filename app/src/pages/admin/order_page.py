@@ -26,7 +26,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.run_monitor(self.update_table)
         self.update_table()
 
-
     def run_monitor(self, object_to_update):
         # Initialize Inventory Monitor
         self.order_monitor = InventoryMonitor('orders')
@@ -37,7 +36,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     def createOrder(self):
         print(f'Create order button clicked')
         # self.new_order_page = NewOrderPage()
-        # self.new_order_page.show()
+        # self.new_order_page.show(
         self.new_order_page = AddOrderForm(None)
         self.new_order_page.show()
 
