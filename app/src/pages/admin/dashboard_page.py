@@ -1,4 +1,6 @@
 from PyQt6.QtWidgets import *
+from PyQt6.QtCharts import QChart, QChartView, QPieSeries
+from PyQt6.QtGui import QColor
 from ui.dashboard_page import Ui_Form as Ui_dashboard_page
 
 from utils.DB_checker import db_checker
@@ -6,7 +8,7 @@ from utils.Inventory_Monitor import InventoryMonitor
 
 from PyQt6.QtCore import QThread, pyqtSignal, QSize
 from datetime import datetime, timedelta
-import pymongo
+import pymongo, random
 
 class Dashboard(QWidget, Ui_dashboard_page):
     def __init__(self, main_window):
@@ -32,12 +34,15 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # Initialize the products monitor to listen for changes
         self.products_monitor = InventoryMonitor('products_items')
         self.products_monitor.start_listener_in_background()
-        self.products_monitor.data_changed_signal.connect(self.update_cylinder_list)
+        self.products_monitor.data_changed_signal.connect(self.update_stock_widgets)
 
         # Initialize orders monitor
         self.order_monitor = InventoryMonitor('orders')
         self.order_monitor.start_listener_in_background()
         self.order_monitor.data_changed_signal.connect(self.display_total_orders)
+
+        # Initialize monitor to update stock level chart
+        self.stock_level_monitor = InventoryMonitor('products')
 
         # Call the function to update the cylinder list
         self.update_cylinder_list()
@@ -51,6 +56,64 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # call funcion that load the stock level chart once
+        self.load_stock_level_chart()
+
+    def update_stock_widgets(self):
+        self.update_cylinder_list()
+        self.load_stock_level_chart()
+
+    def create_pie_chart(self, processed_data):
+        series = QPieSeries()
+
+        series_normal_colors = [
+            "#0A4F75", "#095E61", '#0A7075', '#0B898D', '#55C3C6', '#6BBEB2', '#6BA3BE'
+        ]
+        
+
+        for data in processed_data:
+            cylinder_size = data['cylinder_size']
+            total_quantity = data['total_quantity']
+
+            series.append(f'{str(cylinder_size)}kg', total_quantity)
+
+            if total_quantity <= 5:
+                series.slices()[-1].setBrush(QColor("#70110A"))
+            else:
+                random_color = random.choice(series_normal_colors)
+                print(f'random color: {random_color}')
+                series.slices()[-1].setBrush(QColor(random_color))
+
+        chart = QChart()
+        chart.addSeries(series)
+        chart.setTitle("Stock Levels")
+
+        chart_view = QChartView(chart)
+
+        # frame to hold the chart
+        self.chart_frame = self.stockChart_frame
+        # self.chart_frame.setStyleSheet("border: 2px solid black;")
+                # Clear existing layout if present
+        if self.chart_frame.layout():
+            # Remove the old layout before setting a new one
+            QWidget().setLayout(self.chart_frame.layout())  # Removes the layout
+
+        layout = QVBoxLayout()
+        layout.addWidget(chart_view)
+        self.chart_frame.setLayout(layout)
+
+    def load_stock_level_chart(self):
+        print(f'showing stock level chart')
+        # get data from database
+
+        processed_data = self.get_quantity_in_stock()
+        print(processed_data)
+        # for data in processed_data:
+        #     cylinder_size = data['cylinder_size']
+        #     total_quantity = data['total_quantity']
+
+        self.create_pie_chart(processed_data)
 
     def show_cancelled_order(self):
         orders = self.get_cancelled_orders()

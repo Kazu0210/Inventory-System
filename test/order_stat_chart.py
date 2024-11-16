@@ -1,5 +1,5 @@
-from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QBarSeries, QBarSet
-from PyQt6.QtGui import QPainter
+from PyQt6.QtCharts import QChart, QChartView, QPieSeries
+from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 
 class MainWindow(QMainWindow):
@@ -13,14 +13,18 @@ class MainWindow(QMainWindow):
 
     def create_pie_chart(self):
         series = QPieSeries()
-        shyet = 10
-        series.append(f"Pending {shyet}%", 35)
+        series.append("Pending", 35)
         series.append("Completed", 80)
         series.append("Canceled", 5)
-        series.append("Hatdog", 10)
-        series.append("Kepord", 69)
-        series.append("Kepord", 69)
-        series.append("Kepord", 69)
+
+        # Customize slice colors
+        pending_slice = series.slices()[0]
+        completed_slice = series.slices()[1]
+        canceled_slice = series.slices()[2]
+
+        pending_slice.setBrush(QColor("#4E4E4E"))
+        completed_slice.setBrush(QColor("green"))
+        canceled_slice.setBrush(QColor("red"))
 
         chart = QChart()
         chart.addSeries(series)

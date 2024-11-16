@@ -12,9 +12,9 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(825, 540)
+        Form.resize(926, 661)
         self.frame = QtWidgets.QFrame(parent=Form)
-        self.frame.setGeometry(QtCore.QRect(10, 10, 281, 291))
+        self.frame.setGeometry(QtCore.QRect(10, 10, 301, 291))
         self.frame.setMinimumSize(QtCore.QSize(281, 241))
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -44,12 +44,12 @@ class Ui_Form(object):
         self.cylinderTypes_scrollArea.setWidgetResizable(True)
         self.cylinderTypes_scrollArea.setObjectName("cylinderTypes_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 259, 211))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 279, 211))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.cylinderTypes_scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.cylinderTypes_scrollArea)
         self.frame_3 = QtWidgets.QFrame(parent=Form)
-        self.frame_3.setGeometry(QtCore.QRect(300, 10, 320, 452))
+        self.frame_3.setGeometry(QtCore.QRect(600, 10, 320, 452))
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
@@ -141,9 +141,25 @@ class Ui_Form(object):
         self.tabWidget.addTab(self.tab_2, "")
         self.verticalLayout_4.addWidget(self.tabWidget)
         self.verticalLayout_3.addWidget(self.frame_8)
+        self.frame_9 = QtWidgets.QFrame(parent=Form)
+        self.frame_9.setGeometry(QtCore.QRect(10, 300, 581, 361))
+        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_9)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.label_8 = QtWidgets.QLabel(parent=self.frame_9)
+        self.label_8.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.label_8.setObjectName("label_8")
+        self.verticalLayout_8.addWidget(self.label_8)
+        self.stockChart_frame = QtWidgets.QFrame(parent=self.frame_9)
+        self.stockChart_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.stockChart_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.stockChart_frame.setObjectName("stockChart_frame")
+        self.verticalLayout_8.addWidget(self.stockChart_frame)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -163,6 +179,7 @@ class Ui_Form(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Form", "Completed"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Form", "Pending"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "Cancelled"))
+        self.label_8.setText(_translate("Form", "Stock Levels"))
 
 
 if __name__ == "__main__":
