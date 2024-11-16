@@ -110,8 +110,8 @@
     <rect>
      <x>300</x>
      <y>10</y>
-     <width>296</width>
-     <height>407</height>
+     <width>320</width>
+     <height>452</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -243,16 +243,31 @@
           <attribute name="title">
            <string>Completed</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QListWidget" name="completed_order_listWidget"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="title">
            <string>Pending</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QListWidget" name="pending_order_listWidget"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
            <string>Cancelled</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QListWidget" name="cancelled_order_listWidget"/>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>

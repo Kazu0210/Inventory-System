@@ -4,7 +4,7 @@ from ui.dashboard_page import Ui_Form as Ui_dashboard_page
 from utils.DB_checker import db_checker
 from utils.Inventory_Monitor import InventoryMonitor
 
-from PyQt6.QtCore import QThread, pyqtSignal
+from PyQt6.QtCore import QThread, pyqtSignal, QSize
 from datetime import datetime, timedelta
 import pymongo
 
@@ -44,9 +44,97 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # Call funcion that display order summary once
         self.display_total_orders()
 
+        self.show_completed_order()
+        self.show_pending_order()
+        self.show_cancelled_order()
+
+        self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+    def show_cancelled_order(self):
+        orders = self.get_cancelled_orders()
+        for order in orders:
+            orderID = order.get('order_id', '')
+            customer_name = order.get('customer_name')
+            order_date = order.get('order_date')
+            order_status = order.get('order_status')
+
+            order_id_label = QLabel(
+                f"Order ID: {orderID}\n"
+                f"Customer Name: {customer_name}\n"
+                f"Order Date: {order_date}\n"
+                f"Order Status: {order_status}"
+            )
+
+            item = QListWidgetItem(self.cancelled_order_listWidget)
+            item.setSizeHint(QSize(200, 100))
+            self.cancelled_order_listWidget.setItemWidget(item, order_id_label)
+
+    def show_pending_order(self):
+        orders = self.get_pending_orders()
+        for order in orders:
+            orderID = order.get('order_id', '')
+            customer_name = order.get('customer_name')
+            order_date = order.get('order_date')
+            order_status = order.get('order_status')
+
+            order_id_label = QLabel(
+                f"Order ID: {orderID}\n"
+                f"Customer Name: {customer_name}\n"
+                f"Order Date: {order_date}\n"
+                f"Order Status: {order_status}"
+            )
+
+            item = QListWidgetItem(self.pending_order_listWidget)
+            item.setSizeHint(QSize(200, 100))
+            self.pending_order_listWidget.setItemWidget(item, order_id_label)
+
+    def show_completed_order(self):
+        orders = self.get_completed_orders()
+        for order in orders:
+            orderID = order.get('order_id', '')
+            customer_name = order.get('customer_name')
+            order_date = order.get('order_date')
+            order_status = order.get('order_status')
+
+            order_id_label = QLabel(
+                f"Order ID: {orderID}\n"
+                f"Customer Name: {customer_name}\n"
+                f"Order Date: {order_date}\n"
+                f"Order Status: {order_status}"
+            )
+
+            item = QListWidgetItem(self.completed_order_listWidget)
+            item.setSizeHint(QSize(200, 100))
+            self.completed_order_listWidget.setItemWidget(item, order_id_label)
+    def get_cancelled_orders(self):
+        try:
+            orders_collection = self.connect_to_db('orders')
+            completed_orders = orders_collection.find({"order_status": "Cancelled"})
+            return completed_orders
+        except Exception as e:
+            print(f"Error getting completed orders: {e}")
+            return []
+    def get_pending_orders(self):
+        try:
+            orders_collection = self.connect_to_db('orders')
+            completed_orders = orders_collection.find({"order_status": "Pending"})
+            return completed_orders
+        except Exception as e:
+            print(f"Error getting completed orders: {e}")
+            return []
+
+    def get_completed_orders(self):
+        try:
+            orders_collection = self.connect_to_db('orders')
+            completed_orders = orders_collection.find({"order_status": "Completed"})
+            return completed_orders
+        except Exception as e:
+            print(f"Error getting completed orders: {e}")
+            return []
+
     def display_total_orders(self):
-        print('Displaying order summary')
-        
         daily_order_count = self.get_daily_order_count()
         weekly_order_count = self.get_weekly_order_count()
         monthly_order_count = self.get_monthly_order_count()
@@ -77,7 +165,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
         })
 
         # Print the monthly order count
-        print(f'Order count for the current month (from {start_of_month} to {today_str}): {order_count}')
         return str(order_count)
     
     def get_weekly_order_count(self):
@@ -104,7 +191,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
         })
 
         # Print the weekly order count
-        print(f'Order count for the current week (from {start_of_week_str} to {end_of_week_str}): {order_count}')
         return str(order_count)
 
     def get_daily_order_count(self):
@@ -147,7 +233,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
     def display_cylinder_data(self, processed_data):
         # This method will update the scroll area with new data
         # Make sure to reuse existing labels or create new ones as needed
-        print(f"Received update signal with {processed_data} items")
         
         # First, clear the existing labels in the scroll area (if needed)
         for label in self.labels:
@@ -223,33 +308,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
         db = "LPGTrading_DB"
         return client[db][collection_name]
     
-# class UpdateAvailableSize(QThread):
-#     update_signal = pyqtSignal(list)
-
-#     def __init__(self, collection, dashboard_page):
-#         super().__init__()
-#         self.collection = collection
-#         self.dashboard_page = dashboard_page  # Pass the existing instance of Dashboard
-#         self.running = True
-
-#     def run(self):
-#         while self.running:
-#             try:
-#                 # Call get_quantity_in_stock and get the result
-#                 cylinder_sizes = self.dashboard_page.get_quantity_in_stock()
-
-#                 # Emit the signal with updated cylinder sizes (or any relevant data)
-#                 self.update_signal.emit(cylinder_sizes)  # Emit the list of processed data
-#                 self.running = False  # Stop after one run (if you want to update periodically, set this logic accordingly)
-
-#             except Exception as e:
-#                 print(f"Error updating cylinder sizes: {e}")
-
-#             QThread.msleep(100)  # Sleep for 100ms
-
-#     def stop(self):
-#         self.running = False
-
 class UpdateThread(QThread):
     updated = pyqtSignal(int)
 

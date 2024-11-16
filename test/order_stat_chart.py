@@ -18,6 +18,9 @@ class MainWindow(QMainWindow):
         series.append("Completed", 80)
         series.append("Canceled", 5)
         series.append("Hatdog", 10)
+        series.append("Kepord", 69)
+        series.append("Kepord", 69)
+        series.append("Kepord", 69)
 
         chart = QChart()
         chart.addSeries(series)
