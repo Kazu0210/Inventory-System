@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(640, 540)
+        Form.resize(825, 540)
         self.frame = QtWidgets.QFrame(parent=Form)
         self.frame.setGeometry(QtCore.QRect(10, 10, 281, 291))
         self.frame.setMinimumSize(QtCore.QSize(281, 241))
@@ -48,6 +48,14 @@ class Ui_Form(object):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.cylinderTypes_scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.cylinderTypes_scrollArea)
+        self.frame_3 = QtWidgets.QFrame(parent=Form)
+        self.frame_3.setGeometry(QtCore.QRect(300, 10, 331, 291))
+        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.label_3 = QtWidgets.QLabel(parent=self.frame_3)
+        self.label_3.setGeometry(QtCore.QRect(10, 10, 111, 16))
+        self.label_3.setObjectName("label_3")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -58,6 +66,7 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "Inventory Overview:"))
         self.label_2.setText(_translate("Form", "Total Item In Stock:"))
         self.totalItemStock_label.setText(_translate("Form", "TextLabel"))
+        self.label_3.setText(_translate("Form", "Orders Summary:"))
 
 
 if __name__ == "__main__":
