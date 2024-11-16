@@ -5,6 +5,7 @@ from utils.DB_checker import db_checker
 from utils.Inventory_Monitor import InventoryMonitor
 
 from PyQt6.QtCore import QThread, pyqtSignal
+from datetime import datetime, timedelta
 import pymongo
 
 class Dashboard(QWidget, Ui_dashboard_page):
@@ -28,13 +29,116 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         self.labels = []
 
-        # Initialize the inventory monitor to listen for changes
+        # Initialize the products monitor to listen for changes
         self.products_monitor = InventoryMonitor('products_items')
         self.products_monitor.start_listener_in_background()
         self.products_monitor.data_changed_signal.connect(self.update_cylinder_list)
 
+        # Initialize orders monitor
+        self.order_monitor = InventoryMonitor('orders')
+        self.order_monitor.start_listener_in_background()
+        self.order_monitor.data_changed_signal.connect(self.display_total_orders)
+
         # Call the function to update the cylinder list
         self.update_cylinder_list()
+        # Call funcion that display order summary once
+        self.display_total_orders()
+
+    def display_total_orders(self):
+        print('Displaying order summary')
+        
+        daily_order_count = self.get_daily_order_count()
+        weekly_order_count = self.get_weekly_order_count()
+        monthly_order_count = self.get_monthly_order_count()
+
+        self.daily_order_label.setText(daily_order_count)
+        self.weekly_order_label.setText(weekly_order_count)
+        self.monthly_order_label.setText(monthly_order_count)
+
+    def get_monthly_order_count(self):
+        # Get today's date
+        today = datetime.today()
+
+        # Calculate the start of the current month (1st day of the month)
+        start_of_month = today.replace(day=1).date().strftime('%Y-%m-%d')
+
+        # Get today's date in "YYYY-MM-DD" format
+        today_str = today.date().strftime('%Y-%m-%d')
+
+        # Connect to the orders collection
+        orders_collection = self.connect_to_db('orders')
+
+        # Query for orders from the start of the month to today
+        order_count = orders_collection.count_documents({
+            "order_date": {
+                "$gte": start_of_month,
+                "$lte": today_str
+            }
+        })
+
+        # Print the monthly order count
+        print(f'Order count for the current month (from {start_of_month} to {today_str}): {order_count}')
+        return str(order_count)
+    
+    def get_weekly_order_count(self):
+        # Get today's date
+        today = datetime.today()
+
+        # Calculate the start of the current week (Monday)
+        start_of_week = today - timedelta(days=today.weekday())  # Monday
+        start_of_week_str = start_of_week.date().strftime('%Y-%m-%d')
+
+        # Calculate the end of the current week (Sunday)
+        end_of_week = start_of_week + timedelta(days=7)  # Sunday
+        end_of_week_str = end_of_week.date().strftime('%Y-%m-%d')
+
+        # Connect to the orders collection
+        orders_collection = self.connect_to_db('orders')
+
+        # Query for orders between the start and end of the current week
+        order_count = orders_collection.count_documents({
+            "order_date": {
+                "$gte": start_of_week_str,
+                "$lte": end_of_week_str
+            }
+        })
+
+        # Print the weekly order count
+        print(f'Order count for the current week (from {start_of_week_str} to {end_of_week_str}): {order_count}')
+        return str(order_count)
+
+    def get_daily_order_count(self):
+        # Get today's date in "YYYY-MM-DD" format
+        today = datetime.today().date().strftime('%Y-%m-%d')
+
+        # Connect to the orders collection
+        orders_collection = self.connect_to_db('orders')
+
+        # Query orders where order_date matches today's date
+        order_count = orders_collection.count_documents({"order_date": today})
+
+        return str(order_count)
+    
+    def get_daily_order_count_shyet(self):
+        try:
+            pipeline = [
+                {
+                    "$group": {
+                        "_id": "$order_date",  # Group by date
+                        "total_orders": {"$sum": 1}  # Count the orders
+                    }
+                }
+            ]
+            result = self.connect_to_db("orders").aggregate(pipeline)
+            daily_orders = {}
+            for item in result:
+                date = item['_id']
+                total_orders = item['total_orders']
+                daily_orders[date] = total_orders
+            return daily_orders
+        except Exception as e:
+            print(f"Error getting daily order count: {e}")
+            return {}
 
     def update_cylinder_list(self):
         processed_data = self.get_quantity_in_stock()
