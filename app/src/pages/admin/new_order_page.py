@@ -2,6 +2,8 @@ from PyQt6.QtWidgets import QFrame, QMessageBox
 
 from ui.employee.add_order_item import Ui_Frame as Ui_add_form
 
+from utils.Inventory_Monitor import InventoryMonitor
+
 import pymongo, json
 
 
@@ -33,6 +35,11 @@ class AddOrderForm(QFrame, Ui_add_form):
 
         self.add_product_name()
         self.reset_quantity_box()
+
+        # Initialize Inventory Monitor
+        self.product_monitor = InventoryMonitor('products_items')
+        self.product_monitor.start_listener_in_background()
+        self.product_monitor.data_changed_signal.connect(lambda: self.add_product_name())
     
     # def limit_quantity(self, min_value, max_value):
     #     try:

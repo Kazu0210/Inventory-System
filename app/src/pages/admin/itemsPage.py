@@ -8,6 +8,9 @@ from pages.admin.edit_product_page import EditProductInformation
 from pages.admin.restock_page import RestockProduct
 # from ui.itemsPage import Ui_Form as items_page
 # from docx import Document
+
+from utils.Inventory_Monitor import InventoryMonitor
+
 import time
 import os
 import re
@@ -28,9 +31,9 @@ class ItemsPage(QWidget, items_page):
         self.collection = self.connect_to_db('products_items')
 
         # create a timer to update
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_all)
-        self.timer.start(100)
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.update_all)
+        # self.timer.start(100)
 
         self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
         self.tableWidget.itemClicked.connect(self.on_item_clicked)
@@ -40,6 +43,14 @@ class ItemsPage(QWidget, items_page):
 
         # hide button
         self.HideButtons()
+
+        # Initialize Inventory Monitor
+        self.products_monitor = InventoryMonitor("products_items")
+        self.products_monitor.start_listener_in_background()
+        self.products_monitor.data_changed_signal.connect(self.update_all)
+
+        # Call update_all function to populate table once
+        self.update_all()
 
     def ShowButtons(self):
         self.restock_pushButton.show()
@@ -78,7 +89,6 @@ class ItemsPage(QWidget, items_page):
         selected_rows = self.tableWidget.selectionModel().selectedRows()
 
         if selected_rows:
-            self.timer.stop()
 
             row_index = selected_rows[0].row()
             print(f"Row {row_index} clicked")
@@ -134,7 +144,7 @@ class ItemsPage(QWidget, items_page):
             self.productName_label.setText(self.productName)
             self.cylinderSize_label.setText(str(self.cylinderSize))
             self.quantity_label.setText(str(self.quantity))
-            self.price_label.setText(self.price)
+            self.price_label.setText(str(self.price))
             self.supplier_label.setText(self.supplier)
             self.restockedDate_label.setText(self.restockDate)
             self.description_label.setText(self.description)
@@ -181,7 +191,6 @@ class ItemsPage(QWidget, items_page):
             # self.restock_pushButton.hide()
             self.HideButtons()
             self.clearPreviewSection()
-            self.timer.start()
 
     def add_to_archive(self, product_id):
         os.system('cls')
@@ -245,7 +254,6 @@ class ItemsPage(QWidget, items_page):
             # self.job_label.setText("")
             # self.usertype_label.setText("")
         
-        self.timer.start()
 
     def restockProduct(self, product_data):
         print(f'Restock button clicked.')
@@ -283,7 +291,7 @@ class ItemsPage(QWidget, items_page):
         self.productName_label.setText(document['product_name'])
         self.cylinderSize_label.setText(document['cylinder_size'])
         self.quantity_label.setText(str(document['quantity_in_stock']))
-        self.price_label.setText(document['price_per_unit'])
+        self.price_label.setText(str(document['price_per_unit']))
         self.supplier_label.setText(document['supplier'])
         self.restockedDate_label.setText(document['last_restocked_date'])
         self.description_label.setText(document['description'])
@@ -294,7 +302,6 @@ class ItemsPage(QWidget, items_page):
         print('Edit product saved')
         print(f'data received from edit product page: {data}')
         self.updatePreviewSection(data)
-        self.timer.start()
 
     def deleteProduct(self):
         if not self.object_id:
@@ -323,7 +330,6 @@ class ItemsPage(QWidget, items_page):
             self.selected_row = None
 
             # clear preview section
-        self.timer.start()
 
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)

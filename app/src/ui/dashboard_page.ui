@@ -18,9 +18,15 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>331</width>
-     <height>151</height>
+     <width>281</width>
+     <height>291</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>281</width>
+     <height>241</height>
+    </size>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -31,20 +37,25 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Inventory Summary</string>
+      <property name="minimumSize">
+       <size>
+        <width>110</width>
+        <height>0</height>
+       </size>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="stock_value_label">
       <property name="text">
-       <string>Total Stock Value</string>
+       <string>Inventory Overview:</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QFrame" name="frame_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -55,18 +66,41 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Total Product:</string>
+          <string>Total Item In Stock:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="total_product_label">
+        <widget class="QLabel" name="totalItemStock_label">
          <property name="text">
-          <string>Total Product</string>
+          <string>TextLabel</string>
          </property>
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QScrollArea" name="cylinderTypes_scrollArea">
+      <property name="minimumSize">
+       <size>
+        <width>260</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>259</width>
+         <height>211</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>

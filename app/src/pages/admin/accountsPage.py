@@ -141,14 +141,6 @@ class AccountsPage(QWidget, accounts_page):
             with open(account_header_dir, 'r') as f:
                 data = json.load(f)
 
-            # try:
-            #     if 'Username' in data:
-            #         username_header_index = data.index("Username")
-            #     else:
-            #         print("Username column doesn't exist")
-            # except Exception as e:
-            #     print(f"An error occurred: {e}")
-
             try:
                 if 'Account ID' in data:
                     account_id_header_index = data.index("Account ID")

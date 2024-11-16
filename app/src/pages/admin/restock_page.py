@@ -126,7 +126,7 @@ class RestockProduct(QWidget, Ui_restock_form):
         self.cylinderSize_label.setText(self.received_data.get('cylinder_size'))
         self.lastRestockD_label.setText(self.received_data.get('restockDate'))
         self.supplier_label.setText(self.received_data.get('supplier'))
-        self.pricePerUnit_label.setText(self.received_data.get('price'))
+        self.pricePerUnit_label.setText(str(self.received_data.get('price')))
         self.totalCost_label.setText(str(self.received_data.get('total_value')))
         self.quantityInStock_label.setText(str(self.received_data.get('quantity')))
 

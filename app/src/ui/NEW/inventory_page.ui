@@ -279,7 +279,7 @@ margin: 0;
              <widget class="QLabel" name="label_5">
               <property name="maximumSize">
                <size>
-                <width>70</width>
+                <width>90</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -290,12 +290,12 @@ margin: 0;
                </font>
               </property>
               <property name="text">
-               <string>Job:</string>
+               <string>Cylinder Size:</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="job_filter">
+             <widget class="QComboBox" name="cylinderSize_comboBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -312,29 +312,6 @@ margin: 0;
                <size>
                 <width>150</width>
                 <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_11">
-              <property name="font">
-               <font>
-                <family>Inter</family>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Account Status:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="account_status_filter">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>30</height>
                </size>
               </property>
              </widget>
