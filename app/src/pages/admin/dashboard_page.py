@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCharts import QChart, QChartView, QPieSeries
-from PyQt6.QtGui import QColor
+from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QPieSlice
+from PyQt6.QtGui import QColor, QLinearGradient, QBrush
 from ui.dashboard_page import Ui_Form as Ui_dashboard_page
 
 from utils.DB_checker import db_checker
@@ -67,23 +67,55 @@ class Dashboard(QWidget, Ui_dashboard_page):
     def create_pie_chart(self, processed_data):
         series = QPieSeries()
 
-        series_normal_colors = [
-            "#0A4F75", "#095E61", '#0A7075', '#0B898D', '#55C3C6', '#6BBEB2', '#6BA3BE'
-        ]
-        
-
         for data in processed_data:
             cylinder_size = data['cylinder_size']
             total_quantity = data['total_quantity']
+            series.append(f'{cylinder_size}kg', total_quantity)
+            print(f'Series Slices: {series.slices()}')
 
-            series.append(f'{str(cylinder_size)}kg', total_quantity)
+            # Check if there are slices in the series
+            if series.slices():
+                # Iterate through slices and update them based on the data
+                for idx, slice in enumerate(series.slices()):
+                    # Match the slice to the current data by its index
+                    if idx == len(series.slices()) - 1:  # last slice
+                        print(f'Last Slice: {slice}')
 
-            if total_quantity <= 5:
-                series.slices()[-1].setBrush(QColor("#70110A"))
-            else:
-                random_color = random.choice(series_normal_colors)
-                print(f'random color: {random_color}')
-                series.slices()[-1].setBrush(QColor(random_color))
+                        # Hide the label on top
+                        slice.setLabelVisible(False)
+
+                        # Apply conditions to the last slice
+                        if total_quantity <= 5:
+                            slice.setLabel(f"Low stock: {total_quantity} units left")
+                            slice.setLabelVisible(True)
+                            # slice.setBrush(QColor("red"))  # Mark low stock with red color
+                            if int(cylinder_size) == 5:
+                                slice.setBrush(QColor("#2ecc71"))  # Green
+                            elif int(cylinder_size) == 10:
+                                slice.setBrush(QColor("#f39c12"))  # Yellow
+                            elif int(cylinder_size) == 11:
+                                slice.setBrush(QColor("#9b59b6"))  # Purple
+                            elif int(cylinder_size) == 15:
+                                slice.setBrush(QColor("#1abc9c"))  # Teal
+                            elif int(cylinder_size) == 22:
+                                slice.setBrush(QColor("#f1c40f"))  # Gold
+                            elif int(cylinder_size) == 50:
+                                slice.setBrush(QColor("#34495e"))  # Dark gray
+                        else:
+                            # Update brush color for non-low-stock slices
+                            if int(cylinder_size) == 5:
+                                slice.setBrush(QColor("#2ecc71"))  # Green
+                            elif int(cylinder_size) == 10:
+                                slice.setBrush(QColor("#f39c12"))  # Yellow
+                            elif int(cylinder_size) == 11:
+                                slice.setBrush(QColor("#9b59b6"))  # Purple
+                            elif int(cylinder_size) == 15:
+                                slice.setBrush(QColor("#1abc9c"))  # Teal
+                            elif int(cylinder_size) == 22:
+                                slice.setBrush(QColor("#f1c40f"))  # Gold
+                            elif int(cylinder_size) == 50:
+                                slice.setBrush(QColor("#34495e"))  # Dark gray
+
 
         chart = QChart()
         chart.addSeries(series)

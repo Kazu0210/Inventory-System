@@ -78,7 +78,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.dashboard_btn,
             self.activitylogs_btn,
             self.inventory_btn,
-            self.reports_btn,
             self.accounts_btn,
             self.logout_btn,
             self.settings_btn,
@@ -97,9 +96,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.backup_btn.clicked.connect(lambda: self.button_clicked(self.backup_btn, 8))
         self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_pushButton, 9))
 
+        self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
+        self.systemSettings_pushButton.clicked.connect(lambda: self.show_system_settings_btn())
+
         # print(f'Current index: {self.get_current_index()}')
 
         self.get_current_index()
+
+        # call function to hide button once
+        self.hide_buttons()
+
+    def show_system_settings_btn(self):
+        def show_buttons():
+            self.settings_btn.show()
+            self.backup_btn.show()
+
+        def hide_buttons():
+            self.settings_btn.hide()
+            self.backup_btn.hide()
+
+        def check_buttons_visibility():
+            if not self.settings_btn.isVisible() or not self.backup_btn.isVisible():
+                show_buttons()  # Show the buttons if either is not visible
+            else:
+                hide_buttons()  # Hide the buttons if both are already visible
+
+        check_buttons_visibility()
+
+    def show_reports_and_logs_btn(self):
+        def show_buttons():
+            print('showing reports and logs buttons')
+            self.salesReport_pushButton.show()
+            self.activitylogs_btn.show()
+
+        def hide_buttons():
+            print('hiding reports and logs buttons')
+            self.salesReport_pushButton.hide()
+            self.activitylogs_btn.hide()
+
+        def check_buttons_visibility():
+            if not self.salesReport_pushButton.isVisible() or not self.activitylogs_btn.isVisible():
+                show_buttons()  # Show the buttons if either is not visible
+            else:
+                hide_buttons()  # Hide the buttons if both are already visible
+
+        check_buttons_visibility()
+
+    def hide_buttons(self):
+        buttons = [
+            self.salesReport_pushButton,
+            self.activitylogs_btn,
+            self.settings_btn,
+            self.backup_btn
+        ]
+        for button in buttons:
+            button.hide()
 
     def logout_btn_clicked(self):
         print("Application is closed")
