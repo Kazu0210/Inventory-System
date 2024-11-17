@@ -1,7 +1,7 @@
 {
     "time_date": [
         {
-            "time_format": "12hr"
+            "time_format": "24hr"
         }
     ],
     "create_account_validation": [
@@ -71,6 +71,5 @@
             "Saturday": "Saturday"
         }
     ],
-    "backups_settings": [
-    ]
+    "backups_settings": []
 }

@@ -15,6 +15,7 @@ from pages.admin.new_account_page import NewAccountPage
 from pages.admin.order_page import OrderPage
 from pages.admin.backp_restore import BackupRestorePage
 from pages.admin.archive_page import ArchivePage
+from pages.admin.sales_report_page import SalesReportPage
 import re
 import json
 import os
@@ -74,6 +75,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         archive_section = ArchivePage(self) # index 9
         self.content_window_layout.addWidget(archive_section)
 
+        sales_section = SalesReportPage(self) # index 10
+        self.content_window_layout.addWidget(sales_section)
+
         self.buttons = [
             self.dashboard_btn,
             self.activitylogs_btn,
@@ -83,7 +87,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.settings_btn,
             self.orders_btn,
             self.backup_btn,
-            self.archive_pushButton
+            self.archive_pushButton,
+            self.salesReport_pushButton
         ]
 
         self.dashboard_btn.clicked.connect(lambda: self.button_clicked(self.dashboard_btn, 0))
@@ -95,6 +100,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.orders_btn.clicked.connect(lambda: self.button_clicked(self.orders_btn, 7))
         self.backup_btn.clicked.connect(lambda: self.button_clicked(self.backup_btn, 8))
         self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_pushButton, 9))
+        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.salesReport_pushButton, 10))
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
         self.systemSettings_pushButton.clicked.connect(lambda: self.show_system_settings_btn())
