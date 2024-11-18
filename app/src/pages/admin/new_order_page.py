@@ -5,6 +5,7 @@ from ui.employee.add_order_item import Ui_Frame as Ui_add_form
 from utils.Inventory_Monitor import InventoryMonitor
 
 import pymongo, json
+from datetime import datetime
 
 
 class AddOrderForm(QFrame, Ui_add_form):
@@ -40,18 +41,57 @@ class AddOrderForm(QFrame, Ui_add_form):
         self.product_monitor = InventoryMonitor('products_items')
         self.product_monitor.start_listener_in_background()
         self.product_monitor.data_changed_signal.connect(lambda: self.add_product_name())
-    
-    # def limit_quantity(self, min_value, max_value):
-    #     try:
-    #         quantity = self.quantity_box.value()
-    #         print(f'CURRENT QUANTITY: {quantity}')
-    #         if quantity < min_value:
-    #             self.quantity_box.setMinimum(min_value)
-    #         elif quantity > max_value:
-    #             self.quantity_box.setMaximum(max_value)
-    #     except Exception as e:
-    #         print(f"An error occurred while limiting the quantity: {e}")
-    #         QMessageBox.critical(self, "Input Error", f"An error occurred while limiting the quantity: {e}")
+
+    def generate_sales_id(self):
+        new_sales_id = str(self.connect_to_db('sales').estimated_document_count() + 1).zfill(4)
+        return f"SALES{new_sales_id}"
+
+    def record_sales(self):
+        try:
+            # Collect the input data
+            product_name = self.productName_comboBox.currentText()
+            quantity = self.quantity_box.value()
+            price = float(self.price_input.text().strip() or "0.0")
+            total_amount = float(self.amount_input.text() or "0.0")
+            customer_name = self.name_input.text().strip()
+            cylinder_size = self.cylindersize_box.currentText()
+            payment_status = self.payment_box.currentText()
+            self.order_id
+            remarks = self.note_input.text().strip()
+            # Get the date string from QDate
+            date_string = self.order_input.selectedDate().toString("yyyy-MM-dd")
+
+            # Convert the string to a datetime object (if you need a full datetime with time)
+            date_obj = datetime.strptime(date_string, "%Y-%m-%d")  # Parse the date string to datetime
+
+            # If you need a time component (defaulting to midnight), you can use:
+            date_obj = datetime.combine(date_obj, datetime.now().time())
+
+            # Prepare data for saving
+            sales_data = {
+                "sales_id": self.generate_sales_id(),
+                "date": date_obj,
+                "customer_name": customer_name,
+                "product_name": product_name,
+                "cylinder_size": cylinder_size,
+                "quantity": quantity,
+                "payment_status": payment_status,
+                "price": price,
+                "total_amount": total_amount,
+                "order_id": self.order_id,
+                "remarks": remarks
+            }
+
+            # Insert or update the sales data in the database
+            self.connect_to_db('sales').insert_one(sales_data)
+
+            # Show confirmation message
+            # QMessageBox.information(self, "Sales Recorded", "Sales recorded successfully!")
+        except ValueError:
+            QMessageBox.warning(self, "Input Error", "Please enter valid numbers for price and total amount.")
+        except Exception as e:
+            print(f"An error occurred while recording sales: {e}")
+            QMessageBox.critical(self, "Database Error", f"An error occurred while recording sales: {e}")
 
     def get_quantity_in_stock(self, product_name, cylinder_size):
         product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
@@ -256,6 +296,8 @@ class AddOrderForm(QFrame, Ui_add_form):
             # Insert or update the order data in the database
             self.collection.insert_one(order_data)
 
+            # Record the order in the sales
+            self.record_sales()
 
             # Show confirmation message
             QMessageBox.information(self, "Form Submitted", "New order added successfully!")
