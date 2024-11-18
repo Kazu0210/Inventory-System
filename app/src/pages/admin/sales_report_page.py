@@ -1,10 +1,10 @@
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem
 from ui.NEW.sales_report_page import Ui_Form
 from utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
 
-import pymongo
+import pymongo, re, json
 
 class SalesReportPage(QWidget, Ui_Form):
     def __init__(self, parent_window=None):
@@ -21,6 +21,54 @@ class SalesReportPage(QWidget, Ui_Form):
     def update_labels(self):
         self.update_today_sales()
         self.update_revenue_this_month()
+        self.update_sales_table()
+
+    def clean_key(self, key):
+        return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
+
+    def clean_header(self, header):
+            return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
+
+    def update_sales_table(self):
+        table = self.sales_tableWidget
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
+        table.setRowCount(0)  # Clear the table
+
+        # header json directory
+        header_dir = "app/resources/config/table/sales_tableHeader.json"
+
+        with open(header_dir, 'r') as f:
+            header_labels = json.load(f)
+
+        table.setColumnCount(len(header_labels))
+        table.setHorizontalHeaderLabels(header_labels)
+
+        # set width of all the columns
+        for column in range(table.columnCount()):
+            table.setColumnWidth(column, 200)
+
+        # Clean the header labels
+        self.header_labels = [self.clean_header(header) for header in header_labels]
+
+        data = list(self.connect_to_db('sales').find())
+        if not data:
+            return  # Exit if the collection is empty
+
+        # Populate table with data
+        for row, item in enumerate(data):
+            table.setRowCount(row + 1)  # Add a new row for each item
+            for column, header in enumerate(self.header_labels):
+                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                original_key = original_keys[0] if original_keys else None
+                value = item.get(original_key)
+                if value is not None:
+                    if header == 'priceperunit' or header == 'totalvalue':
+                        if value:
+                            formatted_price = f"{int(value):,.2f}"
+                            value = formatted_price
+                    table.setItem(row, column, QTableWidgetItem(str(value)))
+
 
     def update_revenue_this_month(self):
         self.revenue_month_label.setText(str(self.get_revenue_this_month()))
