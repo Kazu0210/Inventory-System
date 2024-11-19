@@ -1,10 +1,14 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout
+from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPainter
+
 from ui.NEW.sales_report_page import Ui_Form
 from utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
 
-import pymongo, re, json
+import pymongo, re, json, random
 
 class SalesReportPage(QWidget, Ui_Form):
     def __init__(self, parent_window=None):
@@ -22,6 +26,74 @@ class SalesReportPage(QWidget, Ui_Form):
         self.update_today_sales()
         self.update_revenue_this_month()
         self.update_sales_table()
+        self.update_sales_trend_chart()
+
+    def simulate_sales_data(self):
+        """
+        Simulates sales data for the last 7 days.
+        Returns a list of tuples (date, sales_amount).
+        """
+        sales_data = []
+        today = datetime.now()
+        for i in range(7):
+            date = (today - timedelta(days=i)).strftime("%Y-%m-%d")  # Format date as YYYY-MM-DD
+            sales = random.randint(100, 500)  # Random sales amount between 100 and 500
+            sales_data.append((date, sales))
+
+        return sales_data[::-1]  # Reverse to have the oldest date first
+
+    def create_sale_trend_chart(self, sales_data):
+        chart = QChart()
+        chart.setTitle("Sales in the Last 7 Days")
+        chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
+
+        # create a bar series
+        bar_series = QBarSeries()
+
+        # Add the sales data to the series
+        bar_set = QBarSet("Sales")
+        for _, sales in sales_data:
+            bar_set.append(sales)
+
+        bar_series.append(bar_set)
+        chart.addSeries(bar_series)
+
+        # Create a category axis for the dates (X-axis)
+        axisX = QBarCategoryAxis()  # Use QBarCategoryAxis instead of QCategoryAxis
+        dates = [date for date, _ in sales_data]  # Extract the dates
+        axisX.append(dates)  # Set the custom labels
+
+        axisX.setTitleText("Date")
+        chart.addAxis(axisX, Qt.AlignmentFlag.AlignBottom)  # Align the x-axis at the bottom
+        bar_series.attachAxis(axisX)
+
+        # Configure the value axis (Y-axis)
+        axisY = QValueAxis()
+        axisY.setTitleText("Sales Amount")
+        axisY.setRange(0, max(sales for _, sales in sales_data) + 50)  # Add a buffer above max sales
+        chart.addAxis(axisY, Qt.AlignmentFlag.AlignLeft)  # Align the y-axis to the left
+        bar_series.attachAxis(axisY)
+
+        # Create the chart view
+        chart_view = QChartView(chart)
+        chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        return chart_view
+
+    def update_sales_trend_chart(self):
+        print(f'Updating sales trend chart')
+        sale_trend_frame = self.sales_trend_frame
+
+        # get sales data
+        sales_data = self.simulate_sales_data()
+        print(f'sales data: {sales_data}')
+        # get the chart view
+        chart_view = self.create_sale_trend_chart(sales_data)
+
+        # create layout for the frame
+        chart_layout = QVBoxLayout()
+        chart_layout.addWidget(chart_view)
+        sale_trend_frame.setLayout(chart_layout)
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
@@ -131,9 +203,9 @@ class SalesReportPage(QWidget, Ui_Form):
             }
         ]
         result = list(self.connect_to_db("sales").aggregate(pipeline))  # Convert result to a list for easier handling
-        print(f'results: {result}')
+        # print(f'results: {result}')
 
-        print(f'today start date: {today_start}')
+        # print(f'today start date: {today_start}')
 
         if result:  # If result is not empty
             total_sales = result[0].get("total_sales", 0)

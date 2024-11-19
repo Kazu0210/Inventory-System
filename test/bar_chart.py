@@ -1,7 +1,7 @@
 import random
 from datetime import datetime, timedelta
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
-from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QFrame, QVBoxLayout
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter
 
@@ -12,6 +12,11 @@ class DailySalesChart(QMainWindow):
         self.setWindowTitle("Daily Sales (Last 7 Days)")
         self.resize(800, 600)
 
+        # Create a frame to hold the chart
+        frame = QFrame(self)
+        frame.setFrameShape(QFrame.Shape.StyledPanel)
+        frame.setFrameShadow(QFrame.Shadow.Raised)
+        
         # Create the chart
         chart = QChart()
         chart.setTitle("Sales in the Last 7 Days")
@@ -48,7 +53,13 @@ class DailySalesChart(QMainWindow):
         chart_view = QChartView(chart)
         chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        self.setCentralWidget(chart_view)
+        # Create a layout for the frame and add the chart view to it
+        layout = QVBoxLayout()
+        layout.addWidget(chart_view)
+        frame.setLayout(layout)
+
+        # Set the frame as the central widget of the window
+        self.setCentralWidget(frame)
 
 
 def simulate_sales_data():
