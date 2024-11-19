@@ -125,9 +125,12 @@ class SalesReportPage(QWidget, Ui_Form):
 
         # return chart_view
 
-        layout = QVBoxLayout()
-        layout.addWidget(chart_view)
-        self.sales_trend_frame.setLayout(layout)
+        chart.update()
+
+        if not self.sales_trend_frame.layout():
+            layout = QVBoxLayout()
+            layout.addWidget(chart_view)
+            self.sales_trend_frame.setLayout(layout)
 
     def update_sales_trend_chart(self):
         print(f'Updating sales trend chart')
