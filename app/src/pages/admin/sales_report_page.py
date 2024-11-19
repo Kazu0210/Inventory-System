@@ -8,37 +8,81 @@ from utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
 
-import pymongo, re, json, random
+import pymongo, re, json, random, os
 
 class SalesReportPage(QWidget, Ui_Form):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
 
-        self.sales_monitor = InventoryMonitor("sales")
-        self.sales_monitor.start_listener_in_background()
-        self.sales_monitor.data_changed_signal.connect(lambda: self.update_labels())
+        self.load_inventory_monitor()
 
         # call function that set text label of today sales and this month revenue once
         self.update_labels()
+
+    def load_inventory_monitor(self):
+        print(f'LOADING INVENTORY MONITOR')
+
+        # monitor for today sales
+        self.sales_monitor = InventoryMonitor("sales")
+        self.sales_monitor.start_listener_in_background()
+        self.sales_monitor.data_changed_signal.connect(lambda: self.update_labels())
 
     def update_labels(self):
         self.update_today_sales()
         self.update_revenue_this_month()
         self.update_sales_table()
         self.update_sales_trend_chart()
+        
+    def get_last_7_days_sales(self):
+        pipeline = [
+            {
+                "$match": {
+                    "date": {
+                        "$gte": datetime.now() - timedelta(days=7)
+                    }
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$date",
+                    "sales": {"$sum": "$total_amount"}
+                }
+            },
+            {
+                "$sort": {
+                    "_id": 1
+                }
+            }
+        ]
+        result = list(self.connect_to_db("sales").aggregate(pipeline))
+        return result
 
-    def simulate_sales_data(self):
+
+    def get_sales_data(self):
         """
-        Simulates sales data for the last 7 days.
+        Fetches or simulates sales data for the last 7 days.
         Returns a list of tuples (date, sales_amount).
         """
+        # Fetch sales data for the last 7 days
+        last7daysresult = self.get_last_7_days_sales()
+
+        # Initialize a dictionary to store sales summed by date
+        sales_by_date = {}
+        for data in last7daysresult:
+            datetime_obj = data['_id']  # Assuming '_id' contains the date
+            date = datetime_obj.strftime('%Y-%m-%d')
+            sales = data['sales']  # Sales for the given date
+            sales_by_date[date] = sales_by_date.get(date, 0) + sales
+
+        # Prepare sales data for the last 7 days
         sales_data = []
         today = datetime.now()
         for i in range(7):
-            date = (today - timedelta(days=i)).strftime("%Y-%m-%d")  # Format date as YYYY-MM-DD
-            sales = random.randint(100, 500)  # Random sales amount between 100 and 500
-            sales_data.append((date, sales))
+            current_date = (today - timedelta(days=i)).strftime("%Y-%m-%d")
+            # Fetch sales or use 0 if no sales data exists
+            sales = sales_by_date.get(current_date, 0)
+            sales_data.append((current_date, sales))
 
         return sales_data[::-1]  # Reverse to have the oldest date first
 
@@ -70,7 +114,8 @@ class SalesReportPage(QWidget, Ui_Form):
         # Configure the value axis (Y-axis)
         axisY = QValueAxis()
         axisY.setTitleText("Sales Amount")
-        axisY.setRange(0, max(sales for _, sales in sales_data) + 50)  # Add a buffer above max sales
+        axisY.setRange(0, sum(sales for _, sales in sales_data) + 50)
+
         chart.addAxis(axisY, Qt.AlignmentFlag.AlignLeft)  # Align the y-axis to the left
         bar_series.attachAxis(axisY)
 
@@ -78,22 +123,21 @@ class SalesReportPage(QWidget, Ui_Form):
         chart_view = QChartView(chart)
         chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        return chart_view
+        # return chart_view
+
+        layout = QVBoxLayout()
+        layout.addWidget(chart_view)
+        self.sales_trend_frame.setLayout(layout)
 
     def update_sales_trend_chart(self):
         print(f'Updating sales trend chart')
-        sale_trend_frame = self.sales_trend_frame
 
-        # get sales data
-        sales_data = self.simulate_sales_data()
+        # Get sales data
+        sales_data = self.get_sales_data()
         print(f'sales data: {sales_data}')
-        # get the chart view
-        chart_view = self.create_sale_trend_chart(sales_data)
+        self.create_sale_trend_chart(sales_data)
 
-        # create layout for the frame
-        chart_layout = QVBoxLayout()
-        chart_layout.addWidget(chart_view)
-        sale_trend_frame.setLayout(chart_layout)
+        print('Sales trend chart updated.')
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))

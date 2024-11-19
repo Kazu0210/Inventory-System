@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
-    <height>570</height>
+    <width>1258</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,9 +23,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>805</width>
-        <height>938</height>
+        <y>-424</y>
+        <width>1221</width>
+        <height>1138</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -182,7 +182,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>500</height>
+           <height>700</height>
           </size>
          </property>
          <property name="frameShape">
@@ -234,23 +234,42 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="sales_trend_frame">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>400</height>
-                </size>
+              <widget class="QScrollArea" name="scrollArea_2">
+               <property name="widgetResizable">
+                <bool>true</bool>
                </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: white;
+               <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>-151</x>
+                  <y>0</y>
+                  <width>718</width>
+                  <height>595</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QFrame" name="sales_trend_frame">
+                   <property name="minimumSize">
+                    <size>
+                     <width>700</width>
+                     <height>400</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: white;
 border: 1px solid black;</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
               </widget>
              </item>
             </layout>
