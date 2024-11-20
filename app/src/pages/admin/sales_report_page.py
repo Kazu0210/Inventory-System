@@ -20,6 +20,9 @@ class SalesReportPage(QWidget, Ui_Form):
         # call function that set text label of today sales and this month revenue once
         self.update_labels()
 
+    
+    
+
     def load_inventory_monitor(self):
         print(f'LOADING INVENTORY MONITOR')
 

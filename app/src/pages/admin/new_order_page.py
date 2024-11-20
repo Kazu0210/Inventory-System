@@ -42,6 +42,14 @@ class AddOrderForm(QFrame, Ui_add_form):
         self.product_monitor.start_listener_in_background()
         self.product_monitor.data_changed_signal.connect(lambda: self.add_product_name())
 
+    def get_product_id(self, product_name, cylinder_size):
+        product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
+        if product_data:
+            print(f'Product ID: {product_data}')
+            return product_data.get("product_id", None)
+        else:
+            return None
+
     def generate_sales_id(self):
         new_sales_id = str(self.connect_to_db('sales').estimated_document_count() + 1).zfill(4)
         return f"SALES{new_sales_id}"
@@ -72,6 +80,7 @@ class AddOrderForm(QFrame, Ui_add_form):
                 "sales_id": self.generate_sales_id(),
                 "date": date_obj,
                 "customer_name": customer_name,
+                "product_id": self.product_id,
                 "product_name": product_name,
                 "cylinder_size": cylinder_size,
                 "quantity": quantity,
@@ -84,6 +93,9 @@ class AddOrderForm(QFrame, Ui_add_form):
 
             # Insert or update the sales data in the database
             self.connect_to_db('sales').insert_one(sales_data)
+
+            # Insert or update the orders data in the database
+            self.connect_to_db('orders').insert_one(sales_data)
 
             # Show confirmation message
             # QMessageBox.information(self, "Sales Recorded", "Sales recorded successfully!")
@@ -113,6 +125,10 @@ class AddOrderForm(QFrame, Ui_add_form):
         print(f'avail quantity: {available_quantity}')
         # available quantity as the maximum quantity on the spinBox
         self.quantity_box.setMaximum(available_quantity)
+
+        self.product_id = self.get_product_id(product_name, cylinder_size)
+
+        print(f"Current Product's Product ID: {self.product_id}")
 
     def get_product_price(self, product_name, cylinder_size):
         product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})

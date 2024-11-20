@@ -2,6 +2,7 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget, QAbstractItemView, QFrame, QVBoxLayout
 from PyQt6.QtCore import Qt, QThread, QObject, pyqtSignal
 from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
+from utils.Inventory_Monitor import InventoryMonitor
 
 from pages.admin.daily_backup_page import DailyBackup
 from pages.admin.new_backupPage import NewBackupPage
@@ -106,6 +107,11 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
 
         self.dragDrop_frame.file_signal.connect(lambda message: self.getDroppedFileData(message))
 
+        # Initialize inventory monitor
+        self.backup_monitor = InventoryMonitor("auto_backup_sched")
+        self.backup_monitor.start_listener_in_background()
+        self.backup_monitor.data_changed_signal.connect(lambda: self.showSchedList())
+
     def restore_pushButton_clicked(self):
         print('Restore button clicked')
         print(f'File data: {self.dropped_file_data}')
@@ -154,6 +160,8 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
             self.restore_pushButton.hide()
 
     def showSchedList(self):
+        # clear list widget first
+        self.listWidget.clear()
         # get data from database
         collection = self.connect_to_db("auto_backup_sched")
         data = list(collection.find({}))
