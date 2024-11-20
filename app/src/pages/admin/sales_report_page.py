@@ -1,14 +1,31 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter
 
 from ui.NEW.sales_report_page import Ui_Form
+from ui.NEW.best_selling_product_template import Ui_Form as best_selling_UiForm
 from utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
 
 import pymongo, re, json, random, os
+
+class BestSellingListItem(QWidget, best_selling_UiForm):
+    def __init__(self, list_of_data):
+        super().__init__()
+        self.setupUi(self)
+
+        self.data = list_of_data
+
+        print(f'LIST OF DATA FROM BEST SELLING LIST ITEM: {self.data}')
+
+        self.setLabels()
+
+    def setLabels(self):
+        self.productID_label.setText("shyet")
+        self.totalQuantitySold_label.setText(str(self.data.get('total_quantity_sold', 'N/A')))
+        self.revenue_label.setText(str(self.data.get('total_sales_value', 'N/A')))
 
 class SalesReportPage(QWidget, Ui_Form):
     def __init__(self, parent_window=None):
@@ -20,8 +37,41 @@ class SalesReportPage(QWidget, Ui_Form):
         # call function that set text label of today sales and this month revenue once
         self.update_labels()
 
-    
-    
+    def update_best_selling_chart(self):
+        # clear list widget first
+        self.bestSelling_listWidget.clear()
+        # get data from database
+        data = self.get_best_selling_prod()
+        
+        for i in data:
+            item = QListWidgetItem(self.bestSelling_listWidget)
+            customItem = BestSellingListItem(i)
+            print(f'YUNG I NA EWAN: {i}')
+
+            # Set size hint to ensure QListWidgetItem matches custom widget size
+            item.setSizeHint(customItem.sizeHint())
+
+            self.bestSelling_listWidget.setItemWidget(item, customItem)
+
+    def get_best_selling_prod(self):
+        # Aggregation pipeline to calculate total sales per product
+        pipeline = [
+            {"$group": {
+                "_id": "$product_id",  # Group by product_id
+                "total_quantity_sold": {"$sum": "$quantity"},  # Sum of quantity for each product_id
+                "total_sales_value": {"$sum": "$total_amount"}, # Sum of total_amount for each product_id
+            }},
+            {"$sort": {"total_quantity_sold": -1}},  # Sort by total_quantity_sold in descending order
+            {"$limit": 10}  # Limit to top 10 products
+        ]
+        top_products = list(self.connect_to_db('sales').aggregate(pipeline))
+
+        # Print results
+        for product in top_products:
+            print(f"Product ID: {product['_id']}, Total Sold: {product['total_quantity_sold']}")
+
+        return top_products
+
 
     def load_inventory_monitor(self):
         print(f'LOADING INVENTORY MONITOR')
@@ -36,6 +86,7 @@ class SalesReportPage(QWidget, Ui_Form):
         self.update_revenue_this_month()
         self.update_sales_table()
         self.update_sales_trend_chart()
+        self.update_best_selling_chart()
         
     def get_last_7_days_sales(self):
         pipeline = [

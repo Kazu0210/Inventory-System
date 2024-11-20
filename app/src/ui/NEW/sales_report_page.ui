@@ -23,7 +23,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-424</y>
+        <y>0</y>
         <width>1221</width>
         <height>1138</height>
        </rect>
@@ -241,7 +241,7 @@
                <widget class="QWidget" name="scrollAreaWidgetContents_2">
                 <property name="geometry">
                  <rect>
-                  <x>-151</x>
+                  <x>0</x>
                   <y>0</y>
                   <width>718</width>
                   <height>595</height>
@@ -320,7 +320,7 @@ border: 1px solid black;</string>
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listWidget"/>
+              <widget class="QListWidget" name="bestSelling_listWidget"/>
              </item>
             </layout>
            </widget>
