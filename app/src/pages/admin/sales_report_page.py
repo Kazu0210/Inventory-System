@@ -1,9 +1,9 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter
 
-from ui.NEW.sales_report_page import Ui_Form
+from ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
 from ui.NEW.best_selling_product_template import Ui_Form as best_selling_UiForm
 from utils.Inventory_Monitor import InventoryMonitor
 
@@ -18,24 +18,59 @@ class BestSellingListItem(QWidget, best_selling_UiForm):
 
         self.data = list_of_data
 
-        print(f'LIST OF DATA FROM BEST SELLING LIST ITEM: {self.data}')
-
         self.setLabels()
 
     def setLabels(self):
-        self.productID_label.setText("shyet")
+        self.productID_label.setText(self.data.get('_id', 'N/A'))
         self.totalQuantitySold_label.setText(str(self.data.get('total_quantity_sold', 'N/A')))
         self.revenue_label.setText(str(self.data.get('total_sales_value', 'N/A')))
 
-class SalesReportPage(QWidget, Ui_Form):
+class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
 
         self.load_inventory_monitor()
 
-        # call function that set text label of today sales and this month revenue once
+        # Make the scroll on the list widget smoother
+        self.bestSelling_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # Set layout for the product name filter
+        self.productNameLayout = QVBoxLayout()
+
+        # Make sure the frame exists and is defined in the UI file
+        if hasattr(self, 'productName_frame'):
+            self.productName_frame.setLayout(self.productNameLayout)
+        else:
+            print("Error: 'productName_frame' does not exist in the UI.")
+
+        # Call function that sets the text label of today's sales and this month's revenue once
         self.update_labels()
+
+    def load_product_category_filter(self):
+        pass
+
+    def load_product_name_filter(self):
+        pipeline = [
+            {"$group": {
+                "_id": "$product_id",
+                "product_name": {"$first": "$product_name"}
+            }}
+        ]
+        product_data = list(self.connect_to_db('sales').aggregate(pipeline))
+        
+        for product in product_data:
+            product_name = product.get("product_name")
+            if product_name:
+                product_filter_checkBox = QCheckBox(f"{product_name}")
+                self.productNameLayout.addWidget(product_filter_checkBox)
+
+    def update_top_product(self):
+        data = self.get_best_selling_prod()
+
+        if data:
+            top_product_id = data[0]['_id']
+            self.best_selling_label.setText(f"{top_product_id}")
 
     def update_best_selling_chart(self):
         # clear list widget first
@@ -45,13 +80,13 @@ class SalesReportPage(QWidget, Ui_Form):
         
         for i in data:
             item = QListWidgetItem(self.bestSelling_listWidget)
-            customItem = BestSellingListItem(i)
-            print(f'YUNG I NA EWAN: {i}')
+            bestSellerItem = BestSellingListItem(i)
+            print(f'ewan data: {i}')
 
             # Set size hint to ensure QListWidgetItem matches custom widget size
-            item.setSizeHint(customItem.sizeHint())
+            item.setSizeHint(bestSellerItem.sizeHint())
 
-            self.bestSelling_listWidget.setItemWidget(item, customItem)
+            self.bestSelling_listWidget.setItemWidget(item, bestSellerItem)
 
     def get_best_selling_prod(self):
         # Aggregation pipeline to calculate total sales per product
@@ -72,7 +107,6 @@ class SalesReportPage(QWidget, Ui_Form):
 
         return top_products
 
-
     def load_inventory_monitor(self):
         print(f'LOADING INVENTORY MONITOR')
 
@@ -87,6 +121,9 @@ class SalesReportPage(QWidget, Ui_Form):
         self.update_sales_table()
         self.update_sales_trend_chart()
         self.update_best_selling_chart()
+        self.update_top_product()
+
+        self.load_product_name_filter()
         
     def get_last_7_days_sales(self):
         pipeline = [
@@ -111,7 +148,6 @@ class SalesReportPage(QWidget, Ui_Form):
         ]
         result = list(self.connect_to_db("sales").aggregate(pipeline))
         return result
-
 
     def get_sales_data(self):
         """
@@ -178,8 +214,6 @@ class SalesReportPage(QWidget, Ui_Form):
         chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         # return chart_view
-
-        chart.update()
 
         if not self.sales_trend_frame.layout():
             layout = QVBoxLayout()
