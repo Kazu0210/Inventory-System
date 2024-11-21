@@ -48,7 +48,16 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_labels()
 
     def load_product_category_filter(self):
-        pass
+        """Load product categories (cylinder sizes) from the database and populate the product category frame"""
+        pipeline = [
+            {"$group": {
+                "_id": "$cylinder_size",
+                "cylinder_size": {"$first": "$cylinder_size"}
+            }}
+        ]
+        cylinder_sizes = list(self.connect_to_db('sales').aggregate(pipeline))
+        available_cylinder_sizes = [size.get("cylinder_size") for size in cylinder_sizes]
+        return available_cylinder_sizes 
 
     def load_product_name_filter(self):
         pipeline = [
@@ -63,7 +72,26 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             product_name = product.get("product_name")
             if product_name:
                 product_filter_checkBox = QCheckBox(f"{product_name}")
+                product_filter_checkBox.stateChanged.connect(lambda state, cb=product_filter_checkBox: self.handle_product_name_checkBox(cb))
                 self.productNameLayout.addWidget(product_filter_checkBox)
+
+    def handle_product_name_checkBox(self, checkbox):
+        """Handle checkbox toggle signal."""
+        checked_prod_name = []
+        for i in range(self.productNameLayout.count()):
+            item = self.productNameLayout.itemAt(i)
+            widget = item.widget()
+
+            # Ensure the widget is a QCheckBox and is checked
+            if isinstance(widget, QCheckBox) and widget.isChecked():
+                print(f"Checkbox '{widget.text()}' is checked.")
+                checked_prod_name.append(widget.text())
+
+        print(f"Checked product names: {checked_prod_name}")
+        return checked_prod_name
+
+        
+    
 
     def update_top_product(self):
         data = self.get_best_selling_prod()
@@ -258,6 +286,12 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
+
+        # data = list(self.connect_to_db('sales').find({
+        #     "$or": [
+        #         {"product_id": filter}
+        #     ]
+        # }))
         data = list(self.connect_to_db('sales').find())
         if not data:
             return  # Exit if the collection is empty
