@@ -205,6 +205,16 @@ padding: 10px 0;
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="prices_pushButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Prices</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="inventory_btn">
             <property name="minimumSize">
              <size>

@@ -90,9 +90,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         print(f"Checked product names: {checked_prod_name}")
         return checked_prod_name
 
-        
-    
-
     def update_top_product(self):
         data = self.get_best_selling_prod()
 
