@@ -13,17 +13,53 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QTableWidget" name="prices_tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>621</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="searchBar_lineEdit">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>81</width>
-     <height>16</height>
+     <width>271</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Type Product ID or Product Name Here</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="search_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>10</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Prices Page</string>
+    <string>Search</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>111</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>View Price History</string>
    </property>
   </widget>
  </widget>
