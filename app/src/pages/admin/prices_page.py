@@ -25,7 +25,7 @@ class PricesPage(QWidget, Ui_price_page):
         table.setRowCount(0)  # Clear the table
 
         # header json directory
-        header_dir = "app/resources/config/table/accounts_tableHeader.json"
+        header_dir = "app/resources/config/table/prices_tableHeader.json"
 
         # settings directory
         settings_dir = "app/resources/config/settings.json"
@@ -47,14 +47,15 @@ class PricesPage(QWidget, Ui_price_page):
         # job_filter = self.job_filter.currentText()
         # account_status_filter = self.account_status_filter.currentText()
 
-        if job_filter != "Show All":
-            filter_query['job'] = job_filter
+        # if job_filter != "Show All":
+        #     filter_query['job'] = job_filter
 
-        if account_status_filter != "Show All":
-            filter_query['status'] = account_status_filter
+        # if account_status_filter != "Show All":
+        #     filter_query['status'] = account_status_filter
 
         # Get data from MongoDB
-        data = list(self.collection.find(filter_query).sort("_id", -1))
+        #data = list(self.collection.find(filter_query).sort("_id", -1))
+        data = list(self.connect_to_db('sales').find({}).sort("_id", -1))
         if not data:
             return  # Exit if the collection is empty
         
@@ -70,18 +71,18 @@ class PricesPage(QWidget, Ui_price_page):
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
                 if value is not None:
-                    if header == 'lastlogin':
-                        try:
-                            if value:
-                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                    # if header == 'lastlogin':
+                    #     try:
+                    #         if value:
+                    #             date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
 
-                                if self.current_time_format == "12hr":
-                                    value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
-                                else:
-                                    value = date_time.strftime("%Y-%m-%d %H:%M:%S")
-                        except Exception as e:
-                            pass
-                            # print(f"Error formatting date: {e}")
+                    #             if self.current_time_format == "12hr":
+                    #                 value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
+                    #             else:
+                    #                 value = date_time.strftime("%Y-%m-%d %H:%M:%S")
+                    #     except Exception as e:
+                    #         pass
+                    #         # print(f"Error formatting date: {e}")
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
                     # check if row index is even
