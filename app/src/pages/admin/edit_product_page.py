@@ -20,25 +20,49 @@ class EditProductInformation(QWidget, editProductPage):
 
         self.cancel_btn.clicked.connect(lambda: self.cancelBtnClicked())
         self.save_btn.clicked.connect(lambda: self.saveBtnClicked())
-
-        self.collection = self.connect_to_db() # connect to database
+        
         self.fillupForm()
 
-    def connect_to_db(self):
+    def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "products_items"
         return client[db][collection_name]
 
     def saveNewData(self, data):
         try:
-            self.collection.update_one({"product_id": self.productID}, {"$set": data})
+            self.connect_to_db("products_items").update_one({"product_id": self.productID}, {"$set": data})
+            self.save_to_price_history() # add new record to price history if not changed
             QMessageBox.information(self, 'Success', 'Product Information Updated Successfully')
             self.save_signal.emit(data)
             self.close()
         except Exception as e:
             print('Error saving data to database', e)
+
+    def save_to_price_history(self):
+        try:
+            # get data from edit product form
+            data = self.getData()
+
+            # get new total value
+            newTotalVal = self.getNewTotalVal(data['price_per_unit'], data['quantity_in_stock'])
+            print(f'New total value: {newTotalVal}')
+
+            # add the new total value to the dict
+            data['total_value'] = newTotalVal
+
+
+
+            # check if price changed or not
+            if data['price_per_unit'] != self.productData.get('price'):
+                print('Price changed')
+                # self.connect_to_db("price_history").insert_one()
+            else:
+                print('Price not changed')
+
+            self.saveNewData(data)
+        except Exception as e:
+            print('Error saving data to price history', e)
 
     def getNewTotalVal(self, current_price, quantity):
         # compute new total value
