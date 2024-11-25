@@ -3,6 +3,8 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor
 from ui.NEW.prices_page import Ui_Form as Ui_price_page
 
+from utils.Inventory_Monitor import InventoryMonitor
+
 import json, pymongo, datetime, re
 
 class PricesPage(QWidget, Ui_price_page):
@@ -13,6 +15,11 @@ class PricesPage(QWidget, Ui_price_page):
 
         self.load_all()
 
+        # Initialize Inventory Monitor
+        self.prices_monitor = InventoryMonitor("prices")
+        self.prices_monitor.start_listener_in_background()
+        self.prices_monitor.data_changed_signal.connect(lambda: self.load_all())
+
     def load_all(self):
         """Load all the widgets that need to be updated once or multiple times"""
         self.load_prices()
@@ -20,6 +27,7 @@ class PricesPage(QWidget, Ui_price_page):
     def load_prices(self):
         """Load prices current price on the prices table"""
         table = self.prices_tableWidget
+        table.setSortingEnabled(True)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
@@ -35,6 +43,10 @@ class PricesPage(QWidget, Ui_price_page):
 
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
+                
+        header = self.prices_tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
 
         for column in range(table.columnCount()):
             table.setColumnWidth(column, 200)
@@ -55,7 +67,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         # Get data from MongoDB
         #data = list(self.collection.find(filter_query).sort("_id", -1))
-        data = list(self.connect_to_db('sales').find({}).sort("_id", -1))
+        data = list(self.connect_to_db('prices').find({}).sort("_id", -1))
         if not data:
             return  # Exit if the collection is empty
         

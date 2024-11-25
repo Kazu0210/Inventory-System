@@ -4,7 +4,7 @@ from PyQt6.QtCore import QRegularExpression, QTimer
 # from ui.newitemsPage import Ui_Form as NewItemsPage
 from ui.addItem_page import Ui_Form as Ui_addItemPage
 from utils.Activity_logs import Activity_Logs as activity_logs_util
-import datetime, pymongo, sys, json, datetime
+import datetime, pymongo, sys, json, datetime, random
 
 class newItem_page(QWidget, Ui_addItemPage):
     def __init__(self, itempage, account_username):
@@ -19,8 +19,6 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.logs = activity_logs_util()
 
         self.settings_dir = "app/resources/config/filters.json" # settings.json directory
-
-        self.collection = self.connect_to_db()
 
         self.fill_form()
 
@@ -63,12 +61,45 @@ class newItem_page(QWidget, Ui_addItemPage):
         }
 
         try:
-            self.collection.insert_one(new_data)  # Save new data
+            self.connect_to_db('products_items').insert_one(new_data)  # Save new data to collection of products
+            self.save_to_prices_db(new_data) # save new product to collection of prices
             self.close()
             self.itempage.content_window_layout.setCurrentIndex(4)
             # NEED TO ADD ACTIVITY LOGS
         except Exception as e:
             print(f"Error saving data to database: {e}")
+
+    def save_to_prices_db(self, data):
+        """Save new product data to collection of prices"""
+        try:
+            # generate price id
+            price_id = self.generate_price_id()
+            price_data = {
+                "price_id": price_id,
+                "product_id": data['product_id'],
+                "product_name": data['product_name'],
+                "cylinder_size": data['cylinder_size'],
+                "selling_price": data['price_per_unit'],
+                "supplier_price" : data.get('supplier_price', None),
+                "remarks": ""
+            }
+            self.connect_to_db("prices").insert_one(price_data)
+
+        except Exception as e:
+            print(f"Error saving data to prices database: {e}")
+
+    def generate_price_id(self):
+            """Generates price id"""
+            # Get the current year
+            current_year = datetime.datetime.now().strftime("%Y")
+
+            # Generate a random 3-digit number
+            random_number = random.randint(100, 999)
+            
+            # Format the price_id
+            price_id = f"P{current_year}{random_number}"
+
+            return price_id
 
     def is_productExist(self):
         product_name = self.productName_field.text()
@@ -83,16 +114,15 @@ class newItem_page(QWidget, Ui_addItemPage):
 
         # check if all in the query is present in the database
 
-        if self.collection.find_one(query):
+        if self.connect_to_db("products_items").find_one(query):
             return True
         else:
             return False
 
-    def connect_to_db(self):
+    def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "products_items"
         return client[db][collection_name]
     
     def clearForm(self):
@@ -192,8 +222,8 @@ class newItem_page(QWidget, Ui_addItemPage):
         filter = {
             "product_id": item_id
         }
-        data = self.collection.find_one(filter)
-        if not self.collection.find_one(data):
+        data = self.connect_to_db('products_items').find_one(filter)
+        if not self.connect_to_db('products_items').find_one(data):
             return True
         else:
             return False
