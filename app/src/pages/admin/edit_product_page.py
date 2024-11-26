@@ -3,6 +3,7 @@ from PyQt6.QtCore import pyqtSignal, Qt, QRegularExpression
 from PyQt6.QtGui import QRegularExpressionValidator
 from ui.NEW.edit_product_page import Ui_Form as editProductPage
 import json, pymongo
+from datetime import datetime
 
 class EditProductInformation(QWidget, editProductPage):
     # signals
@@ -31,8 +32,9 @@ class EditProductInformation(QWidget, editProductPage):
 
     def saveNewData(self, data):
         try:
+            self.save_to_price_history() # add new record to price history if not changedfrom PyQt6.QtWidgets import QWidget, QMessageBox 
             self.connect_to_db("products_items").update_one({"product_id": self.productID}, {"$set": data})
-            self.save_to_price_history() # add new record to price history if not changed
+            
             QMessageBox.information(self, 'Success', 'Product Information Updated Successfully')
             self.save_signal.emit(data)
             self.close()
@@ -40,27 +42,36 @@ class EditProductInformation(QWidget, editProductPage):
             print('Error saving data to database', e)
 
     def save_to_price_history(self):
+        """Checks if price changed, if yes, add new record to price history"""
         try:
-            # get data from edit product form
+            # get price from input
             data = self.getData()
+            product_id = data['product_id'] # product id of the product to be edited
+            new_price = data['price_per_unit']
 
-            # get new total value
-            newTotalVal = self.getNewTotalVal(data['price_per_unit'], data['quantity_in_stock'])
-            print(f'New total value: {newTotalVal}')
+            # get price from the database
+            data_db = self.connect_to_db('products_items').find_one({'product_id': product_id})
+            print(f'data from db: {data_db}')
+            db_price = data_db.get('price_per_unit')
+            print(f'database price: {db_price}')
 
-            # add the new total value to the dict
-            data['total_value'] = newTotalVal
+            # get current date
+            current_date = datetime.now().strftime("%Y-%m-%d")
 
-
-
-            # check if price changed or not
-            if data['price_per_unit'] != self.productData.get('price'):
+            # compare the prices, if the price changed, add the new price to the "prices collection"
+            if new_price != db_price:
                 print('Price changed')
-                # self.connect_to_db("price_history").insert_one()
-            else:
-                print('Price not changed')
 
-            self.saveNewData(data)
+                history_data = {
+                    'data_of_change': current_date,
+                    'price_before': db_price,
+                    'price_after': new_price
+                }
+                self.connect_to_db('price_history').insert_one(history_data) # add new data to price history collection
+            else:
+                # if the prices are the same, do nothing
+                print('Price not changed')
+                pass
         except Exception as e:
             print('Error saving data to price history', e)
 
