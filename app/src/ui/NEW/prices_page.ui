@@ -49,7 +49,7 @@
     <string>Search</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="price_history_pushButton">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -60,6 +60,16 @@
    </property>
    <property name="text">
     <string>View Price History</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="price_history_tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>511</width>
+     <height>192</height>
+    </rect>
    </property>
   </widget>
  </widget>

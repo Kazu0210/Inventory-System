@@ -24,9 +24,14 @@ class Ui_Form(object):
         self.search_pushButton = QtWidgets.QPushButton(parent=Form)
         self.search_pushButton.setGeometry(QtCore.QRect(290, 10, 75, 23))
         self.search_pushButton.setObjectName("search_pushButton")
-        self.pushButton = QtWidgets.QPushButton(parent=Form)
-        self.pushButton.setGeometry(QtCore.QRect(10, 240, 111, 23))
-        self.pushButton.setObjectName("pushButton")
+        self.price_history_pushButton = QtWidgets.QPushButton(parent=Form)
+        self.price_history_pushButton.setGeometry(QtCore.QRect(10, 240, 111, 23))
+        self.price_history_pushButton.setObjectName("price_history_pushButton")
+        self.price_history_tableWidget = QtWidgets.QTableWidget(parent=Form)
+        self.price_history_tableWidget.setGeometry(QtCore.QRect(10, 270, 511, 192))
+        self.price_history_tableWidget.setObjectName("price_history_tableWidget")
+        self.price_history_tableWidget.setColumnCount(0)
+        self.price_history_tableWidget.setRowCount(0)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -36,7 +41,7 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.searchBar_lineEdit.setPlaceholderText(_translate("Form", "Type Product ID or Product Name Here"))
         self.search_pushButton.setText(_translate("Form", "Search"))
-        self.pushButton.setText(_translate("Form", "View Price History"))
+        self.price_history_pushButton.setText(_translate("Form", "View Price History"))
 
 
 if __name__ == "__main__":

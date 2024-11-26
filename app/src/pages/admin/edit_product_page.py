@@ -32,7 +32,7 @@ class EditProductInformation(QWidget, editProductPage):
 
     def saveNewData(self, data):
         try:
-            self.save_to_price_history() # add new record to price history if not changedfrom PyQt6.QtWidgets import QWidget, QMessageBox 
+            self.save_to_price_history() # add new record to price history if not changed
             self.connect_to_db("products_items").update_one({"product_id": self.productID}, {"$set": data})
             
             QMessageBox.information(self, 'Success', 'Product Information Updated Successfully')
@@ -40,6 +40,17 @@ class EditProductInformation(QWidget, editProductPage):
             self.close()
         except Exception as e:
             print('Error saving data to database', e)
+
+    def update_price(self, new_price):
+        """Updates the price of the product on the prices collection"""
+        try:
+            # get product id from input
+            product_id = self.productID
+
+            # update price in the database
+            self.connect_to_db("prices").update_one({"product_id": product_id}, {"$set": {"selling_price": new_price}})
+        except Exception as e:
+            print('Error updating price in database', e)
 
     def save_to_price_history(self):
         """Checks if price changed, if yes, add new record to price history"""
@@ -63,11 +74,13 @@ class EditProductInformation(QWidget, editProductPage):
                 print('Price changed')
 
                 history_data = {
-                    'data_of_change': current_date,
+                    'date_of_change': current_date,
+                    'product_id': product_id,
                     'price_before': db_price,
                     'price_after': new_price
                 }
                 self.connect_to_db('price_history').insert_one(history_data) # add new data to price history collection
+                self.update_price(new_price) # update the price from the prices collection 
             else:
                 # if the prices are the same, do nothing
                 print('Price not changed')
