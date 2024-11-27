@@ -1,11 +1,11 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor
 from ui.NEW.prices_page import Ui_Form as Ui_price_page
 
 from utils.Inventory_Monitor import InventoryMonitor
 
-import json, pymongo, datetime, re
+import json, pymongo, datetime, re, os
 
 class PricesPage(QWidget, Ui_price_page):
     def __init__(self, parent_window=None):
@@ -30,6 +30,72 @@ class PricesPage(QWidget, Ui_price_page):
 
         # call function that hide all widgets once
         self.hide_widgets()
+
+        # connection for search bar
+        self.searchBar_lineEdit.textChanged.connect(self.handle_search_bar)
+
+        # set max lenght for search bar to 50 characters
+        self.searchBar_lineEdit.setMaxLength(50)
+
+        # create floating frame for search bar results
+        self.floating_frame = QFrame()
+        self.floating_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.floating_frame.setVisible(False)
+
+        floating_frame_layout = QVBoxLayout(self.floating_frame)
+
+    def resizeEvent(self, event):
+        # Ensure the floating frame moves correctly if the window is resized
+        if self.floating_frame.isVisible():
+            self.update_floating_frame_position()
+        super().resizeEvent(event)
+
+    def update_floating_frame_position(self):
+        # Get the position of the QLineEdit
+        rect = self.searchBar_lineEdit.geometry()
+        # Position the floating frame just below the QLineEdit
+        self.floating_frame.move(rect.left(), rect.bottom() + 5)
+
+    def search_product(self, product_data):
+        """Searches the collection using product id or product name"""
+        # Handle blank input
+        if not product_data.strip():  # Check if input is empty or only whitespace
+            return []
+
+        # Query to check for product name or product ID
+        query = {
+            "$or": [
+                {"product_name": {"$regex": product_data, "$options": "i"}},  # Case-insensitive match
+                {"product_id": {"$regex": product_data, "$options": "i"}}
+            ]
+        }
+
+        # Perform the query
+        results = list(self.connect_to_db("prices").find(query))
+
+        # Return the results
+        return results
+
+    def handle_search_bar(self, text):
+        try:
+            os.system('cls')
+            print(f'Text Changed: {text}')
+            self.floating_frame.setVisible(True)
+
+            collected_data = self.search_product(text)
+            print(f'data type: {type(collected_data)}')
+            # print(f'Collected data: {collected_data}')
+            # print(f'product id: {collected_data[0]['product_id']}')
+            # print(f'product name: {collected_data[0]['product_name']}')
+
+            if collected_data:
+                for data in collected_data:
+                    print(data['product_name'])
+                    print(f'product id: {data['product_id']}')
+                    print(f'product name: {data['product_name']}')
+        except IndexError:
+            os.system('cls')
+            print('Index out of range')
 
     def show_price_history(self):
         """Run when price history button is clicked"""
