@@ -15,6 +15,13 @@ class PricesPage(QWidget, Ui_price_page):
 
         self.load_all()
 
+        # create floating frame for search bar results
+        self.result_frame = self.search_result_frame
+        self.result_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.result_frame.hide()
+
+        result_frame_layout = QVBoxLayout(self.result_frame)
+
         # Initialize Inventory Monitor for prices table
         self.prices_monitor = InventoryMonitor("prices")
         self.prices_monitor.start_listener_in_background()
@@ -27,6 +34,8 @@ class PricesPage(QWidget, Ui_price_page):
 
         # button connections
         self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
+        self.prev_pushButton.clicked.connect(lambda: self.load_prices(self.current_page - 1, self.rows_per_page))
+        self.next_pushButton.clicked.connect(lambda: self.load_prices(self.current_page + 1, self.rows_per_page))
 
         # call function that hide all widgets once
         self.hide_widgets()
@@ -36,25 +45,6 @@ class PricesPage(QWidget, Ui_price_page):
 
         # set max lenght for search bar to 50 characters
         self.searchBar_lineEdit.setMaxLength(50)
-
-        # create floating frame for search bar results
-        self.floating_frame = QFrame()
-        self.floating_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.floating_frame.setVisible(False)
-
-        floating_frame_layout = QVBoxLayout(self.floating_frame)
-
-    def resizeEvent(self, event):
-        # Ensure the floating frame moves correctly if the window is resized
-        if self.floating_frame.isVisible():
-            self.update_floating_frame_position()
-        super().resizeEvent(event)
-
-    def update_floating_frame_position(self):
-        # Get the position of the QLineEdit
-        rect = self.searchBar_lineEdit.geometry()
-        # Position the floating frame just below the QLineEdit
-        self.floating_frame.move(rect.left(), rect.bottom() + 5)
 
     def search_product(self, product_data):
         """Searches the collection using product id or product name"""
@@ -78,24 +68,34 @@ class PricesPage(QWidget, Ui_price_page):
 
     def handle_search_bar(self, text):
         try:
+            # Clear the console for better debugging
             os.system('cls')
             print(f'Text Changed: {text}')
-            self.floating_frame.setVisible(True)
 
+            # Call the search function and collect data
             collected_data = self.search_product(text)
-            print(f'data type: {type(collected_data)}')
-            # print(f'Collected data: {collected_data}')
-            # print(f'product id: {collected_data[0]['product_id']}')
-            # print(f'product name: {collected_data[0]['product_name']}')
+            print(f'Data type: {type(collected_data)}')
 
+            # Check if data is found
             if collected_data:
+                self.result_frame.show()  # Show the frame if there is data
                 for data in collected_data:
-                    print(data['product_name'])
-                    print(f'product id: {data['product_id']}')
-                    print(f'product name: {data['product_name']}')
-        except IndexError:
+                    print(f"Product Name: {data.get('product_name', 'N/A')}")
+                    print(f"Product ID: {data.get('product_id', 'N/A')}")
+            else:
+                print("No matching products found.")
+                self.result_frame.hide()  # Hide the frame if no data is found
+
+        except IndexError as e:
+            # Log and handle an IndexError
             os.system('cls')
-            print('Index out of range')
+            print(f'Error: Index out of range - {e}')
+            self.result_frame.hide()  # Hide the frame in case of an error
+
+        except Exception as e:
+            # Handle unexpected errors
+            print(f"Unexpected error occurred: {e}")
+            self.result_frame.hide()  # Ensure the frame is hidden in case of an error
 
     def show_price_history(self):
         """Run when price history button is clicked"""
@@ -198,19 +198,33 @@ class PricesPage(QWidget, Ui_price_page):
         """Load all the widgets that need to be updated once or multiple times"""
         self.load_prices()
         self.load_price_history_table()
+        
+    def update_navigation_controls(self, total_items, current_page, rows_per_page):
+        """Update the pagination navigation controls."""
+        total_pages = (total_items - 1) // rows_per_page + 1
 
-    def load_prices(self):
-        """Load prices current price on the prices table"""
+        # Enable/Disable navigation buttons
+        self.prev_pushButton.setEnabled(current_page > 0)
+        self.next_pushButton.setEnabled(current_page < total_pages - 1)
+
+        # Update page label
+        # self.page_label.setText(f"Page: {current_page + 1}/{total_pages}")
+
+    def load_prices(self, page=0, rows_per_page=10):
+        """Load prices current price on the prices table with pagination."""
+        self.current_page = page  # Keep track of the current page
+        self.rows_per_page = rows_per_page  # Number of rows per page
+
         table = self.prices_tableWidget
         table.setSortingEnabled(True)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
 
-        # header json directory
+        # Header JSON directory
         header_dir = "app/resources/config/table/prices_tableHeader.json"
 
-        # settings directory
+        # Settings directory
         settings_dir = "app/resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
@@ -218,7 +232,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
-                
+
         header = self.prices_tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
@@ -229,54 +243,38 @@ class PricesPage(QWidget, Ui_price_page):
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
-        # Filters
-        # filter_query = {}
-        # job_filter = self.job_filter.currentText()
-        # account_status_filter = self.account_status_filter.currentText()
-
-        # if job_filter != "Show All":
-        #     filter_query['job'] = job_filter
-
-        # if account_status_filter != "Show All":
-        #     filter_query['status'] = account_status_filter
-
         # Get data from MongoDB
-        #data = list(self.collection.find(filter_query).sort("_id", -1))
         data = list(self.connect_to_db('prices').find({}).sort("_id", -1))
         if not data:
             return  # Exit if the collection is empty
-        
+
         with open(settings_dir, 'r') as f:
             settings = json.load(f)
             self.current_time_format = settings['time_date'][0]['time_format']
-        
-        # Populate table with data
-        for row, item in enumerate(data):
+
+        # Pagination logic
+        start_row = page * rows_per_page
+        end_row = start_row + rows_per_page
+        paginated_data = data[start_row:end_row]
+
+        # Populate table with paginated data
+        for row, item in enumerate(paginated_data):
             table.setRowCount(row + 1)  # Add a new row for each item
             for column, header in enumerate(self.header_labels):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
                 if value is not None:
-                    # if header == 'lastlogin':
-                    #     try:
-                    #         if value:
-                    #             date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-
-                    #             if self.current_time_format == "12hr":
-                    #                 value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
-                    #             else:
-                    #                 value = date_time.strftime("%Y-%m-%d %H:%M:%S")
-                    #     except Exception as e:
-                    #         pass
-                    #         # print(f"Error formatting date: {e}")
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
-                    # check if row index is even
+                    # Check if row index is even
                     if row % 2 == 0:
-                        table_item.setBackground(QBrush(QColor("#F6F6F6"))) # change item's background color to #F6F6F6 when row index is even
-                            
+                        table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
                     table.setItem(row, column, table_item)
+
+        # Add navigation controls
+        self.update_navigation_controls(len(data), page, rows_per_page)
+
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
