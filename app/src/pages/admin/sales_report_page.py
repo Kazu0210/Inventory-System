@@ -62,17 +62,26 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         return available_cylinder_sizes 
 
     def load_product_name_filter(self):
+        # Clear the layout by deleting all child widgets
+        while self.productNameLayout.count():
+            child = self.productNameLayout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+        # Aggregate product data from the database
         pipeline = [
             {"$group": {
                 "_id": "$product_name"
             }}
         ]
         product_data = list(self.connect_to_db('sales').aggregate(pipeline))
-        
+
+        # Add new checkboxes for each product name to the layout
         for product in product_data:
             product_name = product.get("_id")
             if product_name:
                 product_filter_checkBox = QCheckBox(f"{product_name}")
+                # Capture the current checkbox using a default argument in the lambda
                 product_filter_checkBox.stateChanged.connect(lambda state, cb=product_filter_checkBox: self.handle_product_name_checkBox(cb))
                 self.productNameLayout.addWidget(product_filter_checkBox)
 
@@ -249,12 +258,14 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         chart_view = QChartView(chart)
         chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        # return chart_view
-
+        # Check if the layout already exists
         if not self.sales_trend_frame.layout():
             layout = QVBoxLayout()
             layout.addWidget(chart_view)
             self.sales_trend_frame.setLayout(layout)
+        else:
+            # If layout exists, update the chart without creating a new layout
+            self.sales_trend_frame.layout().itemAt(0).widget().setChart(chart)
 
     def update_sales_trend_chart(self):
         print(f'Updating sales trend chart')
