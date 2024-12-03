@@ -46,7 +46,7 @@ class PricesPage(QWidget, Ui_price_page):
         # set max lenght for search bar to 50 characters
         self.searchBar_lineEdit.setMaxLength(50)
 
-    def search_product(self, product_data):
+    def find_product_by_name_or_id(self, product_data):
         """Searches the collection using product id or product name"""
         # Handle blank input
         if not product_data.strip():  # Check if input is empty or only whitespace
@@ -73,7 +73,7 @@ class PricesPage(QWidget, Ui_price_page):
             print(f'Text Changed: {text}')
 
             # Call the search function and collect data
-            collected_data = self.search_product(text)
+            collected_data = self.find_product_by_name_or_id(text)
             print(f'Data type: {type(collected_data)}')
 
             # Check if data is found

@@ -32,6 +32,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         self.load_inventory_monitor()
 
+        self.filter_query = {}
+
         # Make the scroll on the list widget smoother
         self.bestSelling_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
@@ -62,21 +64,20 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def load_product_name_filter(self):
         pipeline = [
             {"$group": {
-                "_id": "$product_id",
-                "product_name": {"$first": "$product_name"}
+                "_id": "$product_name"
             }}
         ]
         product_data = list(self.connect_to_db('sales').aggregate(pipeline))
         
         for product in product_data:
-            product_name = product.get("product_name")
+            product_name = product.get("_id")
             if product_name:
                 product_filter_checkBox = QCheckBox(f"{product_name}")
                 product_filter_checkBox.stateChanged.connect(lambda state, cb=product_filter_checkBox: self.handle_product_name_checkBox(cb))
                 self.productNameLayout.addWidget(product_filter_checkBox)
 
     def handle_product_name_checkBox(self, checkbox):
-        """Handle checkbox toggle signal."""
+        """Handle checkbox toggle signal to update the filter query."""
         checked_prod_name = []
         for i in range(self.productNameLayout.count()):
             item = self.productNameLayout.itemAt(i)
@@ -87,8 +88,18 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 print(f"Checkbox '{widget.text()}' is checked.")
                 checked_prod_name.append(widget.text())
 
-        print(f"Checked product names: {checked_prod_name}")
-        return checked_prod_name
+        # Update the filter query with the checked product names
+        if checked_prod_name:
+            self.filter_query['product_name'] = checked_prod_name
+        elif 'product_name' in self.filter_query:
+            # Remove the 'product_name' key if no checkboxes are checked
+            del self.filter_query['product_name']
+
+        # Store the checked names in the instance attribute
+        self.checked_prod_name = checked_prod_name
+
+        print(f"Checked product names: {self.checked_prod_name}")
+        self.update_sales_table()
 
     def update_top_product(self):
         data = self.get_best_selling_prod()
@@ -267,7 +278,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
 
-        # header json directory
+        # Header JSON directory
         header_dir = "app/resources/config/table/sales_tableHeader.json"
 
         with open(header_dir, 'r') as f:
@@ -276,24 +287,32 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
 
-        # set width of all the columns
+        # Set the width of all the columns
         for column in range(table.columnCount()):
             table.setColumnWidth(column, 200)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
+        print(f"Filter Query: {self.filter_query}")
 
-        # data = list(self.connect_to_db('sales').find({
-        #     "$or": [
-        #         {"product_id": filter}
-        #     ]
-        # }))
-        data = list(self.connect_to_db('sales').find())
+        # Check if 'product_name' filter exists in filter_query
+        if "product_name" in self.filter_query and self.filter_query["product_name"]:
+            # If 'product_name' is in the filter query, create the query with $in
+            prod_name_query = {
+                "product_name": {"$in": self.filter_query["product_name"]}
+            }
+        else:
+            # If no filter is set for 'product_name', return all data
+            prod_name_query = {}
+
+        # Fetch data using the query
+        data = list(self.connect_to_db('sales').find(prod_name_query).sort("_id", -1))
         if not data:
+            print("No data found for the given filter query.")
             return  # Exit if the collection is empty
 
-        # Populate table with data
+        # Populate the table with data
         for row, item in enumerate(data):
             table.setRowCount(row + 1)  # Add a new row for each item
             for column, header in enumerate(self.header_labels):
@@ -301,11 +320,14 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
                 if value is not None:
-                    if header == 'priceperunit' or header == 'totalvalue':
-                        if value:
-                            formatted_price = f"{int(value):,.2f}"
+                    if header in ['priceperunit', 'totalvalue']:
+                        try:
+                            formatted_price = f"{float(value):,.2f}"
                             value = formatted_price
+                        except ValueError:
+                            print(f"Warning: Unable to format value '{value}' for header '{header}'.")
                     table.setItem(row, column, QTableWidgetItem(str(value)))
+
 
 
     def update_revenue_this_month(self):

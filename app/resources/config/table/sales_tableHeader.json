@@ -1,10 +1,10 @@
 [
     "Sales ID",
-    "Date",
-    "Customer Name",
     "Product Name",
+    "Customer Name",
     "Quantity",
     "Total Amount",
     "Payment Status",
-    "Order ID"
+    "Order ID",
+    "Date"
 ]
