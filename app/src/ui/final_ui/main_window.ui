@@ -20,7 +20,8 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 12pt &quot;Noto Sans&quot;;</string>
+   <string notr="true">font: 12pt &quot;Noto Sans&quot;;
+background-color: #C2E4E5;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -93,7 +94,7 @@ color: #DADADA;</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-118</y>
             <width>185</width>
             <height>576</height>
            </rect>
@@ -841,28 +842,6 @@ background-color: transparent;
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="label_15">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>270</y>
-         <width>211</width>
-         <height>201</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">image url(:/icons/dashboard.png)</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../../resources/icons/resources_imgs.qrc">:/icons/dashboard.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-      </widget>
      </widget>
     </item>
    </layout>
