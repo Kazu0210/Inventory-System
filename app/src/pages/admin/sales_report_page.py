@@ -339,7 +339,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                             print(f"Warning: Unable to format value '{value}' for header '{header}'.")
                     table.setItem(row, column, QTableWidgetItem(str(value)))
 
-
+ 
 
     def update_revenue_this_month(self):
         self.revenue_month_label.setText(str(self.get_revenue_this_month()))
