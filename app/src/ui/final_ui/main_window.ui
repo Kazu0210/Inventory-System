@@ -100,7 +100,7 @@ color: #DADADA;</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-106</y>
             <width>185</width>
             <height>564</height>
            </rect>
@@ -126,7 +126,7 @@ background-color: transparent;
            <property name="bottomMargin">
             <number>5</number>
            </property>
-           <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+           <item alignment="Qt::AlignLeft|Qt::AlignTop">
             <widget class="QFrame" name="frame_2">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
