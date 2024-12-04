@@ -1,6 +1,9 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QTimer
-from ui.main_window import Ui_MainWindow
+
+# from ui.main_window import Ui_MainWindow
+from ui.final_ui.main_window import Ui_MainWindow
+
 from pages.admin.activity_logs import Activity_Logs
 from pages.admin.accountsPage import AccountsPage
 # from accountsPage import UpdateThread
@@ -36,10 +39,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         db = client['LPGTrading_DB']
         self.collection = db['accounts']  
 
-        if username:
-            self.username.setText(username) # set username in the dashboard
-        else:
-            self.username.setText("Unknown User") # set username in the dashboard
+        try:
+            if username:
+                self.username.setText(username) # set username in the dashboard
+            else:
+                self.username.setText("Unknown User") # set username in the dashboard
+        except Exception as e:
+            print(e)
 
         self.content_window_layout = QStackedLayout(self.content_widget)
 
@@ -83,27 +89,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.content_window_layout.addWidget(price_section)
 
         self.buttons = [
-            self.dashboard_btn,
-            self.activitylogs_btn,
-            self.inventory_btn,
-            self.accounts_btn,
-            self.logout_btn,
-            self.settings_btn,
-            self.orders_btn,
-            self.backup_btn,
+            self.dashboard_pushButton,
+            self.activityLogs_pushButton,
+            self.inventory_pushButton,
+            self.accounts_pushButton,
+            self.logout_pushButton,
+            self.settings_pushButton,
+            self.orders_pushButton,
+            self.backupRestore_pushButton,
             self.archive_pushButton,
             self.salesReport_pushButton,
             self.prices_pushButton
         ]
 
-        self.dashboard_btn.clicked.connect(lambda: self.button_clicked(self.dashboard_btn, 0))
-        self.activitylogs_btn.clicked.connect(lambda: self.button_clicked(self.activitylogs_btn, 1))
-        self.accounts_btn.clicked.connect(lambda: self.button_clicked(self.accounts_btn, 2))
-        self.inventory_btn.clicked.connect(lambda: self.button_clicked(self.inventory_btn, 4))
-        self.logout_btn.clicked.connect(self.logout_btn_clicked)
-        self.settings_btn.clicked.connect(lambda: self.button_clicked(self.settings_btn, 6))
-        self.orders_btn.clicked.connect(lambda: self.button_clicked(self.orders_btn, 7))
-        self.backup_btn.clicked.connect(lambda: self.button_clicked(self.backup_btn, 8))
+        self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_pushButton, 0))
+        self.activityLogs_pushButton.clicked.connect(lambda: self.button_clicked(self.activityLogs_pushButton, 1))
+        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_pushButton, 2))
+        self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_pushButton, 4))
+        self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
+        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_pushButton, 6))
+        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_pushButton, 7))
+        self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backupRestore_pushButton, 8))
         self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_pushButton, 9))
         self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.salesReport_pushButton, 10))
         self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_pushButton, 11))
@@ -120,15 +126,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def show_system_settings_btn(self):
         def show_buttons():
-            self.settings_btn.show()
-            self.backup_btn.show()
+            self.frame_12.show() # settings button frame
+            self.frame_13.show() # backup and restore button frame
 
         def hide_buttons():
-            self.settings_btn.hide()
-            self.backup_btn.hide()
+            self.frame_12.hide()
+            self.frame_13.hide()
 
         def check_buttons_visibility():
-            if not self.settings_btn.isVisible() or not self.backup_btn.isVisible():
+            if not self.frame_12.isVisible() or not self.frame_13.isVisible():
                 show_buttons()  # Show the buttons if either is not visible
             else:
                 hide_buttons()  # Hide the buttons if both are already visible
@@ -139,15 +145,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         def show_buttons():
             print('showing reports and logs buttons')
             self.salesReport_pushButton.show()
-            self.activitylogs_btn.show()
+            self.activityLogs_pushButton.show()
 
         def hide_buttons():
             print('hiding reports and logs buttons')
             self.salesReport_pushButton.hide()
-            self.activitylogs_btn.hide()
+            self.activityLogs_pushButton.hide()
 
         def check_buttons_visibility():
-            if not self.salesReport_pushButton.isVisible() or not self.activitylogs_btn.isVisible():
+            if not self.salesReport_pushButton.isVisible() or not self.activityLogs_pushButton.isVisible():
                 show_buttons()  # Show the buttons if either is not visible
             else:
                 hide_buttons()  # Hide the buttons if both are already visible
@@ -157,9 +163,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def hide_buttons(self):
         buttons = [
             self.salesReport_pushButton,
-            self.activitylogs_btn,
-            self.settings_btn,
-            self.backup_btn
+            self.activityLogs_pushButton,
+            self.frame_12, # settings button frame
+            self.frame_13 # backup restore button frame
         ]
         for button in buttons:
             button.hide()

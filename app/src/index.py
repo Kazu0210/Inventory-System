@@ -12,7 +12,6 @@ def on_about_to_quit():
     # Get the absolute path (relative to the current working directory)
     temp_data_dir = Path.cwd() / relative_path
 
-    # Ensure the directory exists before trying to read/write
     if not temp_data_dir.exists():
         print(f"The file {temp_data_dir} does not exist.")
     else:
