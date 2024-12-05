@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QTimer
+from PyQt6.QtGui import QPixmap
 
 # from ui.main_window import Ui_MainWindow
 from ui.final_ui.main_window import Ui_MainWindow
@@ -124,6 +125,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # call function to hide button once
         self.hide_buttons()
 
+        self.set_btn_icons()
+
+    def set_btn_icons(self):
+        """Set icons for the buttons"""
+        dashboard_icon = QPixmap("app/resources/icons/dashboard.png")
+        self.dashboard_logo.setPixmap(dashboard_icon)
+        self.dashboard_logo.setScaledContents(True)
+        # html_icon = '<img src="app/resources/icons/dashboard.png"/>'
+        # self.dashboard_logo.setText(html_icon)
+
     def show_system_settings_btn(self):
         def show_buttons():
             self.frame_12.show() # settings button frame
@@ -144,16 +155,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def show_reports_and_logs_btn(self):
         def show_buttons():
             print('showing reports and logs buttons')
-            self.salesReport_pushButton.show()
-            self.activityLogs_pushButton.show()
+            self.frame_9.show()
+            self.frame_10.show()
 
         def hide_buttons():
             print('hiding reports and logs buttons')
-            self.salesReport_pushButton.hide()
-            self.activityLogs_pushButton.hide()
+            self.frame_9.hide()
+            self.frame_10.hide()
 
         def check_buttons_visibility():
-            if not self.salesReport_pushButton.isVisible() or not self.activityLogs_pushButton.isVisible():
+            if not self.frame_9.isVisible() or not self.frame_10.isVisible():
                 show_buttons()  # Show the buttons if either is not visible
             else:
                 hide_buttons()  # Hide the buttons if both are already visible
@@ -162,8 +173,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def hide_buttons(self):
         buttons = [
-            self.salesReport_pushButton,
-            self.activityLogs_pushButton,
+            self.frame_9, # sales report button frame
+            self.frame_10, # activity logs button frame
             self.frame_12, # settings button frame
             self.frame_13 # backup restore button frame
         ]
@@ -287,7 +298,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if index is not None:
             self.content_window_layout.setCurrentIndex(index)
             print(f'Current Index: {self.get_current_index()}')
-            self.current_index_update()
+            # self.current_index_update()
         else:
             print(f"{button.objectName()} button clicked.")
 
@@ -295,26 +306,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for button in self.buttons:
             button.setStyleSheet("""
             QPushButton {
-                color: #9E9BB9;
-                border: none;
-                padding: 10px 0;
-                    font: 10pt "Inter";
-                text-align:left;
+                background-color: transparent;
             }
             QPushButton:hover { 
-                color: #0D044E;
-                border: none;
-                padding: 10px 0;
-                    font: 10pt "Inter";
+                color: #fff;
             }	
         """)
             
     def set_active_button_style(self, button):
         button.setStyleSheet("""
             QPushButton{
-                color: #0D044E;
-                border: none;
-                padding: 10px 0;
-                    font: 10pt "Inter";
+                color: #fff;
             }          
         """)
