@@ -104,6 +104,9 @@
      </widget>
     </item>
    </layout>
+   <zorder>cylinderTypes_scrollArea</zorder>
+   <zorder>label</zorder>
+   <zorder>frame_2</zorder>
   </widget>
   <widget class="QFrame" name="frame_3">
    <property name="geometry">

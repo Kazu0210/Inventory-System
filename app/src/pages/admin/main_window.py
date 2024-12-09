@@ -132,8 +132,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dashboard_icon = QPixmap("app/resources/icons/dashboard.png")
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
-        # html_icon = '<img src="app/resources/icons/dashboard.png"/>'
-        # self.dashboard_logo.setText(html_icon)
+
+        prices_icon = QPixmap("app/resources/icons/price-tag.png")
+        self.prices_logo.setPixmap(prices_icon)
+        self.prices_logo.setScaledContents(True)
+
+        inventory_icon = QPixmap("app/resources/icons/inventory.png")
+        self.inventory_logo.setPixmap(inventory_icon)
+        self.inventory_logo.setScaledContents(True)
+
+        orders_icon = QPixmap("app/resources/icons/booking.png")
+        self.orders_logo.setPixmap(orders_icon)
+        self.orders_logo.setScaledContents(True)
+
+        reportsLogs_icon = QPixmap("app/resources/icons/file.png")
+        self.reports_logs_logo.setPixmap(reportsLogs_icon)
+        self.reports_logs_logo.setScaledContents(True)
+        
+        sales_icon = QPixmap("app/resources/icons/sales.png")
+        self.sales_report_logo.setPixmap(sales_icon)
+        self.sales_report_logo.setScaledContents(True)
+        
+        act_logs_icon = QPixmap("app/resources/icons/restore.png")
+        self.activity_logs_logo.setPixmap(act_logs_icon)
+        self.activity_logs_logo.setScaledContents(True)
+        
+        system_udpate_icon = QPixmap("app/resources/icons/system-update.png")
+        self.system_settings_logo.setPixmap(system_udpate_icon)
+        self.system_settings_logo.setScaledContents(True)
+        
+        setting_icon = QPixmap("app/resources/icons/settings.png")
+        self.settings_logo.setPixmap(setting_icon)
+        self.settings_logo.setScaledContents(True)
+
+        backup_restore_icon = QPixmap("app/resources/icons/database.png")
+        self.backup_restore_logo.setPixmap(backup_restore_icon)
+        self.backup_restore_logo.setScaledContents(True)
+        
+        archive_icon = QPixmap("app/resources/icons/archive.png")
+        self.archive_logo.setPixmap(archive_icon)
+        self.archive_logo.setScaledContents(True)
+
+        accounts_icon = QPixmap("app/resources/icons/user.png")
+        self.accounts_logo.setPixmap(accounts_icon)
+        self.accounts_logo.setScaledContents(True)
+        
+        logout_icon = QPixmap("app/resources/icons/logout.png")
+        self.logout_logo.setPixmap(logout_icon)
+        self.logout_logo.setScaledContents(True)
 
     def show_system_settings_btn(self):
         def show_buttons():
