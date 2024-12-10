@@ -457,19 +457,29 @@ class Dashboard(QWidget, Ui_dashboard_page):
     def update_total_stock_label(self, total_stock=None):
         # display the total on a label
         if total_stock is None:
-            total_stock = self.get_total_stock()
+            total_stock = self.get_quantity_in_stock()
         try:
+            print(f'total quantity: {total_stock}')
             self.totalItemStock_label_2.setText(f'{total_stock}')
         except Exception as e:
             print(e)
 
     def get_total_stock(self):
+        """Get the total quantity of all items in stock."""
         try:
-            total_stock = self.connect_to_db("products_items").count_documents({})
-            print(f'total stock: {total_stock}')
-            return total_stock
+            pipeline = [
+                {
+                    "$group": {
+                        "total_quantity": {"$sum": "$price_per_unit"}  # Sum the quantities
+                    }
+                }
+            ]
+            result = self.connect_to_db("products_items").aggregate(pipeline)
+            total_quantity = next(result, {}).get('total_quantity', 0)  # Get the total or default to 0
+            print(f'Total quantity in stock: {total_quantity}')
+            return total_quantity
         except Exception as e:
-            print(f"Error getting total stock: {e}")
+            print(f"Error getting total quantity in stock: {e}")
             return 0
 
     def connect_to_db(self, collection_name):

@@ -107,7 +107,7 @@ QScrollBar:hover{
                 margin: 0px 0px 0px 0px;
             }
             QScrollBar::handle:vertical {
-                background: #002E2C;
+                background: #032F30;
                 border-radius: 7px;
                 min-height: 30px;
             }
@@ -144,7 +144,7 @@ QScrollBar:hover{
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-132</y>
             <width>188</width>
             <height>590</height>
            </rect>
@@ -1004,6 +1004,8 @@ background-color: transparent;
      <widget class="QWidget" name="content_widget" native="true"/>
     </item>
    </layout>
+   <zorder>content_widget</zorder>
+   <zorder>frame</zorder>
   </widget>
  </widget>
  <resources>

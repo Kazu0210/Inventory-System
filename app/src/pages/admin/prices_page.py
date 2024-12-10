@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout, QAbstractItemView, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor
 from ui.NEW.prices_page import Ui_Form as Ui_price_page
@@ -14,13 +14,6 @@ class PricesPage(QWidget, Ui_price_page):
         self.parent_window = parent_window
 
         self.load_all()
-
-        # create floating frame for search bar results
-        self.result_frame = self.search_result_frame
-        self.result_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.result_frame.hide()
-
-        result_frame_layout = QVBoxLayout(self.result_frame)
 
         # Initialize Inventory Monitor for prices table
         self.prices_monitor = InventoryMonitor("prices")
@@ -39,9 +32,6 @@ class PricesPage(QWidget, Ui_price_page):
 
         # call function that hide all widgets once
         self.hide_widgets()
-
-        # connection for search bar
-        self.searchBar_lineEdit.textChanged.connect(self.handle_search_bar)
 
         # set max lenght for search bar to 50 characters
         self.searchBar_lineEdit.setMaxLength(50)
@@ -66,47 +56,16 @@ class PricesPage(QWidget, Ui_price_page):
         # Return the results
         return results
 
-    def handle_search_bar(self, text):
-        try:
-            # Clear the console for better debugging
-            os.system('cls')
-            print(f'Text Changed: {text}')
-
-            # Call the search function and collect data
-            collected_data = self.find_product_by_name_or_id(text)
-            print(f'Data type: {type(collected_data)}')
-
-            # Check if data is found
-            if collected_data:
-                self.result_frame.show()  # Show the frame if there is data
-                for data in collected_data:
-                    print(f"Product Name: {data.get('product_name', 'N/A')}")
-                    print(f"Product ID: {data.get('product_id', 'N/A')}")
-            else:
-                print("No matching products found.")
-                self.result_frame.hide()  # Hide the frame if no data is found
-
-        except IndexError as e:
-            # Log and handle an IndexError
-            os.system('cls')
-            print(f'Error: Index out of range - {e}')
-            self.result_frame.hide()  # Hide the frame in case of an error
-
-        except Exception as e:
-            # Handle unexpected errors
-            print(f"Unexpected error occurred: {e}")
-            self.result_frame.hide()  # Ensure the frame is hidden in case of an error
-
     def show_price_history(self):
         """Run when price history button is clicked"""
-        self.price_history_tableWidget.show()
+        self.frame_11.show()
         self.price_history_pushButton.setText("Hide Price History")
 
         self.price_history_pushButton.clicked.connect(lambda: self.hide_price_history())
 
     def hide_price_history(self):
         """Run when hide price history button is clicked"""
-        self.price_history_tableWidget.hide()
+        self.frame_11.hide()
         self.price_history_pushButton.setText("Show Price History")
         self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
 
@@ -118,6 +77,65 @@ class PricesPage(QWidget, Ui_price_page):
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
+
+        shadow_fx = QGraphicsDropShadowEffect()
+        shadow_fx.setBlurRadius(10)
+        shadow_fx.setColor(QColor(0, 0, 0, 160))
+        shadow_fx.setOffset(0, 0)
+
+        table.setGraphicsEffect(shadow_fx)
+
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        }
+        QHeaderView:Section{
+        background-color: #032F30;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
 
         # header json directory
         header_dir = "app/resources/config/table/priceHistory_tableHeader.json"
@@ -131,12 +149,20 @@ class PricesPage(QWidget, Ui_price_page):
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
                 
-        header = self.prices_tableWidget.horizontalHeader()
+        header = self.price_history_tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
 
         for column in range(table.columnCount()):
-            table.setColumnWidth(column, 200)
+            table.setColumnWidth(column, 145)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 100
+
+        header.setFixedHeight(50)
+
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
@@ -192,7 +218,7 @@ class PricesPage(QWidget, Ui_price_page):
 
     def hide_widgets(self):
         """Hide all QWidgets that need to be hidden"""
-        self.price_history_tableWidget.hide()
+        self.frame_11.hide() # price history frame
 
     def load_all(self):
         """Load all the widgets that need to be updated once or multiple times"""
@@ -201,11 +227,60 @@ class PricesPage(QWidget, Ui_price_page):
         
     def update_navigation_controls(self, total_items, current_page, rows_per_page):
         """Update the pagination navigation controls."""
+        # Calculate total pages
         total_pages = (total_items - 1) // rows_per_page + 1
 
-        # Enable/Disable navigation buttons
-        self.prev_pushButton.setEnabled(current_page > 0)
-        self.next_pushButton.setEnabled(current_page < total_pages - 1)
+        # Enable/Disable "Previous" button
+        if current_page > 0:
+            self.prev_pushButton.setEnabled(True)
+            self.prev_pushButton.setStyleSheet(
+                """
+                #prev_pushButton {
+                background-color: #274D60;
+                border-radius: 5px;
+                color: #fff;
+                font: 87 10pt "Noto Sans Black";
+                }
+                """
+            )
+        else:
+            self.prev_pushButton.setEnabled(False)
+            self.prev_pushButton.setStyleSheet(
+                """
+                QPushButton {
+                background-color: #597784;
+                border-radius: 5px;
+                color: #fff;
+                font: 87 10pt "Noto Sans Black";
+                }
+                """
+            )
+
+        # Enable/Disable "Next" button
+        if current_page < total_pages - 1:
+            self.next_pushButton.setEnabled(True)
+            self.next_pushButton.setStyleSheet(
+                """
+                #next_pushButton {
+                background-color: #274D60;
+                border-radius: 5px;
+                color: #fff;
+                font: 87 10pt "Noto Sans Black";
+                }
+                """
+            )
+        else:
+            self.next_pushButton.setEnabled(False)
+            self.next_pushButton.setStyleSheet(
+                """
+                QPushButton {
+                background-color: #597784;
+                border-radius: 5px;
+                color: #fff;
+                font: 87 10pt "Noto Sans Black";
+                }
+                """
+            )
 
         # Update page label
         # self.page_label.setText(f"Page: {current_page + 1}/{total_pages}")
@@ -220,6 +295,65 @@ class PricesPage(QWidget, Ui_price_page):
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
+
+        shadow_fx = QGraphicsDropShadowEffect()
+        shadow_fx.setBlurRadius(10)
+        shadow_fx.setColor(QColor(0, 0, 0, 160))
+        shadow_fx.setOffset(0, 0)
+
+        table.setGraphicsEffect(shadow_fx)
+
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        }
+        QHeaderView:Section{
+        background-color: #032F30;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
 
         # Header JSON directory
         header_dir = "app/resources/config/table/prices_tableHeader.json"
@@ -238,7 +372,15 @@ class PricesPage(QWidget, Ui_price_page):
         header.setDragEnabled(True)
 
         for column in range(table.columnCount()):
-            table.setColumnWidth(column, 200)
+            table.setColumnWidth(column, 145)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 100
+
+        header.setFixedHeight(50)
+
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
