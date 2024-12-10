@@ -482,7 +482,7 @@ border-radius: 10px;
 color: #fff;</string>
                         </property>
                         <property name="text">
-                         <string>dwadwadwadwdawddaadd</string>
+                         <string>0</string>
                         </property>
                        </widget>
                       </item>
@@ -709,11 +709,12 @@ color: #fff;</string>
                <property name="styleSheet">
                 <string notr="true">#frame_4 *{
 font: 10pt &quot;Inter&quot;;
+color: #000;
 }
 QComboBox{
 font: 10pt &quot;Inter&quot;;
 background-color: #fff;
-border: 2px solid #949494;
+border: 2px solid #0C959B;
 border-radius: 5px;
 padding: 5px
 }
@@ -727,7 +728,7 @@ border: none;
 width: 0; height: 0;       
 border-left: 5px solid none; 
 border-right: 5px solid none;
-border-top: 7px solid #888; 
+border-top: 7px solid #0C959B; 
 margin: 0;
 }</string>
                </property>

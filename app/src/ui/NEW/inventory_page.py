@@ -187,7 +187,6 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.inventoryTotalValue_label.sizePolicy().hasHeightForWidth())
         self.inventoryTotalValue_label.setSizePolicy(sizePolicy)
-        self.inventoryTotalValue_label.setMaximumSize(QtCore.QSize(50, 40))
         font = QtGui.QFont()
         font.setFamily("Noto Sans")
         font.setPointSize(10)
@@ -198,7 +197,7 @@ class Ui_Form(object):
         self.inventoryTotalValue_label.setStyleSheet("font: 10pt \"Noto Sans\";\n"
 "color: #fff;")
         self.inventoryTotalValue_label.setObjectName("inventoryTotalValue_label")
-        self.horizontalLayout_69.addWidget(self.inventoryTotalValue_label)
+        self.horizontalLayout_69.addWidget(self.inventoryTotalValue_label, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.horizontalLayout_68.addWidget(self.frame_72, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.horizontalLayout_67.addWidget(self.frame_71)
         self.horizontalLayout_63.addWidget(self.frame_70, 0, QtCore.Qt.AlignmentFlag.AlignTop)
@@ -284,11 +283,12 @@ class Ui_Form(object):
         self.frame_65 = QtWidgets.QFrame(parent=self.frame_64)
         self.frame_65.setStyleSheet("#frame_4 *{\n"
 "font: 10pt \"Inter\";\n"
+"color: #000;\n"
 "}\n"
 "QComboBox{\n"
 "font: 10pt \"Inter\";\n"
 "background-color: #fff;\n"
-"border: 2px solid #949494;\n"
+"border: 2px solid #0C959B;\n"
 "border-radius: 5px;\n"
 "padding: 5px\n"
 "}\n"
@@ -302,7 +302,7 @@ class Ui_Form(object):
 "width: 0; height: 0;       \n"
 "border-left: 5px solid none; \n"
 "border-right: 5px solid none;\n"
-"border-top: 7px solid #888; \n"
+"border-top: 7px solid #0C959B; \n"
 "margin: 0;\n"
 "}")
         self.frame_65.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
