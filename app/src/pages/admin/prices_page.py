@@ -1,9 +1,10 @@
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout, QAbstractItemView, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor
-from ui.NEW.prices_page import Ui_Form as Ui_price_page
+from ui.final_ui.prices_page import Ui_Form as Ui_price_page
 
 from utils.Inventory_Monitor import InventoryMonitor
+from utils.Graphics import AddGraphics
 
 import json, pymongo, datetime, re, os
 
@@ -35,6 +36,14 @@ class PricesPage(QWidget, Ui_price_page):
 
         # set max lenght for search bar to 50 characters
         self.searchBar_lineEdit.setMaxLength(50)
+
+        self.add_graphics()
+
+    def add_graphics(self):
+        """Add shadows, etc. to widgets."""
+        graphics = AddGraphics()
+        graphics.shadow_effect(self.price_history_tableWidget, blur=10, x=-0, y=0, alpha=160)
+        graphics.shadow_effect(self.prices_tableWidget, blur=10, x=-0, y=0, alpha=160)
 
     def find_product_by_name_or_id(self, product_data):
         """Searches the collection using product id or product name"""
@@ -77,13 +86,6 @@ class PricesPage(QWidget, Ui_price_page):
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
-
-        shadow_fx = QGraphicsDropShadowEffect()
-        shadow_fx.setBlurRadius(10)
-        shadow_fx.setColor(QColor(0, 0, 0, 160))
-        shadow_fx.setOffset(0, 0)
-
-        table.setGraphicsEffect(shadow_fx)
 
         table.setStyleSheet("""
         QTableWidget{
@@ -295,13 +297,6 @@ class PricesPage(QWidget, Ui_price_page):
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
-
-        shadow_fx = QGraphicsDropShadowEffect()
-        shadow_fx.setBlurRadius(10)
-        shadow_fx.setColor(QColor(0, 0, 0, 160))
-        shadow_fx.setOffset(0, 0)
-
-        table.setGraphicsEffect(shadow_fx)
 
         table.setStyleSheet("""
         QTableWidget{

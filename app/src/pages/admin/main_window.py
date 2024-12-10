@@ -13,7 +13,10 @@ from pages.admin.dashboard_page import Dashboard
 from pages.admin.itemsPage import ItemsPage
 from pages.admin.newitemsPage import newItem_page as NewItem
 from pymongo import MongoClient
+
 from utils.Activity_logs import Activity_Logs as activity_logs
+from utils.Graphics import AddGraphics
+
 from pages.admin.settings_page import settingsPage
 from pages.admin.new_account_page import NewAccountPage
 from pages.admin.order_page import OrderPage
@@ -126,6 +129,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.hide_buttons()
 
         self.set_btn_icons()
+
+        self.add_graphics()
+
+    def add_graphics(self):
+        """Add graphics to widgets (shadows, others effects etc.)"""
+        graphics = AddGraphics()
+        graphics.shadow_effect(self.frame, blur=5, x=-3, y=3, alpha=160)
 
     def set_btn_icons(self):
         """Set icons for the buttons"""

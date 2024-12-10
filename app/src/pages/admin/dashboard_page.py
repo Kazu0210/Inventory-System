@@ -459,7 +459,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         if total_stock is None:
             total_stock = self.get_quantity_in_stock()
         try:
-            print(f'total quantity: {total_stock}')
+            # print(f'total quantity: {total_stock}')
             self.totalItemStock_label_2.setText(f'{total_stock}')
         except Exception as e:
             print(e)

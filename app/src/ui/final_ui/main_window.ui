@@ -1004,8 +1004,6 @@ background-color: transparent;
      <widget class="QWidget" name="content_widget" native="true"/>
     </item>
    </layout>
-   <zorder>content_widget</zorder>
-   <zorder>frame</zorder>
   </widget>
  </widget>
  <resources>

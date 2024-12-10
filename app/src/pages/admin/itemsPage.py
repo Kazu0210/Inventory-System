@@ -83,7 +83,7 @@ class ItemsPage(QWidget, items_page):
         
     def UpdateTotalStock(self):
         total_stock = str(self.collection.count_documents({}))
-        self.totalStock_label.setText(total_stock)
+        self.total_stock_label.setText(total_stock)
 
     def on_row_clicked(self):
         selected_rows = self.tableWidget.selectionModel().selectedRows()
