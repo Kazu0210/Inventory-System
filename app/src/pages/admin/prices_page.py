@@ -32,6 +32,9 @@ class PricesPage(QWidget, Ui_price_page):
         self.next_pushButton.clicked.connect(lambda: self.load_prices(self.current_page + 1, self.rows_per_page))
         self.search_pushButton.clicked.connect(lambda: self.load_prices())
 
+        # search bar connection
+        self.searchBar_lineEdit.textChanged.connect(lambda: self.handle_search_change())
+
         # call function that hide all widgets once
         self.hide_widgets()
 
@@ -39,6 +42,11 @@ class PricesPage(QWidget, Ui_price_page):
         self.searchBar_lineEdit.setMaxLength(50)
 
         self.add_graphics()
+
+    def handle_search_change(self):
+        """Check if the search bar is empty"""
+        if self.searchBar_lineEdit.text() == "":
+            self.load_prices()
 
     def handle_search(self):
         """Handle search when search button is clicked"""
