@@ -106,17 +106,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.prices_pushButton
         ]
 
-        self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_pushButton, 0))
-        self.activityLogs_pushButton.clicked.connect(lambda: self.button_clicked(self.activityLogs_pushButton, 1))
-        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_pushButton, 2))
-        self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_pushButton, 4))
+        self.parent_widgets = [
+            self.frame_4, 
+            self.frame_10,
+            self.frame_15,
+            self.frame_6,
+            self.frame_12,
+            self.frame_7,
+            self.frame_13,
+            self.frame_14,
+            self.frame_9,
+            self.frame_5
+        ]
+
+        self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_logo, self.frame_4, self.dashboard_pushButton, 0))
+        self.activityLogs_pushButton.clicked.connect(lambda: self.button_clicked(self.activity_logs_logo, self.frame_10, self.activityLogs_pushButton, 1))
+        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 2))
+        self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 4))
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
-        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_pushButton, 6))
-        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_pushButton, 7))
-        self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backupRestore_pushButton, 8))
-        self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_pushButton, 9))
-        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.salesReport_pushButton, 10))
-        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_pushButton, 11))
+        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 6))
+        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 7))
+        self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backup_restore_logo, self.frame_13, self.backupRestore_pushButton, 8))
+        self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 9))
+        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.sales_report_logo, self.frame_9, self.salesReport_pushButton, 10))
+        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 11))
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
         self.systemSettings_pushButton.clicked.connect(lambda: self.show_system_settings_btn())
@@ -164,55 +177,68 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_btn_icons(self):
         """Set icons for the buttons"""
-        dashboard_icon = QPixmap("app/resources/icons/dashboard.png")
+        dashboard_icon = QPixmap("app/resources/icons/black-theme/dashboard.png")
+        self.dashboard_logo.file_name = os.path.basename("app/resources/icons/black-theme/dashboard.png")
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
 
-        prices_icon = QPixmap("app/resources/icons/price-tag.png")
+        prices_icon = QPixmap("app/resources/icons/black-theme/price-tag.png")
+        self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
 
-        inventory_icon = QPixmap("app/resources/icons/inventory.png")
+        inventory_icon = QPixmap("app/resources/icons/black-theme/inventory.png")
+        self.inventory_logo.file_name = os.path.basename("app/resources/icons/black-theme/inventory.png")
         self.inventory_logo.setPixmap(inventory_icon)
         self.inventory_logo.setScaledContents(True)
 
-        orders_icon = QPixmap("app/resources/icons/booking.png")
+        orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
+        self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
         self.orders_logo.setPixmap(orders_icon)
         self.orders_logo.setScaledContents(True)
 
-        reportsLogs_icon = QPixmap("app/resources/icons/file.png")
+        reportsLogs_icon = QPixmap("app/resources/icons/black-theme/file.png")
+        self.reports_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/file.png")
         self.reports_logs_logo.setPixmap(reportsLogs_icon)
         self.reports_logs_logo.setScaledContents(True)
         
-        sales_icon = QPixmap("app/resources/icons/sales.png")
+        sales_icon = QPixmap("app/resources/icons/black-theme/sales.png")
+        self.sales_report_logo.file_name = os.path.basename("app/resources/icons/black-theme/sales.png")
         self.sales_report_logo.setPixmap(sales_icon)
         self.sales_report_logo.setScaledContents(True)
         
-        act_logs_icon = QPixmap("app/resources/icons/restore.png")
+        act_logs_icon = QPixmap("app/resources/icons/black-theme/restore.png")
+        self.activity_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/restore.png")
         self.activity_logs_logo.setPixmap(act_logs_icon)
         self.activity_logs_logo.setScaledContents(True)
         
-        system_udpate_icon = QPixmap("app/resources/icons/system-update.png")
+        system_udpate_icon = QPixmap("app/resources/icons/black-theme/system-update.png")
+        self.system_settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/system-update.png")
         self.system_settings_logo.setPixmap(system_udpate_icon)
         self.system_settings_logo.setScaledContents(True)
         
-        setting_icon = QPixmap("app/resources/icons/settings.png")
+        setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
+        self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
         self.settings_logo.setPixmap(setting_icon)
         self.settings_logo.setScaledContents(True)
 
-        backup_restore_icon = QPixmap("app/resources/icons/database.png")
+        backup_restore_icon = QPixmap("app/resources/icons/black-theme/database.png")
+        self.backup_restore_logo.file_name = os.path.basename("app/resources/icons/black-theme/database.png")
         self.backup_restore_logo.setPixmap(backup_restore_icon)
         self.backup_restore_logo.setScaledContents(True)
         
-        archive_icon = QPixmap("app/resources/icons/archive.png")
+        archive_icon = QPixmap("app/resources/icons/black-theme/archive.png")
+        self.archive_logo.file_name = os.path.basename("app/resources/icons/black-theme/archive.png")
         self.archive_logo.setPixmap(archive_icon)
         self.archive_logo.setScaledContents(True)
 
-        accounts_icon = QPixmap("app/resources/icons/user.png")
+        accounts_icon = QPixmap("app/resources/icons/black-theme/user.png")
+        self.accounts_logo.file_name = os.path.basename("app/resources/icons/black-theme/user.png")
         self.accounts_logo.setPixmap(accounts_icon)
         self.accounts_logo.setScaledContents(True)
         
-        logout_icon = QPixmap("app/resources/icons/logout.png")
+        logout_icon = QPixmap("app/resources/icons/black-theme/logout.png")
+        self.logout_logo.file_name = os.path.basename("app/resources/icons/black-theme/logout.png")
         self.logout_logo.setPixmap(logout_icon)
         self.logout_logo.setScaledContents(True)
 
@@ -373,9 +399,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
 
-    def button_clicked(self, button, index):
+    def button_clicked(self, icon_widget, parent_widget, button, index):
         self.reset_button_styles()
+        self.reset_parent_widget()
+        self.reset_icon()
+        self.set_active_icon(icon_widget)
         self.set_active_button_style(button)
+        self.set_active_frame_style(parent_widget)
         if index is not None:
             self.content_window_layout.setCurrentIndex(index)
             print(f'Current Index: {self.get_current_index()}')
@@ -390,13 +420,47 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 background-color: transparent;
             }
             QPushButton:hover { 
-                color: #fff;
+                background-color: #A8D5BA;
+                color: #000;
             }	
+        """)
+    
+    def reset_parent_widget(self):
+        for widget in self.parent_widgets:
+            widget.setStyleSheet("""
+            QFrame{
+                background-color: transparent;
+            }
+            QFrame:hover{
+                background-color: #A8D5BA;
+            }
+            """)
+
+    def reset_icon(self):
+        self.set_btn_icons()
+
+    def set_active_icon(self, icon_widget):
+        print(f"Icon widget's file name: {icon_widget.file_name}")
+        file_name = icon_widget.file_name
+
+        file_path = f"app/resources/icons/{file_name}"
+        icon = QPixmap(file_path)
+        icon_widget.file_name = os.path.basename(file_path)
+        icon_widget.setPixmap(icon)
+        icon_widget.setScaledContents(True)
+
+    def set_active_frame_style(self, parent_widget):
+        parent_widget.setStyleSheet("""
+            QFrame{
+                color: #fff;
+                background-color: #228B22;
+            }
         """)
             
     def set_active_button_style(self, button):
         button.setStyleSheet("""
             QPushButton{
                 color: #fff;
-            }          
+                background-color: #228B22;
+            }
         """)
