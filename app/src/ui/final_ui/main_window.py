@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         MainWindow.setMinimumSize(QtCore.QSize(800, 600))
         MainWindow.setStyleSheet("font: 12pt \"Noto Sans\";\n"
-"")
+"background-color: #E0F2E9;")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
 "QPushButton{\n"
 "text-align: left;\n"
 "}\n"
-"QPushButton:pressed QFrame{\n"
+"QPushButton:pressed ~ QFrame{\n"
 "background-color: #228B22;\n"
 "}")
         self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)

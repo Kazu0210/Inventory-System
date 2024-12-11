@@ -21,7 +21,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">font: 12pt &quot;Noto Sans&quot;;
-</string>
+background-color: #E0F2E9;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">

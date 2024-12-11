@@ -138,7 +138,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_system_logo()
 
         graphics = AddGraphics()
-        graphics.shadow_effect(self.frame, blur=5, x=-3, y=3, alpha=160)
+        graphics.shadow_effect(self.frame, blur=10, x=-4, y=4, alpha=50)
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
