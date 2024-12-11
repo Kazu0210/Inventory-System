@@ -30,6 +30,7 @@ class PricesPage(QWidget, Ui_price_page):
         self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
         self.prev_pushButton.clicked.connect(lambda: self.load_prices(self.current_page - 1, self.rows_per_page))
         self.next_pushButton.clicked.connect(lambda: self.load_prices(self.current_page + 1, self.rows_per_page))
+        self.search_pushButton.clicked.connect(lambda: self.load_prices())
 
         # call function that hide all widgets once
         self.hide_widgets()
@@ -38,6 +39,18 @@ class PricesPage(QWidget, Ui_price_page):
         self.searchBar_lineEdit.setMaxLength(50)
 
         self.add_graphics()
+
+    def handle_search(self):
+        """Handle search when search button is clicked"""
+        search_input = self.searchBar_lineEdit.text()
+        print(f'Search input: {search_input}')
+
+
+        collected_data = self.find_product_by_name_or_id(search_input)
+        for data in collected_data:
+            print(f"Collected data: {data}")
+
+        self.load_prices()
 
     def add_graphics(self):
         """Add shadows, etc. to widgets."""
@@ -379,9 +392,18 @@ class PricesPage(QWidget, Ui_price_page):
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
+        
+        # query filter
+        filter = {}
+
+        if self.searchBar_lineEdit != "":
+            filter = {"$or": [
+                {"product_name": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
+                {"product_id": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
+            ]}
 
         # Get data from MongoDB
-        data = list(self.connect_to_db('prices').find({}).sort("_id", -1))
+        data = list(self.connect_to_db('prices').find(filter).sort("_id", -1))
         if not data:
             return  # Exit if the collection is empty
 

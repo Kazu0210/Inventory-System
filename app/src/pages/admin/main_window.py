@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtGui import QPixmap
 
 # from ui.main_window import Ui_MainWindow
@@ -128,14 +128,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # call function to hide button once
         self.hide_buttons()
 
-        self.set_btn_icons()
-
         self.add_graphics()
 
     def add_graphics(self):
-        """Add graphics to widgets (shadows, others effects etc.)"""
+        """Add graphics to widgets (shadows, icons, others effects etc.)"""
+        
+        self.set_btn_icons()
+
+        self.set_system_logo()
+
         graphics = AddGraphics()
         graphics.shadow_effect(self.frame, blur=5, x=-3, y=3, alpha=160)
+
+    def set_system_logo(self):
+        """Set System Logo in the main window with minimum and maximum height"""
+        logo = QPixmap("app/resources/icons/system-icon.png")
+        
+        min_height = 100  # Minimum height
+        max_height = 150  # Maximum height
+
+        # Calculate the height of the QLabel
+        current_height = self.logo.height()
+
+        # Ensure the height stays within the defined range
+        height_to_use = max(min_height, min(max_height, current_height))
+
+        # Scale the pixmap to the computed height while maintaining aspect ratio
+        scaled_logo = logo.scaledToHeight(height_to_use, Qt.TransformationMode.SmoothTransformation)
+
+        # Set the scaled pixmap to the QLabel
+        self.logo.setPixmap(scaled_logo)
+
+        # Ensure the QLabel does not distort the pixmap
+        self.logo.setScaledContents(True)
 
     def set_btn_icons(self):
         """Set icons for the buttons"""

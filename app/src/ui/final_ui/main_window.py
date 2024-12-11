@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         MainWindow.setMinimumSize(QtCore.QSize(800, 600))
         MainWindow.setStyleSheet("font: 12pt \"Noto Sans\";\n"
-"background-color: #C2E4E5;")
+"")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -31,16 +31,30 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame_3 = QtWidgets.QFrame(parent=self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(1)
+        sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
+        self.frame_3.setSizePolicy(sizePolicy)
         self.frame_3.setMinimumSize(QtCore.QSize(0, 100))
-        self.frame_3.setMaximumSize(QtCore.QSize(16777215, 100))
+        self.frame_3.setMaximumSize(QtCore.QSize(16777215, 150))
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_3)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(parent=self.frame_3)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.logo = QtWidgets.QLabel(parent=self.frame_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.logo.sizePolicy().hasHeightForWidth())
+        self.logo.setSizePolicy(sizePolicy)
+        self.logo.setText("")
+        self.logo.setScaledContents(True)
+        self.logo.setObjectName("logo")
+        self.verticalLayout.addWidget(self.logo, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.verticalLayout_2.addWidget(self.frame_3)
         self.scrollArea = QtWidgets.QScrollArea(parent=self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -63,7 +77,7 @@ class Ui_MainWindow(object):
 "                margin: 0px 0px 0px 0px;\n"
 "            }\n"
 "            QScrollBar::handle:vertical {\n"
-"                background: #002E2C;\n"
+"                background: #032F30;\n"
 "                border-radius: 7px;\n"
 "                min-height: 30px;\n"
 "            }\n"
@@ -95,7 +109,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -132, 188, 590))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 188, 590))
         self.scrollAreaWidgetContents.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
         self.scrollAreaWidgetContents.setStyleSheet("")
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
@@ -400,6 +414,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.scrollArea)
         self.horizontalLayout.addWidget(self.frame)
         self.content_widget = QtWidgets.QWidget(parent=self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(10)
+        sizePolicy.setHeightForWidth(self.content_widget.sizePolicy().hasHeightForWidth())
+        self.content_widget.setSizePolicy(sizePolicy)
         self.content_widget.setObjectName("content_widget")
         self.horizontalLayout.addWidget(self.content_widget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -410,7 +429,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "LOGO"))
         self.dashboard_pushButton.setText(_translate("MainWindow", "Dashboard"))
         self.prices_pushButton.setText(_translate("MainWindow", "Prices"))
         self.inventory_pushButton.setText(_translate("MainWindow", "Inventory"))

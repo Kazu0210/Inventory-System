@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView
-from PyQt6.QtCore import QThread, pyqtSignal, QTimer
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QSplitter, QHBoxLayout
+from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 import pymongo
 from bson import ObjectId
 # from ui.inventoryPage import Ui_Form as items_page
@@ -52,6 +52,23 @@ class ItemsPage(QWidget, items_page):
         # Call update_all function to populate table once
         self.update_all()
 
+        # self.splitter()
+
+    def splitter(self):
+        """Make inventory table and preview section resizable"""
+        layout = QHBoxLayout(self.scrollArea)
+        
+        # Create a splitter
+        splitter = QSplitter(Qt.Orientation.Horizontal)
+
+        inv_sec = self.frame_4
+        prev_sec = self.frame_63
+
+        splitter.addWidget(inv_sec)    
+        splitter.addWidget(prev_sec)
+
+        layout.addWidget(splitter)
+
     def ShowButtons(self):
         self.restock_pushButton.show()
         self.editProduct_pushButton.show()
@@ -79,7 +96,7 @@ class ItemsPage(QWidget, items_page):
         formated = f'{int(total_value):,.2f}'
         
         # set inventory total value label text
-        self.inventoryTotalValue_label.setText(str(formated))
+        self.inventoryTotalValue_label.setText(f"₱ {str(formated)}")
         
     def UpdateTotalStock(self):
         total_stock = str(self.collection.count_documents({}))
