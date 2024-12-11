@@ -144,8 +144,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Set System Logo in the main window with minimum and maximum height"""
         logo = QPixmap("app/resources/icons/system-icon.png")
         
-        min_height = 100  # Minimum height
-        max_height = 150  # Maximum height
+        min_height = 150  # Minimum height
+        max_height = 180  # Maximum height
 
         # Calculate the height of the QLabel
         current_height = self.logo.height()
