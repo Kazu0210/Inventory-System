@@ -133,12 +133,12 @@ QScrollBar:hover{
 }
             QScrollBar:vertical {
                 border: none;
-                background: #11B3BE;
+                background: #F0F0F0;
                 width: 14px;
                 margin: 0px 0px 0px 0px;
             }
             QScrollBar::handle:vertical {
-                background: #032F30;
+                background: #90A4AE;
                 border-radius: 7px;
                 min-height: 30px;
             }
@@ -147,7 +147,7 @@ QScrollBar:hover{
                 background: none;
             }
             QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-                background: #11B3BE;
+                background: #F0F0F0;
             }
             QScrollBar:horizontal {
                 border: none;
@@ -1517,6 +1517,8 @@ background-color: #228B22;
      </widget>
     </item>
    </layout>
+   <zorder>content_widget</zorder>
+   <zorder>frame</zorder>
   </widget>
  </widget>
  <resources>
