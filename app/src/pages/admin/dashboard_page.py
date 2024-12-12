@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt6.QtGui import QColor, QLinearGradient, QBrush, QIcon
 # from ui.dashboard_page import Ui_Form as Ui_dashboard_page
-from ui.final_ui.dashboard_page import Ui_Form as Ui_dashboard_page
+from ui.final_ui.dashboard import Ui_Form as Ui_dashboard_page
 
 from utils.DB_checker import db_checker
 from utils.Inventory_Monitor import InventoryMonitor
@@ -12,14 +12,17 @@ from datetime import datetime, timedelta
 import pymongo, random
 
 class Dashboard(QWidget, Ui_dashboard_page):
-    def __init__(self, main_window):
+    def __init__(self, username, main_window):
         super().__init__()
         self.setupUi(self)
         self.main_window = main_window
 
-        self.expand_total_prod_pushButton.clicked.connect(lambda: self.expand_total_prods())
+        # self.expand_total_prod_pushButton.clicked.connect(lambda: self.expand_total_prods())
 
         self.set_icons()
+
+        # set username label
+        self.username_label.setText(f"WELCOME, {username.upper()}!")
 
         # Database connection
         self.collection_name = self.connect_to_db("products_items")
@@ -30,9 +33,9 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.update_thread.start()
         
         # Set up the layout for the QScrollArea
-        cylinderContainerWidget = self.cylinder_types_contents
+        cylinderContainerWidget = self.cylinderContainerLayout
         self.cylinderContainerLayout = QVBoxLayout(cylinderContainerWidget)
-        self.cylinderTypes_scrollArea_2.setWidget(cylinderContainerWidget)
+        self.cylinderTypes_scrollArea.setWidget(cylinderContainerWidget)
 
         self.labels = []
 
@@ -44,27 +47,83 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # Initialize orders monitor
         self.order_monitor = InventoryMonitor('orders')
         self.order_monitor.start_listener_in_background()
-        self.order_monitor.data_changed_signal.connect(self.display_total_orders)
+        self.order_monitor.data_changed_signal.connect(self.orders_coll_change)
 
         # Initialize monitor to update stock level chart
         self.stock_level_monitor = InventoryMonitor('products')
+        
+        # Initialize monitor to update total sales label
+        self.sales_monitor = InventoryMonitor('sales')
+        self.sales_monitor.start_listener_in_background()
+        self.sales_monitor.data_changed_signal.connect(self.update_total_sales)
 
         # Call the function to update the cylinder list
         self.update_cylinder_list()
         self.update_total_products()
         # Call funcion that display order summary once
         self.display_total_orders()
+        self.update_total_sales()
+        self.update_total_orders()
 
         self.show_completed_order()
         self.show_pending_order()
         self.show_cancelled_order()
 
-        self.completed_order_listWidget_2.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        self.pending_order_listWidget_2.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        self.cancelled_order_listWidget_2.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # call funcion that load the stock level chart once
         self.load_stock_level_chart()
+
+    def orders_coll_change(self):
+        """Update all the widgets with orders data related"""
+        self.display_total_orders()
+        self.update_total_orders()
+
+    def update_total_orders(self):
+        """Update total orders label (all orders in the system)."""
+        try:
+            # Count the total number of orders in the database
+            total_orders = self.connect_to_db("orders").count_documents({})
+            
+            # Update the label with the total orders
+            self.total_orders_label.setText(f"{total_orders:,}")
+            print(f"Total orders: {total_orders}")
+        except Exception as e:
+            print(f"Error getting total orders: {e}")
+
+    def update_total_sales(self):
+        """Update total sales label (current sales today)"""
+        try:
+            # Get the start and end of the current day
+            today_start = datetime.combine(datetime.today(), datetime.min.time())
+            today_end = datetime.combine(datetime.today(), datetime.max.time())
+
+            # MongoDB aggregation pipeline
+            pipeline = [
+                {
+                    "$match": {
+                        "date": {"$gte": today_start, "$lt": today_end}  # Filter by today's range
+                    }
+                },
+                {
+                    "$group": {
+                        "_id": None,  # No specific grouping
+                        "total_sales": {"$sum": "$total_amount"}  # Sum the sales
+                    }
+                }
+            ]
+
+            # Execute the aggregation query
+            result = self.connect_to_db("sales").aggregate(pipeline)
+            total_sales = next(result, {}).get('total_sales', 0)  # Get the total or default to 0
+
+            # Update the label
+            self.total_sales_label.setText(f"{total_sales:,.2f}")
+            print(f"Total sales: {total_sales:.2f}")
+        except Exception as e:
+            print(f"Error getting total sales: {e}")
 
     def expand_total_prods(self):
         """Expand total products frame"""
@@ -128,11 +187,12 @@ class Dashboard(QWidget, Ui_dashboard_page):
         """Update the total products label"""
         total_products = len(self.get_product_name_and_cylinder_size())
         print(f'result: {total_products}')
-        self.total_prod_label.setText(str(total_products))
+        self.totalItemStock_label.setText(str(total_products))
 
     def set_icons(self):
         """Add icons to buttons and labels"""
-        self.expand_total_prod_pushButton.setIcon(QIcon("app/resources/icons/expand.png"))
+        # self.expand_total_prod_pushButton.setIcon(QIcon("app/resources/icons/expand.png"))
+        pass
 
     def update_stock_widgets(self):
         self.update_cylinder_list()
@@ -199,7 +259,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         chart_view = QChartView(chart)
 
         # frame to hold the chart
-        self.chart_frame = self.stockChart_frame_2
+        self.chart_frame = self.stockChart_frame
         # self.chart_frame.setStyleSheet("border: 2px solid black;")
                 # Clear existing layout if present
         if self.chart_frame.layout():
@@ -237,9 +297,9 @@ class Dashboard(QWidget, Ui_dashboard_page):
                 f"Order Status: {order_status}"
             )
 
-            item = QListWidgetItem(self.cancelled_order_listWidget_2)
+            item = QListWidgetItem(self.cancelled_order_listWidget)
             item.setSizeHint(QSize(200, 100))
-            self.cancelled_order_listWidget_2.setItemWidget(item, order_id_label)
+            self.cancelled_order_listWidget.setItemWidget(item, order_id_label)
 
     def show_pending_order(self):
         orders = self.get_pending_orders()
@@ -256,9 +316,9 @@ class Dashboard(QWidget, Ui_dashboard_page):
                 f"Order Status: {order_status}"
             )
 
-            item = QListWidgetItem(self.pending_order_listWidget_2)
+            item = QListWidgetItem(self.pending_order_listWidget)
             item.setSizeHint(QSize(200, 100))
-            self.pending_order_listWidget_2.setItemWidget(item, order_id_label)
+            self.pending_order_listWidget.setItemWidget(item, order_id_label)
 
     def show_completed_order(self):
         orders = self.get_completed_orders()
@@ -275,9 +335,9 @@ class Dashboard(QWidget, Ui_dashboard_page):
                 f"Order Status: {order_status}"
             )
 
-            item = QListWidgetItem(self.completed_order_listWidget_2)
+            item = QListWidgetItem(self.completed_order_listWidget)
             item.setSizeHint(QSize(200, 100))
-            self.completed_order_listWidget_2.setItemWidget(item, order_id_label)
+            self.completed_order_listWidget.setItemWidget(item, order_id_label)
     def get_cancelled_orders(self):
         try:
             orders_collection = self.connect_to_db('orders')
@@ -309,9 +369,9 @@ class Dashboard(QWidget, Ui_dashboard_page):
         weekly_order_count = self.get_weekly_order_count()
         monthly_order_count = self.get_monthly_order_count()
 
-        self.daily_order_label_2.setText(daily_order_count)
-        self.weekly_order_label_2.setText(weekly_order_count)
-        self.monthly_order_label_2.setText(monthly_order_count)
+        self.daily_order_label.setText(daily_order_count)
+        self.weekly_order_label.setText(weekly_order_count)
+        self.monthly_order_label.setText(monthly_order_count)
 
     def get_monthly_order_count(self):
         # Get today's date
@@ -460,7 +520,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
             total_stock = self.get_quantity_in_stock()
         try:
             # print(f'total quantity: {total_stock}')
-            self.totalItemStock_label_2.setText(f'{total_stock}')
+            self.totalItemStock_label.setText(f'{total_stock}')
         except Exception as e:
             print(e)
 

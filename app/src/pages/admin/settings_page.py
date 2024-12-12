@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget
-from ui.settings_page import Ui_settings_page
+from ui.final_ui.settings import Ui_Form as Ui_settings_page
 import json
 
 class settingsPage(QWidget, Ui_settings_page):

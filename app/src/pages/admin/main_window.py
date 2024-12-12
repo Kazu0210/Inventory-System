@@ -53,7 +53,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.content_window_layout = QStackedLayout(self.content_widget)
 
-        dashboard_section = Dashboard(self) # index 0
+        dashboard_section = Dashboard(username, self) # index 0
         self.content_window_layout.addWidget(dashboard_section)
 
         # empty_widget = QWidget()

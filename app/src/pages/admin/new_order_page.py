@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QFrame, QMessageBox
+from PyQt6.QtWidgets import QFrame, QMessageBox, QToolTip
 
 from ui.employee.add_order_item import Ui_Frame as Ui_add_form
 
@@ -94,8 +94,8 @@ class AddOrderForm(QFrame, Ui_add_form):
             # Insert or update the sales data in the database
             self.connect_to_db('sales').insert_one(sales_data)
 
-            # Insert or update the orders data in the database
-            self.connect_to_db('orders').insert_one(sales_data)
+            # # Insert or update the orders data in the database
+            # self.connect_to_db('orders').insert_one(sales_data)
 
             # Show confirmation message
             # QMessageBox.information(self, "Sales Recorded", "Sales recorded successfully!")
