@@ -107,7 +107,6 @@ class Ui_Form(object):
         self.prices_tableWidget.setMinimumSize(QtCore.QSize(883, 550))
         self.prices_tableWidget.setMaximumSize(QtCore.QSize(16777215, 550))
         self.prices_tableWidget.setStyleSheet("#prices_tableWidget{\n"
-"color: #000;\n"
 "border: none;\n"
 "}\n"
 "            QScrollBar:vertical {\n"

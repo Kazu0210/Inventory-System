@@ -120,6 +120,7 @@
               <widget class="QLabel" name="label">
                <property name="styleSheet">
                 <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #000;
 	</string>
                </property>
                <property name="text">
@@ -248,6 +249,7 @@ font: 87 10pt &quot;Noto Sans Black&quot;;</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">#prices_tableWidget{
+color: #000;
 border: none;
 }
             QScrollBar:vertical {
@@ -541,7 +543,9 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                 <item alignment="Qt::AlignLeft">
                  <widget class="QLabel" name="label_2">
                   <property name="styleSheet">
-                   <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;</string>
+                   <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #000;
+</string>
                   </property>
                   <property name="text">
                    <string>Price History</string>

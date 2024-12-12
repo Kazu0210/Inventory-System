@@ -112,6 +112,7 @@ class PricesPage(QWidget, Ui_price_page):
         QTableWidget{
         border-radius: 5px;
         background-color: #fff;
+        color: #000;
         }
         QHeaderView:Section{
         background-color: #032F30;
@@ -323,6 +324,7 @@ class PricesPage(QWidget, Ui_price_page):
         QTableWidget{
         border-radius: 5px;
         background-color: #fff;
+        color: #000;
         }
         QHeaderView:Section{
         background-color: #032F30;
