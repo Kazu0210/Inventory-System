@@ -440,7 +440,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_btn_icons()
 
     def set_active_icon(self, icon_widget):
-        print(f"Icon widget's file name: {icon_widget.file_name}")
+        # print(f"Icon widget's file name: {icon_widget.file_name}")
         file_name = icon_widget.file_name
 
         file_path = f"app/resources/icons/{file_name}"

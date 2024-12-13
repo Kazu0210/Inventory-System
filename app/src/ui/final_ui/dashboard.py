@@ -19,13 +19,56 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
-        self.scrollArea.setStyleSheet("border: none;")
+        self.scrollArea.setStyleSheet("\n"
+"*{\n"
+"border: none;\n"
+"}\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1158, 1044))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1140, 1026))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame_3 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents_2)
         self.frame_3.setMaximumSize(QtCore.QSize(16777215, 50))
@@ -278,7 +321,48 @@ class Ui_Form(object):
         self.cylinderTypes_scrollArea = QtWidgets.QScrollArea(parent=self.frame_12)
         self.cylinderTypes_scrollArea.setMinimumSize(QtCore.QSize(360, 250))
         self.cylinderTypes_scrollArea.setMaximumSize(QtCore.QSize(16777215, 360))
-        self.cylinderTypes_scrollArea.setStyleSheet("background-color: #fff;")
+        self.cylinderTypes_scrollArea.setStyleSheet("*{\n"
+"background-color: #fff;\n"
+"}\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #555;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.cylinderTypes_scrollArea.setWidgetResizable(True)
         self.cylinderTypes_scrollArea.setObjectName("cylinderTypes_scrollArea")
         self.cylinderContainerLayout = QtWidgets.QWidget()

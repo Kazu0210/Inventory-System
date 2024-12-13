@@ -3,6 +3,8 @@ from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt6.QtGui import QColor, QLinearGradient, QBrush, QIcon
 # from ui.dashboard_page import Ui_Form as Ui_dashboard_page
 from ui.final_ui.dashboard import Ui_Form as Ui_dashboard_page
+from ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
+from ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockInfo
 
 from utils.DB_checker import db_checker
 from utils.Inventory_Monitor import InventoryMonitor
@@ -10,6 +12,16 @@ from utils.Inventory_Monitor import InventoryMonitor
 from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, QEasingCurve
 from datetime import datetime, timedelta
 import pymongo, random
+
+class ProductInStockItem(QFrame, Ui_prodStockItem):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+class ProductInStockInfo(QFrame, Ui_prodStockInfo):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
 
 class Dashboard(QWidget, Ui_dashboard_page):
     def __init__(self, username, main_window):
@@ -455,30 +467,107 @@ class Dashboard(QWidget, Ui_dashboard_page):
         except Exception as e:
             print(f"Error getting daily order count: {e}")
             return {}
+        
+    def get_products_in_stock(self):
+        """
+        Retrieves total stock of each product size and provides a breakdown by product name, including quantities.
 
+        Returns:
+            dict: A dictionary with product sizes as keys and a summary as values.
+        """
+        pipeline = [
+            {
+                "$group": {
+                    "_id": {"size": "$cylinder_size", "product_name": "$product_name"},
+                    "quantity": {"$sum": "$quantity_in_stock"}
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$_id.size",
+                    "total_stock": {"$sum": "$quantity"},
+                    "suppliers": {
+                        "$push": {
+                            "product_name": "$_id.product_name",
+                            "quantity": "$quantity"
+                        }
+                    }
+                }
+            },
+            {
+                "$sort": {"_id": 1}  # Sort by cylinder size
+            }
+        ]
+
+        results = self.connect_to_db("products_items").aggregate(pipeline)
+        products_in_stock = {}
+
+        for item in results:
+            size = item['_id']
+            products_breakdown = {
+                product['product_name']: product['quantity'] for product in item['suppliers']
+            }
+            products_in_stock[size] = {
+                "total_stock": item['total_stock'],
+                "products": products_breakdown
+            }
+
+        return products_in_stock
+    
     def update_cylinder_list(self):
-        processed_data = self.get_quantity_in_stock()
+        processed_data = self.get_products_in_stock()
         self.display_cylinder_data(processed_data)
 
     def display_cylinder_data(self, processed_data):
-        # This method will update the scroll area with new data
-        # Make sure to reuse existing labels or create new ones as needed
-        
-        # First, clear the existing labels in the scroll area (if needed)
+        """
+        Updates the scroll area with new cylinder data, including product name details.
+        """
+        # Clear existing labels
         for label in self.labels:
             self.cylinderContainerLayout.removeWidget(label)
-            label.deleteLater()  # Ensure the widgets are deleted properly
-        self.labels.clear()  # Clear the list of stored labels
+            label.deleteLater()
+        self.labels.clear()
 
-        # Now, create new labels based on the processed data
-        for data in processed_data:
-            cylinder_size = data['cylinder_size']
-            total_quantity = data['total_quantity']
+        layout = self.cylinderContainerLayout.layout()
+    
+        # If the layout exists, iterate through all the items and remove them
+        if layout:
+            for i in range(layout.count()):
+                item = layout.itemAt(i)
+                widget = item.widget()
+                
+                # If the item is a widget, remove it
+                if widget:
+                    widget.deleteLater()  # This deletes the widget and removes it from the layout
+                    
+        # Create new labels based on processed data
+        for size, details in processed_data.items():
+            total_stock = details['total_stock']
+            products = details['products']
 
-            label = QLabel(f'{cylinder_size}KG - {total_quantity} cylinder in stock')
-            label.setMaximumHeight(50)  # Set max height if needed
-            self.labels.append(label)  # Store reference to the label
-            self.cylinderContainerLayout.addWidget(label)  # Add the label to the layout
+            # Create an instance of ProductInStockItem (assumed to be a custom widget)
+            list_item = ProductInStockItem()
+            list_item.cylinder_size_label.setText(size)
+            list_item.quantity_in_stock_label.setText(str(total_stock))
+
+            # Add product-specific details to frame_6
+            for product_name, quantity in products.items():
+                # Create a new ProductInStockInfo (assumed to be a custom widget)
+                prod_info = ProductInStockInfo()
+                prod_info.prod_name_label.setText(f"{product_name}:")
+                prod_info.quantity_label.setText(str(quantity))
+
+                print(f"product name text: {prod_info.prod_name_label.text()}")
+
+                # Make sure frame_6 has a layout set before adding widgets
+                if not list_item.frame_6.layout():
+                    list_item.frame_6.setLayout(QVBoxLayout())  # Example of setting a layout if not set
+
+                # Add product info widget to the layout of frame_6
+                list_item.frame_6.layout().addWidget(prod_info)
+
+            # Add the list item widget (which holds product info) to cylinderContainerLayout
+            self.cylinderContainerLayout.addWidget(list_item)
 
     def get_quantity_in_stock(self):
         try:
