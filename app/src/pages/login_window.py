@@ -1,5 +1,10 @@
 from PyQt6.QtWidgets import *
-from ui.with_design.login_mainWindow import Ui_login_mainWindow as login_mainWindow
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
+
+# from ui.with_design.login_mainWindow import Ui_login_mainWindow as login_mainWindow
+from ui.final_ui.login_window import Ui_MainWindow as login_mainWindow
+
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
 from employee_account.dashboard import employee_dashboard
@@ -15,18 +20,42 @@ class loginWindow(QMainWindow, login_mainWindow):
         super().__init__()
         self.setupUi(self)
         self.logs = Activity_Logs()
-        self.login_btn.clicked.connect(self.LoginBtn_clicked)
+        self.login_pushButton.clicked.connect(self.LoginBtn_clicked)
 
         self.defaultAdmin = createDefaultAdmin()
         self.defaultAdmin
 
+        self.set_system_logo()
+
+    def set_system_logo(self):
+        """Set System Logo in the main window with minimum and maximum height"""
+        logo = QPixmap("app/resources/icons/system-icon.png")
+        
+        min_height = 180  # Minimum height
+        max_height = 200  # Maximum height
+
+        # Calculate the height of the QLabel
+        current_height = self.logo.height()
+
+        # Ensure the height stays within the defined range
+        height_to_use = max(min_height, min(max_height, current_height))
+
+        # Scale the pixmap to the computed height while maintaining aspect ratio
+        scaled_logo = logo.scaledToHeight(height_to_use, Qt.TransformationMode.SmoothTransformation)
+
+        # Set the scaled pixmap to the QLabel
+        self.logo.setPixmap(scaled_logo)
+
+        # Ensure the QLabel does not distort the pixmap
+        self.logo.setScaledContents(True)
+
     def LoginBtn_clicked(self):
         self.login_attempt()
-        self.username.clear()
-        self.password.clear()
+        self.username_lineEdit.clear()
+        self.password_lineEdit.clear()
 
     def is_account_pending(self):
-        username = self.username.text().strip()
+        username = self.username_lineEdit.text().strip()
         data = self.connect_to_db('accounts').find_one({"username": username})
         try:
             if data['status'] == 'Pending':
@@ -38,7 +67,7 @@ class loginWindow(QMainWindow, login_mainWindow):
 
     def is_account_inactive(self):
         # check if the account is inactive
-        username = self.username.text().strip()
+        username = self.username_lineEdit.text().strip()
         data = self.connect_to_db('accounts').find_one({"username": username})
 
         try:
@@ -51,7 +80,7 @@ class loginWindow(QMainWindow, login_mainWindow):
 
     def is_account_blocked(self):
         # check if the account is inactive
-        username = self.username.text().strip()
+        username = self.username_lineEdit.text().strip()
         data = self.connect_to_db('accounts').find_one({"username": username})
 
         try:
@@ -63,8 +92,8 @@ class loginWindow(QMainWindow, login_mainWindow):
             print(f"An error occurred: {e}")
 
     def login_attempt(self):
-        username = self.username.text().strip()
-        password = self.password.text().strip()
+        username = self.username_lineEdit.text().strip()
+        password = self.password_lineEdit.text().strip()
 
         if self.is_account_inactive():
             self.logs.login_attempt_failed(f"Login failed: {username} account is inactive")

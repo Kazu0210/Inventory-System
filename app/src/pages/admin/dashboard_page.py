@@ -314,7 +314,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
             self.cancelled_order_listWidget.setItemWidget(item, order_id_label)
 
     def show_pending_order(self):
-        orders = self.get_pending_orders()
+        orders = self.get_processing_orders()
         for order in orders:
             orderID = order.get('order_id', '')
             customer_name = order.get('customer_name')
@@ -358,10 +358,10 @@ class Dashboard(QWidget, Ui_dashboard_page):
         except Exception as e:
             print(f"Error getting completed orders: {e}")
             return []
-    def get_pending_orders(self):
+    def get_processing_orders(self):
         try:
             orders_collection = self.connect_to_db('orders')
-            completed_orders = orders_collection.find({"order_status": "Pending"})
+            completed_orders = orders_collection.find({"order_status": "Processing"}).sort("order_id", pymongo.DESCENDING)
             return completed_orders
         except Exception as e:
             print(f"Error getting completed orders: {e}")

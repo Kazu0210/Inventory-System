@@ -3,6 +3,7 @@ from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 import pymongo
 from bson import ObjectId
 # from ui.inventoryPage import Ui_Form as items_page
+from pages.admin.newitemsPage import newItem_page
 from ui.NEW.inventory_page import Ui_Form as items_page
 from pages.admin.edit_product_page import EditProductInformation
 from pages.admin.restock_page import RestockProduct
@@ -24,16 +25,11 @@ class ItemsPage(QWidget, items_page):
         self.dashboard_mainWindow = dashboard_mainWindow
 
         # new item button connection
-        self.setItems.clicked.connect(self.switch_to_items_page)
+        self.setItems.clicked.connect(lambda: self.open_add_product_form())
         # print button
         self.print_btn.clicked.connect(self.print_btn_clicked)
 
         self.collection = self.connect_to_db('products_items')
-
-        # create a timer to update
-        # self.timer = QTimer()
-        # self.timer.timeout.connect(self.update_all)
-        # self.timer.start(100)
 
         self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
         self.tableWidget.itemClicked.connect(self.on_item_clicked)
@@ -52,33 +48,14 @@ class ItemsPage(QWidget, items_page):
         # Call update_all function to populate table once
         self.update_all()
 
-        # self.splitter()
-
-    def splitter(self):
-        """Make inventory table and preview section resizable"""
-        layout = QHBoxLayout(self.scrollArea)
-        
-        # Create a splitter
-        splitter = QSplitter(Qt.Orientation.Horizontal)
-
-        inv_sec = self.frame_4
-        prev_sec = self.frame_63
-
-        splitter.addWidget(inv_sec)    
-        splitter.addWidget(prev_sec)
-
-        layout.addWidget(splitter)
-
     def ShowButtons(self):
         self.restock_pushButton.show()
         self.editProduct_pushButton.show()
-        self.deleteProduct_pushButton.show()
         self.archive_pushButton.show()
         
     def HideButtons(self):
         self.restock_pushButton.hide()
         self.editProduct_pushButton.hide()
-        self.deleteProduct_pushButton.hide()
         self.archive_pushButton.hide()
 
     def UpdateInventoryTotalValue(self):
@@ -100,7 +77,7 @@ class ItemsPage(QWidget, items_page):
         
     def UpdateTotalStock(self):
         total_stock = str(self.collection.count_documents({}))
-        self.total_stock_label.setText(total_stock)
+        self.inventoryTotalValue_label.setText(total_stock)
 
     def on_row_clicked(self):
         selected_rows = self.tableWidget.selectionModel().selectedRows()
@@ -161,11 +138,17 @@ class ItemsPage(QWidget, items_page):
             self.productName_label.setText(self.productName)
             self.cylinderSize_label.setText(str(self.cylinderSize))
             self.quantity_label.setText(str(self.quantity))
-            self.price_label.setText(str(self.price))
+
+            formated_price = f'₱ {int(self.price):,.2f}'
+            self.price_label.setText(str(formated_price))
+
             self.supplier_label.setText(self.supplier)
             self.restockedDate_label.setText(self.restockDate)
             self.description_label.setText(self.description)
-            self.totalValue_label.setText(str(self.totalValue))
+
+            formated_total_val = f'₱ {int(self.totalValue):,.2f}'
+            self.totalValue_label.setText(str(formated_total_val))
+
             self.status_label.setText(self.status)
 
             self.product_data = {
@@ -180,11 +163,6 @@ class ItemsPage(QWidget, items_page):
                 'total_value': self.totalValue,
                 'status': self.status
             }
-
-            # Connect the delete button only once
-            if not hasattr(self, 'delete_btn_connected'):
-                self.deleteProduct_pushButton.clicked.connect(lambda: self.deleteProduct())
-                self.delete_btn_connected = True
 
             # Connect the edit button only once
             if not hasattr(self, 'edit_btn_connected'):
@@ -320,34 +298,6 @@ class ItemsPage(QWidget, items_page):
         print(f'data received from edit product page: {data}')
         self.updatePreviewSection(data)
 
-    def deleteProduct(self):
-        if not self.object_id:
-            print('No object id')
-            return
-        
-        selected_rows = self.tableWidget.selectionModel().selectedRows()
-
-        if not selected_rows:
-            QMessageBox.warning(self, "No Row Selected", "Please select a row to delete.")
-            return
-        
-        reply = QMessageBox.question(
-            self, 
-            "Delete Product", 
-            "Are you certain you want to add this product to the archive?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        
-        if reply == QMessageBox.StandardButton.Yes:
-            self.collection.delete_one({'_id': self.object_id})
-
-            # remoe the row from the table
-            row_index = selected_rows[0].row()
-            self.tableWidget.removeRow(row_index)
-
-            # updatea the select row variable
-            self.selected_row = None
-
-            # clear preview section
-
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)
         self.tableWidget.selectRow(row)
@@ -416,9 +366,63 @@ class ItemsPage(QWidget, items_page):
 
     def update_table(self):
         table = self.tableWidget
+        table.setSortingEnabled(True)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
+
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        color: #000;
+        }
+        QHeaderView:Section{
+        background-color: #228B22;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
 
         # header json directory
         header_dir = "app/resources/config/table/items_tableHeader.json"
@@ -429,9 +433,21 @@ class ItemsPage(QWidget, items_page):
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
 
+        header = self.tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+
         # set width of all the columns
         for column in range(table.columnCount()):
-            table.setColumnWidth(column, 200)
+            table.setColumnWidth(column, 150)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+
+        header.setFixedHeight(50)
+
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
@@ -447,12 +463,17 @@ class ItemsPage(QWidget, items_page):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
+                
                 if value is not None:
                     if header == 'priceperunit' or header == 'totalvalue':
-                        if value:
-                            formatted_price = f"{int(value):,.2f}"
-                            value = formatted_price
-                    table.setItem(row, column, QTableWidgetItem(str(value)))
+                        # Format value as price
+                        formatted_price = f"{int(value):,.2f}" if value else ""
+                        value = formatted_price
+                    
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                    table.setItem(row, column, table_item)
+
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
@@ -460,8 +481,16 @@ class ItemsPage(QWidget, items_page):
     def clean_header(self, header):
             return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
     
-    def switch_to_items_page(self):
-        self.dashboard_mainWindow.content_window_layout.setCurrentIndex(5)
+    def open_add_product_form(self):
+        """Open add product form"""
+        print('gumana')
+        self.addProduct = newItem_page()
+        self.addProduct.show()
+        # self.addProduct.save_signal.connect(self.handleSave)
+
+    
+    # def switch_to_items_page(self):
+    #     self.dashboard_mainWindow.content_window_layout.setCurrentIndex(5)
 
     def onCreateAccountBtnClicked(self):
         self.dashboard_mainWindow.content_window_layout.setCurrentIndex(0)

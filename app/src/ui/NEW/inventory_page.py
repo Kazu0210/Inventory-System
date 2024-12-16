@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1051, 729)
+        Form.resize(1051, 772)
         Form.setStyleSheet("*{\n"
 "color: #0D044E;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -23,13 +23,15 @@ class Ui_Form(object):
         self.verticalLayout_5.setSpacing(5)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
-        self.scrollArea.setStyleSheet("")
+        self.scrollArea.setStyleSheet("border: none;")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1049, 727))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1051, 772))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
+        self.horizontalLayout_60.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_60.setSpacing(5)
         self.horizontalLayout_60.setObjectName("horizontalLayout_60")
         self.frame_4 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -50,235 +52,133 @@ class Ui_Form(object):
         self.horizontalLayout_73.setObjectName("horizontalLayout_73")
         self.label_32 = QtWidgets.QLabel(parent=self.frame_76)
         self.label_32.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #000;    ")
+"color: #333333;")
         self.label_32.setObjectName("label_32")
         self.horizontalLayout_73.addWidget(self.label_32, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_9.addWidget(self.frame_76)
-        self.frame_66 = QtWidgets.QFrame(parent=self.frame_4)
-        self.frame_66.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_66.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_66.setObjectName("frame_66")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_66)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setSpacing(5)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.frame_73 = QtWidgets.QFrame(parent=self.frame_66)
-        self.frame_73.setMinimumSize(QtCore.QSize(180, 50))
-        self.frame_73.setMaximumSize(QtCore.QSize(250, 50))
-        self.frame_73.setStyleSheet("*{\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"}\n"
-"\n"
-"#frame_73{\n"
-"background-color: #0C959B;\n"
-"border-radius: 10px;\n"
+        self.frame = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.frame_20 = QtWidgets.QFrame(parent=self.frame)
+        self.frame_20.setStyleSheet("#frame_20{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
 "}")
-        self.frame_73.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_73.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_73.setObjectName("frame_73")
-        self.horizontalLayout_70 = QtWidgets.QHBoxLayout(self.frame_73)
-        self.horizontalLayout_70.setContentsMargins(5, 5, 5, 5)
-        self.horizontalLayout_70.setObjectName("horizontalLayout_70")
-        self.frame_74 = QtWidgets.QFrame(parent=self.frame_73)
-        self.frame_74.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_74.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_74.setObjectName("frame_74")
-        self.horizontalLayout_71 = QtWidgets.QHBoxLayout(self.frame_74)
-        self.horizontalLayout_71.setContentsMargins(5, 10, 5, 10)
-        self.horizontalLayout_71.setSpacing(5)
-        self.horizontalLayout_71.setObjectName("horizontalLayout_71")
-        self.frame_75 = QtWidgets.QFrame(parent=self.frame_74)
-        self.frame_75.setMaximumSize(QtCore.QSize(170, 16777215))
-        self.frame_75.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_75.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_75.setObjectName("frame_75")
-        self.horizontalLayout_72 = QtWidgets.QHBoxLayout(self.frame_75)
-        self.horizontalLayout_72.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_72.setSpacing(5)
-        self.horizontalLayout_72.setObjectName("horizontalLayout_72")
-        self.label_31 = QtWidgets.QLabel(parent=self.frame_75)
-        self.label_31.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_31.setMaximumSize(QtCore.QSize(130, 40))
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans Black")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(10)
-        self.label_31.setFont(font)
-        self.label_31.setStyleSheet("color: #fff")
-        self.label_31.setObjectName("label_31")
-        self.horizontalLayout_72.addWidget(self.label_31)
-        spacerItem = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_72.addItem(spacerItem)
-        self.inventoryTotalValue_label_2 = QtWidgets.QLabel(parent=self.frame_75)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.inventoryTotalValue_label_2.sizePolicy().hasHeightForWidth())
-        self.inventoryTotalValue_label_2.setSizePolicy(sizePolicy)
-        self.inventoryTotalValue_label_2.setMaximumSize(QtCore.QSize(50, 40))
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.inventoryTotalValue_label_2.setFont(font)
-        self.inventoryTotalValue_label_2.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"color: #fff;")
-        self.inventoryTotalValue_label_2.setObjectName("inventoryTotalValue_label_2")
-        self.horizontalLayout_72.addWidget(self.inventoryTotalValue_label_2)
-        self.horizontalLayout_71.addWidget(self.frame_75, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.horizontalLayout_70.addWidget(self.frame_74)
-        self.verticalLayout.addWidget(self.frame_73)
-        self.frame_70 = QtWidgets.QFrame(parent=self.frame_66)
-        self.frame_70.setMinimumSize(QtCore.QSize(180, 50))
-        self.frame_70.setMaximumSize(QtCore.QSize(250, 50))
-        self.frame_70.setStyleSheet("*{\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"}\n"
-"\n"
-"#frame_70{\n"
-"background-color: #0C959B;\n"
-"border-radius: 10px;\n"
+        self.frame_20.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_20.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_20.setObjectName("frame_20")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_20)
+        self.horizontalLayout_7.setContentsMargins(9, 9, 9, 9)
+        self.horizontalLayout_7.setSpacing(5)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.frame_7 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_7.setStyleSheet("#frame_7{\n"
+"background-color: #fff;\n"
+"border: 1px solid #228B22;\n"
+"border-radius: 5px;\n"
 "}")
-        self.frame_70.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_70.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_70.setObjectName("frame_70")
-        self.horizontalLayout_67 = QtWidgets.QHBoxLayout(self.frame_70)
-        self.horizontalLayout_67.setContentsMargins(5, 5, 5, 5)
-        self.horizontalLayout_67.setSpacing(5)
-        self.horizontalLayout_67.setObjectName("horizontalLayout_67")
-        self.frame_71 = QtWidgets.QFrame(parent=self.frame_70)
-        self.frame_71.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_71.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_71.setObjectName("frame_71")
-        self.horizontalLayout_68 = QtWidgets.QHBoxLayout(self.frame_71)
-        self.horizontalLayout_68.setContentsMargins(5, 10, 5, 10)
-        self.horizontalLayout_68.setSpacing(5)
-        self.horizontalLayout_68.setObjectName("horizontalLayout_68")
-        self.frame_72 = QtWidgets.QFrame(parent=self.frame_71)
-        self.frame_72.setMinimumSize(QtCore.QSize(190, 0))
-        self.frame_72.setMaximumSize(QtCore.QSize(190, 16777215))
-        self.frame_72.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_72.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_72.setObjectName("frame_72")
-        self.horizontalLayout_69 = QtWidgets.QHBoxLayout(self.frame_72)
-        self.horizontalLayout_69.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_69.setSpacing(5)
-        self.horizontalLayout_69.setObjectName("horizontalLayout_69")
-        self.label_30 = QtWidgets.QLabel(parent=self.frame_72)
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans Black")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(10)
-        self.label_30.setFont(font)
-        self.label_30.setStyleSheet("color: #fff")
-        self.label_30.setObjectName("label_30")
-        self.horizontalLayout_69.addWidget(self.label_30, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        spacerItem1 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_69.addItem(spacerItem1)
-        self.inventoryTotalValue_label = QtWidgets.QLabel(parent=self.frame_72)
+        self.frame_7.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_7)
+        self.verticalLayout_7.setSpacing(5)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.label_12 = QtWidgets.QLabel(parent=self.frame_7)
+        self.label_12.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_12.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_12.setObjectName("label_12")
+        self.verticalLayout_7.addWidget(self.label_12)
+        self.total_orders_label = QtWidgets.QLabel(parent=self.frame_7)
+        self.total_orders_label.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.total_orders_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"")
+        self.total_orders_label.setObjectName("total_orders_label")
+        self.verticalLayout_7.addWidget(self.total_orders_label)
+        self.horizontalLayout_7.addWidget(self.frame_7, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame_8 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_8.setStyleSheet("#frame_8{\n"
+"background-color: #fff;\n"
+"border: 1px solid #228B22;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame_8.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_8.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_8.setObjectName("frame_8")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_8)
+        self.verticalLayout_8.setSpacing(5)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.label_15 = QtWidgets.QLabel(parent=self.frame_8)
+        self.label_15.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_15.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_15.setObjectName("label_15")
+        self.verticalLayout_8.addWidget(self.label_15)
+        self.inventoryTotalValue_label = QtWidgets.QLabel(parent=self.frame_8)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.inventoryTotalValue_label.sizePolicy().hasHeightForWidth())
         self.inventoryTotalValue_label.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.inventoryTotalValue_label.setFont(font)
-        self.inventoryTotalValue_label.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"color: #fff;")
-        self.inventoryTotalValue_label.setObjectName("inventoryTotalValue_label")
-        self.horizontalLayout_69.addWidget(self.inventoryTotalValue_label, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.horizontalLayout_68.addWidget(self.frame_72, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
-        self.horizontalLayout_67.addWidget(self.frame_71)
-        self.verticalLayout.addWidget(self.frame_70)
-        self.frame_67 = QtWidgets.QFrame(parent=self.frame_66)
-        self.frame_67.setMinimumSize(QtCore.QSize(180, 50))
-        self.frame_67.setMaximumSize(QtCore.QSize(250, 50))
-        self.frame_67.setStyleSheet("*{\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"}\n"
-"\n"
-"#frame_67{\n"
-"background-color: #0C959B;\n"
-"border-radius: 10px;\n"
-"}")
-        self.frame_67.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_67.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_67.setObjectName("frame_67")
-        self.horizontalLayout_64 = QtWidgets.QHBoxLayout(self.frame_67)
-        self.horizontalLayout_64.setContentsMargins(5, 5, 5, 5)
-        self.horizontalLayout_64.setSpacing(5)
-        self.horizontalLayout_64.setObjectName("horizontalLayout_64")
-        self.frame_68 = QtWidgets.QFrame(parent=self.frame_67)
-        self.frame_68.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_68.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_68.setObjectName("frame_68")
-        self.horizontalLayout_65 = QtWidgets.QHBoxLayout(self.frame_68)
-        self.horizontalLayout_65.setContentsMargins(5, 10, 5, 10)
-        self.horizontalLayout_65.setSpacing(5)
-        self.horizontalLayout_65.setObjectName("horizontalLayout_65")
-        self.frame_69 = QtWidgets.QFrame(parent=self.frame_68)
-        self.frame_69.setMaximumSize(QtCore.QSize(170, 16777215))
-        self.frame_69.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_69.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_69.setObjectName("frame_69")
-        self.horizontalLayout_66 = QtWidgets.QHBoxLayout(self.frame_69)
-        self.horizontalLayout_66.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_66.setSpacing(5)
-        self.horizontalLayout_66.setObjectName("horizontalLayout_66")
-        self.label_29 = QtWidgets.QLabel(parent=self.frame_69)
-        self.label_29.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_29.setMaximumSize(QtCore.QSize(130, 40))
+        self.inventoryTotalValue_label.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
         font.setFamily("Noto Sans Black")
-        font.setPointSize(10)
+        font.setPointSize(16)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(10)
-        self.label_29.setFont(font)
-        self.label_29.setStyleSheet("color: #fff")
-        self.label_29.setObjectName("label_29")
-        self.horizontalLayout_66.addWidget(self.label_29)
-        spacerItem2 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_66.addItem(spacerItem2)
-        self.total_stock_label = QtWidgets.QLabel(parent=self.frame_69)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.total_stock_label.sizePolicy().hasHeightForWidth())
-        self.total_stock_label.setSizePolicy(sizePolicy)
-        self.total_stock_label.setMaximumSize(QtCore.QSize(50, 40))
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.total_stock_label.setFont(font)
-        self.total_stock_label.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"color: #fff;")
-        self.total_stock_label.setObjectName("total_stock_label")
-        self.horizontalLayout_66.addWidget(self.total_stock_label)
-        self.horizontalLayout_65.addWidget(self.frame_69, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.horizontalLayout_64.addWidget(self.frame_68)
-        self.verticalLayout.addWidget(self.frame_67)
-        self.verticalLayout_9.addWidget(self.frame_66)
+        self.inventoryTotalValue_label.setFont(font)
+        self.inventoryTotalValue_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"\n"
+"")
+        self.inventoryTotalValue_label.setObjectName("inventoryTotalValue_label")
+        self.verticalLayout_8.addWidget(self.inventoryTotalValue_label)
+        self.horizontalLayout_7.addWidget(self.frame_8, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame_21 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_21.setStyleSheet("#frame_21{\n"
+"background-color: #fff;\n"
+"border: 1px solid #FF7043;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame_21.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_21.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_21.setObjectName("frame_21")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_21)
+        self.verticalLayout_10.setSpacing(5)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.label_17 = QtWidgets.QLabel(parent=self.frame_21)
+        self.label_17.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_17.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_17.setObjectName("label_17")
+        self.verticalLayout_10.addWidget(self.label_17)
+        self.label_18 = QtWidgets.QLabel(parent=self.frame_21)
+        self.label_18.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_18.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"")
+        self.label_18.setObjectName("label_18")
+        self.verticalLayout_10.addWidget(self.label_18)
+        self.horizontalLayout_7.addWidget(self.frame_21, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.horizontalLayout.addWidget(self.frame_20)
+        self.verticalLayout_9.addWidget(self.frame)
         self.frame_64 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_64.setStyleSheet("#frame_64{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}")
         self.frame_64.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_64.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_64.setObjectName("frame_64")
         self.horizontalLayout_61 = QtWidgets.QHBoxLayout(self.frame_64)
-        self.horizontalLayout_61.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_61.setContentsMargins(9, 9, 9, 9)
         self.horizontalLayout_61.setSpacing(5)
         self.horizontalLayout_61.setObjectName("horizontalLayout_61")
         self.frame_65 = QtWidgets.QFrame(parent=self.frame_64)
@@ -289,7 +189,7 @@ class Ui_Form(object):
 "QComboBox{\n"
 "font: 10pt \"Inter\";\n"
 "background-color: #fff;\n"
-"border: 2px solid #0C959B;\n"
+"border: 1px solid #228B22;\n"
 "border-radius: 5px;\n"
 "padding: 5px\n"
 "}\n"
@@ -303,7 +203,7 @@ class Ui_Form(object):
 "width: 0; height: 0;       \n"
 "border-left: 5px solid none; \n"
 "border-right: 5px solid none;\n"
-"border-top: 7px solid #0C959B; \n"
+"border-top: 7px solid #228B22; \n"
 "margin: 0;\n"
 "}")
         self.frame_65.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -316,9 +216,13 @@ class Ui_Form(object):
         self.label_28 = QtWidgets.QLabel(parent=self.frame_65)
         self.label_28.setMaximumSize(QtCore.QSize(90, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(7)
         self.label_28.setFont(font)
+        self.label_28.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_28.setObjectName("label_28")
         self.horizontalLayout_62.addWidget(self.label_28)
         self.cylinderSize_comboBox = QtWidgets.QComboBox(parent=self.frame_65)
@@ -327,12 +231,69 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cylinderSize_comboBox.sizePolicy().hasHeightForWidth())
         self.cylinderSize_comboBox.setSizePolicy(sizePolicy)
-        self.cylinderSize_comboBox.setMinimumSize(QtCore.QSize(150, 30))
-        self.cylinderSize_comboBox.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.cylinderSize_comboBox.setMinimumSize(QtCore.QSize(100, 30))
+        self.cylinderSize_comboBox.setMaximumSize(QtCore.QSize(100, 30))
         self.cylinderSize_comboBox.setObjectName("cylinderSize_comboBox")
         self.horizontalLayout_62.addWidget(self.cylinderSize_comboBox)
         self.horizontalLayout_61.addWidget(self.frame_65, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.verticalLayout_9.addWidget(self.frame_64)
+        self.frame_5 = QtWidgets.QFrame(parent=self.frame_64)
+        self.frame_5.setStyleSheet("#frame_5 *{\n"
+"font: 10pt \"Inter\";\n"
+"color: #000;\n"
+"}\n"
+"QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 1px solid #228B22;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}")
+        self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_5)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setSpacing(5)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.label_29 = QtWidgets.QLabel(parent=self.frame_5)
+        self.label_29.setMaximumSize(QtCore.QSize(90, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("Noto Sans SemiBold")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(7)
+        self.label_29.setFont(font)
+        self.label_29.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_29.setObjectName("label_29")
+        self.horizontalLayout_2.addWidget(self.label_29)
+        self.cylinderSize_comboBox_2 = QtWidgets.QComboBox(parent=self.frame_5)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cylinderSize_comboBox_2.sizePolicy().hasHeightForWidth())
+        self.cylinderSize_comboBox_2.setSizePolicy(sizePolicy)
+        self.cylinderSize_comboBox_2.setMinimumSize(QtCore.QSize(140, 30))
+        self.cylinderSize_comboBox_2.setMaximumSize(QtCore.QSize(140, 30))
+        self.cylinderSize_comboBox_2.setObjectName("cylinderSize_comboBox_2")
+        self.horizontalLayout_2.addWidget(self.cylinderSize_comboBox_2)
+        self.horizontalLayout_61.addWidget(self.frame_5, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_9.addWidget(self.frame_64, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        self.verticalLayout_9.addItem(spacerItem)
         self.frame_77 = QtWidgets.QFrame(parent=self.frame_4)
         self.frame_77.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_77.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -361,7 +322,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.setItems.sizePolicy().hasHeightForWidth())
         self.setItems.setSizePolicy(sizePolicy)
-        self.setItems.setMinimumSize(QtCore.QSize(150, 30))
+        self.setItems.setMinimumSize(QtCore.QSize(125, 30))
         font = QtGui.QFont()
         font.setFamily("Noto Sans Black")
         font.setPointSize(10)
@@ -370,7 +331,8 @@ class Ui_Form(object):
         font.setWeight(10)
         self.setItems.setFont(font)
         self.setItems.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.setItems.setStyleSheet("")
+        self.setItems.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";")
         self.setItems.setObjectName("setItems")
         self.horizontalLayout_75.addWidget(self.setItems, 0, QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.print_btn = QtWidgets.QPushButton(parent=self.frame_78)
@@ -379,7 +341,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.print_btn.sizePolicy().hasHeightForWidth())
         self.print_btn.setSizePolicy(sizePolicy)
-        self.print_btn.setMinimumSize(QtCore.QSize(150, 30))
+        self.print_btn.setMinimumSize(QtCore.QSize(125, 30))
         font = QtGui.QFont()
         font.setFamily("Noto Sans Black")
         font.setPointSize(10)
@@ -388,7 +350,12 @@ class Ui_Form(object):
         font.setWeight(10)
         self.print_btn.setFont(font)
         self.print_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.print_btn.setStyleSheet("")
+        self.print_btn.setStyleSheet("background-color: #fff;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #1E1E1E;")
         self.print_btn.setObjectName("print_btn")
         self.horizontalLayout_75.addWidget(self.print_btn)
         self.horizontalLayout_74.addWidget(self.frame_78, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTop)
@@ -410,6 +377,8 @@ class Ui_Form(object):
         self.tableWidget.setStyleSheet("#tableWidget{\n"
 "border: none;\n"
 "background-color: white;\n"
+"border-radius: 5px;\n"
+"padding: 10px;\n"
 "}")
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
@@ -417,6 +386,11 @@ class Ui_Form(object):
         self.verticalLayout_9.addWidget(self.tableWidget)
         self.horizontalLayout_60.addWidget(self.frame_4)
         self.frame_63 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
+        self.frame_63.setStyleSheet("#frame_63{\n"
+"background-color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;\n"
+"}")
         self.frame_63.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_63.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_63.setObjectName("frame_63")
@@ -425,16 +399,22 @@ class Ui_Form(object):
         self.info_cont = QtWidgets.QFrame(parent=self.frame_63)
         self.info_cont.setMinimumSize(QtCore.QSize(300, 0))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.info_cont.setFont(font)
+        self.info_cont.setStyleSheet("*{\n"
+"font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #1E1E1E;\n"
+"}")
         self.info_cont.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.info_cont.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.info_cont.setObjectName("info_cont")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.info_cont)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, -1)
+        self.verticalLayout_2.setSpacing(5)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame_2 = QtWidgets.QFrame(parent=self.info_cont)
         self.frame_2.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -448,28 +428,31 @@ class Ui_Form(object):
         self.label_2 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
-        font.setPointSize(10)
+        font.setFamily("Noto Sans SemiBold")
+        font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_2.setFont(font)
+        self.label_2.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_3.addWidget(self.label_2)
         self.verticalLayout_2.addWidget(self.frame_2)
         self.frame_3 = QtWidgets.QFrame(parent=self.info_cont)
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.frame_3.setFont(font)
         self.frame_3.setStyleSheet("")
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_3)
+        self.verticalLayout_3.setSpacing(10)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frame_9 = QtWidgets.QFrame(parent=self.frame_3)
         self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -488,11 +471,11 @@ class Ui_Form(object):
         self.label_13.setMinimumSize(QtCore.QSize(120, 20))
         self.label_13.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.horizontalLayout_9.addWidget(self.label_13)
@@ -506,6 +489,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.productID_label.setFont(font)
+        self.productID_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.productID_label.setText("")
         self.productID_label.setObjectName("productID_label")
         self.horizontalLayout_9.addWidget(self.productID_label)
@@ -527,11 +511,11 @@ class Ui_Form(object):
         self.label_10.setMinimumSize(QtCore.QSize(120, 20))
         self.label_10.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_10.setFont(font)
         self.label_10.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
@@ -551,6 +535,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.productName_label.setFont(font)
+        self.productName_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.productName_label.setText("")
         self.productName_label.setObjectName("productName_label")
         self.horizontalLayout_10.addWidget(self.productName_label)
@@ -571,11 +556,11 @@ class Ui_Form(object):
         self.label_7.setSizePolicy(sizePolicy)
         self.label_7.setMinimumSize(QtCore.QSize(120, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_7.setFont(font)
         self.label_7.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
@@ -595,8 +580,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.cylinderSize_label.setFont(font)
-        self.cylinderSize_label.setStyleSheet("color: #0C0550;\n"
-"background-color: #fff;")
+        self.cylinderSize_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.cylinderSize_label.setText("")
         self.cylinderSize_label.setObjectName("cylinderSize_label")
         self.horizontalLayout_11.addWidget(self.cylinderSize_label)
@@ -617,11 +601,11 @@ class Ui_Form(object):
         self.label_3.setSizePolicy(sizePolicy)
         self.label_3.setMinimumSize(QtCore.QSize(120, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_3.setFont(font)
         self.label_3.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
@@ -641,8 +625,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.quantity_label.setFont(font)
-        self.quantity_label.setStyleSheet("color: #0C0550;\n"
-"background-color: #fff;")
+        self.quantity_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.quantity_label.setText("")
         self.quantity_label.setObjectName("quantity_label")
         self.horizontalLayout_12.addWidget(self.quantity_label)
@@ -663,11 +646,11 @@ class Ui_Form(object):
         self.label_6.setSizePolicy(sizePolicy)
         self.label_6.setMinimumSize(QtCore.QSize(120, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_6.setFont(font)
         self.label_6.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
@@ -687,8 +670,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.price_label.setFont(font)
-        self.price_label.setStyleSheet("color: #0C0550;\n"
-"background-color: #fff;")
+        self.price_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.price_label.setText("")
         self.price_label.setObjectName("price_label")
         self.horizontalLayout_13.addWidget(self.price_label)
@@ -710,11 +692,11 @@ class Ui_Form(object):
         self.label_14.setMinimumSize(QtCore.QSize(120, 20))
         self.label_14.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_14.setFont(font)
         self.label_14.setObjectName("label_14")
         self.horizontalLayout_14.addWidget(self.label_14)
@@ -728,6 +710,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.supplier_label.setFont(font)
+        self.supplier_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.supplier_label.setText("")
         self.supplier_label.setObjectName("supplier_label")
         self.horizontalLayout_14.addWidget(self.supplier_label)
@@ -744,11 +727,11 @@ class Ui_Form(object):
         self.label_16.setMinimumSize(QtCore.QSize(120, 0))
         self.label_16.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_16.setFont(font)
         self.label_16.setObjectName("label_16")
         self.horizontalLayout_15.addWidget(self.label_16, 0, QtCore.Qt.AlignmentFlag.AlignTop)
@@ -765,6 +748,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.restockedDate_label.setFont(font)
+        self.restockedDate_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.restockedDate_label.setText("")
         self.restockedDate_label.setWordWrap(True)
         self.restockedDate_label.setObjectName("restockedDate_label")
@@ -786,17 +770,25 @@ class Ui_Form(object):
         self.label_9.setSizePolicy(sizePolicy)
         self.label_9.setMinimumSize(QtCore.QSize(120, 0))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_9.setFont(font)
         self.label_9.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
         self.label_9.setObjectName("label_9")
-        self.horizontalLayout_16.addWidget(self.label_9)
-        self.description_label = QtWidgets.QLabel(parent=self.frame_17)
+        self.horizontalLayout_16.addWidget(self.label_9, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame_6 = QtWidgets.QFrame(parent=self.frame_17)
+        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_6.setObjectName("frame_6")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_6)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.description_label = QtWidgets.QLabel(parent=self.frame_6)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -809,11 +801,13 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.description_label.setFont(font)
-        self.description_label.setStyleSheet("color: #0C0550;\n"
-"background-color: #fff;")
+        self.description_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.description_label.setText("")
+        self.description_label.setScaledContents(False)
+        self.description_label.setWordWrap(True)
         self.description_label.setObjectName("description_label")
-        self.horizontalLayout_16.addWidget(self.description_label)
+        self.verticalLayout.addWidget(self.description_label)
+        self.horizontalLayout_16.addWidget(self.frame_6)
         self.verticalLayout_3.addWidget(self.frame_17)
         self.frame_18 = QtWidgets.QFrame(parent=self.frame_3)
         self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -831,11 +825,11 @@ class Ui_Form(object):
         self.label_8.setSizePolicy(sizePolicy)
         self.label_8.setMinimumSize(QtCore.QSize(120, 0))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_8.setFont(font)
         self.label_8.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
@@ -854,8 +848,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.totalValue_label.setFont(font)
-        self.totalValue_label.setStyleSheet("color: #0C0550;\n"
-"background-color: #fff;")
+        self.totalValue_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.totalValue_label.setText("")
         self.totalValue_label.setObjectName("totalValue_label")
         self.horizontalLayout_17.addWidget(self.totalValue_label)
@@ -877,11 +870,11 @@ class Ui_Form(object):
         self.label_4.setMinimumSize(QtCore.QSize(120, 0))
         self.label_4.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_4.setFont(font)
         self.label_4.setStyleSheet("color: #0C0550;\n"
 "background-color: #fff;")
@@ -900,11 +893,20 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.status_label.setFont(font)
+        self.status_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.status_label.setText("")
         self.status_label.setObjectName("status_label")
         self.horizontalLayout_18.addWidget(self.status_label)
         self.verticalLayout_3.addWidget(self.frame_19)
-        self.frame_11 = QtWidgets.QFrame(parent=self.frame_3)
+        self.frame_22 = QtWidgets.QFrame(parent=self.frame_3)
+        self.frame_22.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_22.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_22.setObjectName("frame_22")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_22)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setSpacing(5)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.frame_11 = QtWidgets.QFrame(parent=self.frame_22)
         self.frame_11.setMaximumSize(QtCore.QSize(16777215, 50))
         self.frame_11.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_11.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -914,12 +916,14 @@ class Ui_Form(object):
         self.horizontalLayout_5.setSpacing(10)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.editProduct_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
+        self.editProduct_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.editProduct_pushButton.setMaximumSize(QtCore.QSize(150, 30))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans Black")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(10)
         self.editProduct_pushButton.setFont(font)
         self.editProduct_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.editProduct_pushButton.setStyleSheet("#editProduct_pushButton{\n"
@@ -927,72 +931,50 @@ class Ui_Form(object):
 "border: 1px solid #000;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #1E1E1E;\n"
 "}")
         self.editProduct_pushButton.setObjectName("editProduct_pushButton")
         self.horizontalLayout_5.addWidget(self.editProduct_pushButton)
         self.archive_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
-        self.archive_pushButton.setObjectName("archive_pushButton")
-        self.horizontalLayout_5.addWidget(self.archive_pushButton)
-        self.deleteProduct_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.deleteProduct_pushButton.setFont(font)
-        self.deleteProduct_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.deleteProduct_pushButton.setStyleSheet("#deleteProduct_pushButton{\n"
-"background-color: red;\n"
+        self.archive_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.archive_pushButton.setMaximumSize(QtCore.QSize(150, 30))
+        self.archive_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.archive_pushButton.setStyleSheet("#archive_pushButton{\n"
+"background-color: #5A7184;\n"
 "color: #fff;\n"
-"border: 1px solid red;\n"
+"border: none;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
 "}")
-        self.deleteProduct_pushButton.setObjectName("deleteProduct_pushButton")
-        self.horizontalLayout_5.addWidget(self.deleteProduct_pushButton)
-        self.deleteProduct_pushButton.raise_()
-        self.editProduct_pushButton.raise_()
-        self.archive_pushButton.raise_()
-        self.verticalLayout_3.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.restock_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
+        self.archive_pushButton.setObjectName("archive_pushButton")
+        self.horizontalLayout_5.addWidget(self.archive_pushButton)
+        self.verticalLayout_4.addWidget(self.frame_11)
+        self.restock_pushButton = QtWidgets.QPushButton(parent=self.frame_22)
+        self.restock_pushButton.setMinimumSize(QtCore.QSize(125, 0))
+        self.restock_pushButton.setMaximumSize(QtCore.QSize(150, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans Black")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(10)
         self.restock_pushButton.setFont(font)
         self.restock_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.restock_pushButton.setStyleSheet("#restock_pushButton{\n"
-"background-color: #fff;\n"
-"border: 1px solid #000;\n"
+"background-color: #32CD32;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
 "}")
         self.restock_pushButton.setObjectName("restock_pushButton")
-        self.verticalLayout_3.addWidget(self.restock_pushButton)
+        self.verticalLayout_4.addWidget(self.restock_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.verticalLayout_3.addWidget(self.frame_22)
         self.verticalLayout_2.addWidget(self.frame_3)
-        self.frame_6 = QtWidgets.QFrame(parent=self.info_cont)
-        self.frame_6.setStyleSheet("#frame_6{\n"
-"background-color:transparent;\n"
-"}\n"
-"#frame_7{\n"
-"background-color:#fff;\n"
-"border-radius:10px;\n"
-"}\n"
-"#frame_8{\n"
-"background-color:#fff;\n"
-"border-radius:10px;\n"
-"}")
-        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_6)
-        self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
-        self.horizontalLayout_6.setSpacing(10)
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.verticalLayout_2.addWidget(self.frame_6)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem1)
         self.verticalLayout_6.addWidget(self.info_cont)
         self.horizontalLayout_60.addWidget(self.frame_63)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -1005,13 +987,14 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_32.setText(_translate("Form", "Inventory"))
-        self.label_31.setText(_translate("Form", "Total Stock Quantity:"))
-        self.inventoryTotalValue_label_2.setText(_translate("Form", "0"))
-        self.label_30.setText(_translate("Form", "Total Stock Value:"))
-        self.inventoryTotalValue_label.setText(_translate("Form", "0"))
-        self.label_29.setText(_translate("Form", "Total In Stock:"))
-        self.total_stock_label.setText(_translate("Form", "0"))
+        self.label_12.setText(_translate("Form", "Total Stock Quantity:"))
+        self.total_orders_label.setText(_translate("Form", "0"))
+        self.label_15.setText(_translate("Form", "Total Stock Value:"))
+        self.inventoryTotalValue_label.setText(_translate("Form", "0.00"))
+        self.label_17.setText(_translate("Form", "Low Stock:"))
+        self.label_18.setText(_translate("Form", "0"))
         self.label_28.setText(_translate("Form", "Cylinder Size:"))
+        self.label_29.setText(_translate("Form", "Stock Level:"))
         self.setItems.setText(_translate("Form", "Add Product"))
         self.print_btn.setText(_translate("Form", "Print Report"))
         self.label_2.setText(_translate("Form", "Product Information"))
@@ -1027,7 +1010,6 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "Inventory Status:"))
         self.editProduct_pushButton.setText(_translate("Form", "Edit"))
         self.archive_pushButton.setText(_translate("Form", "Archive"))
-        self.deleteProduct_pushButton.setText(_translate("Form", "Delete"))
         self.restock_pushButton.setText(_translate("Form", "Restock"))
 
 

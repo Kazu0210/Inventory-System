@@ -1504,6 +1504,8 @@ background-color: #228B22;
         </widget>
        </item>
       </layout>
+      <zorder>scrollArea</zorder>
+      <zorder>frame_3</zorder>
      </widget>
     </item>
     <item>

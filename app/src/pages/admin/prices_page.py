@@ -393,7 +393,7 @@ class PricesPage(QWidget, Ui_price_page):
             table.setColumnWidth(column, 145)
 
         # Set uniform row height for all rows
-        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 100
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
         header.setFixedHeight(50)
 

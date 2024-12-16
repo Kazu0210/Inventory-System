@@ -71,25 +71,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         inventory_section = ItemsPage(username, self) # index 4
         self.content_window_layout.addWidget(inventory_section)
 
-        addItem_section = NewItem(self, username) # index 5
-        self.content_window_layout.addWidget(addItem_section)
+        # addItem_section = NewItem(self, username) # index 5
+        # self.content_window_layout.addWidget(addItem_section)
         
-        settings_section = settingsPage(self) # index 6
+        settings_section = settingsPage(self) # index 5
         self.content_window_layout.addWidget(settings_section)
 
-        order_section = OrderPage(self) # index 7
+        order_section = OrderPage(self) # index 6
         self.content_window_layout.addWidget(order_section)
 
-        backupRestore_section = BackupRestorePage(self) # index 8
+        backupRestore_section = BackupRestorePage(self) # index 7
         self.content_window_layout.addWidget(backupRestore_section)
 
-        archive_section = ArchivePage(self) # index 9
+        archive_section = ArchivePage(self) # index 8
         self.content_window_layout.addWidget(archive_section)
 
-        sales_section = SalesReportPage(self) # index 10
+        sales_section = SalesReportPage(self) # index 9
         self.content_window_layout.addWidget(sales_section)
 
-        price_section = PricesPage(self) # index 11
+        price_section = PricesPage(self) # index 10
         self.content_window_layout.addWidget(price_section)
 
         self.buttons = [
@@ -124,12 +124,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 2))
         self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 4))
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
-        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 6))
-        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 7))
-        self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backup_restore_logo, self.frame_13, self.backupRestore_pushButton, 8))
-        self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 9))
-        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.sales_report_logo, self.frame_9, self.salesReport_pushButton, 10))
-        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 11))
+        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 5))
+        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 6))
+        self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backup_restore_logo, self.frame_13, self.backupRestore_pushButton, 7))
+        self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 8))
+        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.sales_report_logo, self.frame_9, self.salesReport_pushButton, 9))
+        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 10))
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
         self.systemSettings_pushButton.clicked.connect(lambda: self.show_system_settings_btn())

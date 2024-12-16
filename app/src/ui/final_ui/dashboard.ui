@@ -85,9 +85,9 @@ QScrollBar:hover{
      <widget class="QWidget" name="scrollAreaWidgetContents_2">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>-304</x>
         <y>0</y>
-        <width>1140</width>
+        <width>1090</width>
         <height>1026</height>
        </rect>
       </property>
@@ -587,7 +587,7 @@ color: #333333;
                <property name="styleSheet">
                 <string notr="true">#frame_9{
 background-color: #fff;
-border: 1px solid #DC3545;
+border: 1px solid #FF7043;
 border-radius: 5px;
 }</string>
                </property>
@@ -673,7 +673,7 @@ color: #333333;
            <widget class="QFrame" name="frame_12">
             <property name="minimumSize">
              <size>
-              <width>370</width>
+              <width>320</width>
               <height>300</height>
              </size>
             </property>
@@ -713,11 +713,11 @@ color: #333333;</string>
                </property>
               </widget>
              </item>
-             <item alignment="Qt::AlignHCenter">
+             <item>
               <widget class="QScrollArea" name="cylinderTypes_scrollArea">
                <property name="minimumSize">
                 <size>
-                 <width>360</width>
+                 <width>300</width>
                  <height>250</height>
                 </size>
                </property>
@@ -779,7 +779,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>360</width>
+                  <width>302</width>
                   <height>253</height>
                  </rect>
                 </property>
@@ -888,18 +888,22 @@ color: #333333;</string>
                    </property>
                    <item>
                     <widget class="QLabel" name="label_14">
+                     <property name="styleSheet">
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+                     </property>
                      <property name="text">
                       <string>Daily:</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
+                   <item alignment="Qt::AlignLeft">
                     <widget class="QLabel" name="daily_order_label">
                      <property name="cursor">
                       <cursorShape>CrossCursor</cursorShape>
                      </property>
                      <property name="text">
-                      <string>Daily</string>
+                      <string>0</string>
                      </property>
                     </widget>
                    </item>
@@ -932,15 +936,19 @@ color: #333333;</string>
                    </property>
                    <item>
                     <widget class="QLabel" name="label_16">
+                     <property name="styleSheet">
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+                     </property>
                      <property name="text">
                       <string>Weekly:</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
+                   <item alignment="Qt::AlignLeft">
                     <widget class="QLabel" name="weekly_order_label">
                      <property name="text">
-                      <string>Weekly</string>
+                      <string>0</string>
                      </property>
                     </widget>
                    </item>
@@ -973,15 +981,19 @@ color: #333333;</string>
                    </property>
                    <item>
                     <widget class="QLabel" name="label_18">
+                     <property name="styleSheet">
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+                     </property>
                      <property name="text">
                       <string>Monthly:</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
+                   <item alignment="Qt::AlignLeft">
                     <widget class="QLabel" name="monthly_order_label">
                      <property name="text">
-                      <string>Monthly</string>
+                      <string>0</string>
                      </property>
                     </widget>
                    </item>
@@ -1024,11 +1036,11 @@ color: #333333;</string>
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-color: #fff;
+                   <string notr="true">background-color: transparent;
 </string>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>1</number>
                   </property>
                   <widget class="QWidget" name="tab">
                    <attribute name="title">
@@ -1042,7 +1054,7 @@ color: #333333;</string>
                   </widget>
                   <widget class="QWidget" name="tab_3">
                    <attribute name="title">
-                    <string>Pending</string>
+                    <string>Processing</string>
                    </attribute>
                    <layout class="QVBoxLayout" name="verticalLayout_12">
                     <item>

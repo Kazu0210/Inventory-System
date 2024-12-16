@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1051</width>
-    <height>729</height>
+    <height>772</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@ background-color: transparent;
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">border: none;</string>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
@@ -49,11 +49,26 @@ background-color: transparent;
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1049</width>
-        <height>727</height>
+        <width>1051</width>
+        <height>772</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_60">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="frame_4">
          <property name="frameShape">
@@ -109,7 +124,7 @@ background-color: transparent;
               <widget class="QLabel" name="label_32">
                <property name="styleSheet">
                 <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #000;	</string>
+color: #333333;</string>
                </property>
                <property name="text">
                 <string>Inventory</string>
@@ -120,16 +135,16 @@ color: #000;	</string>
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="frame_66">
+           <widget class="QFrame" name="frame">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout">
+            <layout class="QHBoxLayout" name="horizontalLayout">
              <property name="spacing">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="leftMargin">
               <number>0</number>
@@ -144,27 +159,11 @@ color: #000;	</string>
               <number>0</number>
              </property>
              <item>
-              <widget class="QFrame" name="frame_73">
-               <property name="minimumSize">
-                <size>
-                 <width>180</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>250</width>
-                 <height>50</height>
-                </size>
-               </property>
+              <widget class="QFrame" name="frame_20">
                <property name="styleSheet">
-                <string notr="true">*{
-font: 87 10pt &quot;Noto Sans Black&quot;;
-}
-
-#frame_73{
-background-color: #0C959B;
-border-radius: 10px;
+                <string notr="true">#frame_20{
+background-color: #fff;
+border-radius: 5px;
 }</string>
                </property>
                <property name="frameShape">
@@ -173,508 +172,204 @@ border-radius: 10px;
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_70">
-                <property name="leftMargin">
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <property name="spacing">
                  <number>5</number>
+                </property>
+                <property name="leftMargin">
+                 <number>9</number>
                 </property>
                 <property name="topMargin">
-                 <number>5</number>
+                 <number>9</number>
                 </property>
                 <property name="rightMargin">
-                 <number>5</number>
+                 <number>9</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>5</number>
+                 <number>9</number>
                 </property>
-                <item>
-                 <widget class="QFrame" name="frame_74">
+                <item alignment="Qt::AlignTop">
+                 <widget class="QFrame" name="frame_7">
+                  <property name="styleSheet">
+                   <string notr="true">#frame_7{
+background-color: #fff;
+border: 1px solid #228B22;
+border-radius: 5px;
+}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_71">
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
                    <property name="spacing">
                     <number>5</number>
                    </property>
-                   <property name="leftMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>10</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>10</number>
-                   </property>
-                   <item alignment="Qt::AlignLeft">
-                    <widget class="QFrame" name="frame_75">
+                   <item>
+                    <widget class="QLabel" name="label_12">
                      <property name="maximumSize">
                       <size>
-                       <width>170</width>
-                       <height>16777215</height>
+                       <width>16777215</width>
+                       <height>30</height>
                       </size>
                      </property>
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                     <property name="styleSheet">
+                      <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                      </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                     <property name="text">
+                      <string>Total Stock Quantity:</string>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_72">
-                      <property name="spacing">
-                       <number>5</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>0</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="label_31">
-                        <property name="minimumSize">
-                         <size>
-                          <width>130</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>130</width>
-                          <height>40</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Noto Sans Black</family>
-                          <pointsize>10</pointsize>
-                          <weight>10</weight>
-                          <italic>false</italic>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: #fff</string>
-                        </property>
-                        <property name="text">
-                         <string>Total Stock Quantity:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="horizontalSpacer_13">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>10</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="inventoryTotalValue_label_2">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>50</width>
-                          <height>40</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Noto Sans</family>
-                          <pointsize>10</pointsize>
-                          <weight>50</weight>
-                          <italic>false</italic>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">font: 10pt &quot;Noto Sans&quot;;
-color: #fff;</string>
-                        </property>
-                        <property name="text">
-                         <string>0</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="total_orders_label">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;
+</string>
+                     </property>
+                     <property name="text">
+                      <string>0</string>
+                     </property>
                     </widget>
                    </item>
                   </layout>
                  </widget>
                 </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QFrame" name="frame_70">
-               <property name="minimumSize">
-                <size>
-                 <width>180</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>250</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">*{
-font: 87 10pt &quot;Noto Sans Black&quot;;
-}
-
-#frame_70{
-background-color: #0C959B;
-border-radius: 10px;
+                <item alignment="Qt::AlignTop">
+                 <widget class="QFrame" name="frame_8">
+                  <property name="styleSheet">
+                   <string notr="true">#frame_8{
+background-color: #fff;
+border: 1px solid #228B22;
+border-radius: 5px;
 }</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_67">
-                <property name="spacing">
-                 <number>5</number>
-                </property>
-                <property name="leftMargin">
-                 <number>5</number>
-                </property>
-                <property name="topMargin">
-                 <number>5</number>
-                </property>
-                <property name="rightMargin">
-                 <number>5</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>5</number>
-                </property>
-                <item>
-                 <widget class="QFrame" name="frame_71">
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_68">
+                  <layout class="QVBoxLayout" name="verticalLayout_8">
                    <property name="spacing">
                     <number>5</number>
                    </property>
-                   <property name="leftMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>10</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>10</number>
-                   </property>
-                   <item alignment="Qt::AlignHCenter">
-                    <widget class="QFrame" name="frame_72">
-                     <property name="minimumSize">
+                   <item>
+                    <widget class="QLabel" name="label_15">
+                     <property name="maximumSize">
                       <size>
-                       <width>190</width>
-                       <height>0</height>
+                       <width>16777215</width>
+                       <height>30</height>
                       </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+                     </property>
+                     <property name="text">
+                      <string>Total Stock Value:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="inventoryTotalValue_label">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>190</width>
-                       <height>16777215</height>
+                       <width>16777215</width>
+                       <height>30</height>
                       </size>
                      </property>
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                     <property name="font">
+                      <font>
+                       <family>Noto Sans Black</family>
+                       <pointsize>16</pointsize>
+                       <weight>10</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
                      </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                     <property name="styleSheet">
+                      <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;
+
+</string>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_69">
-                      <property name="spacing">
-                       <number>5</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>0</number>
-                      </property>
-                      <item alignment="Qt::AlignLeft">
-                       <widget class="QLabel" name="label_30">
-                        <property name="font">
-                         <font>
-                          <family>Noto Sans Black</family>
-                          <pointsize>10</pointsize>
-                          <weight>10</weight>
-                          <italic>false</italic>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: #fff</string>
-                        </property>
-                        <property name="text">
-                         <string>Total Stock Value:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="horizontalSpacer_12">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>10</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item alignment="Qt::AlignRight">
-                       <widget class="QLabel" name="inventoryTotalValue_label">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Noto Sans</family>
-                          <pointsize>10</pointsize>
-                          <weight>50</weight>
-                          <italic>false</italic>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">font: 10pt &quot;Noto Sans&quot;;
-color: #fff;</string>
-                        </property>
-                        <property name="text">
-                         <string>0</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
+                     <property name="text">
+                      <string>0.00</string>
+                     </property>
                     </widget>
                    </item>
                   </layout>
                  </widget>
                 </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QFrame" name="frame_67">
-               <property name="minimumSize">
-                <size>
-                 <width>180</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>250</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">*{
-font: 87 10pt &quot;Noto Sans Black&quot;;
-}
-
-#frame_67{
-background-color: #0C959B;
-border-radius: 10px;
+                <item alignment="Qt::AlignTop">
+                 <widget class="QFrame" name="frame_21">
+                  <property name="styleSheet">
+                   <string notr="true">#frame_21{
+background-color: #fff;
+border: 1px solid #FF7043;
+border-radius: 5px;
 }</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_64">
-                <property name="spacing">
-                 <number>5</number>
-                </property>
-                <property name="leftMargin">
-                 <number>5</number>
-                </property>
-                <property name="topMargin">
-                 <number>5</number>
-                </property>
-                <property name="rightMargin">
-                 <number>5</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>5</number>
-                </property>
-                <item>
-                 <widget class="QFrame" name="frame_68">
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_65">
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
                    <property name="spacing">
                     <number>5</number>
                    </property>
-                   <property name="leftMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>10</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>10</number>
-                   </property>
-                   <item alignment="Qt::AlignLeft">
-                    <widget class="QFrame" name="frame_69">
+                   <item>
+                    <widget class="QLabel" name="label_17">
                      <property name="maximumSize">
                       <size>
-                       <width>170</width>
-                       <height>16777215</height>
+                       <width>16777215</width>
+                       <height>30</height>
                       </size>
                      </property>
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                     <property name="styleSheet">
+                      <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                      </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                     <property name="text">
+                      <string>Low Stock:</string>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_66">
-                      <property name="spacing">
-                       <number>5</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>0</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="label_29">
-                        <property name="minimumSize">
-                         <size>
-                          <width>130</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>130</width>
-                          <height>40</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Noto Sans Black</family>
-                          <pointsize>10</pointsize>
-                          <weight>10</weight>
-                          <italic>false</italic>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: #fff</string>
-                        </property>
-                        <property name="text">
-                         <string>Total In Stock:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="horizontalSpacer_11">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>10</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="total_stock_label">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>50</width>
-                          <height>40</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Noto Sans</family>
-                          <pointsize>10</pointsize>
-                          <weight>50</weight>
-                          <italic>false</italic>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">font: 10pt &quot;Noto Sans&quot;;
-color: #fff;</string>
-                        </property>
-                        <property name="text">
-                         <string>0</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_18">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;
+</string>
+                     </property>
+                     <property name="text">
+                      <string>0</string>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -686,8 +381,14 @@ color: #fff;</string>
             </layout>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignLeft">
            <widget class="QFrame" name="frame_64">
+            <property name="styleSheet">
+             <string notr="true">#frame_64{
+background-color: #fff;
+border-radius: 5px;
+}</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -699,16 +400,16 @@ color: #fff;</string>
               <number>5</number>
              </property>
              <property name="leftMargin">
-              <number>0</number>
+              <number>9</number>
              </property>
              <property name="topMargin">
-              <number>0</number>
+              <number>9</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>9</number>
              </property>
              <property name="bottomMargin">
-              <number>0</number>
+              <number>9</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QFrame" name="frame_65">
@@ -720,7 +421,7 @@ color: #000;
 QComboBox{
 font: 10pt &quot;Inter&quot;;
 background-color: #fff;
-border: 2px solid #0C959B;
+border: 1px solid #228B22;
 border-radius: 5px;
 padding: 5px
 }
@@ -734,7 +435,7 @@ border: none;
 width: 0; height: 0;       
 border-left: 5px solid none; 
 border-right: 5px solid none;
-border-top: 7px solid #0C959B; 
+border-top: 7px solid #228B22; 
 margin: 0;
 }</string>
                </property>
@@ -770,9 +471,15 @@ margin: 0;
                   </property>
                   <property name="font">
                    <font>
-                    <family>Inter</family>
+                    <family>Noto Sans SemiBold</family>
                     <pointsize>10</pointsize>
+                    <weight>7</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                   </property>
                   <property name="text">
                    <string>Cylinder Size:</string>
@@ -789,14 +496,114 @@ margin: 0;
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>150</width>
+                    <width>100</width>
                     <height>30</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>150</width>
+                    <width>100</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignLeft">
+              <widget class="QFrame" name="frame_5">
+               <property name="styleSheet">
+                <string notr="true">#frame_5 *{
+font: 10pt &quot;Inter&quot;;
+color: #000;
+}
+QComboBox{
+font: 10pt &quot;Inter&quot;;
+background-color: #fff;
+border: 1px solid #228B22;
+border-radius: 5px;
+padding: 5px
+}
+QComboBox::drop-down{
+border: none;
+background: transparent;
+}
+QComboBox::down-arrow {
+image: none;               
+border: none;              
+width: 0; height: 0;       
+border-left: 5px solid none; 
+border-right: 5px solid none;
+border-top: 7px solid #228B22; 
+margin: 0;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <property name="spacing">
+                 <number>5</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_29">
+                  <property name="maximumSize">
+                   <size>
+                    <width>90</width>
                     <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans SemiBold</family>
+                    <pointsize>10</pointsize>
+                    <weight>7</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                  </property>
+                  <property name="text">
+                   <string>Stock Level:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="cylinderSize_comboBox_2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>140</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>140</width>
+                    <height>30</height>
                    </size>
                   </property>
                  </widget>
@@ -806,6 +613,22 @@ margin: 0;
              </item>
             </layout>
            </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <widget class="QFrame" name="frame_77">
@@ -873,7 +696,7 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>150</width>
+                    <width>125</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -890,7 +713,8 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true"/>
+                   <string notr="true">background-color: #32CD32;
+font: 87 10pt &quot;Noto Sans Black&quot;;</string>
                   </property>
                   <property name="text">
                    <string>Add Product</string>
@@ -907,7 +731,7 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>150</width>
+                    <width>125</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -924,7 +748,12 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true"/>
+                   <string notr="true">background-color: #fff;
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #1E1E1E;</string>
                   </property>
                   <property name="text">
                    <string>Print Report</string>
@@ -964,15 +793,30 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
              <string notr="true">#tableWidget{
 border: none;
 background-color: white;
+border-radius: 5px;
+padding: 10px;
 }</string>
             </property>
            </widget>
           </item>
          </layout>
+         <zorder>tableWidget</zorder>
+         <zorder>frame_76</zorder>
+         <zorder>frame</zorder>
+         <zorder>frame_64</zorder>
+         <zorder>frame_77</zorder>
+         <zorder>verticalSpacer_2</zorder>
         </widget>
        </item>
        <item>
         <widget class="QFrame" name="frame_63">
+         <property name="styleSheet">
+          <string notr="true">#frame_63{
+background-color: #fff;
+border: none;
+border-radius: 5px;
+}</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -990,12 +834,18 @@ background-color: white;
             </property>
             <property name="font">
              <font>
-              <family>Noto Sans</family>
+              <family>Noto Sans SemiBold</family>
               <pointsize>10</pointsize>
-              <weight>50</weight>
+              <weight>7</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">*{
+font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #1E1E1E;
+}</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -1004,6 +854,18 @@ background-color: white;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QFrame" name="frame_2">
                <property name="maximumSize">
@@ -1044,12 +906,16 @@ background-color: white;
                   </property>
                   <property name="font">
                    <font>
-                    <family>Noto Sans</family>
-                    <pointsize>10</pointsize>
-                    <weight>50</weight>
+                    <family>Noto Sans SemiBold</family>
+                    <pointsize>12</pointsize>
+                    <weight>7</weight>
                     <italic>false</italic>
                     <bold>false</bold>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                   </property>
                   <property name="text">
                    <string>Product Information</string>
@@ -1063,9 +929,9 @@ background-color: white;
               <widget class="QFrame" name="frame_3">
                <property name="font">
                 <font>
-                 <family>Noto Sans</family>
+                 <family>Noto Sans SemiBold</family>
                  <pointsize>10</pointsize>
-                 <weight>50</weight>
+                 <weight>7</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -1080,6 +946,9 @@ background-color: white;
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
+                <property name="spacing">
+                 <number>10</number>
+                </property>
                 <item>
                  <widget class="QFrame" name="frame_9">
                   <property name="frameShape">
@@ -1126,9 +995,9 @@ background-color: white;
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1160,6 +1029,9 @@ background-color: white;
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1215,9 +1087,9 @@ background-color: white;
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1253,6 +1125,9 @@ background-color: #fff;</string>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1302,9 +1177,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1342,8 +1217,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
-background-color: #fff;</string>
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1393,9 +1267,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1433,8 +1307,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
-background-color: #fff;</string>
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1484,9 +1357,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1524,8 +1397,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
-background-color: #fff;</string>
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1581,9 +1453,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1615,6 +1487,9 @@ background-color: #fff;</string>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1664,9 +1539,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1692,6 +1567,9 @@ background-color: #fff;</string>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1728,7 +1606,7 @@ background-color: #fff;</string>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
-                   <item>
+                   <item alignment="Qt::AlignTop">
                     <widget class="QLabel" name="label_9">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1744,9 +1622,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1761,29 +1639,61 @@ background-color: #fff;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="description_label">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
+                    <widget class="QFrame" name="frame_6">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
                      </property>
-                     <property name="font">
-                      <font>
-                       <family>Noto Sans</family>
-                       <pointsize>10</pointsize>
-                       <weight>50</weight>
-                       <italic>false</italic>
-                       <bold>false</bold>
-                      </font>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
                      </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
-background-color: #fff;</string>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="description_label">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Noto Sans</family>
+                          <pointsize>10</pointsize>
+                          <weight>50</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="scaledContents">
+                         <bool>false</bool>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </widget>
                    </item>
                   </layout>
@@ -1829,9 +1739,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1863,8 +1773,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
-background-color: #fff;</string>
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1917,9 +1826,9 @@ background-color: #fff;</string>
                      </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -1950,6 +1859,9 @@ background-color: #fff;</string>
                        <bold>false</bold>
                       </font>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
+                     </property>
                      <property name="text">
                       <string/>
                      </property>
@@ -1958,23 +1870,17 @@ background-color: #fff;</string>
                   </layout>
                  </widget>
                 </item>
-                <item alignment="Qt::AlignTop">
-                 <widget class="QFrame" name="frame_11">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>50</height>
-                   </size>
-                  </property>
+                <item>
+                 <widget class="QFrame" name="frame_22">
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
                    <property name="spacing">
-                    <number>10</number>
+                    <number>5</number>
                    </property>
                    <property name="leftMargin">
                     <number>0</number>
@@ -1989,46 +1895,127 @@ background-color: #fff;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QPushButton" name="editProduct_pushButton">
-                     <property name="font">
-                      <font>
-                       <family>Noto Sans</family>
-                       <pointsize>10</pointsize>
-                       <weight>50</weight>
-                       <italic>false</italic>
-                       <bold>false</bold>
-                      </font>
+                    <widget class="QFrame" name="frame_11">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>50</height>
+                      </size>
                      </property>
-                     <property name="cursor">
-                      <cursorShape>PointingHandCursor</cursorShape>
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
                      </property>
-                     <property name="styleSheet">
-                      <string notr="true">#editProduct_pushButton{
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_5">
+                      <property name="spacing">
+                       <number>10</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="editProduct_pushButton">
+                        <property name="minimumSize">
+                         <size>
+                          <width>125</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>150</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Noto Sans Black</family>
+                          <pointsize>10</pointsize>
+                          <weight>10</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="cursor">
+                         <cursorShape>PointingHandCursor</cursorShape>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">#editProduct_pushButton{
 background-color: #fff;
 border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #1E1E1E;
 }</string>
-                     </property>
-                     <property name="text">
-                      <string>Edit</string>
-                     </property>
+                        </property>
+                        <property name="text">
+                         <string>Edit</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="archive_pushButton">
+                        <property name="minimumSize">
+                         <size>
+                          <width>125</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>150</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">#archive_pushButton{
+background-color: #5A7184;
+color: #fff;
+border: none;
+border-radius: 5px;
+padding: 5px;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+}</string>
+                        </property>
+                        <property name="text">
+                         <string>Archive</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QPushButton" name="archive_pushButton">
-                     <property name="text">
-                      <string>Archive</string>
+                   <item alignment="Qt::AlignHCenter">
+                    <widget class="QPushButton" name="restock_pushButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>125</width>
+                       <height>0</height>
+                      </size>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="deleteProduct_pushButton">
+                     <property name="maximumSize">
+                      <size>
+                       <width>150</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans Black</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>10</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
@@ -2037,94 +2024,37 @@ padding: 5px;
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">#deleteProduct_pushButton{
-background-color: red;
-color: #fff;
-border: 1px solid red;
+                      <string notr="true">#restock_pushButton{
+background-color: #32CD32;
 border-radius: 5px;
 padding: 5px;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #fff;
 }</string>
                      </property>
                      <property name="text">
-                      <string>Delete</string>
+                      <string>Restock</string>
                      </property>
                     </widget>
                    </item>
                   </layout>
-                  <zorder>deleteProduct_pushButton</zorder>
-                  <zorder>editProduct_pushButton</zorder>
-                  <zorder>archive_pushButton</zorder>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="restock_pushButton">
-                  <property name="font">
-                   <font>
-                    <family>Noto Sans</family>
-                    <pointsize>10</pointsize>
-                    <weight>50</weight>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">#restock_pushButton{
-background-color: #fff;
-border: 1px solid #000;
-border-radius: 5px;
-padding: 5px;
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>Restock</string>
-                  </property>
                  </widget>
                 </item>
                </layout>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_6">
-               <property name="styleSheet">
-                <string notr="true">#frame_6{
-background-color:transparent;
-}
-#frame_7{
-background-color:#fff;
-border-radius:10px;
-}
-#frame_8{
-background-color:#fff;
-border-radius:10px;
-}</string>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
                </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_6">
-                <property name="spacing">
-                 <number>10</number>
-                </property>
-                <property name="leftMargin">
-                 <number>5</number>
-                </property>
-                <property name="topMargin">
-                 <number>5</number>
-                </property>
-                <property name="rightMargin">
-                 <number>5</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>5</number>
-                </property>
-               </layout>
-              </widget>
+              </spacer>
              </item>
             </layout>
            </widget>

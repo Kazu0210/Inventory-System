@@ -1,19 +1,19 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QApplication, QDialog,QVBoxLayout, QLabel, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtGui import QRegularExpressionValidator
-from PyQt6.QtCore import QRegularExpression, QTimer
+from PyQt6.QtCore import QRegularExpression, QTimer, Qt
 # from ui.newitemsPage import Ui_Form as NewItemsPage
-from ui.addItem_page import Ui_Form as Ui_addItemPage
+# from ui.addItem_page import Ui_Form as Ui_addItemPage
+from ui.final_ui.add_product import Ui_Form as Ui_addItemPage
 from utils.Activity_logs import Activity_Logs as activity_logs_util
 import datetime, pymongo, sys, json, datetime, random
 
 class newItem_page(QWidget, Ui_addItemPage):
-    def __init__(self, itempage, account_username):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.itempage = itempage
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         # logged in account's username
-        self.account_username = account_username
 
         # activity logs class
         self.logs = activity_logs_util()
@@ -22,7 +22,8 @@ class newItem_page(QWidget, Ui_addItemPage):
 
         self.fill_form()
 
-        self.addItem_pushButton.clicked.connect(lambda: self.addItemBtn_clicked())
+        self.add_product_pushButton.clicked.connect(lambda: self.addItemBtn_clicked())
+        self.cancel_pushButton.clicked.connect(lambda: self.cancel_clicked())
 
     def save(self, data):
         try:
@@ -64,7 +65,7 @@ class newItem_page(QWidget, Ui_addItemPage):
             self.connect_to_db('products_items').insert_one(new_data)  # Save new data to collection of products
             self.save_to_prices_db(new_data) # save new product to collection of prices
             self.close()
-            self.itempage.content_window_layout.setCurrentIndex(4)
+            #  zself.itempage.content_window_layout.setCurrentIndex(4)
             # NEED TO ADD ACTIVITY LOGS
         except Exception as e:
             print(f"Error saving data to database: {e}")
@@ -102,7 +103,7 @@ class newItem_page(QWidget, Ui_addItemPage):
             return price_id
 
     def is_productExist(self):
-        product_name = self.productName_field.text()
+        product_name = self.prod_name_lineEdit.text()
         cylinder_size = self.category_comboBox.currentText()
         supplier = self.supplier_lineEdit.text()
 
@@ -126,36 +127,72 @@ class newItem_page(QWidget, Ui_addItemPage):
         return client[db][collection_name]
     
     def clearForm(self):
-        for field in [self.productName_field, self.quantity_spinBox, self.price_lineEdit, self.supplier_lineEdit, self.description_textEdit]:
+        for field in [self.prod_name_lineEdit, self.quantity_spinBox, self.price_lineEdit, self.supplier_lineEdit, self.desc_plainTextEdit]:
             field.clear()
     
     def productExistNotif(self):
-        self.productName_field.setText("Product Already Exist")
-        self.productName_field.setStyleSheet("color: red")
-        self.productName_field.setReadOnly(True)
-        QTimer.singleShot(2000, lambda: self.productName_field.setStyleSheet("color: black"))
-        QTimer.singleShot(2000, lambda: self.productName_field.setReadOnly(False))
+        self.prod_name_lineEdit.setText("Product Already Exist")
+        self.prod_name_lineEdit.setStyleSheet("color: red")
+        self.prod_name_lineEdit.setReadOnly(True)
+        QTimer.singleShot(2000, lambda: self.prod_name_lineEdit.setStyleSheet("color: black"))
+        QTimer.singleShot(2000, lambda: self.prod_name_lineEdit.setReadOnly(False))
         QTimer.singleShot(2000, lambda: self.clearForm())
 
     def addItemBtn_clicked(self):
         print("add item button clicked")
+
         data = self.get_data()
+
+        if self.is_data_empty():
+            QMessageBox.information(
+                self,
+                "Empty Fields",
+                "All fields are empty. Please fill out the form."
+            )
+        else:
+            QMessageBox.information(
+                self,
+                "Fields Filled",
+                "At least one field has been filled."
+            )
+
         if not self.is_productExist():
             self.save(data)
             self.clearForm()
         else:
             self.productExistNotif()
 
+    def is_data_empty(self):
+        fields = {
+            "product_name": self.prod_name_lineEdit.text(),
+            "supplier": self.supplier_lineEdit.text(),
+            "price": self.price_lineEdit.text(),
+            "quantity": self.quantity_spinBox.text(),
+            "description": self.desc_plainTextEdit.toPlainText(),
+            "low_stock_threshold": self.low_stock_threshold_spinBox.text()
+        }
+        
+        for key, value in fields.items():
+            if key == "quantity" or key == "low_stock_threshold":
+                # Check if quantity and low stock threshold are not zero
+                if int(value) != 0:
+                    return False
+            elif value.strip():  
+                # Check if other fields are not empty or whitespace
+                return False
+                
+        return True  # Return True if all fields are empty or numeric fields are 0
+
     def get_data(self):
         data = {
-            "item_id": self.itemID_label.text(),
-            "product_name": self.productName_field.text(),
+            "item_id": self.productID_label.text(),
+            "product_name": self.prod_name_lineEdit.text(),
             "supplier": self.supplier_lineEdit.text(),
             "price": self.price_lineEdit.text(),
             "category": self.category_comboBox.currentText(),
             "status": self.status_comboBox.currentText(),
             "quantity": self.quantity_spinBox.text(),
-            "description": self.description_textEdit.toPlainText()
+            "description": self.desc_plainTextEdit.toPlainText()
         }
         return data
 
@@ -172,10 +209,10 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.itemStatus_filter()
 
     def limitProductName(self):
-        self.productName_field.setMaxLength(50)
+        self.prod_name_lineEdit.setMaxLength(50)
         regex = QRegularExpression(r"^[a-zA-Z\s]+$")
         validator = QRegularExpressionValidator(regex)
-        self.productName_field.setValidator(validator)
+        self.prod_name_lineEdit.setValidator(validator)
 
     def limitSupplierName(self):
         self.supplier_lineEdit.setMaxLength(50) # set max lenght to 50 characters
@@ -215,7 +252,7 @@ class newItem_page(QWidget, Ui_addItemPage):
         print(f"CUSTOM ID: {custom_id}")
         # print(f"CUSTOM ID 2: {custom_id2}")
         if not self.is_idExist(custom_id):
-            self.itemID_label.setText(custom_id)
+            self.productID_label.setText(custom_id)
 
     def is_idExist(self, custom_id):
         item_id = custom_id
@@ -242,3 +279,13 @@ class newItem_page(QWidget, Ui_addItemPage):
 
             # if self.is_idExist:
             #     self.itemID_label.setText(custom_id)
+
+    def close_event(self, event):
+        """Detect if the X button is clicked to close the form"""
+        print("X button clicked")
+        event.accept()
+        self.close()
+
+    def cancel_clicked(self):
+        """Run when cancel button clicked"""
+        self.close()
