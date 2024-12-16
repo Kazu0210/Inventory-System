@@ -58,7 +58,7 @@ class newItem_page(QWidget, Ui_addItemPage):
             "description": data['description'],
             "total_value": total_value,
             "inventory_status": data['status'],
-            "minimum_stock_level": 5
+            "minimum_stock_level": data['low_stock_threshold']
         }
 
         try:
@@ -168,7 +168,6 @@ class newItem_page(QWidget, Ui_addItemPage):
             "supplier": self.supplier_lineEdit.text(),
             "price": self.price_lineEdit.text(),
             "quantity": self.quantity_spinBox.text(),
-            "description": self.desc_plainTextEdit.toPlainText(),
             "low_stock_threshold": self.low_stock_threshold_spinBox.text()
         }
         
@@ -192,7 +191,8 @@ class newItem_page(QWidget, Ui_addItemPage):
             "category": self.category_comboBox.currentText(),
             "status": self.status_comboBox.currentText(),
             "quantity": self.quantity_spinBox.text(),
-            "description": self.desc_plainTextEdit.toPlainText()
+            "description": self.desc_plainTextEdit.toPlainText(),
+            "low_stock_threshold": self.low_stock_threshold_spinBox.text()
         }
         return data
 

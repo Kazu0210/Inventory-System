@@ -620,6 +620,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_2.addWidget(self.scrollArea)
+        self.scrollArea.raise_()
+        self.frame_3.raise_()
         self.horizontalLayout.addWidget(self.frame)
         self.content_widget = QtWidgets.QWidget(parent=self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -629,6 +631,8 @@ class Ui_MainWindow(object):
         self.content_widget.setSizePolicy(sizePolicy)
         self.content_widget.setObjectName("content_widget")
         self.horizontalLayout.addWidget(self.content_widget)
+        self.content_widget.raise_()
+        self.frame.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -636,7 +640,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Magtibay LPG Trading Inventory System"))
         self.dashboard_pushButton.setText(_translate("MainWindow", "Dashboard"))
         self.prices_pushButton.setText(_translate("MainWindow", "Prices"))
         self.inventory_pushButton.setText(_translate("MainWindow", "Inventory"))

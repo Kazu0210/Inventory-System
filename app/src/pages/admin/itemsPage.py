@@ -48,6 +48,28 @@ class ItemsPage(QWidget, items_page):
         # Call update_all function to populate table once
         self.update_all()
 
+    def update_low_stock_label(self):
+        """Updates the low stock label"""
+        self.low_stock_label.setText(str(self.count_low_stock_products()))
+
+    def count_low_stock_products(self):
+        """
+        Counts all products that have stock levels below their respective low stock threshold.
+
+        :param inventory: The inventory data (a list of dictionaries).
+        :return: The count of products with stock below their individual low stock threshold.
+        """
+        inventory = self.connect_to_db('products_items').find({})
+        low_stock_count = 0
+        
+        # Iterate through each product in the inventory
+        for product in inventory:
+            # Check if the product's stock is below its low stock threshold
+            if product['quantity_in_stock'] <= product['minimum_stock_level']:
+                low_stock_count += 1
+
+        return low_stock_count
+
     def ShowButtons(self):
         self.restock_pushButton.show()
         self.editProduct_pushButton.show()
@@ -118,16 +140,20 @@ class ItemsPage(QWidget, items_page):
             object_id = document['_id'] # get _id of product id
             # print(f'Object Id from items page: {object_id}')
 
-            self.productID = document['product_id']
-            self.productName = document['product_name']
-            self.cylinderSize = document['cylinder_size']
-            self.quantity = document['quantity_in_stock']
-            self.price = document['price_per_unit']
-            self.supplier = document['supplier']
-            self.restockDate = document['last_restocked_date']
-            self.description = document['description']
-            self.totalValue = document['total_value']
-            self.status = document['inventory_status']
+            try:
+                self.productID = document['product_id']
+                self.productName = document['product_name']
+                self.cylinderSize = document['cylinder_size']
+                self.quantity = document['quantity_in_stock']
+                self.price = document['price_per_unit']
+                self.supplier = document['supplier']
+                self.restockDate = document['last_restocked_date']
+                self.description = document['description']
+                self.totalValue = document['total_value']
+                self.status = document['inventory_status']
+                self.low_stock_threshold = document['minimum_stock_level']
+            except Exception as e:
+                print(f"Error: {e}")
 
             self.selected_row = row_index
             
@@ -151,18 +177,24 @@ class ItemsPage(QWidget, items_page):
 
             self.status_label.setText(self.status)
 
-            self.product_data = {
-                'product_id': self.productID,
-                'product_name': self.productName,
-                'cylinder_size': self.cylinderSize,
-                'quantity': self.quantity,
-                'price': self.price,
-                'supplier': self.supplier,
-                'restockDate': self.restockDate,
-                'description': self.description,
-                'total_value': self.totalValue,
-                'status': self.status
-            }
+            self.low_stock_threshold_label.setText(str(self.low_stock_threshold))
+
+            try:
+                self.product_data = {
+                    'product_id': self.productID,
+                    'product_name': self.productName,
+                    'cylinder_size': self.cylinderSize,
+                    'quantity': self.quantity,
+                    'price': self.price,
+                    'supplier': self.supplier,
+                    'restockDate': self.restockDate,
+                    'description': self.description,
+                    'total_value': self.totalValue,
+                    'status': self.status,
+                    'minimum_stock_level': self.low_stock_threshold
+                }
+            except Exception as e:
+                print(f'Error: {e}')
 
             # Connect the edit button only once
             if not hasattr(self, 'edit_btn_connected'):
@@ -275,6 +307,7 @@ class ItemsPage(QWidget, items_page):
         self.description_label.clear()
         self.totalValue_label.clear()
         self.status_label.clear()
+        self.low_stock_threshold_label.clear()
 
     def updatePreviewSection(self, data_dict):
         productID = data_dict.get('product_id')
@@ -292,6 +325,7 @@ class ItemsPage(QWidget, items_page):
         self.description_label.setText(document['description'])
         self.totalValue_label.setText(str(document['total_value']))
         self.status_label.setText(document['inventory_status'])
+        self.low_stock_threshold_label.setText(str(document['minimum_stock_level']))
 
     def handleSave(self, data):
         print('Edit product saved')
@@ -306,6 +340,7 @@ class ItemsPage(QWidget, items_page):
         self.update_table()
         self.UpdateTotalStock()
         self.UpdateInventoryTotalValue()
+        self.update_low_stock_label()
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"

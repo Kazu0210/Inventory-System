@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1051, 772)
+        Form.resize(1051, 771)
         Form.setStyleSheet("*{\n"
 "color: #0D044E;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -27,7 +27,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1051, 772))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1051, 771))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_60.setContentsMargins(0, 0, 0, 0)
@@ -159,13 +159,13 @@ class Ui_Form(object):
 "color: #333333;")
         self.label_17.setObjectName("label_17")
         self.verticalLayout_10.addWidget(self.label_17)
-        self.label_18 = QtWidgets.QLabel(parent=self.frame_21)
-        self.label_18.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.label_18.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+        self.low_stock_label = QtWidgets.QLabel(parent=self.frame_21)
+        self.low_stock_label.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.low_stock_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
 "color: #333333;\n"
 "")
-        self.label_18.setObjectName("label_18")
-        self.verticalLayout_10.addWidget(self.label_18)
+        self.low_stock_label.setObjectName("low_stock_label")
+        self.verticalLayout_10.addWidget(self.low_stock_label)
         self.horizontalLayout_7.addWidget(self.frame_21, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.horizontalLayout.addWidget(self.frame_20)
         self.verticalLayout_9.addWidget(self.frame)
@@ -360,6 +360,8 @@ class Ui_Form(object):
         self.horizontalLayout_75.addWidget(self.print_btn)
         self.horizontalLayout_74.addWidget(self.frame_78, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_9.addWidget(self.frame_77)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        self.verticalLayout_9.addItem(spacerItem1)
         self.tableWidget = QtWidgets.QTableWidget(parent=self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.MinimumExpanding, QtWidgets.QSizePolicy.Policy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
@@ -384,6 +386,11 @@ class Ui_Form(object):
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
         self.verticalLayout_9.addWidget(self.tableWidget)
+        self.tableWidget.raise_()
+        self.frame_76.raise_()
+        self.frame.raise_()
+        self.frame_64.raise_()
+        self.frame_77.raise_()
         self.horizontalLayout_60.addWidget(self.frame_4)
         self.frame_63 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_63.setStyleSheet("#frame_63{\n"
@@ -898,6 +905,25 @@ class Ui_Form(object):
         self.status_label.setObjectName("status_label")
         self.horizontalLayout_18.addWidget(self.status_label)
         self.verticalLayout_3.addWidget(self.frame_19)
+        self.frame_23 = QtWidgets.QFrame(parent=self.frame_3)
+        self.frame_23.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_23.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_23.setObjectName("frame_23")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_23)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.label = QtWidgets.QLabel(parent=self.frame_23)
+        self.label.setMinimumSize(QtCore.QSize(120, 0))
+        self.label.setStyleSheet("color: #0C0550;\n"
+"background-color: #fff;")
+        self.label.setObjectName("label")
+        self.horizontalLayout_4.addWidget(self.label)
+        self.low_stock_threshold_label = QtWidgets.QLabel(parent=self.frame_23)
+        self.low_stock_threshold_label.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.low_stock_threshold_label.setText("")
+        self.low_stock_threshold_label.setObjectName("low_stock_threshold_label")
+        self.horizontalLayout_4.addWidget(self.low_stock_threshold_label)
+        self.verticalLayout_3.addWidget(self.frame_23)
         self.frame_22 = QtWidgets.QFrame(parent=self.frame_3)
         self.frame_22.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_22.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -927,23 +953,22 @@ class Ui_Form(object):
         self.editProduct_pushButton.setFont(font)
         self.editProduct_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.editProduct_pushButton.setStyleSheet("#editProduct_pushButton{\n"
-"background-color: #fff;\n"
+"background-color: #66BB6A;\n"
 "border: 1px solid #000;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
-"color: #1E1E1E;\n"
+"color: #000;\n"
 "}")
         self.editProduct_pushButton.setObjectName("editProduct_pushButton")
         self.horizontalLayout_5.addWidget(self.editProduct_pushButton)
         self.archive_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
         self.archive_pushButton.setMinimumSize(QtCore.QSize(125, 30))
         self.archive_pushButton.setMaximumSize(QtCore.QSize(150, 30))
-        self.archive_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.archive_pushButton.setStyleSheet("#archive_pushButton{\n"
-"background-color: #5A7184;\n"
-"color: #fff;\n"
-"border: none;\n"
+"background-color: #B0BEC5;\n"
+"color: #000;\n"
+"border: 1px solid #000;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
@@ -963,18 +988,19 @@ class Ui_Form(object):
         self.restock_pushButton.setFont(font)
         self.restock_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.restock_pushButton.setStyleSheet("#restock_pushButton{\n"
-"background-color: #32CD32;\n"
+"background-color: #43A047;\n"
+"border: 1px solid #000;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
-"color: #fff;\n"
+"color: #000;\n"
 "}")
         self.restock_pushButton.setObjectName("restock_pushButton")
         self.verticalLayout_4.addWidget(self.restock_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.verticalLayout_3.addWidget(self.frame_22)
         self.verticalLayout_2.addWidget(self.frame_3)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem2)
         self.verticalLayout_6.addWidget(self.info_cont)
         self.horizontalLayout_60.addWidget(self.frame_63)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -992,7 +1018,7 @@ class Ui_Form(object):
         self.label_15.setText(_translate("Form", "Total Stock Value:"))
         self.inventoryTotalValue_label.setText(_translate("Form", "0.00"))
         self.label_17.setText(_translate("Form", "Low Stock:"))
-        self.label_18.setText(_translate("Form", "0"))
+        self.low_stock_label.setText(_translate("Form", "0"))
         self.label_28.setText(_translate("Form", "Cylinder Size:"))
         self.label_29.setText(_translate("Form", "Stock Level:"))
         self.setItems.setText(_translate("Form", "Add Product"))
@@ -1008,7 +1034,8 @@ class Ui_Form(object):
         self.label_9.setText(_translate("Form", "Description:"))
         self.label_8.setText(_translate("Form", "Total Value:"))
         self.label_4.setText(_translate("Form", "Inventory Status:"))
-        self.editProduct_pushButton.setText(_translate("Form", "Edit"))
+        self.label.setText(_translate("Form", "Low Stock Threshold:"))
+        self.editProduct_pushButton.setText(_translate("Form", "Update"))
         self.archive_pushButton.setText(_translate("Form", "Archive"))
         self.restock_pushButton.setText(_translate("Form", "Restock"))
 

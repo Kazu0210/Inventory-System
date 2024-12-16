@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1051</width>
-    <height>772</height>
+    <height>771</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,7 +50,7 @@ background-color: transparent;
         <x>0</x>
         <y>0</y>
         <width>1051</width>
-        <height>772</height>
+        <height>771</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_60">
@@ -355,7 +355,7 @@ color: #333333;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_18">
+                    <widget class="QLabel" name="low_stock_label">
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
@@ -767,6 +767,22 @@ color: #1E1E1E;</string>
            </widget>
           </item>
           <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QTableWidget" name="tableWidget">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -806,6 +822,7 @@ padding: 10px;
          <zorder>frame_64</zorder>
          <zorder>frame_77</zorder>
          <zorder>verticalSpacer_2</zorder>
+         <zorder>verticalSpacer_3</zorder>
         </widget>
        </item>
        <item>
@@ -1871,6 +1888,60 @@ background-color: #fff;</string>
                  </widget>
                 </item>
                 <item>
+                 <widget class="QFrame" name="frame_23">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label">
+                     <property name="minimumSize">
+                      <size>
+                       <width>120</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: #0C0550;
+background-color: #fff;</string>
+                     </property>
+                     <property name="text">
+                      <string>Low Stock Threshold:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="low_stock_threshold_label">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QFrame" name="frame_22">
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -1952,16 +2023,16 @@ background-color: #fff;</string>
                         </property>
                         <property name="styleSheet">
                          <string notr="true">#editProduct_pushButton{
-background-color: #fff;
+background-color: #66BB6A;
 border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
 font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #1E1E1E;
+color: #000;
 }</string>
                         </property>
                         <property name="text">
-                         <string>Edit</string>
+                         <string>Update</string>
                         </property>
                        </widget>
                       </item>
@@ -1981,9 +2052,9 @@ color: #1E1E1E;
                         </property>
                         <property name="styleSheet">
                          <string notr="true">#archive_pushButton{
-background-color: #5A7184;
-color: #fff;
-border: none;
+background-color: #B0BEC5;
+color: #000;
+border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
 font: 87 10pt &quot;Noto Sans Black&quot;;
@@ -2025,11 +2096,12 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                      </property>
                      <property name="styleSheet">
                       <string notr="true">#restock_pushButton{
-background-color: #32CD32;
+background-color: #43A047;
+border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
 font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #fff;
+color: #000;
 }</string>
                      </property>
                      <property name="text">

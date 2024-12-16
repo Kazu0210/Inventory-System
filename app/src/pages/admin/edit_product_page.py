@@ -115,9 +115,10 @@ class EditProductInformation(QWidget, editProductPage):
             'cylinder_size': self.cylinderSize_comboBox.currentText(),
             'price_per_unit': int(self.pricePerUnit_field.text()),
             'supplier': self.supplier_field.text(),
-            'description': self.description_field.text(),
+            'description': self.desc_plainTextEdit.toPlainText(),
             'inventory_status': self.status_comboBox_2.currentText(),
-            'quantity_in_stock': int(self.quantity_lineEdit.text())
+            'quantity_in_stock': int(self.quantity_lineEdit.text()),
+            'minimum_stock_level': int(self.low_stock_threshold_spinBox.text())
         }
         # print(f'Data collected: {data}')
         return data
@@ -144,9 +145,10 @@ class EditProductInformation(QWidget, editProductPage):
         self.cylinderSize_comboBox.addItem(self.productData.get('cylinder_size'))
         self.pricePerUnit_field.setText(str(self.productData.get('price')))
         self.supplier_field.setText(self.productData.get('supplier'))
-        self.description_field.setText(self.productData.get('description'))
+        self.desc_plainTextEdit.setPlainText(self.productData.get('description'))
         self.status_comboBox_2.addItem(self.productData.get('status'))
         self.quantity_lineEdit.setText(str(self.productData.get('quantity')))
+        self.low_stock_threshold_spinBox.setValue(self.productData.get('minimum_stock_level'))
 
         self.UpdateComboBox('filters.json')
 

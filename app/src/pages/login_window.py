@@ -22,8 +22,7 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.logs = Activity_Logs()
         self.login_pushButton.clicked.connect(self.LoginBtn_clicked)
 
-        self.defaultAdmin = createDefaultAdmin()
-        self.defaultAdmin
+        self.defaultAdmin = createDefaultAdmin()  
 
         self.set_system_logo()
 
