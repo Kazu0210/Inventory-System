@@ -8,6 +8,7 @@ from pages.admin.new_order_page import AddOrderForm
 
 from utils.Inventory_Monitor import InventoryMonitor
 import pymongo, json, re
+from datetime import datetime
 
 class OrderPage(QWidget, Ui_orderPage_Form):
     def __init__(self, parent_window=None):
@@ -26,6 +27,34 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         # self.run_monitor(self.update_table)
         # self.update_table()
+
+        self.update_total_orders()
+
+    def get_total_orders_today(self):
+        """
+        Retrieves the total number of orders created today from the MongoDB database.
+        """
+        try:
+            # Get today's date in string format: "YYYY-MM-DD"
+            today_date = datetime.now().strftime("%Y-%m-%d")
+
+            # Query to find orders where order_date equals today's date
+            query = {
+                "order_date": today_date
+            }
+
+            # Get the total count of orders
+            total_orders = self.connect_to_db("orders").count_documents(query)
+            return total_orders
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return None
+
+    def update_total_orders(self):
+        """Update total orders label"""
+        total_orders_today = self.get_total_orders_today()
+        self.total_orders_label.setText(str(total_orders_today))
 
     def run_monitor(self, object_to_update):
         # Initialize Inventory Monitor
@@ -67,7 +96,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             # if paymentStatus_filter != "Show All":
             #     filter_query['payment_status'] = paymentStatus_filter
 
-            data = list(self.connect_to_db().find().sort("_id", -1))
+            data = list(self.connect_to_db("orders").find().sort("_id", -1))
             # data = list(self.collection.find(filter_query).sort("_id", -1))
             if not data:
                 return  # Exit if the collection is empty
@@ -88,9 +117,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     def clean_header(self, header):
         return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
     
-    def connect_to_db(self):
+    def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "orders"
         return client[db][collection_name]
