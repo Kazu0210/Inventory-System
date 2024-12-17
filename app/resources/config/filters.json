@@ -58,6 +58,6 @@
         {"Default": "Show All"},
         {"In Stock": "In Stock"},
         {"Low Stock": "Low Stock"},
-        {"Out Of Stock": "Out Of Stock"}
+        {"Out Of Stock": "Out of Stock"}
     ]
 }

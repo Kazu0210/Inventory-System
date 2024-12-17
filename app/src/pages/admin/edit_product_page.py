@@ -107,6 +107,17 @@ class EditProductInformation(QWidget, editProductPage):
 
         self.saveNewData(data)
 
+    def get_stock_level(self, stock_quantity: int, stock_threshold: int):
+        """Return stock level (in stock, low stock, out of stock)"""
+        
+        if stock_quantity == 0:
+            return "Out of Stock"
+        elif stock_quantity < stock_threshold:
+            return "Low Stock"
+        else:
+            return "In Stock"
+
+
     def getData(self):
         print(f'Getting data from the form')
         data = {
@@ -118,6 +129,7 @@ class EditProductInformation(QWidget, editProductPage):
             'description': self.desc_plainTextEdit.toPlainText(),
             'inventory_status': self.status_comboBox_2.currentText(),
             'quantity_in_stock': int(self.quantity_lineEdit.text()),
+            'stock_level': self.get_stock_level(int(self.quantity_lineEdit.text()), int(self.low_stock_threshold_spinBox.text())),
             'minimum_stock_level': int(self.low_stock_threshold_spinBox.text())
         }
         # print(f'Data collected: {data}')

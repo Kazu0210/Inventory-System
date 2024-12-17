@@ -27,6 +27,16 @@ class RestockProduct(QWidget, Ui_restock_form):
         self.cancel_pushButton.clicked.connect(lambda: self.cancelBtnClicked())
         self.restock_pushButton.clicked.connect(lambda: self.restockBtnClicked())
 
+    def get_stock_level(self, stock_quantity: int, stock_threshold: int):
+        """Return stock level (in stock, low stock, out of stock)"""
+        
+        if stock_quantity == 0:
+            return "Out of Stock"
+        elif stock_quantity < stock_threshold:
+            return "Low Stock"
+        else:
+            return "In Stock"
+
     def save(self, data):
         current_date = date.today().strftime("%d-%m-%Y")
         try:
@@ -41,6 +51,7 @@ class RestockProduct(QWidget, Ui_restock_form):
                 'description': data['description'],
                 'total_value': data['total_value'],
                 'inventory_status': data['status'],
+                'stock_level': self.get_stock_level(int(data['quantity']), int(self.received_data['minimum_stock_level']))
             }
 
             self.collection.update_one({"product_id": self.productID}, {"$set": fixed_data})

@@ -25,6 +25,16 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.add_product_pushButton.clicked.connect(lambda: self.addItemBtn_clicked())
         self.cancel_pushButton.clicked.connect(lambda: self.cancel_clicked())
 
+    def get_stock_level(self, stock_quantity: int, stock_threshold: int):
+        """Return stock level (in stock, low stock, out of stock)"""
+        
+        if stock_quantity == 0:
+            return "Out of Stock"
+        elif stock_quantity < stock_threshold:
+            return "Low Stock"
+        else:
+            return "In Stock"
+
     def save(self, data):
         try:
             # Check for required keys in the data dictionary
@@ -58,7 +68,8 @@ class newItem_page(QWidget, Ui_addItemPage):
             "description": data['description'],
             "total_value": total_value,
             "inventory_status": data['status'],
-            "minimum_stock_level": data['low_stock_threshold']
+            "minimum_stock_level": data['low_stock_threshold'],
+            "stock_level": self.get_stock_level(int(data['quantity']), int(data['low_stock_threshold']))
         }
 
         try:
@@ -192,7 +203,7 @@ class newItem_page(QWidget, Ui_addItemPage):
             "status": self.status_comboBox.currentText(),
             "quantity": self.quantity_spinBox.text(),
             "description": self.desc_plainTextEdit.toPlainText(),
-            "low_stock_threshold": self.low_stock_threshold_spinBox.text()
+            "low_stock_threshold": int(self.low_stock_threshold_spinBox.text())
         }
         return data
 

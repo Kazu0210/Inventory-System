@@ -51,6 +51,10 @@ class ItemsPage(QWidget, items_page):
         # Call update_all function to populate table once
         self.update_all()
 
+        # ComboBox connections
+        self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
+        self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
+
     def load_filters(self):
         """Add items to the filter dropdowns"""
         self.add_cylinder_size_filter()
@@ -81,7 +85,6 @@ class ItemsPage(QWidget, items_page):
         for category in data['cylinder_size']:
             # print(f"CATEGORY: {list(category.values())[0]}")
             self.cylinderSize_comboBox.addItem(list(category.values())[0])
-
 
     def get_total_stock_quantity(self):
         """
@@ -127,7 +130,7 @@ class ItemsPage(QWidget, items_page):
         # Iterate through each product in the inventory
         for product in inventory:
             # Check if the product's stock is below its low stock threshold
-            if product['quantity_in_stock'] <= product['minimum_stock_level']:
+            if product['quantity_in_stock'] < product['minimum_stock_level']:
                 low_stock_count += 1
 
         return low_stock_count
@@ -213,6 +216,7 @@ class ItemsPage(QWidget, items_page):
                 self.description = document['description']
                 self.totalValue = document['total_value']
                 self.status = document['inventory_status']
+                self.stock_level = document['stock_level']
                 self.low_stock_threshold = document['minimum_stock_level']
             except Exception as e:
                 print(f"Error: {e}")
@@ -239,6 +243,8 @@ class ItemsPage(QWidget, items_page):
 
             self.status_label.setText(self.status)
 
+            self.stock_level_label.setText(self.stock_level)
+
             self.low_stock_threshold_label.setText(str(self.low_stock_threshold))
 
             try:
@@ -253,6 +259,7 @@ class ItemsPage(QWidget, items_page):
                     'description': self.description,
                     'total_value': self.totalValue,
                     'status': self.status,
+                    'stock_level': self.stock_level,
                     'minimum_stock_level': self.low_stock_threshold
                 }
             except Exception as e:
@@ -343,7 +350,6 @@ class ItemsPage(QWidget, items_page):
             # self.job_label.setText("")
             # self.usertype_label.setText("")
         
-
     def restockProduct(self, product_data):
         print(f'Restock button clicked.')
         # print(f'Product data from restock button clicked: {product_data}')
@@ -369,6 +375,7 @@ class ItemsPage(QWidget, items_page):
         self.description_label.clear()
         self.totalValue_label.clear()
         self.status_label.clear()
+        self.stock_level_label.clear()
         self.low_stock_threshold_label.clear()
 
     def updatePreviewSection(self, data_dict):
@@ -550,7 +557,18 @@ class ItemsPage(QWidget, items_page):
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
-        data = list(self.collection.find())
+        cylinder_size = self.cylinderSize_comboBox.currentText()
+        stock_level = self.stock_level_comboBox.currentText()
+
+        filter = {}
+
+        if cylinder_size != "Show All":
+            filter['cylinder_size'] = cylinder_size
+
+        if stock_level != "Show All":
+            filter['stock_level'] = stock_level
+
+        data = list(self.collection.find(filter).sort("_id", -1))
         if not data:
             return  # Exit if the collection is empty
 
@@ -565,7 +583,7 @@ class ItemsPage(QWidget, items_page):
                 if value is not None:
                     if header == 'priceperunit' or header == 'totalvalue':
                         # Format value as price
-                        formatted_price = f"{int(value):,.2f}" if value else ""
+                        formatted_price = f"₱ {int(value):,.2f}" if value else ""
                         value = formatted_price
                     
                     table_item = QTableWidgetItem(str(value))
