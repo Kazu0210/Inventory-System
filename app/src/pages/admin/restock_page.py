@@ -1,7 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox 
 from PyQt6.QtCore import pyqtSignal, Qt, QRegularExpression
 from PyQt6.QtGui import QRegularExpressionValidator
-from ui.NEW.restock_page import Ui_Form as Ui_restock_form
+# from ui.NEW.restock_page import Ui_Form as Ui_restock_form
+from ui.final_ui.restock_product import Ui_Form as Ui_restock_form
 from datetime import date
 import pymongo
 
@@ -21,9 +22,9 @@ class RestockProduct(QWidget, Ui_restock_form):
 
         self.fillUpForm()
         
-        self.restockQuantity_lineEdit.textChanged.connect(lambda: self.UpdateTotalValue())
+        self.restock_quantity__lineEdit.textChanged.connect(lambda: self.UpdateTotalValue())
 
-        self.cancel_btn.clicked.connect(lambda: self.cancelBtnClicked())
+        self.cancel_pushButton.clicked.connect(lambda: self.cancelBtnClicked())
         self.restock_pushButton.clicked.connect(lambda: self.restockBtnClicked())
 
     def save(self, data):
@@ -74,16 +75,15 @@ class RestockProduct(QWidget, Ui_restock_form):
 
     def getNewTotalQuantity(self):
         # combine old and new quantity
-        newQuantity = int(self.restockQuantity_lineEdit.text())
+        newQuantity = int(self.restock_quantity__lineEdit.text())
         oldQuantity = int(self.received_data['quantity'])
         TotalQuantity = oldQuantity + newQuantity
 
         return TotalQuantity
 
-
     def getNewTotalVal(self):
         # combine old and new quantity
-        newQuantity = int(self.restockQuantity_lineEdit.text())
+        newQuantity = int(self.restock_quantity__lineEdit.text())
         oldQuantity = int(self.received_data['quantity'])
         TotalQuantity = oldQuantity + newQuantity
 
@@ -97,14 +97,14 @@ class RestockProduct(QWidget, Ui_restock_form):
 
     def UpdateTotalValue(self):
         try:
-            newQuantity = int(self.restockQuantity_lineEdit.text()) + int(self.received_data.get('quantity'))
+            newQuantity = int(self.restock_quantity__lineEdit.text()) + int(self.received_data.get('quantity'))
             # print(f'new quantity: {newQuantity}')
 
-            self.addQuantity_label.setText(f'+{self.restockQuantity_lineEdit.text()} = {newQuantity}') # set new added quantity to label
+            self.addQuantity_label.setText(f'+{self.restock_quantity__lineEdit.text()} = {newQuantity}') # set new added quantity to label
 
             totalValue = newQuantity * int(self.received_data.get('price'))
             # print(f'Total value: {totalValue}')
-            self.totalCost_label.setText(str(totalValue))
+            self.total_cost_label.setText(f"₱ {totalValue:,.2f}")
 
             data = {
                 'total_value': totalValue,
@@ -118,20 +118,20 @@ class RestockProduct(QWidget, Ui_restock_form):
     def numberOnly(self):
         regex = QRegularExpression(r"^\d{1,4}(\.\d{1,3})?$")  # 1 to 4 digits before decimal, 1 to 3 digits after
         validator = QRegularExpressionValidator(regex)
-        self.restockQuantity_lineEdit.setValidator(validator)
+        self.restock_quantity__lineEdit.setValidator(validator)
 
     def fillUpForm(self):
-        self.productID_label.setText(self.received_data.get('product_id'))
-        self.productName_label.setText(self.received_data.get('product_name'))
-        self.cylinderSize_label.setText(self.received_data.get('cylinder_size'))
-        self.lastRestockD_label.setText(self.received_data.get('restockDate'))
+        self.prod_ID_label.setText(self.received_data.get('product_id'))
+        self.prod_name_label.setText(self.received_data.get('product_name'))
+        self.cylinder_size_label.setText(self.received_data.get('cylinder_size'))
+        self.restock_date_label.setText(self.received_data.get('restockDate'))
         self.supplier_label.setText(self.received_data.get('supplier'))
-        self.pricePerUnit_label.setText(str(self.received_data.get('price')))
-        self.totalCost_label.setText(str(self.received_data.get('total_value')))
-        self.quantityInStock_label.setText(str(self.received_data.get('quantity')))
+        self.price_label.setText(f"₱ {self.received_data.get('price'):,.2f}")
+        self.total_cost_label.setText(str(self.received_data.get('total_value')))
+        self.total_cost_label.setText(f"₱ {self.received_data.get('total_value'):,.2f}")
+        self.quantity_label.setText(str(self.received_data.get('quantity')))
 
         self.numberOnly()
-
 
     def connect_to_db(self):
         connection_string = "mongodb://localhost:27017/"

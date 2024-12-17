@@ -48,6 +48,36 @@ class ItemsPage(QWidget, items_page):
         # Call update_all function to populate table once
         self.update_all()
 
+    def load_filters(self):
+        """Add items to the filter dropdowns"""
+
+    def get_total_stock_quantity(self):
+        """
+        Fetch total stock quantity from the inventory collection.
+        """
+        try:
+            # Aggregate to calculate total quantity
+            total_quantity = self.connect_to_db("products_items").aggregate([
+                {"$group": {"_id": None, "total_stock": {"$sum": "$quantity_in_stock"}}}
+            ])
+
+            # Fetch result and return total stock
+            for result in total_quantity:
+                return result['total_stock']
+            
+            # If no data exists
+            return 0
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+
+    def update_total_stock_label(self):
+        """Update the total stock quantity label"""
+        total_stock_quantity = self.get_total_stock_quantity()
+        print(f'Total stock quantity: {total_stock_quantity}')
+        self.total_stock_quantity_label.setText(str(total_stock_quantity))
+
     def update_low_stock_label(self):
         """Updates the low stock label"""
         self.low_stock_label.setText(str(self.count_low_stock_products()))
@@ -341,6 +371,7 @@ class ItemsPage(QWidget, items_page):
         self.UpdateTotalStock()
         self.UpdateInventoryTotalValue()
         self.update_low_stock_label()
+        self.update_total_stock_label()
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"

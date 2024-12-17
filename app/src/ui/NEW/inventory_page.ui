@@ -225,7 +225,7 @@ color: #333333;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="total_orders_label">
+                    <widget class="QLabel" name="total_stock_quantity_label">
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
@@ -496,13 +496,13 @@ margin: 0;
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>140</width>
                     <height>30</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>140</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -587,7 +587,7 @@ margin: 0;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="cylinderSize_comboBox_2">
+                 <widget class="QComboBox" name="stock_level_comboBox">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -1000,7 +1000,7 @@ color: #333333;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1026,6 +1026,12 @@ color: #333333;</string>
                    </item>
                    <item>
                     <widget class="QLabel" name="productID_label">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
                      <property name="minimumSize">
                       <size>
                        <width>0</width>
@@ -1092,7 +1098,7 @@ color: #333333;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1123,7 +1129,7 @@ background-color: #fff;</string>
                    <item>
                     <widget class="QLabel" name="productName_label">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1188,7 +1194,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1213,7 +1219,7 @@ background-color: #fff;</string>
                    <item>
                     <widget class="QLabel" name="cylinderSize_label">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1278,7 +1284,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1303,7 +1309,7 @@ background-color: #fff;</string>
                    <item>
                     <widget class="QLabel" name="quantity_label">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1368,7 +1374,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1393,7 +1399,7 @@ background-color: #fff;</string>
                    <item>
                     <widget class="QLabel" name="price_label">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1458,7 +1464,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1484,6 +1490,12 @@ background-color: #fff;</string>
                    </item>
                    <item>
                     <widget class="QLabel" name="supplier_label">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
                      <property name="minimumSize">
                       <size>
                        <width>0</width>
@@ -1544,7 +1556,7 @@ background-color: #fff;</string>
                     <widget class="QLabel" name="label_16">
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1633,7 +1645,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1682,7 +1694,7 @@ background-color: #fff;</string>
                       <item>
                        <widget class="QLabel" name="description_label">
                         <property name="sizePolicy">
-                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                           <horstretch>0</horstretch>
                           <verstretch>0</verstretch>
                          </sizepolicy>
@@ -1750,7 +1762,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1775,7 +1787,7 @@ background-color: #fff;</string>
                    <item>
                     <widget class="QLabel" name="totalValue_label">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1831,7 +1843,7 @@ background-color: #fff;</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1862,7 +1874,7 @@ background-color: #fff;</string>
                    <item>
                     <widget class="QLabel" name="status_label">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1912,7 +1924,7 @@ background-color: #fff;</string>
                     <widget class="QLabel" name="label">
                      <property name="minimumSize">
                       <size>
-                       <width>120</width>
+                       <width>135</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1927,6 +1939,12 @@ background-color: #fff;</string>
                    </item>
                    <item>
                     <widget class="QLabel" name="low_stock_threshold_label">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
