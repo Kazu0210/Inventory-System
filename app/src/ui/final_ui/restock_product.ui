@@ -679,6 +679,9 @@ border-radius: 5px;</string>
              <height>30</height>
             </size>
            </property>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
            <property name="text">
             <string/>
            </property>

@@ -1,7 +1,8 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
 
-from ui.NEW.orders_page import Ui_orderPage_Form
+# from ui.NEW.orders_page import Ui_orderPage_Form
+from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
 # from pages.admin.new_order_page import NewOrderPage
 from pages.admin.new_order_page import AddOrderForm
 
@@ -15,16 +16,16 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.parent_window = parent_window
 
         # self.createOrder_pushButton.clicked.connect(lambda: self.createOrder())
-        self.cancelOrder_pushButton.clicked.connect(lambda: print('cancel order button clicked'))
-        self.editOrder_pushButton.clicked.connect(lambda: print('edit order button clicked'))
-        self.orderHistory_pushButton.clicked.connect(lambda: print('order history button clicked'))
+        # self.cancelOrder_pushButton.clicked.connect(lambda: print('cancel order button clicked'))
+        # self.editOrder_pushButton.clicked.connect(lambda: print('edit order button clicked'))
+        # self.orderHistory_pushButton.clicked.connect(lambda: print('order history button clicked'))
 
-        if not hasattr(self, 'createOrderBtn_connected'):
-            self.createOrder_pushButton.clicked.connect(lambda: self.createOrder())
-            self.createOrderBtn_connected = True
+        # if not hasattr(self, 'createOrderBtn_connected'):
+        #     self.creae.clicked.connect(lambda: self.createOrder())
+        #     self.createOrderBtn_connected = True
 
-        self.run_monitor(self.update_table)
-        self.update_table()
+        # self.run_monitor(self.update_table)
+        # self.update_table()
 
     def run_monitor(self, object_to_update):
         # Initialize Inventory Monitor

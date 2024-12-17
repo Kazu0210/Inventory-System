@@ -756,11 +756,13 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
 color: #1E1E1E;</string>
                   </property>
                   <property name="text">
-                   <string>Print Report</string>
+                   <string>Create Report</string>
                   </property>
                  </widget>
                 </item>
                </layout>
+               <zorder>print_btn</zorder>
+               <zorder>setItems</zorder>
               </widget>
              </item>
             </layout>
