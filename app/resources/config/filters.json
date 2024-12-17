@@ -53,6 +53,11 @@
         {"Pending":"Pending"},
         {"Unpaid":"Unpaid"},
         {"Paid":"Paid"}
+    ],
+    "stock_level":[
+        {"Default": "Show All"},
+        {"In Stock": "In Stock"},
+        {"Low Stock": "Low Stock"},
+        {"Out Of Stock": "Out Of Stock"}
     ]
-    
 }

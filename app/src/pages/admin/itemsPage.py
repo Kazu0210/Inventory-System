@@ -40,6 +40,9 @@ class ItemsPage(QWidget, items_page):
         # hide button
         self.HideButtons()
 
+        # Call function that load all the filters once
+        self.load_filters()
+
         # Initialize Inventory Monitor
         self.products_monitor = InventoryMonitor("products_items")
         self.products_monitor.start_listener_in_background()
@@ -50,6 +53,35 @@ class ItemsPage(QWidget, items_page):
 
     def load_filters(self):
         """Add items to the filter dropdowns"""
+        self.add_cylinder_size_filter()
+        self.load_stock_level_filter()
+    
+    def load_stock_level_filter(self):
+        """Add stock level filter to the dropdown"""
+        filter_dir = "app/resources/config/filters.json"
+        with open(filter_dir, 'r') as f:
+            data = json.load(f)
+
+        # clear combo box
+        self.stock_level_comboBox.clear()
+
+        for category in data['stock_level']:
+            # print(f"CATEGORY: {list(category.values())[0]}")
+            self.stock_level_comboBox.addItem(list(category.values())[0])
+
+    def add_cylinder_size_filter(self):
+        """Add cylinder size filter to the dropdown"""
+        filter_dir = "app/resources/config/filters.json"
+        with open(filter_dir, 'r') as f:
+            data = json.load(f)
+
+        # clear combo box
+        self.cylinderSize_comboBox.clear()
+
+        for category in data['cylinder_size']:
+            # print(f"CATEGORY: {list(category.values())[0]}")
+            self.cylinderSize_comboBox.addItem(list(category.values())[0])
+
 
     def get_total_stock_quantity(self):
         """
