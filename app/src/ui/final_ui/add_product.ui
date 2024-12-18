@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
+    <width>395</width>
     <height>470</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>391</width>
+    <width>395</width>
     <height>470</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>391</width>
+    <width>395</width>
     <height>550</height>
    </size>
   </property>
@@ -29,6 +29,7 @@
    <string notr="true">*{
 font: 10pt &quot;Noto Sans&quot;;
 color: #1E1E1E;
+background-color: transparent;
 }
 #Form{
 background-color: #E0F2E9;
@@ -68,6 +69,9 @@ padding: 5px;
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item alignment="Qt::AlignTop">
     <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -94,7 +98,8 @@ padding: 5px;
        <widget class="QLabel" name="label">
         <property name="styleSheet">
          <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;</string>
+color: #333333;
+background-color: transparent;</string>
         </property>
         <property name="text">
          <string>Add New Product:</string>

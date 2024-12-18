@@ -17,6 +17,7 @@ class Ui_MainWindow(object):
         MainWindow.setMaximumSize(QtCore.QSize(350, 570))
         MainWindow.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
+"background-color: transparent;\n"
 "}\n"
 "#MainWindow{\n"
 "background-color: #fff;\n"
@@ -47,7 +48,7 @@ class Ui_MainWindow(object):
         self.logo.setScaledContents(True)
         self.logo.setObjectName("logo")
         self.verticalLayout_2.addWidget(self.logo, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
-        self.verticalLayout.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.verticalLayout.addWidget(self.frame)
         self.frame_2 = QtWidgets.QFrame(parent=self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -107,6 +108,8 @@ class Ui_MainWindow(object):
         self.username_lineEdit.setStyleSheet("border: 1px solid #000;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
+"background-color: #fff;\n"
+"color: #000;\n"
 "")
         self.username_lineEdit.setObjectName("username_lineEdit")
         self.verticalLayout_5.addWidget(self.username_lineEdit, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -116,6 +119,8 @@ class Ui_MainWindow(object):
         self.password_lineEdit.setStyleSheet("border: 1px solid #000;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
+"background-color: #fff;\n"
+"color: #000;\n"
 "")
         self.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.password_lineEdit.setObjectName("password_lineEdit")

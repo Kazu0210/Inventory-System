@@ -12,12 +12,13 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(391, 470)
-        Form.setMinimumSize(QtCore.QSize(0, 470))
-        Form.setMaximumSize(QtCore.QSize(391, 550))
+        Form.resize(395, 470)
+        Form.setMinimumSize(QtCore.QSize(395, 470))
+        Form.setMaximumSize(QtCore.QSize(395, 550))
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "color: #1E1E1E;\n"
+"background-color: transparent;\n"
 "}\n"
 "#Form{\n"
 "background-color: #E0F2E9;\n"
@@ -56,6 +57,7 @@ class Ui_Form(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame = QtWidgets.QFrame(parent=Form)
+        self.frame.setStyleSheet("background-color: transparent;")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -65,7 +67,8 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(parent=self.frame)
         self.label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;")
+"color: #333333;\n"
+"background-color: transparent;")
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.verticalLayout_2.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
@@ -252,7 +255,7 @@ class Ui_Form(object):
         self.desc_plainTextEdit = QtWidgets.QPlainTextEdit(parent=self.frame_9)
         self.desc_plainTextEdit.setMinimumSize(QtCore.QSize(72, 30))
         self.desc_plainTextEdit.setObjectName("desc_plainTextEdit")
-        self.horizontalLayout_7.addWidget(self.desc_plainTextEdit, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.horizontalLayout_7.addWidget(self.desc_plainTextEdit)
         self.verticalLayout_4.addWidget(self.frame_9)
         self.frame_10 = QtWidgets.QFrame(parent=self.frame_13)
         self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)

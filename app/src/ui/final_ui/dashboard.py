@@ -65,7 +65,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(-304, 0, 1090, 1026))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1090, 1026))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -468,6 +468,7 @@ class Ui_Form(object):
         self.tabWidget = QtWidgets.QTabWidget(parent=self.frame_18)
         self.tabWidget.setMinimumSize(QtCore.QSize(300, 0))
         self.tabWidget.setStyleSheet("background-color: transparent;\n"
+"color: #000;\n"
 "")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
@@ -483,6 +484,8 @@ class Ui_Form(object):
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.tab_3)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
         self.pending_order_listWidget = QtWidgets.QListWidget(parent=self.tab_3)
+        self.pending_order_listWidget.setStyleSheet("background-color: transparent;\n"
+"color: #000;")
         self.pending_order_listWidget.setObjectName("pending_order_listWidget")
         self.verticalLayout_12.addWidget(self.pending_order_listWidget)
         self.tabWidget.addTab(self.tab_3, "")
