@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1148</width>
-    <height>622</height>
+    <height>777</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,7 +84,7 @@ padding: 5px;
         <x>0</x>
         <y>0</y>
         <width>1148</width>
-        <height>622</height>
+        <height>777</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -173,12 +173,6 @@ color: #333333;</string>
           </item>
           <item>
            <widget class="QFrame" name="frame_21">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>65</height>
-             </size>
-            </property>
             <property name="styleSheet">
              <string notr="true">#frame_21{
 background-color: #fff;
@@ -197,7 +191,7 @@ border-radius: 5px;
                <property name="minimumSize">
                 <size>
                  <width>225</width>
-                 <height>0</height>
+                 <height>90</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -240,6 +234,12 @@ border-radius: 5px;
                    </property>
                    <item>
                     <widget class="QLabel" name="label_14">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
                      <property name="styleSheet">
                       <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
 color: #333333;</string>
@@ -251,6 +251,12 @@ color: #333333;</string>
                    </item>
                    <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="label_16">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
                      <property name="font">
                       <font>
                        <family>Noto Sans</family>
@@ -811,7 +817,7 @@ border-radius: 5px;
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLabel" name="label_13">
+                       <widget class="QLabel" name="order_date_label">
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
@@ -826,6 +832,59 @@ border-radius: 5px;
                         </property>
                         <property name="text">
                          <string>TextLabel</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QFrame" name="frame_26">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_20">
+                      <property name="spacing">
+                       <number>5</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item alignment="Qt::AlignTop">
+                       <widget class="QLabel" name="label_17">
+                        <property name="styleSheet">
+                         <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>Delivery Address:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPlainTextEdit" name="delivery_address_plainTextEdit">
+                        <property name="minimumSize">
+                         <size>
+                          <width>200</width>
+                          <height>65</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>200</width>
+                          <height>120</height>
+                         </size>
                         </property>
                        </widget>
                       </item>
@@ -997,6 +1056,8 @@ border-radius: 5px;
                        </widget>
                       </item>
                      </layout>
+                     <zorder>contact_info</zorder>
+                     <zorder>label_12</zorder>
                     </widget>
                    </item>
                    <item>
@@ -1362,8 +1423,26 @@ border-radius: 5px;</string>
             </property>
            </spacer>
           </item>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QFrame" name="frame_23">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>300</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>300</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">#frame_23{
 background-color: #fff;
@@ -1417,6 +1496,9 @@ color: #333333;</string>
              </item>
              <item>
               <widget class="QScrollArea" name="scrollArea_2">
+               <property name="styleSheet">
+                <string notr="true">border: none;</string>
+               </property>
                <property name="widgetResizable">
                 <bool>true</bool>
                </property>
@@ -1425,8 +1507,8 @@ color: #333333;</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>376</width>
-                  <height>528</height>
+                  <width>378</width>
+                  <height>250</height>
                  </rect>
                 </property>
                </widget>
