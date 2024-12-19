@@ -629,9 +629,11 @@ class Ui_Form(object):
 "color: #333333;")
         self.label_18.setObjectName("label_18")
         self.horizontalLayout_3.addWidget(self.label_18)
-        self.label_19 = QtWidgets.QLabel(parent=self.frame_28)
-        self.label_19.setObjectName("label_19")
-        self.horizontalLayout_3.addWidget(self.label_19)
+        self.orders_quantity_label = QtWidgets.QLabel(parent=self.frame_28)
+        self.orders_quantity_label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.orders_quantity_label.setObjectName("orders_quantity_label")
+        self.horizontalLayout_3.addWidget(self.orders_quantity_label)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem4)
         self.verticalLayout_10.addWidget(self.frame_28)
@@ -682,7 +684,7 @@ class Ui_Form(object):
         self.clear_pushButton.setText(_translate("Form", "Clear"))
         self.label_15.setText(_translate("Form", "Recent Orders:"))
         self.label_18.setText(_translate("Form", "Ordered Items:"))
-        self.label_19.setText(_translate("Form", "TextLabel"))
+        self.orders_quantity_label.setText(_translate("Form", "0"))
 
 
 if __name__ == "__main__":

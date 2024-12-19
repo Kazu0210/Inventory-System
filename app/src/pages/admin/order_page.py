@@ -56,9 +56,25 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.orders_monitor.start_listener_in_background()
         self.orders_monitor.data_changed_signal.connect(lambda: self.update_total_orders())
 
+        self.cart_monitor = InventoryMonitor('cart')
+        self.cart_monitor.start_listener_in_background()
+        self.cart_monitor.data_changed_signal.connect(lambda: self.update_cart_item_quantity())
+
         self.set_current_date()
 
         self.display_recent_orders()
+
+        self.update_cart_item_quantity()
+
+    def count_cart_item(self):
+        """Count how many item are in the cart"""
+        quantity = self.connect_to_db("cart").count_documents({})
+        return quantity
+
+    def update_cart_item_quantity(self):
+        """Update the quantity of items in the cart"""
+        quantity = self.count_cart_item()
+        self.orders_quantity_label.setText(str(quantity))
 
     def display_recent_orders(self):
         """Show all the 5 recent orders in the current day"""

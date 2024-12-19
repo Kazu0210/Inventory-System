@@ -1706,9 +1706,13 @@ color: #333333;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_19">
+                 <widget class="QLabel" name="orders_quantity_label">
+                  <property name="styleSheet">
+                   <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+                  </property>
                   <property name="text">
-                   <string>TextLabel</string>
+                   <string>0</string>
                   </property>
                  </widget>
                 </item>

@@ -22,6 +22,9 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.logs = Activity_Logs()
         self.login_pushButton.clicked.connect(self.LoginBtn_clicked)
 
+        # hide title bar
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+
         self.defaultAdmin = createDefaultAdmin()  
 
         self.set_system_logo()
