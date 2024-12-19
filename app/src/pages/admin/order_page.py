@@ -1,20 +1,29 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
 
 # from ui.NEW.orders_page import Ui_orderPage_Form
 from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
+from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
 # from pages.admin.new_order_page import NewOrderPage
 from pages.admin.new_order_page import AddOrderForm
 
 from utils.Inventory_Monitor import InventoryMonitor
 import pymongo, json, re
+from pymongo import DESCENDING
 from datetime import datetime
+
+class RecentOrderItem(QFrame, Ui_orderPage_Form):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
 
 class OrderPage(QWidget, Ui_orderPage_Form):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
         self.parent_window = parent_window
+        
+        self.labels = []
 
         self.update_total_orders()
             
@@ -48,7 +57,49 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.orders_monitor.data_changed_signal.connect(lambda: self.update_total_orders())
 
         self.set_current_date()
-    
+
+        self.display_recent_orders()
+
+    def display_recent_orders(self):
+        """Show all the 5 recent orders in the current day"""
+        orders = self.get_recent_order()
+
+        for label in self.labels:
+            self.recent_orders_scrollAreaWidgetContents.removeWidget(label)
+            label.deleteLater()
+        self.labels.clear()
+
+        layout = self.recent_orders_scrollAreaWidgetContents.layout()
+
+        # If the layout exists, iterate through all the items and remove them
+        if layout:
+            for i in range(layout.count()):
+                item = layout.itemAt(i)
+                widget = item.widget()
+                
+                # If the item is a widget, remove it
+                if widget:
+                    widget.deleteLater()  # This deletes the widget and removes it from the layout
+
+    def get_recent_order(self):
+        """Get the 5 recent orders placed today."""
+        try:
+            # Get today's date in string format: "YYYY-MM-DD"
+            today_date = datetime.now().strftime("%Y-%m-%d")
+
+            # Query to find orders where order_date equals today's date
+            query = {
+                "order_date": today_date
+            }
+
+            # Get the 5 most recent orders
+            recent_orders = list(self.connect_to_db("orders").find(query).sort("_id", DESCENDING).limit(5))
+            return recent_orders
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return None
+
     def set_current_date(self):
         """Set order date label"""
         self.order_date_label.setText(self.get_current_date())
@@ -298,26 +349,35 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             total_amount = float(self.amount_input.text() or "0.0")
 
             # Prepare data for saving
+            # order_data = {
+            #     "order_id": self.order_id,
+            #     "customer_name": customer_name,
+            #     "order_date": order_date,
+            #     "product_name": product_name,
+            #     "cylinder_size": self.cylindersize_box.currentText(),
+            #     "quantity": quantity,
+            #     "price": price,
+            #     "total_amount": total_amount,
+            #     "order_status": order_status,
+            #     "delivery_address": delivery_address,
+            #     "payment_status": payment_status,
+            #     "contact_info": contact_info,
+            #     "order_note": order_note
+            # }
+
             order_data = {
-                "order_id": self.order_id,
-                "customer_name": customer_name,
-                "order_date": order_date,
                 "product_name": product_name,
                 "cylinder_size": self.cylindersize_box.currentText(),
                 "quantity": quantity,
                 "price": price,
-                "total_amount": total_amount,
-                "order_status": order_status,
-                "delivery_address": delivery_address,
-                "payment_status": payment_status,
-                "contact_info": contact_info,
-                "order_note": order_note
+                "total_amount": total_amount
             }
+
             self.reduce_quantity()
             self.update_total_value()
 
             # Insert or update the order data in the database
-            self.connect_to_db("orders").insert_one(order_data)
+            self.connect_to_db("cart").insert_one(order_data)
 
             # Record the order in the sales
             self.record_sales()
