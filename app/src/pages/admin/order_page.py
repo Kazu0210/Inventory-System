@@ -132,6 +132,15 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         print(f'_id: {_id}')
         print(f'new quantity: {new_quantity}')
 
+    def get_new_total_value(self, new_quantity, price):
+        """Calculate and returns the total value"""
+        print(f'New quantity: {new_quantity}')
+        print(f'Price: {price}')
+        total_value = int(new_quantity) * int(price)
+        print(f'Total Value: {total_value}')
+
+        return int(total_value)
+
     def increment_quantity(self, id):
         try:
             # Connect to the cart collection and update the quantity
@@ -139,7 +148,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             if cart_data:
                 current_quantity = cart_data.get("quantity", 0)
                 new_quantity = current_quantity + 1
-                self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity}})
+                price = cart_data.get("price", 0)
+
+                total_value = self.get_new_total_value(new_quantity, price)
+
+                self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity, "total_amount": total_value}})
                 print(f"Quantity of item with ID {id} incremented to {new_quantity}.")
             else:
                 print(f"Item with ID {id} not found in the cart.")
@@ -154,10 +167,20 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 current_quantity = cart_data.get("quantity", 0)
                 if current_quantity > 0:  # Allow decrementing to 0
                     new_quantity = current_quantity - 1
-                    self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity}})
+
+                    price = cart_data.get("price", 0)
+
+                    total_value = self.get_new_total_value(new_quantity, price)
+                    
+                    self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity, "total_amount": total_value}})
                     print(f"Quantity of item with ID {id} decremented to {new_quantity}.")
+
+                    if new_quantity == 0:
+                        self.connect_to_db('cart').delete_one({"_id": id})
+                        print(f"Item with ID {id} removed from the cart as quantity reached 0.")
                 else:
                     print(f"Quantity of item with ID {id} is already at the minimum (0).")
+
             else:
                 print(f"Item with ID {id} not found in the cart.")
         except Exception as e:
