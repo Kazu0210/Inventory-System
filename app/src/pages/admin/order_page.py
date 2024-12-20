@@ -1,9 +1,11 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
+from PyQt6.QtGui import QIntValidator
 
 # from ui.NEW.orders_page import Ui_orderPage_Form
 from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
 from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
+from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
 # from pages.admin.new_order_page import NewOrderPage
 from pages.admin.new_order_page import AddOrderForm
 
@@ -13,6 +15,11 @@ from pymongo import DESCENDING
 from datetime import datetime
 
 class RecentOrderItem(QFrame, Ui_orderPage_Form):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+class CartItem(QFrame, Ui_cart_item):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -58,13 +65,115 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.cart_monitor = InventoryMonitor('cart')
         self.cart_monitor.start_listener_in_background()
-        self.cart_monitor.data_changed_signal.connect(lambda: self.update_cart_item_quantity())
+        self.cart_monitor.data_changed_signal.connect(lambda: self.update_cart_widgets())
 
         self.set_current_date()
 
         self.display_recent_orders()
 
         self.update_cart_item_quantity()
+
+        self.update_cart()
+
+    def update_cart_widgets(self):
+        """Update all the widgets that connected to the cart db"""
+        self.update_cart()
+        self.update_cart_item_quantity()
+
+    def update_cart(self):
+        """Update items in the cart."""
+
+        # Get the layout of orders_scrollAreaWidgetContents
+        layout = self.orders_scrollAreaWidgetContents.layout()
+        if layout is None:
+            return  # Exit if there is no layout
+
+        # Clear all existing widgets from the layout
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+
+        # Retrieve data from the database
+        cart_data = list(self.connect_to_db('cart').find({}))
+
+        for item in cart_data:
+            # Create a new CartItem instance for each item
+            cart_item = CartItem()
+
+            # Validator for quantity
+            num_only = QIntValidator(0, 9999) # accept numbers only
+            cart_item.quantity_lineEdit.setMaxLength(5)
+            cart_item.quantity_lineEdit.setValidator(num_only)
+
+            cart_item.cylinder_size_label.setText(item["cylinder_size"])
+            cart_item.product_name_label.setText(item["product_name"])
+            cart_item.quantity_lineEdit.setText(f'{str(item["quantity"])}')
+            cart_item.unit_price_label.setText(f'₱ {item["price"]:,.2f}')
+            cart_item.total_price_label.setText(f'₱ {item["total_amount"]:,.2f}')
+
+            # Connect the remove button to the delete function
+            cart_item.remove_pushButton.clicked.connect(lambda _, id=item["_id"]: self.remove_from_cart(id))
+            cart_item.update_pushButton.clicked.connect(lambda _, id=item["_id"]: self.show_update_form(id))
+            cart_item.decrement_pushButton.clicked.connect(lambda _, id=item['_id']: self.decrement_quantity(id))
+            cart_item.increment_pushButton.clicked.connect(lambda _, id=item['_id']: self.increment_quantity(id))
+            cart_item.quantity_lineEdit.returnPressed.connect(
+                lambda: self.update_new_quantity(item['_id'], int(cart_item.quantity_lineEdit.text()))
+            )
+
+
+            # Add the CartItem widget to the layout
+            layout.addWidget(cart_item)
+
+    def update_new_quantity(self, _id, new_quantity):
+        """Update the quantity of an item in cart when typed on line edit"""
+        print(f'enter button clicked')
+        print(f'_id: {_id}')
+        print(f'new quantity: {new_quantity}')
+
+    def increment_quantity(self, id):
+        try:
+            # Connect to the cart collection and update the quantity
+            cart_data = self.connect_to_db('cart').find_one({"_id": id})
+            if cart_data:
+                current_quantity = cart_data.get("quantity", 0)
+                new_quantity = current_quantity + 1
+                self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity}})
+                print(f"Quantity of item with ID {id} incremented to {new_quantity}.")
+            else:
+                print(f"Item with ID {id} not found in the cart.")
+        except Exception as e:
+            print(f"Error incrementing quantity: {e}")
+
+    def decrement_quantity(self, id):
+        try:
+            # Connect to the cart collection and update the quantity
+            cart_data = self.connect_to_db('cart').find_one({"_id": id})
+            if cart_data:
+                current_quantity = cart_data.get("quantity", 0)
+                if current_quantity > 0:  # Allow decrementing to 0
+                    new_quantity = current_quantity - 1
+                    self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity}})
+                    print(f"Quantity of item with ID {id} decremented to {new_quantity}.")
+                else:
+                    print(f"Quantity of item with ID {id} is already at the minimum (0).")
+            else:
+                print(f"Item with ID {id} not found in the cart.")
+        except Exception as e:
+            print(f"Error decrementing quantity: {e}")
+
+    def remove_from_cart(self, item_id):
+        """Remove an item from the cart database and update the cart."""
+        try:
+            # Connect to the cart collection and delete the item
+            self.connect_to_db('cart').delete_one({"_id": item_id})
+            print(f"Item with ID {item_id} removed from the cart.")
+
+            # Update the cart UI
+            self.update_cart()
+        except Exception as e:
+            print(f"Error removing item from the cart: {e}")
 
     def count_cart_item(self):
         """Count how many item are in the cart"""
@@ -364,44 +473,49 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             order_note = self.note_input.toPlainText()
             total_amount = float(self.amount_input.text() or "0.0")
 
-            # Prepare data for saving
-            # order_data = {
-            #     "order_id": self.order_id,
-            #     "customer_name": customer_name,
-            #     "order_date": order_date,
-            #     "product_name": product_name,
-            #     "cylinder_size": self.cylindersize_box.currentText(),
-            #     "quantity": quantity,
-            #     "price": price,
-            #     "total_amount": total_amount,
-            #     "order_status": order_status,
-            #     "delivery_address": delivery_address,
-            #     "payment_status": payment_status,
-            #     "contact_info": contact_info,
-            #     "order_note": order_note
-            # }
-
             order_data = {
                 "product_name": product_name,
                 "cylinder_size": self.cylindersize_box.currentText(),
                 "quantity": quantity,
-                "price": price,
+                "price": price, 
                 "total_amount": total_amount
             }
 
-            self.reduce_quantity()
-            self.update_total_value()
+            # Connect to the database
+            db = self.connect_to_db("cart")
 
-            # Insert or update the order data in the database
-            self.connect_to_db("cart").insert_one(order_data)
+            # Check if a record with the same product name and cylinder size exists
+            existing_item = db.find_one({
+                "product_name": product_name,
+                "cylinder_size": order_data["cylinder_size"]
+            })
+
+            if existing_item:
+                # If the item exists, update its quantity, price, and total amount
+                new_quantity = existing_item["quantity"] + quantity
+                new_total_amount = new_quantity * price
+                db.update_one(
+                    {"_id": existing_item["_id"]},
+                    {"$set": {
+                        "quantity": new_quantity,
+                        "price": price,  # Assuming price can change
+                        "total_amount": new_total_amount
+                    }}
+                )
+                QMessageBox.information(self, "Data Updated", "Order updated successfully!")
+            else:
+                # If the item does not exist, insert it as a new order
+                db.insert_one(order_data)
+                QMessageBox.information(self, "Data Submitted", "New order added successfully!")
 
             # Record the order in the sales
             self.record_sales()
 
-            # Show confirmation message
-            QMessageBox.information(self, "Data Submitted", "New order added successfully!")
+            # Reduce inventory quantity and update total value
+            self.reduce_quantity()
+            self.update_total_value()
 
-            # clear form
+            # Clear the form
             self.clear_new_order_form()
 
         except ValueError:
@@ -409,6 +523,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         except Exception as e:
             print(f"An error occurred while saving the order: {e}")
             QMessageBox.critical(self, "Database Error", f"An error occurred while saving the order: {e}")
+
 
     def clear_new_order_form(self):
         """Clears the new order form"""

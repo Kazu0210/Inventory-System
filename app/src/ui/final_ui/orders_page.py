@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1179, 772)
+        Form.resize(1105, 772)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -61,7 +61,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1179, 772))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1105, 772))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -599,7 +599,7 @@ class Ui_Form(object):
         self.recent_orders_scrollArea.setWidgetResizable(True)
         self.recent_orders_scrollArea.setObjectName("recent_orders_scrollArea")
         self.recent_orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 395, 250))
+        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 321, 250))
         self.recent_orders_scrollAreaWidgetContents.setObjectName("recent_orders_scrollAreaWidgetContents")
         self.recent_orders_scrollArea.setWidget(self.recent_orders_scrollAreaWidgetContents)
         self.verticalLayout_7.addWidget(self.recent_orders_scrollArea)
@@ -638,14 +638,61 @@ class Ui_Form(object):
         self.horizontalLayout_3.addItem(spacerItem4)
         self.verticalLayout_10.addWidget(self.frame_28)
         self.ordered_items_scrollArea = QtWidgets.QScrollArea(parent=self.frame_27)
-        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(0, 250))
+        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(250, 250))
+        self.ordered_items_scrollArea.setStyleSheet("#ordered_items_scrollArea{\n"
+"background-color: #EAEAEA;\n"
+"border: none;\n"
+"border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #555;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.ordered_items_scrollArea.setWidgetResizable(True)
         self.ordered_items_scrollArea.setObjectName("ordered_items_scrollArea")
-        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 393, 248))
-        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
-        self.ordered_items_scrollArea.setWidget(self.scrollAreaWidgetContents_2)
-        self.verticalLayout_10.addWidget(self.ordered_items_scrollArea)
+        self.orders_scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 321, 250))
+        self.orders_scrollAreaWidgetContents.setObjectName("orders_scrollAreaWidgetContents")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.orders_scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.ordered_items_scrollArea.setWidget(self.orders_scrollAreaWidgetContents)
+        self.verticalLayout_10.addWidget(self.ordered_items_scrollArea, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_6.addWidget(self.frame_27)
         spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout_6.addItem(spacerItem5)
