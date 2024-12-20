@@ -402,7 +402,7 @@ color: #808080;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_7">
+             <widget class="QLabel" name="available_quantity_label">
               <property name="styleSheet">
                <string notr="true">font: 10pt &quot;Noto Sans&quot;;
 color: #808080;</string>

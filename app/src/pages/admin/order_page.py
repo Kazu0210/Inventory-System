@@ -99,6 +99,18 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         cart_data = list(self.connect_to_db('cart').find({}))
 
         for item in cart_data:
+            current_stock = self.connect_to_db('products_items').find_one(
+                {
+                    'product_name':item['product_name'],
+                    'cylinder_size':item['cylinder_size']
+                },
+                {
+                    'quantity_in_stock': 1,
+                    '_id': 0    
+                }
+            )
+            current_stock_value = current_stock.get('quantity_in_stock', 0) if current_stock else 0
+            
             # Create a new CartItem instance for each item
             cart_item = CartItem()
 
@@ -112,6 +124,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             cart_item.quantity_lineEdit.setText(f'{str(item["quantity"])}')
             cart_item.unit_price_label.setText(f'₱ {item["price"]:,.2f}')
             cart_item.total_price_label.setText(f'₱ {item["total_amount"]:,.2f}')
+            cart_item.available_quantity_label.setText(f'{current_stock_value} pieces available')
 
             # Connect the remove button to the delete function
             cart_item.remove_pushButton.clicked.connect(lambda _, id=item["_id"]: self.remove_from_cart(id))
