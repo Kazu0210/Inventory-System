@@ -106,8 +106,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         for item in cart_data:
             current_stock = self.connect_to_db('products_items').find_one(
                 {
-                    'product_name':item['product_name'],
-                    'cylinder_size':item['cylinder_size']
+                    'product_name': item['product_name'],
+                    'cylinder_size': item['cylinder_size']
                 },
                 {
                     'quantity_in_stock': 1,
@@ -115,12 +115,12 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 }
             )
             current_stock_value = current_stock.get('quantity_in_stock', 0) if current_stock else 0
-            
+
             # Create a new CartItem instance for each item
             cart_item = CartItem()
 
-            # Validator for quantity
-            num_only = QIntValidator(0, 9999) # accept numbers only
+            # Set validator for quantity based on current stock
+            num_only = QIntValidator(0, current_stock_value)  # Accept numbers only within stock range
             cart_item.quantity_lineEdit.setMaxLength(5)
             cart_item.quantity_lineEdit.setValidator(num_only)
 
@@ -133,13 +133,21 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
             # Connect the remove button to the delete function
             cart_item.remove_pushButton.clicked.connect(lambda _, id=item["_id"]: self.remove_from_cart(id))
-            cart_item.update_pushButton.clicked.connect(lambda _, id=item["_id"]: self.show_update_form(id))
-            cart_item.decrement_pushButton.clicked.connect(lambda _, id=item['_id']: self.decrement_quantity(id))
-            cart_item.increment_pushButton.clicked.connect(lambda _, id=item['_id']: self.increment_quantity(id))
-            cart_item.quantity_lineEdit.returnPressed.connect(
-                lambda: self.update_new_quantity(item['_id'], int(cart_item.quantity_lineEdit.text()))
-            )
 
+            # Connect the update button to show the update form
+            cart_item.update_pushButton.clicked.connect(lambda _, id=item["_id"]: self.show_update_form(id))
+
+            # Connect decrement button to decrement quantity
+            cart_item.decrement_pushButton.clicked.connect(lambda _, id=item['_id']: self.decrement_quantity(id))
+
+            # Connect increment button to increment quantity
+            cart_item.increment_pushButton.clicked.connect(lambda _, id=item['_id']: self.increment_quantity(id))
+
+            # Limit quantity based on stock when updating
+            cart_item.quantity_lineEdit.returnPressed.connect(
+                lambda qty_edit=cart_item.quantity_lineEdit, id=item['_id'], stock=current_stock_value:
+                self.update_new_quantity(id, min(int(qty_edit.text()), stock))
+            )
 
             # Add the CartItem widget to the layout
             layout.addWidget(cart_item)
@@ -161,58 +169,111 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def increment_quantity(self, id):
         try:
-            # Connect to the cart collection and update the quantity
+            # Connect to the cart collection and fetch the item
             cart_data = self.connect_to_db('cart').find_one({"_id": id})
-            if cart_data:
-                current_quantity = cart_data.get("quantity", 0)
-                new_quantity = current_quantity + 1
-                price = cart_data.get("price", 0)
+            if not cart_data:
+                print(f"Item with ID {id} not found in the cart.")
+                return
 
+            # Retrieve current quantity and stock details
+            current_quantity = cart_data.get("quantity", 0)
+            product_name = cart_data.get("product_name", "")
+            cylinder_size = cart_data.get("cylinder_size", "")
+            price = cart_data.get("price", 0)
+
+            # Fetch the current stock from the products_items collection
+            stock_data = self.connect_to_db('products_items').find_one(
+                {"product_name": product_name, "cylinder_size": cylinder_size},
+                {"quantity_in_stock": 1, "_id": 0}
+            )
+            current_stock_value = stock_data.get("quantity_in_stock", 0) if stock_data else 0
+
+            # Check if the quantity can be incremented
+            if current_quantity < current_stock_value:
+                new_quantity = current_quantity + 1
                 total_value = self.get_new_total_value(new_quantity, price)
 
-                self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity, "total_amount": total_value}})
+                # Update the quantity and total amount in the cart collection
+                self.connect_to_db('cart').update_one(
+                    {"_id": id},
+                    {"$set": {"quantity": new_quantity, "total_amount": total_value}}
+                )
+
+                # Log the increment action
                 print(f"Quantity of item with ID {id} incremented to {new_quantity}.")
             else:
-                print(f"Item with ID {id} not found in the cart.")
+                print(f"Cannot increment quantity for item with ID {id}. Maximum stock reached ({current_stock_value}).")
+                QMessageBox.warning(self, "Maximum Stock Reached", "You have reached the maximum stock available for this item.")
         except Exception as e:
             print(f"Error incrementing quantity: {e}")
-
+            
     def decrement_quantity(self, id):
         try:
-            # Connect to the cart collection and update the quantity
+            # Connect to the cart collection and fetch the item
             cart_data = self.connect_to_db('cart').find_one({"_id": id})
-            if cart_data:
-                current_quantity = cart_data.get("quantity", 0)
-                if current_quantity > 0:  # Allow decrementing to 0
-                    new_quantity = current_quantity - 1
+            if not cart_data:
+                print(f"Item with ID {id} not found in the cart.")
+                return
 
-                    price = cart_data.get("price", 0)
+            # Retrieve current quantity and product details
+            current_quantity = cart_data.get("quantity", 0)
+            product_name = cart_data.get("product_name", "")
+            cylinder_size = cart_data.get("cylinder_size", "")
+            price = cart_data.get("price", 0)
 
-                    total_value = self.get_new_total_value(new_quantity, price)
+            if current_quantity > 0:  # Allow decrementing to 0
+                new_quantity = current_quantity - 1
+                total_value = self.get_new_total_value(new_quantity, price)
+
+                # Ask for confirmation if the item quantity is being reduced to 0
+                if new_quantity == 0:
+                    reply = QMessageBox.question(self, 'Confirm Removal',
+                                                f"Are you sure you want to remove the item '{product_name}' (Cylinder Size: {cylinder_size}) from the cart?",
+                                                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
                     
-                    self.connect_to_db('cart').update_one({"_id": id}, {"$set": {"quantity": new_quantity, "total_amount": total_value}})
-                    print(f"Quantity of item with ID {id} decremented to {new_quantity}.")
-
-                    if new_quantity == 0:
+                    if reply == QMessageBox.StandardButton.Yes:
+                        # Remove item from cart without returning quantity to stock
                         self.connect_to_db('cart').delete_one({"_id": id})
                         print(f"Item with ID {id} removed from the cart as quantity reached 0.")
+                    else:
+                        # If the user cancels, print a message (optional)
+                        print(f"Removal of item with ID {id} was cancelled.")
                 else:
-                    print(f"Quantity of item with ID {id} is already at the minimum (0).")
+                    # Update the cart with new quantity and total
+                    self.connect_to_db('cart').update_one(
+                        {"_id": id},
+                        {"$set": {"quantity": new_quantity, "total_amount": total_value}}
+                    )
+                    print(f"Quantity of item with ID {id} decremented to {new_quantity}.")
 
             else:
-                print(f"Item with ID {id} not found in the cart.")
+                print(f"Quantity of item with ID {id} is already at the minimum (0).")
+
         except Exception as e:
             print(f"Error decrementing quantity: {e}")
 
     def remove_from_cart(self, item_id):
         """Remove an item from the cart database and update the cart."""
         try:
-            # Connect to the cart collection and delete the item
+            # Connect to the cart collection and fetch the item details before deletion
+            cart_data = self.connect_to_db('cart').find_one({"_id": item_id})
+            if not cart_data:
+                print(f"Item with ID {item_id} not found in the cart.")
+                return
+
+            product_name = cart_data.get("product_name", "")
+            cylinder_size = cart_data.get("cylinder_size", "")
+            quantity = cart_data.get("quantity", 0)
+
+            # Delete the item from the cart
             self.connect_to_db('cart').delete_one({"_id": item_id})
             print(f"Item with ID {item_id} removed from the cart.")
 
+            # Do not return the quantity to stock anymore
+
             # Update the cart UI
             self.update_cart()
+
         except Exception as e:
             print(f"Error removing item from the cart: {e}")
 
@@ -522,11 +583,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 "total_amount": total_amount
             }
 
-            # Connect to the database
-            db = self.connect_to_db("cart")
-
             # Check if a record with the same product name and cylinder size exists
-            existing_item = db.find_one({
+            existing_item = self.connect_to_db('cart').find_one({
                 "product_name": product_name,
                 "cylinder_size": order_data["cylinder_size"]
             })
@@ -535,7 +593,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 # If the item exists, update its quantity, price, and total amount
                 new_quantity = existing_item["quantity"] + quantity
                 new_total_amount = new_quantity * price
-                db.update_one(
+                self.connect_to_db('cart').update_one(
                     {"_id": existing_item["_id"]},
                     {"$set": {
                         "quantity": new_quantity,
@@ -546,25 +604,20 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 QMessageBox.information(self, "Data Updated", "Order updated successfully!")
             else:
                 # If the item does not exist, insert it as a new order
-                db.insert_one(order_data)
+                self.connect_to_db('cart').insert_one(order_data)
                 QMessageBox.information(self, "Data Submitted", "New order added successfully!")
 
             # Record the order in the sales
             self.record_sales()
 
-            # Reduce inventory quantity and update total value
-            self.reduce_quantity()
+            # Update total value (no stock reduction)
             self.update_total_value()
 
             # Clear the form
             self.clear_new_order_form()
 
-        except ValueError:
-            QMessageBox.warning(self, "Input Error", "Please enter valid numbers for price and total amount.")
         except Exception as e:
-            print(f"An error occurred while saving the order: {e}")
-            QMessageBox.critical(self, "Database Error", f"An error occurred while saving the order: {e}")
-
+            print(f"Error saving form: {e}")
 
     def clear_new_order_form(self):
         """Clears the new order form"""
