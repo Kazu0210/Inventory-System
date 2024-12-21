@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
 from PyQt6.QtGui import QIntValidator, QIcon
 
@@ -6,6 +6,7 @@ from PyQt6.QtGui import QIntValidator, QIcon
 from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
 from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
 from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
+from ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
 # from pages.admin.new_order_page import NewOrderPage
 from pages.admin.new_order_page import AddOrderForm
 
@@ -14,12 +15,17 @@ import pymongo, json, re, os
 from pymongo import DESCENDING
 from datetime import datetime
 
-class RecentOrderItem(QFrame, Ui_orderPage_Form):
+class RecentOrderItem(QFrame, Ui_recentOrderItem):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
 class CartItem(QFrame, Ui_cart_item):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+class OrderedProductsItem(QFrame, Ui_ordered_products_item):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -31,13 +37,13 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.parent_window = parent_window
         
         self.labels = []
-
-        self.update_total_orders()
             
         self.load_payment_status_options()
             
         self.load_order_status_options()
         self.load_cylinder_status_options()
+
+        self.update_total_orders()
 
         # Initialize the form with the provided order_id
         self.order_id = self.generate_order_id()
@@ -62,7 +68,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.orders_monitor = InventoryMonitor('orders')
         self.orders_monitor.start_listener_in_background()
-        self.orders_monitor.data_changed_signal.connect(lambda: self.update_total_orders())
+        self.orders_monitor.data_changed_signal.connect(lambda: self.update_order_widgets())
 
         self.cart_monitor = InventoryMonitor('cart')
         self.cart_monitor.start_listener_in_background()
@@ -70,23 +76,87 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.set_current_date()
 
-        self.display_recent_orders()
-
         self.update_cart_item_quantity()
 
         self.update_cart()
 
-        self.update_recent_orders()
+        self.display_recent_orders()
+    
+    def display_recent_orders(self):
+        """Show all the 5 recent orders in the current day"""
+        # Remove existing labels
+        for label in self.labels:
+            self.recent_orders_scrollAreaWidgetContents.removeWidget(label)
+            label.deleteLater()
+        self.labels.clear()
 
-    def update_recent_orders(self):
-        """Update the recent orders list"""
+        # Get or set a layout for the widget
+        layout = self.recent_orders_scrollAreaWidgetContents.layout()
+        if layout is None:
+            layout = QVBoxLayout(self.recent_orders_scrollAreaWidgetContents)
+            self.recent_orders_scrollAreaWidgetContents.setLayout(layout)
 
-        # Get data from orders collection
-        data = self.connect_to_db('orders').find({})
-        for order in data:
-            print(f'Order: {order}')
+        # Clear the layout by removing all items
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+
+        # Fetch and display recent orders
+        order_data = self.get_recent_order()
+        print(f'Recent orders: {order_data}')
+        for order in order_data:
+            order_item = RecentOrderItem()  # Create the widget for each order
+            order_item.order_id_label.setText(order.get("order_id"))
+            order_item.customer_name_label.setText(order.get("customer_name", "N/A"))
+            order_item.date_label.setText(order.get("order_date"))
+            order_item.time_label.setText(order.get("time", "N/A"))
+            order_item.total_val_label.setText(f"₱ {order.get('total_value'):,.2f}")
+            order_item.status_label.setText(order.get("order_status"))
+            order_item.payment_label.setText(order.get("payment_status"))
+            layout.addWidget(order_item)  # Add the widget to the layout
+
+            products = order.get('products')
+
+            for product in products:
+                print(f"Recent order's Product: {product}")
+                print(f"Product ID: {product.get('product_name')}")
+
+                # Get or set layout for ordered_prod_frame
+                products_frame_layout = order_item.ordered_prod_frame.layout()
+                if products_frame_layout is None:
+                    products_frame_layout = QVBoxLayout(order_item.ordered_prod_frame)
+                    order_item.ordered_prod_frame.setLayout(products_frame_layout)
+
+                # Create and configure OrderedProductsItem
+                product_item = OrderedProductsItem()
+
+                product_item.prod_name_label.setText(product.get('product_name', 'Unknown Product'))
+                product_item.cylinder_size_label.setText(product.get('cylinder_size', '0'))
+                product_item.quantity_label.setText(f"x{str(product.get('quantity', '0'))}")
+
+                products_frame_layout.addWidget(product_item)
+
+    def get_recent_order(self):
+        """Get the 5 recent orders placed today."""
+        try:
+            # Get today's date in string format: "YYYY-MM-DD"
+            today_date = datetime.now().strftime("%Y-%m-%d")
+
+            # Query to find orders where order_date equals today's date
+            query = {
+                "order_date": today_date
+            }
+
+            # Get the 5 most recent orders
+            recent_orders = list(self.connect_to_db("orders").find({}).sort("_id", DESCENDING).limit(5))
+            return recent_orders
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return None
         
-
     def confirm_button_clicked(self):
         """Handles the click event of the "Confirm Order" button"""
         # Get cart data
@@ -128,6 +198,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Extract form details
         order_id = self.generate_order_id()
         date = self.get_current_date()
+
+        current_time = datetime.now()
+        time = current_time.strftime("%I:%M%p").lower()
+
         customer_name = self.name_input.text()
         delivery_address = self.delivery_address_plainTextEdit.toPlainText()
         contact = self.contact_info.text()
@@ -158,6 +232,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         data = {
             'order_id': order_id,
             'order_date': date,
+            'time': time,
             'customer_name': customer_name,
             'delivery_address': delivery_address,
             'contact': contact,
@@ -172,14 +247,13 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.connect_to_db('cart').delete_many({})
 
         return data
-
-
-            
-
+    
     def update_order_widgets(self):
         """Update all the widgets that connected to the products items db"""
         self.add_product_name()
         self.update_cart()
+        self.display_recent_orders()
+        self.update_total_orders()
 
     def update_cart_widgets(self):
         """Update all the widgets that connected to the cart db"""
@@ -388,46 +462,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         """Update the quantity of items in the cart"""
         quantity = self.count_cart_item()
         self.orders_quantity_label.setText(str(quantity))
-
-    def display_recent_orders(self):
-        """Show all the 5 recent orders in the current day"""
-        orders = self.get_recent_order()
-
-        for label in self.labels:
-            self.recent_orders_scrollAreaWidgetContents.removeWidget(label)
-            label.deleteLater()
-        self.labels.clear()
-
-        layout = self.recent_orders_scrollAreaWidgetContents.layout()
-
-        # If the layout exists, iterate through all the items and remove them
-        if layout:
-            for i in range(layout.count()):
-                item = layout.itemAt(i)
-                widget = item.widget()
-                
-                # If the item is a widget, remove it
-                if widget:
-                    widget.deleteLater()  # This deletes the widget and removes it from the layout
-
-    def get_recent_order(self):
-        """Get the 5 recent orders placed today."""
-        try:
-            # Get today's date in string format: "YYYY-MM-DD"
-            today_date = datetime.now().strftime("%Y-%m-%d")
-
-            # Query to find orders where order_date equals today's date
-            query = {
-                "order_date": today_date
-            }
-
-            # Get the 5 most recent orders
-            recent_orders = list(self.connect_to_db("orders").find(query).sort("_id", DESCENDING).limit(5))
-            return recent_orders
-
-        except Exception as e:
-            print(f"Error occurred: {e}")
-            return None
 
     def set_current_date(self):
         """Set order date label"""

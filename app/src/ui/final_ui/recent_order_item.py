@@ -13,7 +13,14 @@ class Ui_Frame(object):
     def setupUi(self, Frame):
         Frame.setObjectName("Frame")
         Frame.resize(348, 239)
-        Frame.setStyleSheet("font: 10pt \"Noto Sans\";")
+        Frame.setStyleSheet("#Frame{\n"
+"font: 10pt \"Noto Sans\";\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Frame)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame = QtWidgets.QFrame(parent=Frame)
@@ -122,6 +129,8 @@ class Ui_Frame(object):
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_4.addWidget(self.label_8)
         self.total_val_label = QtWidgets.QLabel(parent=self.frame_6)
+        self.total_val_label.setStyleSheet("font: 10pt \"Noto Sans\";\n"
+"color: #228B22;")
         self.total_val_label.setObjectName("total_val_label")
         self.horizontalLayout_4.addWidget(self.total_val_label)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)

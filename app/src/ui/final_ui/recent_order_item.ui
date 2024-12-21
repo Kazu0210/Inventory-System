@@ -14,7 +14,14 @@
    <string>Frame</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
+   <string notr="true">#Frame{
+font: 10pt &quot;Noto Sans&quot;;
+background-color: #fff;
+border-radius: 5px;
+}
+*{
+background-color: transparent;
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -347,6 +354,10 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="total_val_label">
+        <property name="styleSheet">
+         <string notr="true">font: 10pt &quot;Noto Sans&quot;;
+color: #228B22;</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>
