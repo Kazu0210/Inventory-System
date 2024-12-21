@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1015</width>
-    <height>772</height>
+    <height>815</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,10 +81,10 @@ padding: 5px;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-19</x>
+        <x>0</x>
         <y>0</y>
-        <width>1054</width>
-        <height>755</height>
+        <width>1020</width>
+        <height>798</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -375,10 +375,7 @@ color: #1E1E1E;</string>
           <item>
            <widget class="QFrame" name="frame_18">
             <property name="styleSheet">
-             <string notr="true">#frame_18{
-background-color: #fff;
-border-radius: 5px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -391,21 +388,21 @@ border-radius: 5px;
               <number>5</number>
              </property>
              <property name="leftMargin">
-              <number>9</number>
+              <number>0</number>
              </property>
              <property name="topMargin">
-              <number>9</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>9</number>
+              <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>9</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignTop">
               <widget class="QFrame" name="frame_10">
                <property name="styleSheet">
-                <string notr="true">background-color: #fff</string>
+                <string notr="true"/>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -431,6 +428,12 @@ border-radius: 5px;
                 </property>
                 <item>
                  <widget class="QFrame" name="frame_29">
+                  <property name="styleSheet">
+                   <string notr="true">#frame_29{
+background-color: #fff;
+border-radius: 5px;
+}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -442,16 +445,16 @@ border-radius: 5px;
                     <number>5</number>
                    </property>
                    <property name="leftMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <property name="topMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <property name="rightMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <item alignment="Qt::AlignTop">
                     <widget class="QFrame" name="frame_30">
@@ -543,13 +546,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_2">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -610,13 +613,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_7">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -677,13 +680,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_3">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -743,6 +746,18 @@ color: #333333;</string>
                          </property>
                          <item alignment="Qt::AlignTop">
                           <widget class="QLabel" name="label_17">
+                           <property name="minimumSize">
+                            <size>
+                             <width>130</width>
+                             <height>0</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>130</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
                            <property name="styleSheet">
                             <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                            </property>
@@ -798,13 +813,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_8">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -863,13 +878,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_12">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -930,13 +945,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_10">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -974,23 +989,13 @@ color: #333333;</string>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_2">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>5</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
                  <widget class="QFrame" name="frame_32">
+                  <property name="styleSheet">
+                   <string notr="true">#frame_32{
+background-color: #fff;
+border-radius: 5px;
+}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -1002,16 +1007,16 @@ color: #333333;</string>
                     <number>5</number>
                    </property>
                    <property name="leftMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <property name="topMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <property name="rightMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <item alignment="Qt::AlignTop">
                     <widget class="QFrame" name="frame_33">
@@ -1103,13 +1108,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_4">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -1166,9 +1171,15 @@ color: #333333;</string>
                          </property>
                          <item>
                           <widget class="QLabel" name="label_5">
+                           <property name="minimumSize">
+                            <size>
+                             <width>130</width>
+                             <height>0</height>
+                            </size>
+                           </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -1225,9 +1236,15 @@ color: #333333;</string>
                          </property>
                          <item>
                           <widget class="QLabel" name="label_6">
+                           <property name="minimumSize">
+                            <size>
+                             <width>130</width>
+                             <height>0</height>
+                            </size>
+                           </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -1286,13 +1303,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_9">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -1351,13 +1368,13 @@ color: #333333;</string>
                           <widget class="QLabel" name="label_11">
                            <property name="minimumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>0</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>150</width>
+                             <width>130</width>
                              <height>16777215</height>
                             </size>
                            </property>
@@ -1404,6 +1421,62 @@ color: #333333;</string>
                      </property>
                     </spacer>
                    </item>
+                   <item alignment="Qt::AlignRight">
+                    <widget class="QFrame" name="frame_11">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_24">
+                      <property name="spacing">
+                       <number>5</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="addItem_btn">
+                        <property name="minimumSize">
+                         <size>
+                          <width>125</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>125</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="cursor">
+                         <cursorShape>PointingHandCursor</cursorShape>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color: #32CD32;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #fff;
+border: none;
+border-radius: 5px;</string>
+                        </property>
+                        <property name="text">
+                         <string>Add Item</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -1437,63 +1510,6 @@ color: #333333;</string>
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <item>
-                 <widget class="QPushButton" name="addItem_btn">
-                  <property name="minimumSize">
-                   <size>
-                    <width>125</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>125</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-color: #32CD32;
-font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #fff;
-border: none;
-border-radius: 5px;</string>
-                  </property>
-                  <property name="text">
-                   <string>Add Item</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="clear_pushButton">
-                  <property name="minimumSize">
-                   <size>
-                    <width>125</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>125</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-color: #DC3545;
-font: 87 12pt &quot;Noto Sans Black&quot;;
-color: #fff;
-border-radius: 5px;</string>
-                  </property>
-                  <property name="text">
-                   <string>Clear</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </widget>
              </item>
@@ -1633,7 +1649,51 @@ color: #333333;</string>
              <item>
               <widget class="QScrollArea" name="recent_orders_scrollArea">
                <property name="styleSheet">
-                <string notr="true">border: none;</string>
+                <string notr="true">#recent_orders_scrollArea{
+background-color: #EAEAEA;
+border: none;
+border-radius: 5px;
+}
+
+QScrollBar:hover{
+ cursor: pointer;
+}
+            QScrollBar:vertical {
+                border: none;
+                background: #F0F0F0;
+                width: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #90A4AE;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #F0F0F0;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }</string>
                </property>
                <property name="widgetResizable">
                 <bool>true</bool>
@@ -1737,7 +1797,7 @@ color: #333333;</string>
                <property name="minimumSize">
                 <size>
                  <width>270</width>
-                 <height>250</height>
+                 <height>320</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -1796,11 +1856,67 @@ QScrollBar:hover{
                   <x>0</x>
                   <y>0</y>
                   <width>270</width>
-                  <height>250</height>
+                  <height>320</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_2"/>
                </widget>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_9">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="finalize_order_pushButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>125</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>125</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: #32CD32;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #fff;
+border: none;
+border-radius: 5px;</string>
+                  </property>
+                  <property name="text">
+                   <string>Confirm Order</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>

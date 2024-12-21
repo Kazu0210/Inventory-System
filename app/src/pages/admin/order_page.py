@@ -50,6 +50,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         # Connect "Add Item" button click event to the save_form method
         self.addItem_btn.clicked.connect(self.save_form)
+        self.finalize_order_pushButton.clicked.connect(lambda: self.confirm_button_clicked())
 
         self.add_product_name()
         self.reset_quantity_box()
@@ -74,6 +75,96 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.update_cart_item_quantity()
 
         self.update_cart()
+
+
+    def confirm_button_clicked(self):
+        """Handles the click event of the "Confirm Order" button"""
+        # Get cart data
+        data = self.get_cart_data()
+
+        # Check if cart is empty
+        if data is None:
+            return  # Do not proceed if the cart is empty
+
+        try:
+            # Save data to orders database
+            self.connect_to_db('orders').insert_one(data)
+            QMessageBox.information(self, "Order Confirmation", "Order has been successfully placed.")
+        except Exception as e:
+            print(f'Error saving order: {e}')
+            QMessageBox.critical(self, "Order Confirmation", "Failed to place order.")
+        
+    def get_cart_data(self):
+        """Returns the cart data and updates inventory"""
+        # Check if the cart is empty
+        cart_count = self.connect_to_db('cart').count_documents({})
+
+        if cart_count == 0:
+            # Show a message if the cart is empty
+            QMessageBox.information(self, "Select an item first!", "Please select an item from the list before proceeding.")
+            return None  # Or return a suitable response if necessary
+
+        # Aggregate to calculate the total value
+        pipeline = [
+            {
+                "$group": {
+                    "_id": None,
+                    "totalSum": {"$sum": "$total_amount"}
+                }
+            }
+        ]
+        result = list(self.connect_to_db('cart').aggregate(pipeline))
+
+        # Extract form details
+        order_id = self.generate_order_id()
+        date = self.get_current_date()
+        customer_name = self.name_input.text()
+        delivery_address = self.delivery_address_plainTextEdit.toPlainText()
+        contact = self.contact_info.text()
+        products = list(self.connect_to_db('cart').find({}, {'_id': 0}))  # Cart products
+        total_value = result[0].get('totalSum', 0) if result else 0
+        payment_stat = self.payment_box.currentText()
+        order_stat = self.status_box.currentText()
+        remarks = self.note_input.toPlainText()
+
+        # Reduce quantity in the products collection
+        for product in products:
+            product_name = product.get("product_name")  # Ensure 'product_name' exists
+            cylinder_size = product.get("cylinder_size")  # Ensure 'cylinder_size' exists
+            cart_quantity = product.get("quantity", 0)  # Get quantity in the cart
+
+            # Update the 'products_items' collection by matching product_name and cylinder_size
+            self.connect_to_db('products_items').update_one(
+                {
+                    "product_name": product_name,  # Match by product name
+                    "cylinder_size": cylinder_size  # Match by cylinder size
+                },
+                {
+                    "$inc": {"quantity_in_stock": -cart_quantity}  # Reduce the stock quantity
+                }
+            )
+
+        # Prepare order data
+        data = {
+            'order_id': order_id,
+            'order_date': date,
+            'customer_name': customer_name,
+            'delivery_address': delivery_address,
+            'contact': contact,
+            'products': products,
+            'total_value': total_value,
+            'payment_status': payment_stat,
+            'order_status': order_stat,
+            'remarks': remarks
+        }
+
+        # Clear the cart after processing the order
+        self.connect_to_db('cart').delete_many({})
+
+        return data
+
+
+            
 
     def update_order_widgets(self):
         """Update all the widgets that connected to the products items db"""
@@ -163,11 +254,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         print(f'new quantity: {new_quantity}')
 
     def get_new_total_value(self, new_quantity, price):
-        """Calculate and returns the total value"""
-        print(f'New quantity: {new_quantity}')
         print(f'Price: {price}')
         total_value = int(new_quantity) * int(price)
-        print(f'Total Value: {total_value}')
 
         return int(total_value)
 
