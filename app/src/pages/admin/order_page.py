@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
-from PyQt6.QtGui import QIntValidator
+from PyQt6.QtGui import QIntValidator, QIcon
 
 # from ui.NEW.orders_page import Ui_orderPage_Form
 from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
@@ -10,7 +10,7 @@ from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
 from pages.admin.new_order_page import AddOrderForm
 
 from utils.Inventory_Monitor import InventoryMonitor
-import pymongo, json, re
+import pymongo, json, re, os
 from pymongo import DESCENDING
 from datetime import datetime
 
@@ -85,6 +85,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.update_cart()
         self.update_cart_item_quantity()
 
+    def set_remove_icon(self, button_object):
+        """Set remove icon for each cart item"""
+        remove_icon = QIcon("app/resources/icons/black-theme/trash-bin.png")
+        button_object.setIcon(remove_icon)
+
     def update_cart(self):
         """Update items in the cart."""
 
@@ -130,12 +135,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             cart_item.unit_price_label.setText(f'₱ {item["price"]:,.2f}')
             cart_item.total_price_label.setText(f'₱ {item["total_amount"]:,.2f}')
             cart_item.available_quantity_label.setText(f'{current_stock_value} pieces available')
+            self.set_remove_icon(cart_item.remove_pushButton)
+
 
             # Connect the remove button to the delete function
             cart_item.remove_pushButton.clicked.connect(lambda _, id=item["_id"]: self.remove_from_cart(id))
-
-            # Connect the update button to show the update form
-            cart_item.update_pushButton.clicked.connect(lambda _, id=item["_id"]: self.show_update_form(id))
 
             # Connect decrement button to decrement quantity
             cart_item.decrement_pushButton.clicked.connect(lambda _, id=item['_id']: self.decrement_quantity(id))
@@ -206,7 +210,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 QMessageBox.warning(self, "Maximum Stock Reached", "You have reached the maximum stock available for this item.")
         except Exception as e:
             print(f"Error incrementing quantity: {e}")
-            
+
     def decrement_quantity(self, id):
         try:
             # Connect to the cart collection and fetch the item

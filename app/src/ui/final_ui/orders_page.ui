@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1105</width>
+    <width>1015</width>
     <height>772</height>
    </rect>
   </property>
@@ -81,10 +81,10 @@ padding: 5px;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>-19</x>
         <y>0</y>
-        <width>1105</width>
-        <height>772</height>
+        <width>1054</width>
+        <height>755</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1643,7 +1643,7 @@ color: #333333;</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>321</width>
+                  <width>270</width>
                   <height>250</height>
                  </rect>
                 </property>
@@ -1736,7 +1736,7 @@ color: #333333;</string>
               <widget class="QScrollArea" name="ordered_items_scrollArea">
                <property name="minimumSize">
                 <size>
-                 <width>250</width>
+                 <width>270</width>
                  <height>250</height>
                 </size>
                </property>
@@ -1795,7 +1795,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>321</width>
+                  <width>270</width>
                   <height>250</height>
                  </rect>
                 </property>

@@ -12,8 +12,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Frame(object):
     def setupUi(self, Frame):
         Frame.setObjectName("Frame")
-        Frame.resize(314, 399)
-        Frame.setMinimumSize(QtCore.QSize(150, 210))
+        Frame.resize(314, 190)
+        Frame.setMinimumSize(QtCore.QSize(150, 190))
         Frame.setStyleSheet("#Frame{\n"
 "font: 10pt \"Noto Sans\";\n"
 "background-color: #fff;\n"
@@ -52,6 +52,23 @@ class Ui_Frame(object):
         self.product_name_label.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.product_name_label.setObjectName("product_name_label")
         self.horizontalLayout_6.addWidget(self.product_name_label)
+        self.frame_11 = QtWidgets.QFrame(parent=self.frame_7)
+        self.frame_11.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_11.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_11.setObjectName("frame_11")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_11)
+        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_9.setSpacing(0)
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.remove_pushButton = QtWidgets.QPushButton(parent=self.frame_11)
+        self.remove_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.remove_pushButton.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../../../resources/icons/black-theme/trash-bin.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.remove_pushButton.setIcon(icon)
+        self.remove_pushButton.setObjectName("remove_pushButton")
+        self.horizontalLayout_9.addWidget(self.remove_pushButton)
+        self.horizontalLayout_6.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout_2.addWidget(self.frame_7)
         self.frame_4 = QtWidgets.QFrame(parent=self.frame_3)
         self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -189,43 +206,12 @@ class Ui_Frame(object):
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_4.addWidget(self.label_2)
         self.total_price_label = QtWidgets.QLabel(parent=self.frame_5)
-        self.total_price_label.setStyleSheet("font: 10pt \"Noto Sans\";")
+        self.total_price_label.setStyleSheet("font: 10pt \"Noto Sans\";\n"
+"color: #228B22;")
         self.total_price_label.setObjectName("total_price_label")
         self.horizontalLayout_4.addWidget(self.total_price_label)
         self.verticalLayout_2.addWidget(self.frame_5)
         self.verticalLayout.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.frame_2 = QtWidgets.QFrame(parent=Frame)
-        self.frame_2.setMinimumSize(QtCore.QSize(0, 30))
-        self.frame_2.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.frame_2.setStyleSheet("QPushButton{\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_2)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setSpacing(5)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.update_pushButton = QtWidgets.QPushButton(parent=self.frame_2)
-        self.update_pushButton.setMinimumSize(QtCore.QSize(0, 25))
-        self.update_pushButton.setMaximumSize(QtCore.QSize(16777215, 25))
-        self.update_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.update_pushButton.setStyleSheet("background-color: #32CD32;\n"
-"font: 87 8pt \"Noto Sans Black\";\n"
-"color: #fff;")
-        self.update_pushButton.setObjectName("update_pushButton")
-        self.horizontalLayout.addWidget(self.update_pushButton)
-        self.remove_pushButton = QtWidgets.QPushButton(parent=self.frame_2)
-        self.remove_pushButton.setMinimumSize(QtCore.QSize(0, 25))
-        self.remove_pushButton.setMaximumSize(QtCore.QSize(16777215, 25))
-        self.remove_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.remove_pushButton.setStyleSheet("background-color: #DC3545;\n"
-"font: 87 8pt \"Noto Sans Black\";\n"
-"color: #fff;")
-        self.remove_pushButton.setObjectName("remove_pushButton")
-        self.horizontalLayout.addWidget(self.remove_pushButton)
-        self.verticalLayout.addWidget(self.frame_2)
 
         self.retranslateUi(Frame)
         QtCore.QMetaObject.connectSlotsByName(Frame)
@@ -246,8 +232,6 @@ class Ui_Frame(object):
         self.unit_price_label.setText(_translate("Frame", "TextLabel"))
         self.label_2.setText(_translate("Frame", "Total Price:"))
         self.total_price_label.setText(_translate("Frame", "TextLabel"))
-        self.update_pushButton.setText(_translate("Frame", "Update"))
-        self.remove_pushButton.setText(_translate("Frame", "Remove"))
 
 
 if __name__ == "__main__":

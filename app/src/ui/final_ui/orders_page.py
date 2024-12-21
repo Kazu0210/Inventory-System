@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1105, 772)
+        Form.resize(1015, 772)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -61,7 +61,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1105, 772))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-19, 0, 1054, 755))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -599,7 +599,7 @@ class Ui_Form(object):
         self.recent_orders_scrollArea.setWidgetResizable(True)
         self.recent_orders_scrollArea.setObjectName("recent_orders_scrollArea")
         self.recent_orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 321, 250))
+        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 270, 250))
         self.recent_orders_scrollAreaWidgetContents.setObjectName("recent_orders_scrollAreaWidgetContents")
         self.recent_orders_scrollArea.setWidget(self.recent_orders_scrollAreaWidgetContents)
         self.verticalLayout_7.addWidget(self.recent_orders_scrollArea)
@@ -638,7 +638,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addItem(spacerItem4)
         self.verticalLayout_10.addWidget(self.frame_28)
         self.ordered_items_scrollArea = QtWidgets.QScrollArea(parent=self.frame_27)
-        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(250, 250))
+        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(270, 250))
         self.ordered_items_scrollArea.setStyleSheet("#ordered_items_scrollArea{\n"
 "background-color: #EAEAEA;\n"
 "border: none;\n"
@@ -687,7 +687,7 @@ class Ui_Form(object):
         self.ordered_items_scrollArea.setWidgetResizable(True)
         self.ordered_items_scrollArea.setObjectName("ordered_items_scrollArea")
         self.orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 321, 250))
+        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 270, 250))
         self.orders_scrollAreaWidgetContents.setObjectName("orders_scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.orders_scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
