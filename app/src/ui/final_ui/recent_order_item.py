@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Frame(object):
     def setupUi(self, Frame):
         Frame.setObjectName("Frame")
-        Frame.resize(426, 223)
+        Frame.resize(348, 239)
         Frame.setStyleSheet("font: 10pt \"Noto Sans\";")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Frame)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -102,6 +102,8 @@ class Ui_Frame(object):
         self.ordered_prod_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.ordered_prod_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.ordered_prod_frame.setObjectName("ordered_prod_frame")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.ordered_prod_frame)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout.addWidget(self.ordered_prod_frame)
         self.verticalLayout_2.addWidget(self.frame_4)
         self.frame_6 = QtWidgets.QFrame(parent=Frame)
@@ -167,6 +169,8 @@ class Ui_Frame(object):
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem5)
         self.verticalLayout_2.addWidget(self.frame_8)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem6)
 
         self.retranslateUi(Frame)
         QtCore.QMetaObject.connectSlotsByName(Frame)

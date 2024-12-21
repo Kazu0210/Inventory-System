@@ -76,6 +76,16 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.update_cart()
 
+        self.update_recent_orders()
+
+    def update_recent_orders(self):
+        """Update the recent orders list"""
+
+        # Get data from orders collection
+        data = self.connect_to_db('orders').find({})
+        for order in data:
+            print(f'Order: {order}')
+        
 
     def confirm_button_clicked(self):
         """Handles the click event of the "Confirm Order" button"""
