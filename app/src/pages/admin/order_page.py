@@ -57,7 +57,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Initialize Inventory Monitor
         self.product_monitor = InventoryMonitor('products_items')
         self.product_monitor.start_listener_in_background()
-        self.product_monitor.data_changed_signal.connect(lambda: self.add_product_name())
+        self.product_monitor.data_changed_signal.connect(lambda: self.update_cart_widgets())
 
         self.orders_monitor = InventoryMonitor('orders')
         self.orders_monitor.start_listener_in_background()
@@ -73,6 +73,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.update_cart_item_quantity()
 
+        self.update_cart()
+
+    def update_order_widgets(self):
+        """Update all the widgets that connected to the products items db"""
+        self.add_product_name()
         self.update_cart()
 
     def update_cart_widgets(self):
@@ -106,7 +111,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 },
                 {
                     'quantity_in_stock': 1,
-                    '_id': 0    
+                    '_id': 0
                 }
             )
             current_stock_value = current_stock.get('quantity_in_stock', 0) if current_stock else 0
