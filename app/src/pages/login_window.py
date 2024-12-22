@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
 
 # from ui.with_design.login_mainWindow import Ui_login_mainWindow as login_mainWindow
@@ -20,7 +20,10 @@ class loginWindow(QMainWindow, login_mainWindow):
         super().__init__()
         self.setupUi(self)
         self.logs = Activity_Logs()
+
+        # button connections
         self.login_pushButton.clicked.connect(self.LoginBtn_clicked)
+        self.close_pushButton.clicked.connect(lambda: self.close_system())
 
         # hide title bar
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
@@ -28,6 +31,15 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.defaultAdmin = createDefaultAdmin()  
 
         self.set_system_logo()
+        self.set_button_icon(self.close_pushButton, "app/resources/icons/black-theme/close.png")
+
+    def close_system(self):
+        """Closes the system"""
+        self.close()
+
+    def set_button_icon(self, button, icon_path):
+        icon = QPixmap(icon_path)
+        button.setIcon(QIcon(icon))
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""

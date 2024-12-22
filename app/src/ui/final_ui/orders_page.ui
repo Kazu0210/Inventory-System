@@ -81,7 +81,7 @@ padding: 5px;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-457</x>
+        <x>0</x>
         <y>0</y>
         <width>1100</width>
         <height>956</height>
