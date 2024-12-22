@@ -57,6 +57,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Connect "Add Item" button click event to the save_form method
         self.addItem_btn.clicked.connect(self.save_form)
         self.finalize_order_pushButton.clicked.connect(lambda: self.confirm_button_clicked())
+        self.test_pushButton.clicked.connect(lambda: self.show_form_data())
 
         self.add_product_name()
         self.reset_quantity_box()
@@ -81,6 +82,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.update_cart()
 
         self.display_recent_orders()
+
+    def show_form_data(self):
+        print('Showing Form Data')
+
+        print(f'Customer name: {self.customer_name_lineEdit.text()}')
     
     def display_recent_orders(self):
         """Show all the 5 recent orders in the current day"""
@@ -202,7 +208,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         current_time = datetime.now()
         time = current_time.strftime("%I:%M%p").lower()
 
-        customer_name = self.name_input.text()
+        customer_name = self.customer_name_lineEdit.text()
         delivery_address = self.delivery_address_plainTextEdit.toPlainText()
         contact = self.contact_info.text()
         products = list(self.connect_to_db('cart').find({}, {'_id': 0}))  # Cart products
@@ -210,6 +216,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         payment_stat = self.payment_box.currentText()
         order_stat = self.status_box.currentText()
         remarks = self.note_input.toPlainText()
+
+        print(f'Customer name: {customer_name}')
 
         # Reduce quantity in the products collection
         for product in products:
@@ -491,7 +499,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             quantity = self.quantity_box.value()
             price = float(self.price_input.text().strip() or "0.0")
             total_amount = float(self.amount_input.text() or "0.0")
-            customer_name = self.name_input.text().strip()
+            customer_name = self.customer_name_lineEdit.text().strip()
             cylinder_size = self.cylindersize_box.currentText()
             payment_status = self.payment_box.currentText()
             self.order_id
@@ -700,7 +708,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         try:
             # Collect the input data
             product_name = self.productName_comboBox.currentText()
-            customer_name = self.name_input.text().strip()
+            customer_name = self.customer_name_lineEdit.text().strip()
             quantity = self.quantity_box.value()
             price = float(self.price_input.text().strip() or "0.0")
             order_date = self.order_date_label.text()
@@ -750,14 +758,14 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             self.update_total_value()
 
             # Clear the form
-            self.clear_new_order_form()
+            # self.clear_new_order_form()
 
         except Exception as e:
             print(f"Error saving form: {e}")
 
     def clear_new_order_form(self):
         """Clears the new order form"""
-        self.name_input.clear()
+        self.customer_name_lineEdit.clear()
         self.delivery_address_plainTextEdit.clear()
         self.contact_info.clear()
         self.note_input.clear()

@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Frame(object):
     def setupUi(self, Frame):
         Frame.setObjectName("Frame")
-        Frame.resize(348, 239)
+        Frame.resize(272, 239)
         Frame.setStyleSheet("#Frame{\n"
 "font: 10pt \"Noto Sans\";\n"
 "background-color: #fff;\n"
