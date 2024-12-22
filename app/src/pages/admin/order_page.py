@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout
-from PyQt6.QtCore import QThread, pyqtSignal, QTimer
-from PyQt6.QtGui import QIntValidator, QIcon
+from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
+from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
 # from ui.NEW.orders_page import Ui_orderPage_Form
 from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
@@ -54,10 +54,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.productName_comboBox.currentTextChanged.connect(self.update_cylinder_size) # Change cylinder size when name changes
         self.cylindersize_box.currentTextChanged.connect(lambda: self.update_price()) # Change price
 
-        # Connect "Add Item" button click event to the save_form method
+        # Button connections
         self.addItem_btn.clicked.connect(self.save_form)
         self.finalize_order_pushButton.clicked.connect(lambda: self.confirm_button_clicked())
-        self.test_pushButton.clicked.connect(lambda: self.show_form_data())
+        self.view_order_pushButton.clicked.connect(lambda: self.view_order_clicked())
 
         self.add_product_name()
         self.reset_quantity_box()
@@ -82,11 +82,156 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.update_cart()
 
         self.display_recent_orders()
+        self.load_orders_table()
 
-    def show_form_data(self):
-        print('Showing Form Data')
+    def load_orders_table(self, page=0, rows_per_page=10):
+        """Load prices current price on the prices table with pagination."""
+        self.current_page = page  # Keep track of the current page
+        self.rows_per_page = rows_per_page  # Number of rows per page
 
-        print(f'Customer name: {self.customer_name_lineEdit.text()}')
+        table = self.orders_tableWidget
+        table.setSortingEnabled(True)
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
+        table.setRowCount(0)  # Clear the table
+
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        color: #000;
+        }
+        QHeaderView:Section{
+        background-color: #228B22;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
+
+        # Header JSON directory
+        header_dir = "app/resources/config/table/order_tableHeader.json"
+
+        # Settings directory
+        settings_dir = "app/resources/config/settings.json"
+
+        with open(header_dir, 'r') as f:
+            header_labels = json.load(f)
+
+        table.setColumnCount(len(header_labels))
+        table.setHorizontalHeaderLabels(header_labels)
+
+        header = self.orders_tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+
+        for column in range(table.columnCount()):
+            table.setColumnWidth(column, 145)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+
+        header.setFixedHeight(50)
+
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # Clean the header labels
+        self.header_labels = [self.clean_header(header) for header in header_labels]
+        
+        # query filter
+        # filter = {}
+
+        # if self.searchBar_lineEdit != "":
+        #     filter = {"$or": [
+        #         {"product_name": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
+        #         {"product_id": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
+        #     ]}
+
+        # Get data from MongoDB
+        data = list(self.connect_to_db('orders').find({}).sort("_id", -1))
+        if not data:
+            return  # Exit if the collection is empty
+
+        with open(settings_dir, 'r') as f:
+            settings = json.load(f)
+            self.current_time_format = settings['time_date'][0]['time_format']
+
+        # Pagination logic
+        start_row = page * rows_per_page
+        end_row = start_row + rows_per_page
+        paginated_data = data[start_row:end_row]
+
+        # Populate table with paginated data
+        for row, item in enumerate(paginated_data):
+            table.setRowCount(row + 1)  # Add a new row for each item
+            for column, header in enumerate(self.header_labels):
+                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                original_key = original_keys[0] if original_keys else None
+                value = item.get(original_key)
+                if value is not None:
+
+                    if header == 'totalvalue':
+                        try:
+                            if value:
+                                formatted_value = f"₱ {value:,.2f}"
+                                value = formatted_value
+
+                        except Exception as e:
+                            print(f"Error: {e}")
+
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                    # Check if row index is even
+                    if row % 2 == 0:
+                        table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
+                    table.setItem(row, column, table_item)
+
+        # Add navigation controls
+        # self.update_navigation_controls(len(data), page, rows_per_page)
+
+    def view_order_clicked(self):
+        """Handles click event of view orders push button"""
+        print("View order push button clicked")
     
     def display_recent_orders(self):
         """Show all the 5 recent orders in the current day"""
@@ -262,6 +407,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.update_cart()
         self.display_recent_orders()
         self.update_total_orders()
+        self.load_orders_table()
 
     def update_cart_widgets(self):
         """Update all the widgets that connected to the cart db"""
@@ -564,6 +710,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         available_quantity = int(self.get_quantity_in_stock(product_name, cylinder_size))
         print(f'avail quantity: {available_quantity}')
         # available quantity as the maximum quantity on the spinBox
+        self.product_quantity_available_label.setText(f"{available_quantity}")
         self.quantity_box.setMaximum(available_quantity)
 
         self.product_id = self.get_product_id(product_name, cylinder_size)

@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1015, 815)
+        Form.resize(660, 727)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -61,7 +61,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1050, 798))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-407, 0, 1100, 956))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -192,7 +192,7 @@ class Ui_Form(object):
         self.frame_18.setObjectName("frame_18")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_18)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_4.setSpacing(5)
+        self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.frame_10 = QtWidgets.QFrame(parent=self.frame_18)
         self.frame_10.setStyleSheet("")
@@ -563,9 +563,6 @@ class Ui_Form(object):
         self.addItem_btn.setObjectName("addItem_btn")
         self.horizontalLayout_24.addWidget(self.addItem_btn)
         self.verticalLayout_13.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.test_pushButton = QtWidgets.QPushButton(parent=self.frame_32)
-        self.test_pushButton.setObjectName("test_pushButton")
-        self.verticalLayout_13.addWidget(self.test_pushButton)
         self.horizontalLayout_9.addWidget(self.frame_32)
         self.verticalLayout_4.addWidget(self.frame_10, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.frame_17 = QtWidgets.QFrame(parent=self.frame_18)
@@ -579,6 +576,40 @@ class Ui_Form(object):
         self.horizontalLayout_15.setObjectName("horizontalLayout_15")
         self.verticalLayout_4.addWidget(self.frame_17, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_5.addWidget(self.frame_18)
+        self.orders_table_frame = QtWidgets.QFrame(parent=self.frame_2)
+        self.orders_table_frame.setStyleSheet("#orders_table_frame{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.orders_table_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.orders_table_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.orders_table_frame.setObjectName("orders_table_frame")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.orders_table_frame)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.frame_37 = QtWidgets.QFrame(parent=self.orders_table_frame)
+        self.frame_37.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_37.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_37.setObjectName("frame_37")
+        self.horizontalLayout_26 = QtWidgets.QHBoxLayout(self.frame_37)
+        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_26.setSpacing(0)
+        self.horizontalLayout_26.setObjectName("horizontalLayout_26")
+        self.label_19 = QtWidgets.QLabel(parent=self.frame_37)
+        self.label_19.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;")
+        self.label_19.setObjectName("label_19")
+        self.horizontalLayout_26.addWidget(self.label_19)
+        self.verticalLayout_3.addWidget(self.frame_37)
+        self.orders_tableWidget = QtWidgets.QTableWidget(parent=self.orders_table_frame)
+        self.orders_tableWidget.setMinimumSize(QtCore.QSize(0, 300))
+        self.orders_tableWidget.setObjectName("orders_tableWidget")
+        self.orders_tableWidget.setColumnCount(0)
+        self.orders_tableWidget.setRowCount(0)
+        self.verticalLayout_3.addWidget(self.orders_tableWidget)
+        self.verticalLayout_5.addWidget(self.orders_table_frame)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout_5.addItem(spacerItem1)
         self.horizontalLayout_17.addWidget(self.frame_2)
@@ -673,7 +704,7 @@ class Ui_Form(object):
         self.recent_orders_scrollArea.setWidgetResizable(True)
         self.recent_orders_scrollArea.setObjectName("recent_orders_scrollArea")
         self.recent_orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 300, 250))
+        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 250))
         self.recent_orders_scrollAreaWidgetContents.setObjectName("recent_orders_scrollAreaWidgetContents")
         self.recent_orders_scrollArea.setWidget(self.recent_orders_scrollAreaWidgetContents)
         self.verticalLayout_7.addWidget(self.recent_orders_scrollArea)
@@ -712,7 +743,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addItem(spacerItem3)
         self.verticalLayout_10.addWidget(self.frame_28)
         self.ordered_items_scrollArea = QtWidgets.QScrollArea(parent=self.frame_27)
-        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(300, 320))
+        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(350, 320))
         self.ordered_items_scrollArea.setStyleSheet("#ordered_items_scrollArea{\n"
 "background-color: #EAEAEA;\n"
 "border: none;\n"
@@ -761,7 +792,7 @@ class Ui_Form(object):
         self.ordered_items_scrollArea.setWidgetResizable(True)
         self.ordered_items_scrollArea.setObjectName("ordered_items_scrollArea")
         self.orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 300, 320))
+        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 320))
         self.orders_scrollAreaWidgetContents.setObjectName("orders_scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.orders_scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -819,12 +850,12 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "Product:"))
         self.label_5.setText(_translate("Form", "Cylinder Size:"))
         self.label_6.setText(_translate("Form", "Quantity:"))
-        self.label_13.setText(_translate("Form", "Available"))
+        self.label_13.setText(_translate("Form", "Available:"))
         self.product_quantity_available_label.setText(_translate("Form", "0"))
         self.label_9.setText(_translate("Form", "Price:"))
         self.label_11.setText(_translate("Form", "Total Amount:"))
         self.addItem_btn.setText(_translate("Form", "Add Item"))
-        self.test_pushButton.setText(_translate("Form", "PushButton"))
+        self.label_19.setText(_translate("Form", "Orders Table"))
         self.label_15.setText(_translate("Form", "Recent Orders:"))
         self.label_18.setText(_translate("Form", "Ordered Items:"))
         self.orders_quantity_label.setText(_translate("Form", "0"))

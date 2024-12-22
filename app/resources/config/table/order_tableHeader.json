@@ -1,10 +1,12 @@
 [
     "Order ID",
-    "Customer Name",
     "Order Date",
-    "Product Name",
-    "Quantity",
-    "Total Amount",
+    "Time",
+    "Customer Name",
+    "Delivery Address",
+    "Products",
+    "Total Value",
+    "Payment Status",
     "Order Status",
-    "Payment Status"
+    "Remarks"
 ]

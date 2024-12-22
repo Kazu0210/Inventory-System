@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1015</width>
-    <height>815</height>
+    <width>660</width>
+    <height>727</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,10 +81,10 @@ padding: 5px;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>-457</x>
         <y>0</y>
-        <width>1050</width>
-        <height>798</height>
+        <width>1100</width>
+        <height>956</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -385,7 +385,7 @@ color: #1E1E1E;</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <property name="spacing">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="leftMargin">
               <number>0</number>
@@ -1318,7 +1318,7 @@ color: #333333;</string>
 color: #808080;</string>
                            </property>
                            <property name="text">
-                            <string>Available</string>
+                            <string>Available:</string>
                            </property>
                           </widget>
                          </item>
@@ -1538,13 +1538,6 @@ border-radius: 5px;</string>
                      </layout>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QPushButton" name="test_pushButton">
-                     <property name="text">
-                      <string>PushButton</string>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -1579,6 +1572,75 @@ border-radius: 5px;</string>
                  <number>0</number>
                 </property>
                </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="orders_table_frame">
+            <property name="styleSheet">
+             <string notr="true">#orders_table_frame{
+background-color: #fff;
+border-radius: 5px;
+}
+*{
+background-color: transparent;
+}</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QFrame" name="frame_37">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_19">
+                  <property name="styleSheet">
+                   <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;</string>
+                  </property>
+                  <property name="text">
+                   <string>Orders Table</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="orders_tableWidget">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>300</height>
+                </size>
+               </property>
               </widget>
              </item>
             </layout>
@@ -1771,7 +1833,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>300</width>
+                  <width>350</width>
                   <height>250</height>
                  </rect>
                 </property>
@@ -1864,7 +1926,7 @@ color: #333333;</string>
               <widget class="QScrollArea" name="ordered_items_scrollArea">
                <property name="minimumSize">
                 <size>
-                 <width>300</width>
+                 <width>350</width>
                  <height>320</height>
                 </size>
                </property>
@@ -1923,7 +1985,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>300</width>
+                  <width>350</width>
                   <height>320</height>
                  </rect>
                 </property>
