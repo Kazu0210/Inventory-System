@@ -121,7 +121,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
             for product in products:
                 print(f"Recent order's Product: {product}")
-                print(f"Product ID: {product.get('product_name')}")
+                print(f"Product ID: {product.get('product_name', 'N/A')}")
 
                 # Get or set layout for ordered_prod_frame
                 products_frame_layout = order_item.ordered_prod_frame.layout()
