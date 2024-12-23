@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
@@ -7,6 +7,7 @@ from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
 from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
 from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
 from ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
+from ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
 # from pages.admin.new_order_page import NewOrderPage
 from pages.admin.new_order_page import AddOrderForm
 
@@ -26,6 +27,11 @@ class CartItem(QFrame, Ui_cart_item):
         self.setupUi(self)
 
 class OrderedProductsItem(QFrame, Ui_ordered_products_item):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+class OrderedProductsTableItem(QFrame, Ui_ordered_products_table_item):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -218,6 +224,36 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
                         except Exception as e:
                             print(f"Error: {e}")
+
+                        # Inside the `for column, header in enumerate(self.header_labels):` loop
+                        if header == 'products':
+                            try:
+                                # Create a frame for the products column
+                                frame = QFrame()  # Create a frame for the products
+                                frame.setStyleSheet('border: 1px solid black;')
+                                frame.setLayout(QVBoxLayout())  # Set vertical layout for the frame
+
+                                # Loop through each product in the value list
+                                for product in value:
+                                    # Create a label for each product (adjust based on the product data structure)
+                                    product_name = product['product_name']
+                                    product_label = QLabel(product_name)  # You can format this label as needed
+                                    product_label.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Left-align the text
+
+                                    # Add the label to the frame
+                                    frame.layout().addWidget(product_label)
+
+                                # Insert the frame into the table (into the corresponding row and column)
+                                table.setCellWidget(row, column, frame)
+
+                                # Set the width of the products column to 150
+                                table.setColumnWidth(column, 150)
+
+                                # Adjust the row height to automatically fit the content (set to the height of the frame)
+                                table.resizeRowToContents(row)
+
+                            except Exception as e:
+                                print(f"Error: {e}")
 
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
