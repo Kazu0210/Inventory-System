@@ -237,9 +237,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                                 for product in value:
                                     # Create a label for each product (adjust based on the product data structure)
                                     product_name = product['product_name']
+                                    print(f'Product Name in table: {product_name}')
                                     product_label = QLabel(product_name)  # You can format this label as needed
                                     product_label.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Left-align the text
-
+                                    
                                     # Add the label to the frame
                                     frame.layout().addWidget(product_label)
 
