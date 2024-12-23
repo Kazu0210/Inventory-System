@@ -63,7 +63,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Button connections
         self.addItem_btn.clicked.connect(self.save_form)
         self.finalize_order_pushButton.clicked.connect(lambda: self.confirm_button_clicked())
-        self.view_order_pushButton.clicked.connect(lambda: self.view_order_clicked())
 
         self.add_product_name()
         self.reset_quantity_box()

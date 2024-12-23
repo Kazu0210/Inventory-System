@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(660, 727)
+        Form.resize(904, 727)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -61,7 +61,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -246, 1100, 1156))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1100, 1103))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -150,41 +150,6 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.total_orders_label)
         self.horizontalLayout_18.addWidget(self.frame_22, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.verticalLayout_5.addWidget(self.frame_21)
-        self.frame_3 = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame_3.setStyleSheet("#frame_3{\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_3)
-        self.horizontalLayout_2.setSpacing(5)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.view_order_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
-        self.view_order_pushButton.setMinimumSize(QtCore.QSize(125, 30))
-        self.view_order_pushButton.setMaximumSize(QtCore.QSize(125, 30))
-        self.view_order_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.view_order_pushButton.setStyleSheet("background-color: #32CD32;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #fff;\n"
-"border: none;\n"
-"border-radius: 5px;")
-        self.view_order_pushButton.setObjectName("view_order_pushButton")
-        self.horizontalLayout_2.addWidget(self.view_order_pushButton)
-        self.order_history_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
-        self.order_history_pushButton.setMinimumSize(QtCore.QSize(125, 30))
-        self.order_history_pushButton.setMaximumSize(QtCore.QSize(125, 30))
-        self.order_history_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.order_history_pushButton.setStyleSheet("background-color: #fff;\n"
-"border: 1px solid #000;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #1E1E1E;")
-        self.order_history_pushButton.setObjectName("order_history_pushButton")
-        self.horizontalLayout_2.addWidget(self.order_history_pushButton)
-        self.verticalLayout_5.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.frame_18 = QtWidgets.QFrame(parent=self.frame_2)
         self.frame_18.setStyleSheet("")
         self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -835,8 +800,6 @@ class Ui_Form(object):
         self.label_14.setText(_translate("Form", "Total Orders:"))
         self.label_16.setText(_translate("Form", "(Today)"))
         self.total_orders_label.setText(_translate("Form", "0"))
-        self.view_order_pushButton.setText(_translate("Form", "View Orders"))
-        self.order_history_pushButton.setText(_translate("Form", "Order History"))
         self.label_20.setText(_translate("Form", "Order Information:"))
         self.label_2.setText(_translate("Form", "Customer Name:"))
         self.label_7.setText(_translate("Form", "Payment Status:"))

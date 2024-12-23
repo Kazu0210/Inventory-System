@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
+    <width>904</width>
     <height>727</height>
    </rect>
   </property>
@@ -82,9 +82,9 @@ padding: 5px;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-246</y>
+        <y>0</y>
         <width>1100</width>
-        <height>1156</height>
+        <height>1103</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -287,86 +287,6 @@ color: #333333;
                  </widget>
                 </item>
                </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignRight">
-           <widget class="QFrame" name="frame_3">
-            <property name="styleSheet">
-             <string notr="true">#frame_3{
-background-color: #fff;
-border-radius: 5px;
-}</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="spacing">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="view_order_pushButton">
-               <property name="minimumSize">
-                <size>
-                 <width>125</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>125</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: #32CD32;
-font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #fff;
-border: none;
-border-radius: 5px;</string>
-               </property>
-               <property name="text">
-                <string>View Orders</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="order_history_pushButton">
-               <property name="minimumSize">
-                <size>
-                 <width>125</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>125</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: #fff;
-border: 1px solid #000;
-border-radius: 5px;
-padding: 5px;
-font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #1E1E1E;</string>
-               </property>
-               <property name="text">
-                <string>Order History</string>
-               </property>
               </widget>
              </item>
             </layout>
