@@ -1,10 +1,11 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPainter
+from PyQt6.QtGui import QPainter, QBrush, QColor
 
 from ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
 from ui.NEW.best_selling_product_template import Ui_Form as best_selling_UiForm
+
 from utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
@@ -283,66 +284,164 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def clean_header(self, header):
             return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
 
-    def update_sales_table(self):
-        table = self.sales_tableWidget
-        vertical_header = table.verticalHeader()
-        vertical_header.hide()
-        table.setRowCount(0)  # Clear the table
+    def update_sales_table(self, page=0, rows_per_page=10):
+            """Load prices current price on the prices table with pagination."""
+            self.current_page = page  # Keep track of the current page
+            self.rows_per_page = rows_per_page  # Number of rows per page
 
-        # Header JSON directory
-        header_dir = "app/resources/config/table/sales_tableHeader.json"
+            table = self.sales_tableWidget
+            table.setSortingEnabled(True)
+            vertical_header = table.verticalHeader()
+            vertical_header.hide()
+            table.setRowCount(0)  # Clear the table
 
-        with open(header_dir, 'r') as f:
-            header_labels = json.load(f)
-
-        table.setColumnCount(len(header_labels))
-        table.setHorizontalHeaderLabels(header_labels)
-
-        # Set the width of all the columns
-        for column in range(table.columnCount()):
-            table.setColumnWidth(column, 200)
-
-        # Clean the header labels
-        self.header_labels = [self.clean_header(header) for header in header_labels]
-
-        print(f"Filter Query: {self.filter_query}")
-
-        # Check if 'product_name' filter exists in filter_query
-        if "product_name" in self.filter_query and self.filter_query["product_name"]:
-            # If 'product_name' is in the filter query, create the query with $in
-            prod_name_query = {
-                "product_name": {"$in": self.filter_query["product_name"]}
+            table.setStyleSheet("""
+            QTableWidget{
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
             }
-        else:
-            # If no filter is set for 'product_name', return all data
-            prod_name_query = {}
+            QHeaderView:Section{
+            background-color: #228B22;
+            color: #fff;               
+            font: bold 12pt "Noto Sans";
+            }
+            QTableWidget::item {
+                border: none;  /* Remove border from each item */
+                padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+            }
+                QScrollBar:vertical {
+                    border: none;
+                    background: #0C959B;
+                    width: 13px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #002E2C;
+                    border-radius: 7px;
+                    min-height: 30px;
+                }
+                QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                    height: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: #0C959B;
+                }
+                QScrollBar:horizontal {
+                    border: none;
+                    background: #f0f0f0;
+                    height: 14px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:horizontal {
+                    background: #555;
+                    border-radius: 7px;
+                    min-width: 30px;
+                }
+                QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                    width: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                    background: #f0f0f0;
+                }
+            """)
 
-        # Fetch data using the query
-        data = list(self.connect_to_db('sales').find(prod_name_query).sort("_id", -1))
-        if not data:
-            print("No data found for the given filter query.")
-            return  # Exit if the collection is empty
+            # Header JSON directory
+            header_dir = "app/resources/config/table/sales_tableHeader.json"
 
-        # Populate the table with data
-        for row, item in enumerate(data):
-            table.setRowCount(row + 1)  # Add a new row for each item
-            for column, header in enumerate(self.header_labels):
-                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
-                original_key = original_keys[0] if original_keys else None
-                value = item.get(original_key)
-                if value is not None:
-                    if header in ['priceperunit', 'totalvalue']:
-                        try:
-                            formatted_price = f"{float(value):,.2f}"
-                            value = formatted_price
-                        except ValueError:
-                            print(f"Warning: Unable to format value '{value}' for header '{header}'.")
-                    table.setItem(row, column, QTableWidgetItem(str(value)))
+            # Settings directory
+            settings_dir = "app/resources/config/settings.json"
 
- 
+            with open(header_dir, 'r') as f:
+                header_labels = json.load(f)
+
+            table.setColumnCount(len(header_labels))
+            table.setHorizontalHeaderLabels(header_labels)
+
+            header = self.sales_tableWidget.horizontalHeader()
+            header.setSectionsMovable(True)
+            header.setDragEnabled(True)
+
+            for column in range(table.columnCount()):
+                table.setColumnWidth(column, 145)
+
+            # Set uniform row height for all rows
+            table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+
+            header.setFixedHeight(50)
+
+            table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+            table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+            # Clean the header labels
+            self.header_labels = [self.clean_header(header) for header in header_labels]
+            
+            # query filter
+            # filter = {}
+
+            # if self.searchBar_lineEdit != "":
+            #     filter = {"$or": [
+            #         {"product_name": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
+            #         {"product_id": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
+            #     ]}
+
+            # Get data from MongoDB
+            data = list(self.connect_to_db('sales').find({}).sort("_id", -1))
+            if not data:
+                return  # Exit if the collection is empty
+
+            with open(settings_dir, 'r') as f:
+                settings = json.load(f)
+                self.current_time_format = settings['time_date'][0]['time_format']
+
+            # Pagination logic
+            start_row = page * rows_per_page
+            end_row = start_row + rows_per_page
+            paginated_data = data[start_row:end_row]
+
+            # Populate table with paginated data
+            for row, item in enumerate(paginated_data):
+                table.setRowCount(row + 1)  # Add a new row for each item
+                for column, header in enumerate(self.header_labels):
+                    original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                    original_key = original_keys[0] if original_keys else None
+                    value = item.get(original_key)
+                    if value is not None:
+
+                        if header == 'totalamount':
+                            try:
+                                if value:
+                                    formatted_value = f"₱ {value:,.2f}"
+                                    value = formatted_value
+
+                            except Exception as e:
+                                print(f"Error: {e}")
+
+                        elif header == 'date':
+                            try:
+                                if value:
+                                    print(f'VALUEEEEEE: {value}')
+                                    
+                                    # Directly format the datetime object
+                                    value = value.strftime("%Y-%m-%d")
+                                    print(f"DATE ONLYYYY: {value}")  # Output: 2024-12-24
+
+                            except Exception as e:
+                                print(f'Error: {e}')
+
+                        table_item = QTableWidgetItem(str(value))
+                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                        # Check if row index is even
+                        if row % 2 == 0:
+                            table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
+                        table.setItem(row, column, table_item)
 
     def update_revenue_this_month(self):
-        self.revenue_month_label.setText(str(self.get_revenue_this_month()))
+        revenue = self.get_revenue_this_month()
+        formatted = f"₱ {revenue:,.2f}"
+        self.revenue_month_label.setText(formatted)
 
     def get_revenue_this_month(self):
         # Get the first day of the current month
@@ -383,7 +482,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             return 0
 
     def update_today_sales(self):
-        self.total_sales_label.setText(str(self.get_total_sales_today()))
+        """Update the total sales today label"""
+        sales = self.get_total_sales_today()
+        formatted = f"₱ {sales:,.2f}"
+        self.total_sales_label.setText(formatted)
 
     def get_total_sales_today(self):
         # Define the start of the day (midnight) for today

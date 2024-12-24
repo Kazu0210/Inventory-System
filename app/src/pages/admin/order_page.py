@@ -231,6 +231,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                                 frame = QFrame()  # Create a frame for the products
                                 frame.setStyleSheet('border: 1px solid black;')
                                 frame.setLayout(QVBoxLayout())  # Set vertical layout for the frame
+                                
+                                print(F"PUNYETAAAAAAAAAAAAAAAAAAAA")
 
                                 # Loop through each product in the value list
                                 for product in value:
