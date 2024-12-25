@@ -16,7 +16,8 @@
   <property name="styleSheet">
    <string notr="true">*{
 font: 10pt &quot;Noto Sans&quot;;
-}</string>
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -48,9 +49,9 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-7</y>
         <width>822</width>
-        <height>1703</height>
+        <height>1701</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -93,7 +94,7 @@ border: none;
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item>
+          <item alignment="Qt::AlignLeft">
            <widget class="QLabel" name="label_7">
             <property name="styleSheet">
              <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
@@ -102,6 +103,88 @@ color: #333333;</string>
             <property name="text">
              <string>Sales </string>
             </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QFrame" name="frame_7">
+            <property name="styleSheet">
+             <string notr="true">border: 1px solid #000;
+border-radius: 5px;
+background-color: #fff;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="search_lineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>250</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+padding: 5px;</string>
+               </property>
+               <property name="placeholderText">
+                <string>Search Product Name</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="search_pushButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+background-color: #fff;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../../../resources/icons/black-theme/search.png</normaloff>../../../resources/icons/black-theme/search.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -323,25 +406,6 @@ border-radius: 5px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="frame_14">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <item>
-              <widget class="QPushButton" name="productFilter_pushButton">
-               <property name="text">
-                <string>Filters</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
            <widget class="QFrame" name="frame_15">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -487,13 +551,13 @@ color: #333333;</string>
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>550</height>
+              <height>600</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>550</height>
+              <height>600</height>
              </size>
             </property>
            </widget>
