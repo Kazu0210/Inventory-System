@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPainter, QBrush, QColor
+from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 
 from ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
 from ui.NEW.best_selling_product_template import Ui_Form as best_selling_UiForm
@@ -49,6 +49,12 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         # Call function that sets the text label of today's sales and this month's revenue once
         self.update_labels()
+
+        self.set_icons()
+
+    def set_icons(self):
+        """Set icons to buttons"""
+        self.search_pushButton.setIcon(QIcon("app/resources/icons/black-theme/search.png"))
 
     def load_product_category_filter(self):
         """Load product categories (cylinder sizes) from the database and populate the product category frame"""
