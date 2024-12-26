@@ -358,6 +358,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         try:
             # Save data to orders database
             self.connect_to_db('orders').insert_one(data)
+            self.record_sales()
             QMessageBox.information(self, "Order Confirmation", "Order has been successfully placed.")
         except Exception as e:
             print(f'Error saving order: {e}')
@@ -937,7 +938,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 QMessageBox.information(self, "Data Submitted", "New order added successfully!")
 
             # Record the order in the sales
-            self.record_sales()
+            # self.record_sales()
 
             # Update total value (no stock reduction)
             self.update_total_value()
