@@ -24,7 +24,17 @@ class BestSellingListItem(QWidget, best_selling_UiForm):
     def setLabels(self):
         self.productID_label.setText(self.data.get('_id', 'N/A'))
         self.totalQuantitySold_label.setText(str(self.data.get('total_quantity_sold', 'N/A')))
-        self.revenue_label.setText(str(self.data.get('total_sales_value', 'N/A')))
+        self.product_name_label.setText(self.data.get('product_name', 'N/A'))
+        self.cylinderSize_label.setText(self.data.get('cylinder_size', 'N/A'))
+        self.productRank_label.setText(str(self.data.get('product_rank', 'N/A')))
+
+        price = self.data.get('price_per_unit', 'N/A')
+        formatted_price = f"₱ {price:,.2f}"
+        self.price_label.setText(formatted_price)
+
+        revenue = self.data.get('total_sales_value', 'N/A')
+        formatted_revenue = f"₱ {revenue:,.2f}"
+        self.revenue_label.setText(formatted_revenue)
 
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
@@ -51,6 +61,22 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_labels()
 
         self.set_icons()
+
+        # search bar connection
+        self.search_lineEdit.textChanged.connect(lambda: self.handle_search())
+
+        # button connections
+        self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
+
+    def handle_search(self):
+        """Handle the search functionality of the search bar"""
+        if self.search_lineEdit.text() == "":
+            self.update_sales_table()
+
+    def search_button_clicked(self):
+        """Handles the search button click event"""
+        print(f"Search bar Text: {self.search_lineEdit.text()}")
+        self.update_sales_table()
 
     def set_icons(self):
         """Set icons to buttons"""
@@ -125,39 +151,62 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             self.best_selling_label.setText(f"{top_product_id}")
 
     def update_best_selling_chart(self):
-        # clear list widget first
+        # Clear the list widget first
         self.bestSelling_listWidget.clear()
-        # get data from database
+        
+        # Get data from the database
         data = self.get_best_selling_prod()
         
         for i in data:
+            # Create a QListWidgetItem and set its background to white
             item = QListWidgetItem(self.bestSelling_listWidget)
+            item.setBackground(QBrush(QColor('white')))  # Background color set to white
+            
+            # Create a custom widget for this item
             bestSellerItem = BestSellingListItem(i)
             print(f'ewan data: {i}')
 
-            # Set size hint to ensure QListWidgetItem matches custom widget size
+            # Set the size hint to match the custom widget size
             item.setSizeHint(bestSellerItem.sizeHint())
 
+            # Attach the custom widget to the QListWidgetItem
             self.bestSelling_listWidget.setItemWidget(item, bestSellerItem)
 
     def get_best_selling_prod(self):
         # Aggregation pipeline to calculate total sales per product
         pipeline = [
-            {"$group": {
-                "_id": "$product_id",  # Group by product_id
-                "total_quantity_sold": {"$sum": "$quantity"},  # Sum of quantity for each product_id
-                "total_sales_value": {"$sum": "$total_amount"}, # Sum of total_amount for each product_id
-            }},
-            {"$sort": {"total_quantity_sold": -1}},  # Sort by total_quantity_sold in descending order
-            {"$limit": 10}  # Limit to top 10 products
+            # Group by product_id to calculate total sales and other aggregated fields
+            {
+                "$group": {
+                    "_id": "$product_id",  # Group by product_id
+                    "product_name": {"$first": "$product_name"},  # Get product_name
+                    "cylinder_size": {"$first": "$cylinder_size"},  # Get cylinder_size
+                    "price_per_unit": {"$first": "$price"},  # Get price_per_unit
+                    "total_quantity_sold": {"$sum": "$quantity"},  # Sum of quantities sold
+                    "total_sales_value": {"$sum": "$total_amount"},  # Sum of total sales value
+                }
+            },
+            # Sort by total_quantity_sold in descending order
+            {"$sort": {"total_quantity_sold": -1}},
+            # Limit to top 10 products
+            {"$limit": 10}
         ]
+
+        # Connect to the sales collection and run the aggregation pipeline
         top_products = list(self.connect_to_db('sales').aggregate(pipeline))
 
-        # Print results
+        # Add ranking to each product
+        for rank, product in enumerate(top_products, start=1):
+            product['product_rank'] = rank
+
+        # Print results for debugging
         for product in top_products:
-            print(f"Product ID: {product['_id']}, Total Sold: {product['total_quantity_sold']}")
+            print(f"Rank: {product['product_rank']}, Product ID: {product['_id']}, Product Name: {product['product_name']}, "
+                f"Cylinder Size: {product['cylinder_size']}, Price per Unit: {product['price_per_unit']}, "
+                f"Total Sold: {product['total_quantity_sold']}, Total Sales Value: {product['total_sales_value']}")
 
         return top_products
+
 
     def load_inventory_monitor(self):
         print(f'LOADING INVENTORY MONITOR')
@@ -175,7 +224,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_best_selling_chart()
         self.update_top_product()
 
-        self.load_product_name_filter()
+        # self.load_product_name_filter()
         
     def get_last_7_days_sales(self):
         pipeline = [
@@ -230,7 +279,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
     def create_sale_trend_chart(self, sales_data):
         chart = QChart()
-        chart.setTitle("Sales in the Last 7 Days")
+        chart.setTitle("")
         chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
 
         # create a bar series
@@ -385,16 +434,16 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             self.header_labels = [self.clean_header(header) for header in header_labels]
             
             # query filter
-            # filter = {}
+            filter = {}
 
-            # if self.searchBar_lineEdit != "":
-            #     filter = {"$or": [
-            #         {"product_name": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
-            #         {"product_id": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
-            #     ]}
+            if self.search_lineEdit != "":
+                filter = {"$or": [
+                    {"product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
+                    {"product_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}}
+                ]}
 
             # Get data from MongoDB
-            data = list(self.connect_to_db('sales').find({}).sort("_id", -1))
+            data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
             if not data:
                 return  # Exit if the collection is empty
 

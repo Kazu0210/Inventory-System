@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(839, 734)
+        Form.resize(887, 734)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
@@ -28,7 +28,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 822, 1701))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -556, 925, 1555))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -123,6 +123,8 @@ class Ui_Form(object):
         self.frame_13.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_13.setObjectName("frame_13")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_13)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7.setSpacing(5)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.frame_3 = QtWidgets.QFrame(parent=self.frame_13)
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -144,50 +146,6 @@ class Ui_Form(object):
         self.create_sales_report_pushButton.setObjectName("create_sales_report_pushButton")
         self.horizontalLayout.addWidget(self.create_sales_report_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout_7.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.frame_15 = QtWidgets.QFrame(parent=self.frame_13)
-        self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_15.setObjectName("frame_15")
-        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.frame_15)
-        self.verticalLayout_9.setObjectName("verticalLayout_9")
-        self.label_5 = QtWidgets.QLabel(parent=self.frame_15)
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout_9.addWidget(self.label_5)
-        self.productFilterOptions_frame = QtWidgets.QFrame(parent=self.frame_15)
-        self.productFilterOptions_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.productFilterOptions_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.productFilterOptions_frame.setObjectName("productFilterOptions_frame")
-        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.productFilterOptions_frame)
-        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.frame_16 = QtWidgets.QFrame(parent=self.productFilterOptions_frame)
-        self.frame_16.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_16.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_16.setObjectName("frame_16")
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_16)
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
-        self.label_6 = QtWidgets.QLabel(parent=self.frame_16)
-        self.label_6.setObjectName("label_6")
-        self.verticalLayout_10.addWidget(self.label_6)
-        self.productName_frame = QtWidgets.QFrame(parent=self.frame_16)
-        self.productName_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.productName_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.productName_frame.setObjectName("productName_frame")
-        self.verticalLayout_10.addWidget(self.productName_frame)
-        self.horizontalLayout_9.addWidget(self.frame_16)
-        self.frame_17 = QtWidgets.QFrame(parent=self.productFilterOptions_frame)
-        self.frame_17.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_17.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_17.setObjectName("frame_17")
-        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_17)
-        self.verticalLayout_11.setObjectName("verticalLayout_11")
-        self.productCategory_frame = QtWidgets.QFrame(parent=self.frame_17)
-        self.productCategory_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.productCategory_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.productCategory_frame.setObjectName("productCategory_frame")
-        self.verticalLayout_11.addWidget(self.productCategory_frame)
-        self.horizontalLayout_9.addWidget(self.frame_17)
-        self.verticalLayout_9.addWidget(self.productFilterOptions_frame)
-        self.verticalLayout_7.addWidget(self.frame_15)
         self.verticalLayout_3.addWidget(self.frame_13)
         self.frame_6 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_6.setStyleSheet("#frame_6{\n"
@@ -269,8 +227,17 @@ class Ui_Form(object):
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_10.setObjectName("frame_10")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_10)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setSpacing(5)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.frame_8 = QtWidgets.QFrame(parent=self.frame_10)
+        self.frame_8.setStyleSheet("#frame_8{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
         self.frame_8.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_8.setObjectName("frame_8")
@@ -281,25 +248,35 @@ class Ui_Form(object):
         self.frame_11.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_11.setObjectName("frame_11")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_11)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.label_3 = QtWidgets.QLabel(parent=self.frame_11)
+        self.label_3.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;")
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_6.addWidget(self.label_3)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem)
         self.verticalLayout_4.addWidget(self.frame_11)
         self.scrollArea_2 = QtWidgets.QScrollArea(parent=self.frame_8)
+        self.scrollArea_2.setMinimumSize(QtCore.QSize(700, 0))
+        self.scrollArea_2.setStyleSheet("#scrollArea_2{\n"
+"border: none;\n"
+"}")
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 718, 595))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 700, 640))
+        self.scrollAreaWidgetContents_2.setStyleSheet("border: none;")
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.sales_trend_frame = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents_2)
         self.sales_trend_frame.setMinimumSize(QtCore.QSize(700, 400))
-        self.sales_trend_frame.setStyleSheet("background-color: white;\n"
-"border: 1px solid black;")
+        self.sales_trend_frame.setStyleSheet("background-color: white;")
         self.sales_trend_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.sales_trend_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.sales_trend_frame.setObjectName("sales_trend_frame")
@@ -308,8 +285,19 @@ class Ui_Form(object):
         self.verticalLayout_4.addWidget(self.scrollArea_2)
         self.horizontalLayout_5.addWidget(self.frame_8)
         self.frame_9 = QtWidgets.QFrame(parent=self.frame_10)
-        self.frame_9.setMinimumSize(QtCore.QSize(200, 0))
-        self.frame_9.setStyleSheet("border: 1px solid #000")
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_9.sizePolicy().hasHeightForWidth())
+        self.frame_9.setSizePolicy(sizePolicy)
+        self.frame_9.setMinimumSize(QtCore.QSize(200, 500))
+        self.frame_9.setStyleSheet("#frame_9{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
         self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_9.setObjectName("frame_9")
@@ -322,13 +310,65 @@ class Ui_Form(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_12)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.label_4 = QtWidgets.QLabel(parent=self.frame_12)
+        self.label_4.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_7.addWidget(self.label_4)
         self.best_selling_label = QtWidgets.QLabel(parent=self.frame_12)
+        self.best_selling_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"")
         self.best_selling_label.setObjectName("best_selling_label")
         self.horizontalLayout_7.addWidget(self.best_selling_label)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem1)
         self.verticalLayout_5.addWidget(self.frame_12)
         self.bestSelling_listWidget = QtWidgets.QListWidget(parent=self.frame_9)
+        self.bestSelling_listWidget.setStyleSheet("#bestSelling_listWidget{\n"
+"background-color: #EAEAEA;\n"
+"border: none;\n"
+"border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #555;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.bestSelling_listWidget.setObjectName("bestSelling_listWidget")
         self.verticalLayout_5.addWidget(self.bestSelling_listWidget)
         self.horizontalLayout_5.addWidget(self.frame_9)
@@ -348,13 +388,11 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "Total Sales Today:"))
         self.total_sales_label.setText(_translate("Form", "0"))
         self.create_sales_report_pushButton.setText(_translate("Form", "Create Sales Report"))
-        self.label_5.setText(_translate("Form", "Product Filter:"))
-        self.label_6.setText(_translate("Form", "Product Name:"))
         self.label_8.setText(_translate("Form", "Sales Table"))
         self.search_lineEdit.setPlaceholderText(_translate("Form", "Search Product Name"))
         self.label_3.setText(_translate("Form", "Sales Trend Chart"))
         self.label_4.setText(_translate("Form", "Best Selling:"))
-        self.best_selling_label.setText(_translate("Form", "TextLabel"))
+        self.best_selling_label.setText(_translate("Form", "0"))
 
 
 if __name__ == "__main__":
