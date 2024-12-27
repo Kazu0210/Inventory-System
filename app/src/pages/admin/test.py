@@ -35,13 +35,30 @@ print(f'Data count: {data_count}')
 
 # print(f'Products sold: {products_sold}')
 # Fetch all orders from the database (excluding _id)
-orders = connect_to_db('orders').find({}, {"_id": 0})
+# orders = connect_to_db('orders').find({}, {"_id": 0})
 
-# Initialize total quantity
-total_quantity = 0
+# # Initialize total quantity
+# total_quantity = 0
 
-# Iterate over each order and calculate the total quantity
-for order in orders:
-    total_quantity += sum(product.get("quantity", 0) for product in order.get("products", []))
+# # Iterate over each order and calculate the total quantity
+# for order in orders:
+#     total_quantity += sum(product.get("quantity", 0) for product in order.get("products", []))
 
-print(f'Total quantity: {total_quantity}')
+# print(f'Total quantity: {total_quantity}')
+
+
+pipeline = [
+    {
+        "$project": {
+            "sale_id": 1,  # Include the sale_id for reference
+            "products_count": {"$size": "$products_sold"}  # Count the items in the products_sold array
+        }
+    }
+]
+
+# Run the aggregation
+result = list(connect_to_db('sales').aggregate(pipeline))
+
+# Print results
+for doc in result:
+    print(f"Sale ID: {doc['sale_id']}, Products Count: {doc['products_count']}")

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel, QPushButton
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
@@ -48,6 +48,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.setupUi(self)
 
         self.load_inventory_monitor()
+
+        sales_monitor = InventoryMonitor("sales")
+        sales_monitor.start_listener_in_background()
+        sales_monitor.data_changed_signal.connect(lambda: self.update_sales_table())
 
         self.filter_query = {}
 
@@ -441,16 +445,22 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             
             # query filter
             filter = {}
+            print(f'FILTER: {filter}')
 
-            if self.search_lineEdit != "":
-                filter = {"$or": [
-                    {"product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
-                    {"product_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}}
-                ]}
+            # if self.search_lineEdit != "":
+            #     filter = {"$or": [
+            #         {"product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
+            #         {"product_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}}
+            #     ]}
+            if self.search_lineEdit.text().strip():  # Check if the input is not empty and strip any whitespace
+                filter = {
+                    "product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
+                }
 
             # Get data from MongoDB
             data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
             if not data:
+                print(f'WALANG LAMAN')
                 return  # Exit if the collection is empty
             
             print(f"DATAAAAAAAAAAAAAAAA: {data}")
@@ -482,7 +492,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                             except Exception as e:
                                 print(f"Error: {e}")
 
-                        elif header == 'sale date':
+                        elif header == 'saledate':
                             try:
                                 if value:
                                     print(f'VALUEEEEEE: {value}')
@@ -493,6 +503,32 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
                             except Exception as e:
                                 print(f'Error: {e}')
+
+                        elif header == 'productssold':
+                            print(f'KLEPORD GWAPO')
+                            print(f'value: {value}')
+                            print(f'Count: {len(value)}')
+
+                            product_num = len(value)
+                            if product_num == 1:
+                                for item in value:
+                                    product_name = item.get('product_name', 'N/A')
+                                    product_quantity = item.get('quantity', 'N/A')
+                                    cylinder_size = item.get('cylinder_size', 'N/A')
+
+                                value = f"{product_quantity}x - {product_name} - {cylinder_size}"
+                            else:
+                                view_prod_pushButton = QPushButton('[View Products]')
+                                view_prod_pushButton.clicked.connect(lambda: print('button clicked'))
+
+                                view_prod_pushButton.setStyleSheet("""
+                                color: #000;
+                                border: 1px solid #000;
+                                """)
+
+                                self.sales_tableWidget.setCellWidget(row, column, view_prod_pushButton)
+
+                                continue
 
                         table_item = QTableWidgetItem(str(value))
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text

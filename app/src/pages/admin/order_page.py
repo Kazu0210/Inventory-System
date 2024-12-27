@@ -722,14 +722,24 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             # }
 
             products_sold = list(self.connect_to_db('cart').find({}, {"_id": 0}))
+
             orders = self.connect_to_db('orders').find({}, {"_id": 0})
+            
+            pipeline = [
+                {
+                    "$group": {  # Group all documents
+                        "_id": None,  # No grouping key; process all documents together
+                        "total_quantity": {"$sum": "$quantity"}  # Sum up the `quantity` field
+                    }
+                }
+            ]
+            result = list(self.connect_to_db('cart').aggregate(pipeline))
 
-            # Initialize total quantity
-            total_quantity = 0
-
-            # Iterate over each order and calculate the total quantity
-            for order in orders:
-                total_quantity += sum(product.get("quantity", 0) for product in order.get("products", []))
+            if result:
+                total_quantity = result[0]["total_quantity"]
+                print(f"Total Quantity: {total_quantity}")
+            else:
+                print("No data found.")
 
             # Initialize total value
             total_value = 0
