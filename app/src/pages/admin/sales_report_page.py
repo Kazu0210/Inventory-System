@@ -28,13 +28,19 @@ class BestSellingListItem(QWidget, best_selling_UiForm):
         self.cylinderSize_label.setText(self.data.get('cylinder_size', 'N/A'))
         self.productRank_label.setText(str(self.data.get('product_rank', 'N/A')))
 
-        price = self.data.get('price_per_unit', 'N/A')
-        formatted_price = f"₱ {price:,.2f}"
-        self.price_label.setText(formatted_price)
-
-        revenue = self.data.get('total_sales_value', 'N/A')
-        formatted_revenue = f"₱ {revenue:,.2f}"
-        self.revenue_label.setText(formatted_revenue)
+        try:
+            price = self.data.get('price_per_unit', 'N/A')
+            formatted_price = f"₱ {price:,.2f}"
+            self.price_label.setText(formatted_price)
+        except Exception as e:
+            print(f'Error: {e}')
+            
+        try:
+            revenue = self.data.get('total_sales_value', 'N/A')
+            formatted_revenue = f"₱ {revenue:,.2f}"
+            self.revenue_label.setText(formatted_revenue)
+        except Exception as e:
+            print(f'Error: {e}')
 
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
@@ -446,6 +452,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
             if not data:
                 return  # Exit if the collection is empty
+            
+            print(f"DATAAAAAAAAAAAAAAAA: {data}")
 
             with open(settings_dir, 'r') as f:
                 settings = json.load(f)
@@ -465,7 +473,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                     value = item.get(original_key)
                     if value is not None:
 
-                        if header == 'totalamount':
+                        if header == 'totalvalue':
                             try:
                                 if value:
                                     formatted_value = f"₱ {value:,.2f}"
@@ -474,7 +482,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                             except Exception as e:
                                 print(f"Error: {e}")
 
-                        elif header == 'date':
+                        elif header == 'sale date':
                             try:
                                 if value:
                                     print(f'VALUEEEEEE: {value}')

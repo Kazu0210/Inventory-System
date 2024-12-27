@@ -358,7 +358,12 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         try:
             # Save data to orders database
             self.connect_to_db('orders').insert_one(data)
+            
             self.record_sales()
+            
+            # Clear the cart after processing the order
+            self.connect_to_db('cart').delete_many({})
+
             QMessageBox.information(self, "Order Confirmation", "Order has been successfully placed.")
         except Exception as e:
             print(f'Error saving order: {e}')
@@ -436,7 +441,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         }
 
         # Clear the cart after processing the order
-        self.connect_to_db('cart').delete_many({})
+        # self.connect_to_db('cart').delete_many({})
 
         return data
     
@@ -701,19 +706,48 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             date_obj = datetime.combine(date_obj, datetime.now().time())
 
             # Prepare data for saving
+            # sales_data = {
+            #     "sales_id": self.generate_sales_id(),
+            #     "date": date_obj,
+            #     "customer_name": customer_name,
+            #     "product_id": self.product_id,
+            #     "product_name": product_name,
+            #     "cylinder_size": cylinder_size,
+            #     "quantity": quantity,
+            #     "payment_status": payment_status,
+            #     "price": price,
+            #     "total_amount": total_amount,
+            #     "order_id": self.order_id,
+            #     "remarks": remarks
+            # }
+
+            products_sold = list(self.connect_to_db('cart').find({}, {"_id": 0}))
+            orders = self.connect_to_db('orders').find({}, {"_id": 0})
+
+            # Initialize total quantity
+            total_quantity = 0
+
+            # Iterate over each order and calculate the total quantity
+            for order in orders:
+                total_quantity += sum(product.get("quantity", 0) for product in order.get("products", []))
+
+            # Initialize total value
+            total_value = 0
+
+            # Iterate over each order and calculate the total value
+            for order in orders:
+                total_value += sum(product.get("total_value", 0) for product in order.get("products", []))
+
+            print(f'Total value: {total_value}')
+
+
             sales_data = {
-                "sales_id": self.generate_sales_id(),
-                "date": date_obj,
-                "customer_name": customer_name,
-                "product_id": self.product_id,
-                "product_name": product_name,
-                "cylinder_size": cylinder_size,
-                "quantity": quantity,
-                "payment_status": payment_status,
-                "price": price,
-                "total_amount": total_amount,
-                "order_id": self.order_id,
-                "remarks": remarks
+                'sale_id': self.generate_sales_id(),
+                'customer_name': customer_name,
+                'sale_date': date_obj,
+                'products_sold': products_sold,
+                'quantity_sold': total_quantity,
+                'total_value': total_value
             }
 
             # Insert or update the sales data in the database
