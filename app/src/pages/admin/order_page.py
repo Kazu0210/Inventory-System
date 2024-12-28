@@ -741,14 +741,22 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             else:
                 print("No data found.")
 
-            # Initialize total value
-            total_value = 0
+            # get total value
 
-            # Iterate over each order and calculate the total value
-            for order in orders:
-                total_value += sum(product.get("total_value", 0) for product in order.get("products", []))
-
-            print(f'Total value: {total_value}')
+            pipeline = [
+                {
+                    "$group": {  # Group all documents
+                        "_id": None,  # No grouping key; process all documents together
+                        "total_amount": {"$sum": "$total_amount"}  # Sum up the `quantity` field
+                    }
+                }
+            ]
+            result = list(self.connect_to_db('cart').aggregate(pipeline))
+            if result:
+                total_value = result[0]["total_amount"]
+                print(f"Total Quantity: {total_value}")
+            else:
+                print("No data found.")
 
 
             sales_data = {

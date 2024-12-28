@@ -491,7 +491,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
                             except Exception as e:
                                 print(f"Error: {e}")
-
+ 
                         elif header == 'saledate':
                             try:
                                 if value:

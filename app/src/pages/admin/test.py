@@ -47,18 +47,35 @@ print(f'Data count: {data_count}')
 # print(f'Total quantity: {total_quantity}')
 
 
+# pipeline = [
+#     {
+#         "$project": {
+#             "sale_id": 1,  # Include the sale_id for reference
+#             "products_count": {"$size": "$products_sold"}  # Count the items in the products_sold array
+#         }
+#     }
+# ]
+
+# # Run the aggregation
+# result = list(connect_to_db('sales').aggregate(pipeline))
+
+# # Print results
+# for doc in result:
+#     print(f"Sale ID: {doc['sale_id']}, Products Count: {doc['products_count']}")
+
+
+            
 pipeline = [
     {
-        "$project": {
-            "sale_id": 1,  # Include the sale_id for reference
-            "products_count": {"$size": "$products_sold"}  # Count the items in the products_sold array
+        "$group": {  # Group all documents
+            "_id": None,  # No grouping key; process all documents together
+            "total_amount": {"$sum": "$total_amount"}  # Sum up the `quantity` field
         }
     }
 ]
-
-# Run the aggregation
-result = list(connect_to_db('sales').aggregate(pipeline))
-
-# Print results
-for doc in result:
-    print(f"Sale ID: {doc['sale_id']}, Products Count: {doc['products_count']}")
+result = list(connect_to_db('cart').aggregate(pipeline))
+if result:
+    total_quantity = result[0]["total_amount"]
+    print(f"Total Quantity: {total_quantity}")
+else:
+    print("No data found.")
