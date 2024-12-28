@@ -943,6 +943,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             print(f"An error occurred while reducing the quantity: {e}")
             QMessageBox.critical(self, "Database Error", f"An error occurred while reducing the quantity: {e}")
 
+    
+
     def save_form(self):
         """Save the order data after validating the input."""
         try:
@@ -959,7 +961,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             order_note = self.note_input.toPlainText()
             total_amount = float(self.amount_input.text() or "0.0")
 
+            
+
             order_data = {
+                "product_id": self.get_product_id(self.productName_comboBox.currentText(), self.cylindersize_box.currentText()),
                 "product_name": product_name,
                 "cylinder_size": self.cylindersize_box.currentText(),
                 "quantity": quantity,

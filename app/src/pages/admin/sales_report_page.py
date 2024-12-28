@@ -10,6 +10,8 @@ from utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
 
+from collections import defaultdict
+
 import pymongo, re, json, random, os
 
 class BestSellingListItem(QWidget, best_selling_UiForm):
@@ -17,30 +19,44 @@ class BestSellingListItem(QWidget, best_selling_UiForm):
         super().__init__()
         self.setupUi(self)
 
-        self.data = list_of_data
+        # Check if the passed data is a string and try to parse it as JSON
+        if isinstance(list_of_data, str):
+            try:
+                self.data = json.loads(list_of_data)  # Assuming data is a JSON string
+                print(f'Parsed best selling item data: {self.data}')
+            except json.JSONDecodeError:
+                self.data = {}  # Set to empty dictionary if parsing fails
+                print(f'Error parsing data: {list_of_data}')
+        else:
+            self.data = list_of_data
 
         self.setLabels()
 
     def setLabels(self):
-        self.productID_label.setText(self.data.get('_id', 'N/A'))
-        self.totalQuantitySold_label.setText(str(self.data.get('total_quantity_sold', 'N/A')))
-        self.product_name_label.setText(self.data.get('product_name', 'N/A'))
-        self.cylinderSize_label.setText(self.data.get('cylinder_size', 'N/A'))
-        self.productRank_label.setText(str(self.data.get('product_rank', 'N/A')))
+        # Ensure data is a dictionary before accessing its keys
+        if isinstance(self.data, dict):
+            # self.productID_label.setText(self.data.get('_id', 'N/A'))
+            self.totalQuantitySold_label.setText(str(self.data.get('total_quantity_sold', 'N/A')))
+            self.product_name_label.setText(self.data.get('product_name', 'N/A'))
+            self.cylinderSize_label.setText(self.data.get('cylinder_size', 'N/A'))
+            self.productRank_label.setText(str(self.data.get('product_rank', 'N/A')))
 
-        try:
-            price = self.data.get('price_per_unit', 'N/A')
-            formatted_price = f"₱ {price:,.2f}"
-            self.price_label.setText(formatted_price)
-        except Exception as e:
-            print(f'Error: {e}')
-            
-        try:
-            revenue = self.data.get('total_sales_value', 'N/A')
-            formatted_revenue = f"₱ {revenue:,.2f}"
-            self.revenue_label.setText(formatted_revenue)
-        except Exception as e:
-            print(f'Error: {e}')
+            try:
+                price = self.data.get('price_per_unit', 'N/A')
+                formatted_price = f"₱ {price:,.2f}"
+                self.price_label.setText(formatted_price)
+            except Exception as e:
+                print(f'Error: {e}')
+
+            try:
+                revenue = self.data.get('total_sales_value', 'N/A')
+                formatted_revenue = f"₱ {revenue:,.2f}"
+                self.revenue_label.setText(formatted_revenue)
+            except Exception as e:
+                print(f'Error: {e}')
+        else:
+            print("Error: Data is not in the expected format (dict).")
+
 
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
@@ -54,9 +70,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         sales_monitor.data_changed_signal.connect(lambda: self.update_sales_table())
 
         self.filter_query = {}
-
-        # Make the scroll on the list widget smoother
-        self.bestSelling_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Set layout for the product name filter
         self.productNameLayout = QVBoxLayout()
@@ -158,67 +171,65 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def update_top_product(self):
         data = self.get_best_selling_prod()
 
-        if data:
-            top_product_id = data[0]['_id']
-            self.best_selling_label.setText(f"{top_product_id}")
+        # if data:
+        #     print(f'Top Product: {data}')
+
+        # if data:
+        #     top_product_id = data[0]['product_id']
+        #     self.best_selling_label.setText(f"{top_product_id}")
 
     def update_best_selling_chart(self):
-        # Clear the list widget first
-        self.bestSelling_listWidget.clear()
+        # clear widget first
         
         # Get data from the database
         data = self.get_best_selling_prod()
         
-        for i in data:
-            # Create a QListWidgetItem and set its background to white
-            item = QListWidgetItem(self.bestSelling_listWidget)
-            item.setBackground(QBrush(QColor('white')))  # Background color set to white
+        # for i in data:
+        #     # Create a QListWidgetItem and set its background to white
+        #     item = QListWidgetItem(self.bestSelling_listWidget)
+        #     item.setBackground(QBrush(QColor('white')))  # Background color set to white
             
-            # Create a custom widget for this item
-            bestSellerItem = BestSellingListItem(i)
-            print(f'ewan data: {i}')
+        #     # Create a custom widget for this item
+        #     bestSellerItem = BestSellingListItem(i)
+        #     print(f'ewan data: {i}')
 
-            # Set the size hint to match the custom widget size
-            item.setSizeHint(bestSellerItem.sizeHint())
+        #     # Set the size hint to match the custom widget size
+        #     item.setSizeHint(bestSellerItem.sizeHint())
 
-            # Attach the custom widget to the QListWidgetItem
-            self.bestSelling_listWidget.setItemWidget(item, bestSellerItem)
+        #     # Attach the custom widget to the QListWidgetItem
+        #     self.bestSelling_listWidget.setItemWidget(item, bestSellerItem)
+
+        # clear scrollArea first
+        # scrollArea = self.best_selling_scrollArea
+        # content_widget = scrollArea.widget()
+
+        # if content_widget:
+        #     # remove the layout if it exists
+        #     layout = content_widget.layout()
+        #     if layout:
+        #         # remove all widgets in the layout
+        #         while layout.count():
+        #             child = layout.takeAt(0)
+        #             if child.widget():
+        #                 child.widget().deleteLater()
+        #         # delete the layout itself
+        #         layout.deleteLater()
+        #     # set an empty widget as the new content
+        #     scrollArea.setWidget(QWidget()) 
+        # Get the layout of orders_scrollAreaWidgetContents
+        layout = self.best_selling_scrollArea.layout()
+        if layout is None:
+            return  # Exit if there is no layout
+
+        # Clear all existing widgets from the layout
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
 
     def get_best_selling_prod(self):
-        # Aggregation pipeline to calculate total sales per product
-        pipeline = [
-            # Group by product_id to calculate total sales and other aggregated fields
-            {
-                "$group": {
-                    "_id": "$product_id",  # Group by product_id
-                    "product_name": {"$first": "$product_name"},  # Get product_name
-                    "cylinder_size": {"$first": "$cylinder_size"},  # Get cylinder_size
-                    "price_per_unit": {"$first": "$price"},  # Get price_per_unit
-                    "total_quantity_sold": {"$sum": "$quantity"},  # Sum of quantities sold
-                    "total_sales_value": {"$sum": "$total_amount"},  # Sum of total sales value
-                }
-            },
-            # Sort by total_quantity_sold in descending order
-            {"$sort": {"total_quantity_sold": -1}},
-            # Limit to top 10 products
-            {"$limit": 10}
-        ]
-
-        # Connect to the sales collection and run the aggregation pipeline
-        top_products = list(self.connect_to_db('sales').aggregate(pipeline))
-
-        # Add ranking to each product
-        for rank, product in enumerate(top_products, start=1):
-            product['product_rank'] = rank
-
-        # Print results for debugging
-        for product in top_products:
-            print(f"Rank: {product['product_rank']}, Product ID: {product['_id']}, Product Name: {product['product_name']}, "
-                f"Cylinder Size: {product['cylinder_size']}, Price per Unit: {product['price_per_unit']}, "
-                f"Total Sold: {product['total_quantity_sold']}, Total Sales Value: {product['total_sales_value']}")
-
-        return top_products
-
+        pass
 
     def load_inventory_monitor(self):
         print(f'LOADING INVENTORY MONITOR')
@@ -242,15 +253,15 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         pipeline = [
             {
                 "$match": {
-                    "date": {
+                    "sale_date": {
                         "$gte": datetime.now() - timedelta(days=7)
                     }
                 }
             },
             {
                 "$group": {
-                    "_id": "$date",
-                    "sales": {"$sum": "$total_amount"}
+                    "_id": "$sale_date",
+                    "sales": {"$sum": "$total_value"}
                 }
             },
             {

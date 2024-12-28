@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(887, 641)
+        Form.resize(1044, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
@@ -28,7 +28,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 925, 1594))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-66, -751, 1093, 1594))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -324,7 +324,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_9.sizePolicy().hasHeightForWidth())
         self.frame_9.setSizePolicy(sizePolicy)
-        self.frame_9.setMinimumSize(QtCore.QSize(200, 500))
+        self.frame_9.setMinimumSize(QtCore.QSize(0, 500))
         self.frame_9.setStyleSheet("#frame_9{\n"
 "background-color: #fff;\n"
 "border-radius: 5px;\n"
@@ -356,9 +356,10 @@ class Ui_Form(object):
         self.horizontalLayout_7.addWidget(self.best_selling_label)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem1)
-        self.verticalLayout_5.addWidget(self.frame_12)
-        self.bestSelling_listWidget = QtWidgets.QListWidget(parent=self.frame_9)
-        self.bestSelling_listWidget.setStyleSheet("#bestSelling_listWidget{\n"
+        self.verticalLayout_5.addWidget(self.frame_12, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.best_selling_scrollArea = QtWidgets.QScrollArea(parent=self.frame_9)
+        self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(350, 250))
+        self.best_selling_scrollArea.setStyleSheet("#best_selling_scrollArea{\n"
 "background-color: #EAEAEA;\n"
 "border: none;\n"
 "border-radius: 5px;\n"
@@ -403,8 +404,13 @@ class Ui_Form(object):
 "            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
 "                background: #f0f0f0;\n"
 "            }")
-        self.bestSelling_listWidget.setObjectName("bestSelling_listWidget")
-        self.verticalLayout_5.addWidget(self.bestSelling_listWidget)
+        self.best_selling_scrollArea.setWidgetResizable(True)
+        self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
+        self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 350, 622))
+        self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
+        self.best_selling_scrollArea.setWidget(self.scrollAreaWidgetContents_5)
+        self.verticalLayout_5.addWidget(self.best_selling_scrollArea)
         self.horizontalLayout_5.addWidget(self.frame_9)
         self.verticalLayout_3.addWidget(self.frame_10)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)

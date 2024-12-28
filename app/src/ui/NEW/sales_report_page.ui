@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>887</width>
+    <width>1044</width>
     <height>641</height>
    </rect>
   </property>
@@ -48,9 +48,9 @@ border: none;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>925</width>
+        <x>-66</x>
+        <y>-751</y>
+        <width>1093</width>
         <height>1594</height>
        </rect>
       </property>
@@ -774,7 +774,7 @@ border: none;
             </property>
             <property name="minimumSize">
              <size>
-              <width>200</width>
+              <width>0</width>
               <height>500</height>
              </size>
             </property>
@@ -794,7 +794,7 @@ background-color: transparent;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
+             <item alignment="Qt::AlignTop">
               <widget class="QFrame" name="frame_12">
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -843,9 +843,15 @@ color: #333333;
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="bestSelling_listWidget">
+              <widget class="QScrollArea" name="best_selling_scrollArea">
+               <property name="minimumSize">
+                <size>
+                 <width>350</width>
+                 <height>250</height>
+                </size>
+               </property>
                <property name="styleSheet">
-                <string notr="true">#bestSelling_listWidget{
+                <string notr="true">#best_selling_scrollArea{
 background-color: #EAEAEA;
 border: none;
 border-radius: 5px;
@@ -891,6 +897,19 @@ QScrollBar:hover{
                 background: #f0f0f0;
             }</string>
                </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_5">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>350</width>
+                  <height>622</height>
+                 </rect>
+                </property>
+               </widget>
               </widget>
              </item>
             </layout>
