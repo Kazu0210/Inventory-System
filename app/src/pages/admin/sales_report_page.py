@@ -722,7 +722,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         pipeline = [
             {
                 "$match": {
-                    "date": {
+                    "sale_date": {
                         "$gte": first_day_of_month,  # Match documents from the start of the current month
                         "$lt": first_day_of_next_month  # Exclude documents from the next month
                     }
@@ -731,7 +731,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             {
                 "$group": {
                     "_id": None,
-                    "total_revenue": {"$sum": "$total_amount"}  # Sum the total_amount field
+                    "total_revenue": {"$sum": "$total_value"}  # Sum the total_amount field
                 }
             }
         ]
@@ -757,13 +757,13 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         pipeline = [
             {
                 "$match": {
-                    "date": {"$gte": today_start}
+                    "sale_date": {"$gte": today_start}
                 }
             },
             {
                 "$group": {
                     "_id": None,
-                    "total_sales": {"$sum": "$total_amount"}
+                    "total_sales": {"$sum": "$total_value"}
                 }
             }
         ]
