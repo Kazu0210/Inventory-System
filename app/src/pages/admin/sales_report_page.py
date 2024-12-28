@@ -69,6 +69,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         # Call function that sets the text label of today's sales and this month's revenue once
         self.update_labels()
+        self.hide_back_button()
 
         self.set_icons()
 
@@ -77,6 +78,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         # button connections
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
+        self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
 
     def handle_search(self):
         """Handle the search functionality of the search bar"""
@@ -445,7 +447,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             
             # query filter
             filter = {}
-            print(f'FILTER: {filter}')
 
             # if self.search_lineEdit != "":
             #     filter = {"$or": [
@@ -460,10 +461,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             # Get data from MongoDB
             data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
             if not data:
-                print(f'WALANG LAMAN')
                 return  # Exit if the collection is empty
-            
-            print(f"DATAAAAAAAAAAAAAAAA: {data}")
 
             with open(settings_dir, 'r') as f:
                 settings = json.load(f)
@@ -481,6 +479,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                     original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                     original_key = original_keys[0] if original_keys else None
                     value = item.get(original_key)
+
                     if value is not None:
 
                         if header == 'totalvalue':
@@ -491,7 +490,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
                             except Exception as e:
                                 print(f"Error: {e}")
- 
+
                         elif header == 'saledate':
                             try:
                                 if value:
@@ -504,38 +503,204 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                             except Exception as e:
                                 print(f'Error: {e}')
 
+                        elif header == 'quantitysold':
+                            print(f'Quantity sold: {value}')                                
+
                         elif header == 'productssold':
                             print(f'KLEPORD GWAPO')
                             print(f'value: {value}')
-                            print(f'Count: {len(value)}')
-
-                            product_num = len(value)
-                            if product_num == 1:
-                                for item in value:
-                                    product_name = item.get('product_name', 'N/A')
-                                    product_quantity = item.get('quantity', 'N/A')
-                                    cylinder_size = item.get('cylinder_size', 'N/A')
-
-                                value = f"{product_quantity}x - {product_name} - {cylinder_size}"
-                            else:
-                                view_prod_pushButton = QPushButton('[View Products]')
-                                view_prod_pushButton.clicked.connect(lambda: print('button clicked'))
-
+                            
+                            # Ensure value is a list
+                            if isinstance(value, list):
+                                product_num = len(value)
+                                print(f'Count: {product_num}')
+                                
+                                view_prod_pushButton = QPushButton('View Products')
+                                view_prod_pushButton.clicked.connect(lambda _, v=value, r=row: self.handle_view_products_button(v, r))
+                                # view_prod_pushButton.clicked.connect(lambda: self.handle_view_products_button())
                                 view_prod_pushButton.setStyleSheet("""
                                 color: #000;
                                 border: 1px solid #000;
                                 """)
-
                                 self.sales_tableWidget.setCellWidget(row, column, view_prod_pushButton)
 
                                 continue
+                            else:
+                                value = "Invalid product data"
 
+                        # Add the value to the table as a QTableWidgetItem
                         table_item = QTableWidgetItem(str(value))
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
-                        # Check if row index is even
+
+                        # Check if row index is even for alternating row colors
                         if row % 2 == 0:
                             table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
+                        
                         table.setItem(row, column, table_item)
+
+    def load_view_products_table(self, products, page=0, rows_per_page=10):
+        """Load the view products table with the products sold"""
+        self.current_page = page  # Keep track of the current page
+        self.rows_per_page = rows_per_page  # Number of rows per page
+        table = self.sales_tableWidget
+        table.setSortingEnabled(True)
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
+        table.setRowCount(0)  # Clear the table
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        color: #000;
+        }
+        QHeaderView:Section{
+        background-color: #228B22;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
+        # Header JSON directory
+        header_dir = "app/resources/config/table/view_products_tableHeader.json"
+        # Settings directory
+        settings_dir = "app/resources/config/settings.json"
+        with open(header_dir, 'r') as f:
+            header_labels = json.load(f)
+        table.setColumnCount(len(header_labels))
+        table.setHorizontalHeaderLabels(header_labels)
+        header = self.sales_tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+
+        for column in range(table.columnCount()):
+            table.setColumnWidth(column, 145)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+        header.setFixedHeight(50)
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # Clean the header labels
+        self.header_labels = [self.clean_header(header) for header in header_labels]
+
+        if self.search_lineEdit.text().strip():  # Check if the input is not empty and strip any whitespace
+            filter = {
+                "product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
+            }
+
+        # Get data from MongoDB
+        # data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
+        data = list(products)
+        if not data:
+            return  # Exit if the collection is empty
+        
+        with open(settings_dir, 'r') as f:
+            settings = json.load(f)
+            self.current_time_format = settings['time_date'][0]['time_format']
+        # Pagination logic
+        start_row = page * rows_per_page
+        end_row = start_row + rows_per_page
+        paginated_data = data[start_row:end_row]
+        # Populate table with paginated data
+        for row, item in enumerate(paginated_data):
+            table.setRowCount(row + 1)  # Add a new row for each item
+            for column, header in enumerate(self.header_labels):
+                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                original_key = original_keys[0] if original_keys else None
+                value = item.get(original_key)
+                if value is not None:
+                    if header == 'price':
+                        try:
+                            if value:
+                                formatted_value = f"₱ {value:,.2f}"
+                                value = formatted_value
+                        except Exception as e:
+                            print(f"Error: {e}")
+                    elif header == 'totalamount':  
+                        try:
+                            if value:
+                                formatted_value = f"₱ {value:,.2f}"
+                                value = formatted_value
+                        except Exception as e:
+                            print(f"Error: {e}")
+                    # Add the value to the table as a QTableWidgetItem
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                    # Check if row index is even for alternating row colors
+                    if row % 2 == 0:
+                        table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
+                    
+                    table.setItem(row, column, table_item)
+
+    def handle_view_products_button(self, products, row):
+        """Handle the 'View Products' button click event"""
+        self.clear_sales_table()
+        self.show_back_button()
+
+        print(f"Button clicked for row: {row}")
+        print(f"Products: {products}")
+
+        self.load_view_products_table(products)
+
+    def handle_back_button(self):
+        """Handle the 'Back' button click event"""
+        self.update_sales_table()
+        self.hide_back_button()
+
+    def hide_back_button(self):
+        """Hide back button"""
+        self.frame_14.hide()
+    
+    def show_back_button(self):
+        """Show back button"""
+        self.frame_14.show()
+    
+    def clear_sales_table(self):
+        """Clear sales table including the header"""
+        table = self.sales_tableWidget
+        table.clearContents()
+        table.setRowCount(0)
+        table.setColumnCount(0)
 
     def update_revenue_this_month(self):
         revenue = self.get_revenue_this_month()

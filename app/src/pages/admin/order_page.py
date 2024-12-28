@@ -350,6 +350,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         """Handles the click event of the "Confirm Order" button"""
         # Get cart data
         data = self.get_cart_data()
+        order_id = data.get('order_id', 'N/A')
 
         # Check if cart is empty
         if data is None:
@@ -359,7 +360,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             # Save data to orders database
             self.connect_to_db('orders').insert_one(data)
             
-            self.record_sales()
+            self.record_sales(order_id)
             
             # Clear the cart after processing the order
             self.connect_to_db('cart').delete_many({})
@@ -682,7 +683,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         new_sales_id = str(self.connect_to_db('sales').estimated_document_count() + 1).zfill(4)
         return f"SALES{new_sales_id}"
 
-    def record_sales(self):
+    def record_sales(self, order_id):
         try:
             # Collect the input data
             product_name = self.productName_comboBox.currentText()
@@ -765,7 +766,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 'sale_date': date_obj,
                 'products_sold': products_sold,
                 'quantity_sold': total_quantity,
-                'total_value': total_value
+                'total_value': total_value,
+                'order_id': order_id
             }
 
             # Insert or update the sales data in the database
@@ -989,15 +991,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 self.connect_to_db('cart').insert_one(order_data)
                 QMessageBox.information(self, "Data Submitted", "New order added successfully!")
 
-            # Record the order in the sales
-            # self.record_sales()
-
             # Update total value (no stock reduction)
             self.update_total_value()
-
-            # Clear the form
-            # self.clear_new_order_form()
-
         except Exception as e:
             print(f"Error saving form: {e}")
 

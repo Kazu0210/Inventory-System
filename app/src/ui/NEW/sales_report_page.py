@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(887, 734)
+        Form.resize(887, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
@@ -28,7 +28,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -556, 925, 1555))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 925, 1594))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -213,6 +213,40 @@ class Ui_Form(object):
         self.horizontalLayout_8.addWidget(self.search_pushButton)
         self.horizontalLayout_2.addWidget(self.frame_7, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout_13.addWidget(self.frame_5)
+        self.frame_14 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_14.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_14.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_14.setObjectName("frame_14")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_14)
+        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_9.setSpacing(5)
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.label_5 = QtWidgets.QLabel(parent=self.frame_14)
+        self.label_5.setStyleSheet("font: 87 12pt \"Noto Sans Black\";\n"
+"color: #333333;")
+        self.label_5.setObjectName("label_5")
+        self.horizontalLayout_9.addWidget(self.label_5, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.backButton_frame = QtWidgets.QFrame(parent=self.frame_14)
+        self.backButton_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.backButton_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.backButton_frame.setObjectName("backButton_frame")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.backButton_frame)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.back_pushButton = QtWidgets.QPushButton(parent=self.backButton_frame)
+        self.back_pushButton.setMinimumSize(QtCore.QSize(150, 30))
+        self.back_pushButton.setMaximumSize(QtCore.QSize(150, 30))
+        self.back_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.back_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #000;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.back_pushButton.setObjectName("back_pushButton")
+        self.horizontalLayout_4.addWidget(self.back_pushButton)
+        self.horizontalLayout_9.addWidget(self.backButton_frame, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.verticalLayout_13.addWidget(self.frame_14)
         self.sales_tableWidget = QtWidgets.QTableWidget(parent=self.frame_6)
         self.sales_tableWidget.setMinimumSize(QtCore.QSize(0, 600))
         self.sales_tableWidget.setMaximumSize(QtCore.QSize(16777215, 600))
@@ -390,6 +424,8 @@ class Ui_Form(object):
         self.create_sales_report_pushButton.setText(_translate("Form", "Create Sales Report"))
         self.label_8.setText(_translate("Form", "Sales Table"))
         self.search_lineEdit.setPlaceholderText(_translate("Form", "Search Product Name"))
+        self.label_5.setText(_translate("Form", "View Products"))
+        self.back_pushButton.setText(_translate("Form", "Back"))
         self.label_3.setText(_translate("Form", "Sales Trend Chart"))
         self.label_4.setText(_translate("Form", "Best Selling:"))
         self.best_selling_label.setText(_translate("Form", "0"))
