@@ -92,6 +92,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         # button connections
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
         self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
+        self.get_top_10_pushButton.clicked.connect(lambda: self.get_top_10_best_selling_products())
 
     def handle_search(self):
         """Handle the search functionality of the search bar"""
@@ -169,7 +170,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_sales_table()
 
     def update_top_product(self):
-        data = self.get_best_selling_prod()
+        pass
+        # data = self.get_best_selling_prod()
 
         # if data:
         #     print(f'Top Product: {data}')
@@ -179,10 +181,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         #     self.best_selling_label.setText(f"{top_product_id}")
 
     def update_best_selling_chart(self):
-        # clear widget first
-        
         # Get data from the database
-        data = self.get_best_selling_prod()
+        # data = self.get_best_selling_prod()
         
         # for i in data:
         #     # Create a QListWidgetItem and set its background to white
@@ -228,9 +228,57 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             if widget:
                 widget.deleteLater()
 
-    def get_best_selling_prod(self):
-        pass
+        top_products = self.get_top_10_best_selling_products()
+        print(f'PAKENING PRODUCT: {top_products}')
+        for product in top_products:
+            print(f'Top Product: {product}')
 
+    def get_top_10_best_selling_products(self):
+        """
+        Returns the top 10 best-selling products based on the quantity sold.
+
+        :param collection: MongoDB collection object
+        :return: List of dictionaries containing product details and total quantity sold
+        """
+        pipeline = [
+            # Unwind the products_sold array
+            {"$unwind": "$products_sold"},
+            
+            # Group by product_id, product_name, and cylinder_size, summing the quantities sold
+            {
+                "$group": {
+                    "_id": {
+                        "product_id": "$products_sold.product_id",
+                        "product_name": "$products_sold.product_name",
+                        "cylinder_size": "$products_sold.cylinder_size"
+                    },
+                    "total_quantity_sold": {"$sum": "$products_sold.quantity"},
+                    "total_value_sold": {"$sum": "$products_sold.total_amount"}
+                }
+            },
+            
+            # Sort by total_quantity_sold in descending order
+            {"$sort": {"total_quantity_sold": -1}},
+            
+            # Limit to the top 10
+            {"$limit": 10},
+            
+            # Format the result
+            {
+                "$project": {
+                    "_id": 0,
+                    "product_id": "$_id.product_id",
+                    "product_name": "$_id.product_name",
+                    "cylinder_size": "$_id.cylinder_size",
+                    "total_quantity_sold": 1,
+                    "total_value_sold": 1
+                }
+            }
+        ]
+        
+        top_10_products = list(self.connect_to_db('sales').aggregate(pipeline))
+        return top_10_products
+    
     def load_inventory_monitor(self):
         print(f'LOADING INVENTORY MONITOR')
 

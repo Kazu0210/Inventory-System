@@ -64,18 +64,64 @@ print(f'Data count: {data_count}')
 #     print(f"Sale ID: {doc['sale_id']}, Products Count: {doc['products_count']}")
 
 
-            
-pipeline = [
-    {
-        "$group": {  # Group all documents
-            "_id": None,  # No grouping key; process all documents together
-            "total_amount": {"$sum": "$total_amount"}  # Sum up the `quantity` field
+from pymongo import MongoClient
+
+def get_top_10_best_selling_products(collection):
+    """
+    Returns the top 10 best-selling products based on the quantity sold.
+
+    :param collection: MongoDB collection object
+    :return: List of dictionaries containing product details and total quantity sold
+    """
+    pipeline = [
+        # Unwind the products_sold array
+        {"$unwind": "$products_sold"},
+        
+        # Group by product_id, product_name, and cylinder_size, summing the quantities sold
+        {
+            "$group": {
+                "_id": {
+                    "product_id": "$products_sold.product_id",
+                    "product_name": "$products_sold.product_name",
+                    "cylinder_size": "$products_sold.cylinder_size"
+                },
+                "total_quantity_sold": {"$sum": "$products_sold.quantity"},
+                "total_value_sold": {"$sum": "$products_sold.total_amount"}
+            }
+        },
+        
+        # Sort by total_quantity_sold in descending order
+        {"$sort": {"total_quantity_sold": -1}},
+        
+        # Limit to the top 10
+        {"$limit": 10},
+        
+        # Format the result
+        {
+            "$project": {
+                "_id": 0,
+                "product_id": "$_id.product_id",
+                "product_name": "$_id.product_name",
+                "cylinder_size": "$_id.cylinder_size",
+                "total_quantity_sold": 1,
+                "total_value_sold": 1
+            }
         }
-    }
-]
-result = list(connect_to_db('cart').aggregate(pipeline))
-if result:
-    total_quantity = result[0]["total_amount"]
-    print(f"Total Quantity: {total_quantity}")
-else:
-    print("No data found.")
+    ]
+    
+    # Execute the aggregation pipeline
+    top_10_products = list(collection.aggregate(pipeline))
+    return top_10_products
+
+
+# Example usage
+client = MongoClient('mongodb://localhost:27017/')
+db = client['LPGTrading_DB']
+sales_collection = db['sales']
+top_10 = get_top_10_best_selling_products(sales_collection)
+print(top_10)
+
+top_products = get_top_10_best_selling_products(sales_collection)
+for product in top_products:
+    print(f'Product: {product}')
+    print(f'Prouct Name: {product.get("product_name", "N/A")}')
