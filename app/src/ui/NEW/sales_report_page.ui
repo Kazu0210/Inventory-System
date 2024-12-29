@@ -48,10 +48,10 @@ border: none;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-73</x>
-        <y>-819</y>
+        <x>0</x>
+        <y>-600</y>
         <width>1093</width>
-        <height>1594</height>
+        <height>1649</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -439,10 +439,11 @@ background-color: #fff;</string>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">border: none;
-padding: 5px;</string>
+padding: 5px;
+color: #000;</string>
                   </property>
                   <property name="placeholderText">
-                   <string>Search Product Name</string>
+                   <string>Search Sale ID</string>
                   </property>
                  </widget>
                 </item>
@@ -590,6 +591,76 @@ border-radius: 5px;</string>
               <height>600</height>
              </size>
             </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QFrame" name="frame_15">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <widget class="QPushButton" name="prev_pushButton">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: #fff;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #000;
+border: 1px solid #000;
+border-radius: 5px;</string>
+               </property>
+               <property name="text">
+                <string>Previous</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="next_pushButton">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: #fff;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #000;
+border: 1px solid #000;
+border-radius: 5px;</string>
+               </property>
+               <property name="text">
+                <string>Next</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>

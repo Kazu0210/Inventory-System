@@ -79,6 +79,9 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="product_name_label">
+        <property name="styleSheet">
+         <string notr="true">color: #000;</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -142,6 +145,9 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="productID_label">
+        <property name="styleSheet">
+         <string notr="true">color: #000;</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -205,6 +211,9 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="cylinderSize_label">
+        <property name="styleSheet">
+         <string notr="true">color: #000;</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -335,6 +344,9 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="price_label">
+        <property name="styleSheet">
+         <string notr="true">color: #000;</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -392,6 +404,9 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="totalQuantitySold_label">
+        <property name="styleSheet">
+         <string notr="true">color: #000;</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>

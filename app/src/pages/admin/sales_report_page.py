@@ -41,8 +41,6 @@ class BestSellingListItem(QFrame, best_selling_UiForm):
             print(f"Error: {e}")
             QMessageBox.warning(self, "Error", "An unexpected error occurred while updating the labels. Please try again if the issue persists.")
 
-
-
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
         super().__init__()
@@ -77,6 +75,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         # button connections
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
         self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
+        self.prev_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page - 1, self.rows_per_page))
+        self.next_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page + 1, self.rows_per_page))
 
     def handle_search(self):
         """Handle the search functionality of the search bar"""
@@ -160,8 +160,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             print(f'Top Product: {data}')
 
         if data:
-            top_product_id = data[0]['product_id']
-            self.best_selling_label.setText(f"{top_product_id}")
+            top_product_id: str = data[0]['product_id']
+            top_product_name: str = data[0]['product_name']
+            self.best_selling_label.setText(f"{top_product_id} ({top_product_name})")
 
     def update_best_selling_chart(self):
         layout = self.best_selling_prod_scrollAreaWidgetContents.layout()
@@ -460,14 +461,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             # query filter
             filter = {}
 
-            # if self.search_lineEdit != "":
-            #     filter = {"$or": [
-            #         {"product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
-            #         {"product_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}}
-            #     ]}
             if self.search_lineEdit.text().strip():  # Check if the input is not empty and strip any whitespace
                 filter = {
-                    "product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
+                    "sale_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
                 }
 
             # Get data from MongoDB
