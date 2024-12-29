@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Frame</class>
+ <widget class="QFrame" name="Frame">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>285</height>
+    <width>303</width>
+    <height>180</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>300</width>
-    <height>200</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Frame</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">*{
+   <string notr="true">#Frame{
 font: 10pt &quot;Noto Sans&quot;;
-color: #1E1E1E;
-background-color: transparent;
-}
-#Form{
 background-color: #fff;
+border-radius: 5px;
+}
+*{
+background-color: transparent;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -347,69 +335,6 @@ color: #333333;</string>
       </item>
       <item>
        <widget class="QLabel" name="price_label">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="frame_6">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
-      <property name="spacing">
-       <number>5</number>
-      </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>130</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>130</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-        </property>
-        <property name="text">
-         <string>Product Rank:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="productRank_label">
         <property name="text">
          <string>TextLabel</string>
         </property>

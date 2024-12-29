@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1044, 641)
+        Form.resize(1037, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
@@ -28,7 +28,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-66, -641, 1093, 1594))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-73, -819, 1093, 1594))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -337,19 +337,6 @@ class Ui_Form(object):
         self.frame_9.setObjectName("frame_9")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_9)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.frame_15 = QtWidgets.QFrame(parent=self.frame_9)
-        self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_15.setObjectName("frame_15")
-        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frame_15)
-        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
-        self.get_top_10_pushButton = QtWidgets.QPushButton(parent=self.frame_15)
-        self.get_top_10_pushButton.setStyleSheet("color: #000;\n"
-"borde: 1px solid #000;\n"
-"")
-        self.get_top_10_pushButton.setObjectName("get_top_10_pushButton")
-        self.horizontalLayout_11.addWidget(self.get_top_10_pushButton)
-        self.verticalLayout_5.addWidget(self.frame_15)
         self.frame_12 = QtWidgets.QFrame(parent=self.frame_9)
         self.frame_12.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_12.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -419,10 +406,12 @@ class Ui_Form(object):
 "            }")
         self.best_selling_scrollArea.setWidgetResizable(True)
         self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
-        self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 350, 568))
-        self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
-        self.best_selling_scrollArea.setWidget(self.scrollAreaWidgetContents_5)
+        self.best_selling_prod_scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 622))
+        self.best_selling_prod_scrollAreaWidgetContents.setObjectName("best_selling_prod_scrollAreaWidgetContents")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.best_selling_prod_scrollAreaWidgetContents)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.best_selling_scrollArea.setWidget(self.best_selling_prod_scrollAreaWidgetContents)
         self.verticalLayout_5.addWidget(self.best_selling_scrollArea)
         self.horizontalLayout_5.addWidget(self.frame_9)
         self.verticalLayout_3.addWidget(self.frame_10)
@@ -446,7 +435,6 @@ class Ui_Form(object):
         self.label_5.setText(_translate("Form", "View Products"))
         self.back_pushButton.setText(_translate("Form", "Back"))
         self.label_3.setText(_translate("Form", "Sales Trend Chart"))
-        self.get_top_10_pushButton.setText(_translate("Form", "Get Top 1 Products"))
         self.label_4.setText(_translate("Form", "Best Selling:"))
         self.best_selling_label.setText(_translate("Form", "0"))
 

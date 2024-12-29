@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1044</width>
+    <width>1037</width>
     <height>641</height>
    </rect>
   </property>
@@ -48,8 +48,8 @@ border: none;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-66</x>
-        <y>-641</y>
+        <x>-73</x>
+        <y>-819</y>
         <width>1093</width>
         <height>1594</height>
        </rect>
@@ -794,30 +794,6 @@ background-color: transparent;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QFrame" name="frame_15">
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_11">
-                <item>
-                 <widget class="QPushButton" name="get_top_10_pushButton">
-                  <property name="styleSheet">
-                   <string notr="true">color: #000;
-borde: 1px solid #000;
-</string>
-                  </property>
-                  <property name="text">
-                   <string>Get Top 1 Products</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
              <item alignment="Qt::AlignTop">
               <widget class="QFrame" name="frame_12">
                <property name="frameShape">
@@ -924,15 +900,16 @@ QScrollBar:hover{
                <property name="widgetResizable">
                 <bool>true</bool>
                </property>
-               <widget class="QWidget" name="scrollAreaWidgetContents_5">
+               <widget class="QWidget" name="best_selling_prod_scrollAreaWidgetContents">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
                   <y>0</y>
                   <width>350</width>
-                  <height>568</height>
+                  <height>622</height>
                  </rect>
                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_8"/>
                </widget>
               </widget>
              </item>

@@ -9,27 +9,21 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(300, 285)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
-        Form.setSizePolicy(sizePolicy)
-        Form.setMinimumSize(QtCore.QSize(300, 200))
-        Form.setStyleSheet("*{\n"
+class Ui_Frame(object):
+    def setupUi(self, Frame):
+        Frame.setObjectName("Frame")
+        Frame.resize(303, 180)
+        Frame.setStyleSheet("#Frame{\n"
 "font: 10pt \"Noto Sans\";\n"
-"color: #1E1E1E;\n"
-"background-color: transparent;\n"
-"}\n"
-"#Form{\n"
 "background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
 "}")
-        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Frame)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.frame = QtWidgets.QFrame(parent=Form)
+        self.frame = QtWidgets.QFrame(parent=Frame)
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -53,7 +47,7 @@ class Ui_Form(object):
         self.product_name_label.setObjectName("product_name_label")
         self.horizontalLayout.addWidget(self.product_name_label)
         self.verticalLayout.addWidget(self.frame)
-        self.frame_2 = QtWidgets.QFrame(parent=Form)
+        self.frame_2 = QtWidgets.QFrame(parent=Frame)
         self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_2.setObjectName("frame_2")
@@ -77,7 +71,7 @@ class Ui_Form(object):
         self.productID_label.setObjectName("productID_label")
         self.horizontalLayout_2.addWidget(self.productID_label)
         self.verticalLayout.addWidget(self.frame_2)
-        self.frame_3 = QtWidgets.QFrame(parent=Form)
+        self.frame_3 = QtWidgets.QFrame(parent=Frame)
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
@@ -101,7 +95,7 @@ class Ui_Form(object):
         self.cylinderSize_label.setObjectName("cylinderSize_label")
         self.horizontalLayout_3.addWidget(self.cylinderSize_label)
         self.verticalLayout.addWidget(self.frame_3)
-        self.frame_4 = QtWidgets.QFrame(parent=Form)
+        self.frame_4 = QtWidgets.QFrame(parent=Frame)
         self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_4.setObjectName("frame_4")
@@ -127,7 +121,7 @@ class Ui_Form(object):
         self.revenue_label.setObjectName("revenue_label")
         self.horizontalLayout_4.addWidget(self.revenue_label)
         self.verticalLayout.addWidget(self.frame_4)
-        self.frame_5 = QtWidgets.QFrame(parent=Form)
+        self.frame_5 = QtWidgets.QFrame(parent=Frame)
         self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_5.setObjectName("frame_5")
@@ -151,31 +145,7 @@ class Ui_Form(object):
         self.price_label.setObjectName("price_label")
         self.horizontalLayout_5.addWidget(self.price_label)
         self.verticalLayout.addWidget(self.frame_5)
-        self.frame_6 = QtWidgets.QFrame(parent=Form)
-        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_6)
-        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_6.setSpacing(5)
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.label_6 = QtWidgets.QLabel(parent=self.frame_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy)
-        self.label_6.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_6.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_6.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.label_6.setObjectName("label_6")
-        self.horizontalLayout_6.addWidget(self.label_6)
-        self.productRank_label = QtWidgets.QLabel(parent=self.frame_6)
-        self.productRank_label.setObjectName("productRank_label")
-        self.horizontalLayout_6.addWidget(self.productRank_label)
-        self.verticalLayout.addWidget(self.frame_6)
-        self.frame_7 = QtWidgets.QFrame(parent=Form)
+        self.frame_7 = QtWidgets.QFrame(parent=Frame)
         self.frame_7.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_7.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_7.setObjectName("frame_7")
@@ -195,33 +165,31 @@ class Ui_Form(object):
         self.horizontalLayout_7.addWidget(self.totalQuantitySold_label)
         self.verticalLayout.addWidget(self.frame_7)
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(Frame)
+        QtCore.QMetaObject.connectSlotsByName(Frame)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, Frame):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "Product Name:"))
-        self.product_name_label.setText(_translate("Form", "TextLabel"))
-        self.label_2.setText(_translate("Form", "Product ID:"))
-        self.productID_label.setText(_translate("Form", "TextLabel"))
-        self.label_3.setText(_translate("Form", "Cylinder Size:"))
-        self.cylinderSize_label.setText(_translate("Form", "TextLabel"))
-        self.label_4.setText(_translate("Form", "Revenue:"))
-        self.revenue_label.setText(_translate("Form", "TextLabel"))
-        self.label_5.setText(_translate("Form", "Price Per Unit:"))
-        self.price_label.setText(_translate("Form", "TextLabel"))
-        self.label_6.setText(_translate("Form", "Product Rank:"))
-        self.productRank_label.setText(_translate("Form", "TextLabel"))
-        self.label_7.setText(_translate("Form", "Total Quantity Sold:"))
-        self.totalQuantitySold_label.setText(_translate("Form", "TextLabel"))
+        Frame.setWindowTitle(_translate("Frame", "Frame"))
+        self.label.setText(_translate("Frame", "Product Name:"))
+        self.product_name_label.setText(_translate("Frame", "TextLabel"))
+        self.label_2.setText(_translate("Frame", "Product ID:"))
+        self.productID_label.setText(_translate("Frame", "TextLabel"))
+        self.label_3.setText(_translate("Frame", "Cylinder Size:"))
+        self.cylinderSize_label.setText(_translate("Frame", "TextLabel"))
+        self.label_4.setText(_translate("Frame", "Revenue:"))
+        self.revenue_label.setText(_translate("Frame", "TextLabel"))
+        self.label_5.setText(_translate("Frame", "Price Per Unit:"))
+        self.price_label.setText(_translate("Frame", "TextLabel"))
+        self.label_7.setText(_translate("Frame", "Total Quantity Sold:"))
+        self.totalQuantitySold_label.setText(_translate("Frame", "TextLabel"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    Frame = QtWidgets.QFrame()
+    ui = Ui_Frame()
+    ui.setupUi(Frame)
+    Frame.show()
     sys.exit(app.exec())
