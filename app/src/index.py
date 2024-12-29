@@ -9,6 +9,8 @@ def on_about_to_quit():
     # Define the relative path to the file
     relative_path = Path("app/resources/data/temp_user_data.json")
 
+    print(f'Hello pu')
+
     # Get the absolute path (relative to the current working directory)
     temp_data_dir = Path.cwd() / relative_path
 
