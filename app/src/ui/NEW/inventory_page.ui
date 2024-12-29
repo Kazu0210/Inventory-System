@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1051</width>
+    <width>1022</width>
     <height>771</height>
    </rect>
   </property>
@@ -49,8 +49,8 @@ background-color: transparent;
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1051</width>
-        <height>771</height>
+        <width>1025</width>
+        <height>754</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_60">
@@ -511,6 +511,22 @@ margin: 0;
                </layout>
               </widget>
              </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
              <item alignment="Qt::AlignLeft">
               <widget class="QFrame" name="frame_5">
                <property name="styleSheet">
@@ -787,7 +803,7 @@ color: #1E1E1E;</string>
           <item>
            <widget class="QTableWidget" name="tableWidget">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -829,6 +845,18 @@ padding: 10px;
        </item>
        <item>
         <widget class="QFrame" name="frame_63">
+         <property name="minimumSize">
+          <size>
+           <width>320</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>320</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">#frame_63{
 background-color: #fff;

@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QSplitter, QHBoxLayout
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
+from PyQt6.QtGui import QColor
 import pymongo
 from bson import ObjectId
 # from ui.inventoryPage import Ui_Form as items_page
@@ -569,26 +570,38 @@ class ItemsPage(QWidget, items_page):
             filter['stock_level'] = stock_level
 
         data = list(self.collection.find(filter).sort("_id", -1))
-        if not data:
-            return  # Exit if the collection is empty
-
-        # Populate table with data
+        
         for row, item in enumerate(data):
             table.setRowCount(row + 1)  # Add a new row for each item
             for column, header in enumerate(self.header_labels):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
-                
+
                 if value is not None:
                     if header == 'priceperunit' or header == 'totalvalue':
                         # Format value as price
                         formatted_price = f"₱ {int(value):,.2f}" if value else ""
                         value = formatted_price
+
+                    # Check if the field is quantityinstock and get minimum_stock_level
+                    if header == 'quantityinstock':
+                        minimum_stock_level = item.get("minimum_stock_level")  # Assuming 'minimum_stock_level' exists in the document
+
+                        table_item = QTableWidgetItem(str(value))
+                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+
+                        # Highlight if the quantity is below the minimum stock level
+                        if value < minimum_stock_level:
+                            table_item.setForeground(QColor(255, 0, 0))  # Set text color to red, adjust RGB values as needed
+
+                    else:
+                        # For other columns
+                        table_item = QTableWidgetItem(str(value))
+                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     
-                    table_item = QTableWidgetItem(str(value))
-                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
                     table.setItem(row, column, table_item)
+                            
 
 
     def clean_key(self, key):
