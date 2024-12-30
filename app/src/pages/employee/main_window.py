@@ -6,6 +6,7 @@ from PyQt6.QtCore import QTimer, Qt
 
 from ui.employee.employee_main_window import Ui_MainWindow
 from pages.employee.profile_page import ProfilePage
+from pages.employee.order_page import OrderPage
 from utils.Activity_logs import Activity_Logs as activity_logs
 
 import os, json, re
@@ -35,7 +36,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # layout
         self.content_window_layout = QStackedLayout(self.content_widget)
 
-        self.order_section = OrdersPage(username, self) # index 0
+        self.order_section = OrderPage(self) # index 0
         self.content_window_layout.addWidget(self.order_section)
 
         self.profile_section = ProfilePage(username, self)
