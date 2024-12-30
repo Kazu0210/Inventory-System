@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>904</width>
-    <height>727</height>
+    <height>708</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,8 +81,8 @@ padding: 5px;
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
+        <x>-213</x>
+        <y>-345</y>
         <width>1100</width>
         <height>1103</height>
        </rect>
