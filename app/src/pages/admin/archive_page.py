@@ -54,6 +54,54 @@ class ArchivePage(QWidget, Ui_archive):
     def on_row_clicked(self):
         selected_rows = self.tableWidget.selectionModel().selectedRows()
 
+        if selected_rows:
+
+            row_index = selected_rows[0].row()
+            print(f"Row {row_index} clicked")
+
+        row_data = []
+        for column in range(self.tableWidget.columnCount()):
+            item = self.tableWidget.item(row_index, column)
+            if item is not None:
+                row_data.append(item.text())
+            else:
+                row_data.append("")
+
+        product_header_dir = "app/resources/config/table/items_tableHeader.json"
+
+        with open(product_header_dir, 'r') as f:
+            data = json.load(f)
+            print(f'Data from items page (Table header): {data}')
+
+        try:
+            if 'Product ID' in data:
+                productID_header_index = data.index('Product ID')
+                print(f'Product id header index {productID_header_index}')
+            else:
+                print("Column doesn't exist.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+        document = self.connect_to_db("products_items").find_one({'product_id': row_data[productID_header_index]})
+
+        # try:
+        #     self.productID = document['product_id']
+        #     self.productName = document['product_name']
+        #     self.cylinderSize = document['cylinder_size']
+        #     self.quantity = document['quantity_in_stock']
+        #     self.price = document['price_per_unit']
+        #     self.supplier = document['supplier']
+        #     self.restockDate = document['last_restocked_date']
+        #     self.description = document['description']
+        #     self.totalValue = document['total_value']
+        #     self.status = document['inventory_status']
+        #     self.stock_level = document['stock_level']
+        #     self.low_stock_threshold = document['minimum_stock_level']
+        # except Exception as e:
+        #     print(f"Error: {e}")
+
+        # self.selected_row = row_index
+
     def handle_signal(self, collection_name):
         # Called when a change in any monitored collection is detected.
         if self.current_collection == collection_name:
@@ -79,7 +127,6 @@ class ArchivePage(QWidget, Ui_archive):
     
     def loadTable(self, collection_name):
         if collection_name == "account_archive":
-            print("Loading accounts archive table.")
             self.loadAccounts()
         elif collection_name == "product_archive":
             self.loadProducts()
@@ -358,7 +405,6 @@ class ArchivePage(QWidget, Ui_archive):
                             table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
                         
                         table.setItem(row, column, table_item)
-
 
     def connect_to_db(self, collectionN):
         connection_string = "mongodb://localhost:27017/"
