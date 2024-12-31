@@ -5,6 +5,10 @@ from utils.Graphics import AddGraphics
 from PyQt6.QtCore import QTimer, Qt
 
 from ui.employee.employee_main_window import Ui_MainWindow
+from pages.employee.dashboard_page import Dashboard
+from pages.employee.orders_page import OrderPage
+from pages.employee.price_page import PricePage
+from pages.employee.settings_page import settingsPage
 from pages.employee.profile_page import ProfilePage
 from pages.employee.order_page import OrderPage
 from utils.Activity_logs import Activity_Logs as activity_logs
@@ -36,16 +40,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # layout
         self.content_window_layout = QStackedLayout(self.content_widget)
 
+        dashboard_section = Dashboard(username, self) # index 0
+        self.content_window_layout.addWidget(dashboard_section)
+
+        price_section = PricePage(self) # index 1
+        self.content_window_layout.addWidget(price_section)
+
+        order_section = OrderPage(self) # index 2
+        self.content_window_layout.addWidget(order_section)
+
+        settings_section = settingsPage(self) # index 3
+        self.content_window_layout.addWidget(settings_section)
         self.order_section = OrderPage(self) # index 0
         self.content_window_layout.addWidget(self.order_section)
 
+
         self.profile_section = ProfilePage(username, self)
-        self.content_window_layout.addWidget(self.profile_section) # index 1
+        self.content_window_layout.addWidget(self.profile_section) # index 4
 
         self.buttons = [
             self.dashboard_pushButton,
             self.prices_pushButton,
-            self.inventory_pushButton,
             self.settings_pushButton,
             self.orders_pushButton,
             self.profile_pushButton,
@@ -54,17 +69,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.parent_widgets = [
             self.frame_4, 
             self.frame_15,
-            self.frame_6,
             self.frame_12,
             self.frame_7,
             self.frame_5
         ]
         self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_logo, self.frame_4, self.dashboard_pushButton, 0))
-        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 10))
-        self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 4))
-        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 5))
-        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 6))
-        self.profile_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.profile_pushButton, 2))
+        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 1))
+        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 2))
+        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 3))
+        self.profile_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.profile_pushButton, 4))
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
     # print(f'Current index: {self.get_current_index()}')
@@ -119,11 +132,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
-
-        inventory_icon = QPixmap("app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.file_name = os.path.basename("app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.setPixmap(inventory_icon)
-        self.inventory_logo.setScaledContents(True)
 
         orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
         self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
