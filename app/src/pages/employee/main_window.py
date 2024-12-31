@@ -10,6 +10,7 @@ from pages.employee.orders_page import OrderPage
 from pages.employee.price_page import PricePage
 from pages.employee.settings_page import settingsPage
 from pages.employee.profile_page import ProfilePage
+from pages.employee.order_page import OrderPage
 from utils.Activity_logs import Activity_Logs as activity_logs
 
 import os, json, re
@@ -50,6 +51,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         settings_section = settingsPage(self) # index 3
         self.content_window_layout.addWidget(settings_section)
+        self.order_section = OrderPage(self) # index 0
+        self.content_window_layout.addWidget(self.order_section)
+
 
         self.profile_section = ProfilePage(username, self)
         self.content_window_layout.addWidget(self.profile_section) # index 4

@@ -1,10 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel, QPushButton
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel, QPushButton, QMessageBox
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 
 from ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
-from ui.NEW.best_selling_product_template import Ui_Form as best_selling_UiForm
+from ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
 
 from utils.Inventory_Monitor import InventoryMonitor
 
@@ -14,49 +14,32 @@ from collections import defaultdict
 
 import pymongo, re, json, random, os
 
-class BestSellingListItem(QWidget, best_selling_UiForm):
+class BestSellingListItem(QFrame, best_selling_UiForm):
     def __init__(self, list_of_data):
         super().__init__()
         self.setupUi(self)
 
-        # Check if the passed data is a string and try to parse it as JSON
-        if isinstance(list_of_data, str):
-            try:
-                self.data = json.loads(list_of_data)  # Assuming data is a JSON string
-                print(f'Parsed best selling item data: {self.data}')
-            except json.JSONDecodeError:
-                self.data = {}  # Set to empty dictionary if parsing fails
-                print(f'Error parsing data: {list_of_data}')
-        else:
-            self.data = list_of_data
+        self.setLabels(list_of_data)
 
-        self.setLabels()
+    def setLabels(self, data):
+        """Set insert data to the labels"""
+        product_name: str = str(data.get('product_name', 'N/A'))
+        product_id: str = str(data.get('product_id', 'N/A'))
+        cylinder_size: str = str(data.get('cylinder_size', 'N/A'))
+        revenue: int = f"₱ {data.get('total_value_sold', 'N/A'):,.2f}"
+        price: int = f"₱ {data.get('price', 'N/A'):,.2f}"
+        total_quantity_sold: int = str(data.get('total_quantity_sold', 'N/A'))
 
-    def setLabels(self):
-        # Ensure data is a dictionary before accessing its keys
-        if isinstance(self.data, dict):
-            # self.productID_label.setText(self.data.get('_id', 'N/A'))
-            self.totalQuantitySold_label.setText(str(self.data.get('total_quantity_sold', 'N/A')))
-            self.product_name_label.setText(self.data.get('product_name', 'N/A'))
-            self.cylinderSize_label.setText(self.data.get('cylinder_size', 'N/A'))
-            self.productRank_label.setText(str(self.data.get('product_rank', 'N/A')))
-
-            try:
-                price = self.data.get('price_per_unit', 'N/A')
-                formatted_price = f"₱ {price:,.2f}"
-                self.price_label.setText(formatted_price)
-            except Exception as e:
-                print(f'Error: {e}')
-
-            try:
-                revenue = self.data.get('total_sales_value', 'N/A')
-                formatted_revenue = f"₱ {revenue:,.2f}"
-                self.revenue_label.setText(formatted_revenue)
-            except Exception as e:
-                print(f'Error: {e}')
-        else:
-            print("Error: Data is not in the expected format (dict).")
-
+        try:
+            self.product_name_label.setText(product_name)
+            self.productID_label.setText(product_id)
+            self.cylinderSize_label.setText(cylinder_size)
+            self.revenue_label.setText(revenue)
+            self.price_label.setText(price)
+            self.totalQuantitySold_label.setText(total_quantity_sold)
+        except Exception as e:
+            print(f"Error: {e}")
+            QMessageBox.warning(self, "Error", "An unexpected error occurred while updating the labels. Please try again if the issue persists.")
 
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
@@ -92,7 +75,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         # button connections
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
         self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
-        self.get_top_10_pushButton.clicked.connect(lambda: self.get_top_10_best_selling_products())
+        self.prev_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page - 1, self.rows_per_page))
+        self.next_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page + 1, self.rows_per_page))
 
     def handle_search(self):
         """Handle the search functionality of the search bar"""
@@ -170,56 +154,23 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_sales_table()
 
     def update_top_product(self):
-        pass
-        # data = self.get_best_selling_prod()
+        data = self.get_top_10_best_selling_products()
 
-        # if data:
-        #     print(f'Top Product: {data}')
+        if data:
+            print(f'Top Product: {data}')
 
-        # if data:
-        #     top_product_id = data[0]['product_id']
-        #     self.best_selling_label.setText(f"{top_product_id}")
+        if data:
+            top_product_id: str = data[0]['product_id']
+            top_product_name: str = data[0]['product_name']
+            self.best_selling_label.setText(f"{top_product_id} ({top_product_name})")
 
     def update_best_selling_chart(self):
-        # Get data from the database
-        # data = self.get_best_selling_prod()
-        
-        # for i in data:
-        #     # Create a QListWidgetItem and set its background to white
-        #     item = QListWidgetItem(self.bestSelling_listWidget)
-        #     item.setBackground(QBrush(QColor('white')))  # Background color set to white
-            
-        #     # Create a custom widget for this item
-        #     bestSellerItem = BestSellingListItem(i)
-        #     print(f'ewan data: {i}')
-
-        #     # Set the size hint to match the custom widget size
-        #     item.setSizeHint(bestSellerItem.sizeHint())
-
-        #     # Attach the custom widget to the QListWidgetItem
-        #     self.bestSelling_listWidget.setItemWidget(item, bestSellerItem)
-
-        # clear scrollArea first
-        # scrollArea = self.best_selling_scrollArea
-        # content_widget = scrollArea.widget()
-
-        # if content_widget:
-        #     # remove the layout if it exists
-        #     layout = content_widget.layout()
-        #     if layout:
-        #         # remove all widgets in the layout
-        #         while layout.count():
-        #             child = layout.takeAt(0)
-        #             if child.widget():
-        #                 child.widget().deleteLater()
-        #         # delete the layout itself
-        #         layout.deleteLater()
-        #     # set an empty widget as the new content
-        #     scrollArea.setWidget(QWidget()) 
-        # Get the layout of orders_scrollAreaWidgetContents
-        layout = self.best_selling_scrollArea.layout()
+        layout = self.best_selling_prod_scrollAreaWidgetContents.layout()
         if layout is None:
-            return  # Exit if there is no layout
+            layout = QVBoxLayout() # Create new layout if no layout
+            print(f'No layout, creating a new one')
+        else:
+            print(f'Layout exists')
 
         # Clear all existing widgets from the layout
         while layout.count():
@@ -232,12 +183,13 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         print(f'PAKENING PRODUCT: {top_products}')
         for product in top_products:
             print(f'Top Product: {product}')
+            best_selling_prod_item = BestSellingListItem(product)
+            layout.addWidget(best_selling_prod_item)
 
     def get_top_10_best_selling_products(self):
         """
-        Returns the top 10 best-selling products based on the quantity sold.
+        Returns the top 10 best-selling products based on the quantity sold, including price.
 
-        :param collection: MongoDB collection object
         :return: List of dictionaries containing product details and total quantity sold
         """
         pipeline = [
@@ -250,7 +202,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                     "_id": {
                         "product_id": "$products_sold.product_id",
                         "product_name": "$products_sold.product_name",
-                        "cylinder_size": "$products_sold.cylinder_size"
+                        "cylinder_size": "$products_sold.cylinder_size",
+                        "price": "$products_sold.price"  # Assuming price exists here
                     },
                     "total_quantity_sold": {"$sum": "$products_sold.quantity"},
                     "total_value_sold": {"$sum": "$products_sold.total_amount"}
@@ -271,7 +224,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                     "product_name": "$_id.product_name",
                     "cylinder_size": "$_id.cylinder_size",
                     "total_quantity_sold": 1,
-                    "total_value_sold": 1
+                    "total_value_sold": 1,
+                    "price": "$_id.price"
                 }
             }
         ]
@@ -507,14 +461,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             # query filter
             filter = {}
 
-            # if self.search_lineEdit != "":
-            #     filter = {"$or": [
-            #         {"product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
-            #         {"product_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}}
-            #     ]}
             if self.search_lineEdit.text().strip():  # Check if the input is not empty and strip any whitespace
                 filter = {
-                    "product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
+                    "sale_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
                 }
 
             # Get data from MongoDB

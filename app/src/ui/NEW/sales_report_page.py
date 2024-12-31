@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1044, 641)
+        Form.resize(1037, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
@@ -23,12 +23,54 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
         self.scrollArea.setStyleSheet("#scrollArea{\n"
+"background-color: #EAEAEA;\n"
 "border: none;\n"
-"}")
+"border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #555;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-66, -641, 1093, 1594))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-73, 0, 1093, 1656))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -126,26 +168,6 @@ class Ui_Form(object):
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7.setSpacing(5)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.frame_3 = QtWidgets.QFrame(parent=self.frame_13)
-        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_3)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.create_sales_report_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
-        self.create_sales_report_pushButton.setMinimumSize(QtCore.QSize(150, 30))
-        self.create_sales_report_pushButton.setMaximumSize(QtCore.QSize(150, 30))
-        self.create_sales_report_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.create_sales_report_pushButton.setStyleSheet("background-color: #32CD32;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #fff;\n"
-"border: none;\n"
-"border-radius: 5px;")
-        self.create_sales_report_pushButton.setObjectName("create_sales_report_pushButton")
-        self.horizontalLayout.addWidget(self.create_sales_report_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_7.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout_3.addWidget(self.frame_13)
         self.frame_6 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_6.setStyleSheet("#frame_6{\n"
@@ -161,6 +183,35 @@ class Ui_Form(object):
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.frame_6)
         self.verticalLayout_13.setSpacing(5)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
+        self.frame_3 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.frame_3)
+        self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_12.setSpacing(5)
+        self.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        self.frame_16 = QtWidgets.QFrame(parent=self.frame_3)
+        self.frame_16.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_16.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_16.setObjectName("frame_16")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_16)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.create_sales_report_pushButton = QtWidgets.QPushButton(parent=self.frame_16)
+        self.create_sales_report_pushButton.setMinimumSize(QtCore.QSize(150, 30))
+        self.create_sales_report_pushButton.setMaximumSize(QtCore.QSize(150, 30))
+        self.create_sales_report_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.create_sales_report_pushButton.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;")
+        self.create_sales_report_pushButton.setObjectName("create_sales_report_pushButton")
+        self.horizontalLayout.addWidget(self.create_sales_report_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.horizontalLayout_12.addWidget(self.frame_16)
+        self.verticalLayout_13.addWidget(self.frame_3)
         self.frame_5 = QtWidgets.QFrame(parent=self.frame_6)
         self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -192,7 +243,8 @@ class Ui_Form(object):
         self.search_lineEdit.setSizePolicy(sizePolicy)
         self.search_lineEdit.setMinimumSize(QtCore.QSize(250, 0))
         self.search_lineEdit.setStyleSheet("border: none;\n"
-"padding: 5px;")
+"padding: 5px;\n"
+"color: #000;")
         self.search_lineEdit.setObjectName("search_lineEdit")
         self.horizontalLayout_8.addWidget(self.search_lineEdit)
         self.search_pushButton = QtWidgets.QPushButton(parent=self.frame_7)
@@ -254,6 +306,35 @@ class Ui_Form(object):
         self.sales_tableWidget.setColumnCount(0)
         self.sales_tableWidget.setRowCount(0)
         self.verticalLayout_13.addWidget(self.sales_tableWidget)
+        self.frame_15 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_15.setObjectName("frame_15")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frame_15)
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.prev_pushButton = QtWidgets.QPushButton(parent=self.frame_15)
+        self.prev_pushButton.setMinimumSize(QtCore.QSize(150, 30))
+        self.prev_pushButton.setMaximumSize(QtCore.QSize(150, 30))
+        self.prev_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.prev_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #000;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.prev_pushButton.setObjectName("prev_pushButton")
+        self.horizontalLayout_11.addWidget(self.prev_pushButton)
+        self.next_pushButton = QtWidgets.QPushButton(parent=self.frame_15)
+        self.next_pushButton.setMinimumSize(QtCore.QSize(150, 30))
+        self.next_pushButton.setMaximumSize(QtCore.QSize(150, 30))
+        self.next_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.next_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #000;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.next_pushButton.setObjectName("next_pushButton")
+        self.horizontalLayout_11.addWidget(self.next_pushButton)
+        self.verticalLayout_13.addWidget(self.frame_15, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.verticalLayout_3.addWidget(self.frame_6)
         self.frame_10 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_10.setMinimumSize(QtCore.QSize(0, 700))
@@ -337,19 +418,6 @@ class Ui_Form(object):
         self.frame_9.setObjectName("frame_9")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_9)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.frame_15 = QtWidgets.QFrame(parent=self.frame_9)
-        self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_15.setObjectName("frame_15")
-        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frame_15)
-        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
-        self.get_top_10_pushButton = QtWidgets.QPushButton(parent=self.frame_15)
-        self.get_top_10_pushButton.setStyleSheet("color: #000;\n"
-"borde: 1px solid #000;\n"
-"")
-        self.get_top_10_pushButton.setObjectName("get_top_10_pushButton")
-        self.horizontalLayout_11.addWidget(self.get_top_10_pushButton)
-        self.verticalLayout_5.addWidget(self.frame_15)
         self.frame_12 = QtWidgets.QFrame(parent=self.frame_9)
         self.frame_12.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_12.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -419,10 +487,12 @@ class Ui_Form(object):
 "            }")
         self.best_selling_scrollArea.setWidgetResizable(True)
         self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
-        self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 350, 568))
-        self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
-        self.best_selling_scrollArea.setWidget(self.scrollAreaWidgetContents_5)
+        self.best_selling_prod_scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 622))
+        self.best_selling_prod_scrollAreaWidgetContents.setObjectName("best_selling_prod_scrollAreaWidgetContents")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.best_selling_prod_scrollAreaWidgetContents)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.best_selling_scrollArea.setWidget(self.best_selling_prod_scrollAreaWidgetContents)
         self.verticalLayout_5.addWidget(self.best_selling_scrollArea)
         self.horizontalLayout_5.addWidget(self.frame_9)
         self.verticalLayout_3.addWidget(self.frame_10)
@@ -442,11 +512,12 @@ class Ui_Form(object):
         self.total_sales_label.setText(_translate("Form", "0"))
         self.create_sales_report_pushButton.setText(_translate("Form", "Create Sales Report"))
         self.label_8.setText(_translate("Form", "Sales Table"))
-        self.search_lineEdit.setPlaceholderText(_translate("Form", "Search Product Name"))
+        self.search_lineEdit.setPlaceholderText(_translate("Form", "Search Sale ID"))
         self.label_5.setText(_translate("Form", "View Products"))
         self.back_pushButton.setText(_translate("Form", "Back"))
+        self.prev_pushButton.setText(_translate("Form", "Previous"))
+        self.next_pushButton.setText(_translate("Form", "Next"))
         self.label_3.setText(_translate("Form", "Sales Trend Chart"))
-        self.get_top_10_pushButton.setText(_translate("Form", "Get Top 1 Products"))
         self.label_4.setText(_translate("Form", "Best Selling:"))
         self.best_selling_label.setText(_translate("Form", "0"))
 

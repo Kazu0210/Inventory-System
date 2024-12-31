@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'dashboard.ui'
+# Form implementation generated from reading ui file 'archive_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.7.1
 #

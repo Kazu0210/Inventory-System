@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1051, 771)
+        Form.resize(1022, 771)
         Form.setStyleSheet("*{\n"
 "color: #0D044E;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -27,7 +27,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1051, 771))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1025, 754))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_60.setContentsMargins(0, 0, 0, 0)
@@ -236,6 +236,8 @@ class Ui_Form(object):
         self.cylinderSize_comboBox.setObjectName("cylinderSize_comboBox")
         self.horizontalLayout_62.addWidget(self.cylinderSize_comboBox)
         self.horizontalLayout_61.addWidget(self.frame_65, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_61.addItem(spacerItem)
         self.frame_5 = QtWidgets.QFrame(parent=self.frame_64)
         self.frame_5.setStyleSheet("#frame_5 *{\n"
 "font: 10pt \"Inter\";\n"
@@ -292,8 +294,8 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.stock_level_comboBox)
         self.horizontalLayout_61.addWidget(self.frame_5, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.verticalLayout_9.addWidget(self.frame_64, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
-        self.verticalLayout_9.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        self.verticalLayout_9.addItem(spacerItem1)
         self.frame_77 = QtWidgets.QFrame(parent=self.frame_4)
         self.frame_77.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_77.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -362,10 +364,10 @@ class Ui_Form(object):
         self.setItems.raise_()
         self.horizontalLayout_74.addWidget(self.frame_78, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_9.addWidget(self.frame_77)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
-        self.verticalLayout_9.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        self.verticalLayout_9.addItem(spacerItem2)
         self.tableWidget = QtWidgets.QTableWidget(parent=self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.MinimumExpanding, QtWidgets.QSizePolicy.Policy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
@@ -395,6 +397,8 @@ class Ui_Form(object):
         self.frame_77.raise_()
         self.horizontalLayout_60.addWidget(self.frame_4)
         self.frame_63 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
+        self.frame_63.setMinimumSize(QtCore.QSize(320, 0))
+        self.frame_63.setMaximumSize(QtCore.QSize(320, 16777215))
         self.frame_63.setStyleSheet("#frame_63{\n"
 "background-color: #fff;\n"
 "border: none;\n"
@@ -1050,8 +1054,8 @@ class Ui_Form(object):
         self.verticalLayout_4.addWidget(self.restock_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.verticalLayout_3.addWidget(self.frame_22)
         self.verticalLayout_2.addWidget(self.frame_3)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem3)
         self.verticalLayout_6.addWidget(self.info_cont)
         self.horizontalLayout_60.addWidget(self.frame_63)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
