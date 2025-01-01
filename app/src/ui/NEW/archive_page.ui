@@ -825,6 +825,9 @@ color: #333333;</string>
                 </item>
                 <item>
                  <widget class="QLabel" name="lastlogin_label">
+                  <property name="styleSheet">
+                   <string notr="true">color: red;</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>

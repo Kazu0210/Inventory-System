@@ -464,6 +464,59 @@ class AccountsPage(QWidget, accounts_page):
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
 
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        color: #000;
+        }
+        QHeaderView:Section{
+        background-color: #228B22;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
+
         # header json directory
         header_dir = "app/resources/config/table/accounts_tableHeader.json"
 
@@ -476,8 +529,18 @@ class AccountsPage(QWidget, accounts_page):
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
 
+        header = self.tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+
+        # set width of all the columns
         for column in range(table.columnCount()):
-            table.setColumnWidth(column, 200)
+            table.setColumnWidth(column, 150)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+
+        header.setFixedHeight(50)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
@@ -513,12 +576,12 @@ class AccountsPage(QWidget, accounts_page):
                     if header == 'lastlogin':
                         try:
                             if value:
-                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                                date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:")
 
                                 if self.current_time_format == "12hr":
-                                    value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
+                                    value = date_time.strftime("%Y-%m-%d %I:%M: %p")
                                 else:
-                                    value = date_time.strftime("%Y-%m-%d %H:%M:%S")
+                                    value = date_time.strftime("%Y-%m-%d %H:%M:")
                         except Exception as e:
                             pass
                             # print(f"Error formatting date: {e}")
