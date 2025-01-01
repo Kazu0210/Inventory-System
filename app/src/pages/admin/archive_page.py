@@ -31,6 +31,7 @@ class ArchivePage(QWidget, Ui_archive):
         self.accounts_pushButton.clicked.connect(lambda: self.setActiveCollection('account_archive'))
         self.products_pushButton.clicked.connect(lambda: self.setActiveCollection('product_archive'))
         self.restore_pushButton.clicked.connect(lambda: self.restoreButtonClicked())
+        self.delete_pushButton.clicked.connect(lambda: self.deleteButtonClicked())
         
         # Initialize monitor for each collection
         self.accounts_monitor = InventoryMonitor('account_archive')
@@ -58,6 +59,30 @@ class ArchivePage(QWidget, Ui_archive):
         self.tableWidget.setShowGrid(False)
         self.tableWidget.verticalHeader().setVisible(False)
 
+    def deleteButtonClicked(self):
+        """Handle clicked event of delete button"""
+        data = self.current_document
+        print(f'Retrieved data when button clicked: {data}')
+
+        if '_id' in data:
+            del data['_id']
+
+        if self.current_collection == 'account_archive':
+            account_id = data['account_id'] # get account id 
+            filter = {
+                'account_id': account_id
+            }
+            self.connect_to_db(self.current_collection).delete_one(filter)
+            QMessageBox.information(self, "Success", "Account deleted successfully")
+
+        elif self.current_collection == 'product_archive':
+            product_id = data['product_id'] # get account id 
+            filter = {
+                'product_id': product_id
+            }
+            self.connect_to_db(self.current_collection).delete_one(filter)
+            QMessageBox.information(self, "Success", "Product deleted successfully")
+
     def restoreButtonClicked(self):
         """Handle clicked event of restore button"""
         data = self.current_document
@@ -84,7 +109,6 @@ class ArchivePage(QWidget, Ui_archive):
             self.connect_to_db("products_items").insert_one(data)
             self.connect_to_db(self.current_collection).delete_one(filter)
             QMessageBox.information(self, "Success", "Product restored successfully")
-
 
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)
