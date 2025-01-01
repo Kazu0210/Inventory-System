@@ -30,7 +30,7 @@ class ArchivePage(QWidget, Ui_archive):
         # Connect button
         self.accounts_pushButton.clicked.connect(lambda: self.setActiveCollection('account_archive'))
         self.products_pushButton.clicked.connect(lambda: self.setActiveCollection('product_archive'))
-        # self.orders_pushButton.clicked.connect(lambda: self.setActiveCollection('order_archive'))
+        self.restore_pushButton.clicked.connect(lambda: self.restoreButtonClicked())
         
         # Initialize monitor for each collection
         self.accounts_monitor = InventoryMonitor('account_archive')
@@ -58,6 +58,34 @@ class ArchivePage(QWidget, Ui_archive):
         self.tableWidget.setShowGrid(False)
         self.tableWidget.verticalHeader().setVisible(False)
 
+    def restoreButtonClicked(self):
+        """Handle clicked event of restore button"""
+        data = self.current_document
+        print(f'Retrieved data when button clicked: {data}')
+
+        if '_id' in data:
+            del data['_id']
+
+
+        if self.current_collection == 'account_archive':
+            account_id = data['account_id'] # get account id 
+            filter = {
+                'account_id': account_id
+            }
+            self.connect_to_db("accounts").insert_one(data)
+            self.connect_to_db(self.current_collection).delete_one(filter)
+            QMessageBox.information(self, "Success", "Account restored successfully")
+
+        elif self.current_collection == 'product_archive':
+            product_id = data['product_id'] # get account id 
+            filter = {
+                'product_id': product_id
+            }
+            self.connect_to_db("products_items").insert_one(data)
+            self.connect_to_db(self.current_collection).delete_one(filter)
+            QMessageBox.information(self, "Success", "Product restored successfully")
+
+
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)
         self.tableWidget.selectRow(row)
@@ -66,7 +94,7 @@ class ArchivePage(QWidget, Ui_archive):
         self.selected_rows = self.tableWidget.selectionModel().selectedRows()
 
         if self.selected_rows:
-            # show action buttons
+            # Show action buttons
             self.frame_23.show()
 
             row_index = self.selected_rows[0].row()
@@ -75,17 +103,13 @@ class ArchivePage(QWidget, Ui_archive):
             row_data_with_headers = {}
 
             for column in range(self.tableWidget.columnCount()):
-                # Get the header for the current column
                 header_item = self.tableWidget.horizontalHeaderItem(column)
                 header_text = header_item.text() if header_item is not None else f"Column {column + 1}"
                 cleaned_header = self.clean_header(header_text)
-                print(f'Cleaned header: {self.clean_header(header_text)}')
 
-                # Get the cell item
                 item = self.tableWidget.item(row_index, column)
                 cell_text = item.text() if item is not None else ""
 
-                # Create a key-value pair of header and cell data
                 row_data_with_headers[cleaned_header] = cell_text
 
             print(f"Row data with headers: {row_data_with_headers}")
@@ -98,25 +122,31 @@ class ArchivePage(QWidget, Ui_archive):
             print(f'Current collection: {self.current_collection}')
             if self.current_collection == "account_archive":
                 filter = {
-                    "account_id": value
+                    "account_id": value,
                 }
-                document = self.connect_to_db(str(self.current_collection)).find_one(filter)
             else:
                 filter = {
-                    "product_id": value
+                    "product_id": value,
                 }
-                document = self.connect_to_db(str(self.current_collection)).find_one(filter)
 
-            print(f'DOKYUMENT FROM ARCHIVE: {document}')
+            # Fetch the document and store it in an instance variable
+            self.current_document = self.connect_to_db(str(self.current_collection)).find_one(filter)
 
-            if self.current_collection == "account_archive":
-                self.set_label(document)
-            elif self.current_collection == "product_archive":
-                self.set_label(document)
+            # Update preview section
+            if self.current_collection in ["account_archive", "product_archive"]:
+                self.set_label(self.current_document)
 
         else:
             self.hide_buttons()
             self.clearPreviewSection()
+
+    # def restoreButtonClicked(self):
+    #     if hasattr(self, 'current_document') and self.current_document:
+    #         # Perform restore action using the current document
+    #         print(f"Restoring document: {self.current_document}")
+    #         # Add your restore logic here
+    #     else:
+    #         print("No document selected for restore.")
 
     def clearPreviewSection(self):
         """Clear the preview section labels"""
