@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>854</width>
+    <width>762</width>
     <height>835</height>
    </rect>
   </property>
@@ -64,8 +64,11 @@
         <x>0</x>
         <y>0</y>
         <width>901</width>
-        <height>1307</height>
+        <height>1320</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: none;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
@@ -83,7 +86,7 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item alignment="Qt::AlignTop">
+       <item>
         <widget class="QFrame" name="frame_2">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -93,7 +96,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <property name="spacing">
-           <number>0</number>
+           <number>5</number>
           </property>
           <property name="leftMargin">
            <number>0</number>
@@ -116,20 +119,58 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label">
                <property name="styleSheet">
                 <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #000;
-	</string>
+color: #333333;</string>
                </property>
                <property name="text">
                 <string>Prices</string>
                </property>
               </widget>
              </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_7">
+            <property name="styleSheet">
+             <string notr="true">#frame_7{
+background-color: #fff;
+border-radius: 5px;
+}</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="spacing">
+              <number>5</number>
+             </property>
              <item alignment="Qt::AlignRight">
               <widget class="QFrame" name="frame_4">
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -208,10 +249,9 @@ font: 10pt &quot;Noto Sans&quot;;</string>
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-color: #274D60;
-border-radius: 5px;
-color: #fff;
-font: 87 10pt &quot;Noto Sans Black&quot;;</string>
+                   <string notr="true">background-color: #32CD32;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #fff;</string>
                   </property>
                   <property name="text">
                    <string>Search</string>
@@ -221,19 +261,7 @@ font: 87 10pt &quot;Noto Sans Black&quot;;</string>
                </layout>
               </widget>
              </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QFrame" name="frame_7">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+             <item>
               <widget class="QTableWidget" name="prices_tableWidget">
                <property name="minimumSize">
                 <size>
@@ -290,6 +318,19 @@ border: none;
             }</string>
                </property>
               </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -417,7 +458,7 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
        <item>
         <widget class="QFrame" name="frame_5">
          <property name="styleSheet">
-          <string notr="true">border: none;</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -487,6 +528,11 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                <property name="cursor">
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: #32CD32;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #fff;</string>
+               </property>
                <property name="text">
                 <string>View Price History</string>
                </property>
@@ -504,6 +550,21 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_8">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QFrame" name="frame_10">
                <property name="minimumSize">
@@ -562,6 +623,12 @@ color: #000;
                  <width>0</width>
                  <height>520</height>
                 </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#frame_9{
+background-color: #fff;
+border-radius: 5px;
+}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
