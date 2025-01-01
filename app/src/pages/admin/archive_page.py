@@ -1,17 +1,28 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView, QFrame, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor
 from datetime import datetime
 import json, os, pymongo, re, threading
 
 from ui.NEW.archive_page import Ui_Form as Ui_archive
+from ui.final_ui.archive_account_information import Ui_Frame as Ui_archive_account_info
 from utils.Inventory_Monitor import InventoryMonitor
 
+class AccountArchive(QFrame, Ui_archive_account_info):
+    def __init__(self, parent_window=None):
+        super().__init__()
+        self.setupUi(self)
+        self.parent_window = parent_window
+        
 class ArchivePage(QWidget, Ui_archive):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
         self.parent_window = parent_window
+
+        # hide the preview frames
+        self.hide_preview_frames()
+        self.hide_buttons()
 
         # set currennt collection 
         self.current_collection = None
@@ -52,56 +63,139 @@ class ArchivePage(QWidget, Ui_archive):
         self.tableWidget.selectRow(row)
 
     def on_row_clicked(self):
-        selected_rows = self.tableWidget.selectionModel().selectedRows()
+        self.selected_rows = self.tableWidget.selectionModel().selectedRows()
 
-        if selected_rows:
+        if self.selected_rows:
+            # show action buttons
+            self.frame_23.show()
 
-            row_index = selected_rows[0].row()
+            row_index = self.selected_rows[0].row()
             print(f"Row {row_index} clicked")
 
-        row_data = []
-        for column in range(self.tableWidget.columnCount()):
-            item = self.tableWidget.item(row_index, column)
-            if item is not None:
-                row_data.append(item.text())
+            row_data_with_headers = {}
+
+            for column in range(self.tableWidget.columnCount()):
+                # Get the header for the current column
+                header_item = self.tableWidget.horizontalHeaderItem(column)
+                header_text = header_item.text() if header_item is not None else f"Column {column + 1}"
+                cleaned_header = self.clean_header(header_text)
+                print(f'Cleaned header: {self.clean_header(header_text)}')
+
+                # Get the cell item
+                item = self.tableWidget.item(row_index, column)
+                cell_text = item.text() if item is not None else ""
+
+                # Create a key-value pair of header and cell data
+                row_data_with_headers[cleaned_header] = cell_text
+
+            print(f"Row data with headers: {row_data_with_headers}")
+
+            header = list(row_data_with_headers.keys())[0]
+            value = row_data_with_headers[header]
+            print(f'Header: {header}')
+            print(f'Value: {value}')
+
+            print(f'Current collection: {self.current_collection}')
+            if self.current_collection == "account_archive":
+                filter = {
+                    "account_id": value
+                }
+                document = self.connect_to_db(str(self.current_collection)).find_one(filter)
             else:
-                row_data.append("")
+                filter = {
+                    "product_id": value
+                }
+                document = self.connect_to_db(str(self.current_collection)).find_one(filter)
 
-        product_header_dir = "app/resources/config/table/items_tableHeader.json"
+            print(f'DOKYUMENT FROM ARCHIVE: {document}')
 
-        with open(product_header_dir, 'r') as f:
-            data = json.load(f)
-            print(f'Data from items page (Table header): {data}')
+            if self.current_collection == "account_archive":
+                self.set_label(document)
+            elif self.current_collection == "product_archive":
+                self.set_label(document)
 
-        try:
-            if 'Product ID' in data:
-                productID_header_index = data.index('Product ID')
-                print(f'Product id header index {productID_header_index}')
-            else:
-                print("Column doesn't exist.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        else:
+            self.hide_buttons()
+            self.clearPreviewSection()
 
-        document = self.connect_to_db("products_items").find_one({'product_id': row_data[productID_header_index]})
+    def clearPreviewSection(self):
+        """Clear the preview section labels"""
+        self.name_label.clear()
+        self.username_label.clear()
+        self.email_label.clear()
+        self.usertype_label.clear()
+        self.job_label.clear()
+        self.status_label.clear()
+        self.lastlogin_label.clear()
+        self.productid_label.clear()
+        self.product_name_label.clear()
+        self.cylinder_size_label.clear()
+        self.quantity_label.clear()
+        self.price_label.clear()
+        self.supplier_label.clear()
+        self.restock_date_label.clear()
+        self.inv_stat_label.clear()
 
-        # try:
-        #     self.productID = document['product_id']
-        #     self.productName = document['product_name']
-        #     self.cylinderSize = document['cylinder_size']
-        #     self.quantity = document['quantity_in_stock']
-        #     self.price = document['price_per_unit']
-        #     self.supplier = document['supplier']
-        #     self.restockDate = document['last_restocked_date']
-        #     self.description = document['description']
-        #     self.totalValue = document['total_value']
-        #     self.status = document['inventory_status']
-        #     self.stock_level = document['stock_level']
-        #     self.low_stock_threshold = document['minimum_stock_level']
-        # except Exception as e:
-        #     print(f"Error: {e}")
+    def set_label(self, data):
+        """insert data to the labels of preview""" 
+        print(f'DATA TO SET LABELS: {data}')
 
-        # self.selected_row = row_index
+        collection = self.current_collection
 
+        if collection == "account_archive":
+            try:
+                # get data
+                fname = data.get('first_name', 'N/A')
+                lname = data.get('last_name', 'N/A')
+
+                full_name = f"{lname}, {fname}"
+                username = data.get('username', 'N/A')
+                email = data.get('email', 'N/A')
+                user_type = data.get('user_type', 'N/A')
+                job = data.get('job', 'N/A')
+                status = data.get('status', 'N/A')
+                last_login = data.get('last_login', 'N/A')
+
+                # set labels
+                self.name_label.setText(full_name)
+                self.username_label.setText(username)
+                self.email_label.setText(email)
+                self.usertype_label.setText(user_type)
+                self.job_label.setText(job)
+                self.status_label.setText(status)
+                self.lastlogin_label.setText(last_login)
+            except Exception as e:
+                print(f'Error: {e}')
+                QMessageBox.critical(self, f"Error", f"An Error Occurred\n{e}")
+
+        elif collection == "product_archive":
+            try:
+                # get data
+                product_id = data.get('product_id', 'N/A')
+                product_name = data.get('product_name', 'N/A')
+                cylinder_size = data.get('cylinder_size', 'N/A')
+                quantity_in_stock = str(data.get('quantity_in_stock', 'N/A'))
+
+                price = data.get('price_per_unit', 'N/A')
+                formatted_price = f"₱ {price:,.2f}"
+
+                supplier = data.get('supplier', 'N/A')
+                last_restock_date = data.get('last_restocked_date', 'N/A')
+                inventory_status = data.get('inventory_status', 'N/A')
+
+                # set labels
+                self.productid_label.setText(product_id)
+                self.product_name_label.setText(product_name)
+                self.cylinder_size_label.setText(cylinder_size)
+                self.quantity_label.setText(quantity_in_stock)
+                self.price_label.setText(formatted_price)
+                self.supplier_label.setText(supplier)
+                self.restock_date_label.setText(last_restock_date)
+                self.inv_stat_label.setText(inventory_status)
+            except Exception as e:
+                print(f'Error: {e}')
+                QMessageBox.critical(self, f"Error", f"An Error Occurred\n{e}")
+        
     def handle_signal(self, collection_name):
         # Called when a change in any monitored collection is detected.
         if self.current_collection == collection_name:
@@ -127,8 +221,16 @@ class ArchivePage(QWidget, Ui_archive):
     
     def loadTable(self, collection_name):
         if collection_name == "account_archive":
+            self.selected_rows = None
+            self.table_name_label.setText('Archived Accounts')
+            self.archive_account_frame.show()
+            self.archive_product_frame.hide()
             self.loadAccounts()
         elif collection_name == "product_archive":
+            self.selected_rows = None
+            self.table_name_label.setText('Archived Products')
+            self.archive_account_frame.hide()
+            self.archive_product_frame.show()
             self.loadProducts()
 
     def loadProducts(self, page=0, rows_per_page=10):
@@ -257,7 +359,6 @@ class ArchivePage(QWidget, Ui_archive):
                     if value is not None:
                         
                         if header == 'priceperunit' or header == 'totalvalue':
-                            print(f'Price per unit sa archive: {value}')
                             price = f"₱ {value:,.2f}"
                             value = price
 
@@ -396,6 +497,16 @@ class ArchivePage(QWidget, Ui_archive):
 
                     if value is not None:
 
+                        if header == "lastlogin":
+                            print(f'IF PAKENING WORK!')
+                            parsed_datetime = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+
+                            # Format the date and time
+                            formatted_date = parsed_datetime.strftime("%Y/%m/%d")
+                            formatted_time = parsed_datetime.strftime("%H:%M:%S")
+
+                            value = f'{formatted_date}, {formatted_time}'
+
                         # Add the value to the table as a QTableWidgetItem
                         table_item = QTableWidgetItem(str(value))
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
@@ -415,3 +526,12 @@ class ArchivePage(QWidget, Ui_archive):
         except pymongo.errors.ConnectionError as e:
             print(f"Database connection failed: {e}")
             return None
+        
+    def hide_preview_frames(self):
+        """Hide the preview frames in the UI"""
+        self.archive_account_frame.hide()
+        self.archive_product_frame.hide()
+
+    def hide_buttons(self):
+        """Hide action buttons"""
+        self.frame_23.hide()
