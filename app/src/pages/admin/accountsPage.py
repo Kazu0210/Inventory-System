@@ -1,18 +1,19 @@
 import pymongo
 from PyQt6.QtWidgets import *
-from ui.NEW.accounts_page import Ui_Form as accounts_page
 from PyQt6.QtCore import QThread, pyqtSignal, Qt, QWaitCondition, QMutex, QTimer
 from PyQt6.QtGui import QBrush, QColor
+
+from ui.NEW.accounts_page import Ui_Form as accounts_page
+from pages.admin.edit_account_page import editAccountPage
+
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
-from pages.admin.edit_account_page import editAccountPage
 
 from utils.Inventory_Monitor import InventoryMonitor
 from datetime import datetime
 import re
 import json
 import os
-
 
 class AccountsPage(QWidget, accounts_page):
     def __init__(self, username, dashboard_mainWindow=None):
