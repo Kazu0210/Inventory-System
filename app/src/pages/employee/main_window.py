@@ -51,9 +51,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         settings_section = settingsPage(self) # index 3
         self.content_window_layout.addWidget(settings_section)
-        self.order_section = OrderPage(self) # index 0
-        self.content_window_layout.addWidget(self.order_section)
 
+        # self.order_section = OrderPage(self) # index 4
+        # self.content_window_layout.addWidget(self.order_section)
 
         self.profile_section = ProfilePage(username, self)
         self.content_window_layout.addWidget(self.profile_section) # index 4
