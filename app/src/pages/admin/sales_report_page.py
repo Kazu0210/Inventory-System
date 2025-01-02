@@ -157,9 +157,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         data = self.get_top_10_best_selling_products()
 
         if data:
-            print(f'Top Product: {data}')
-
-        if data:
             top_product_id: str = data[0]['product_id']
             top_product_name: str = data[0]['product_name']
             self.best_selling_label.setText(f"{top_product_id} ({top_product_name})")
@@ -180,9 +177,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 widget.deleteLater()
 
         top_products = self.get_top_10_best_selling_products()
-        print(f'PAKENING PRODUCT: {top_products}')
         for product in top_products:
-            print(f'Top Product: {product}')
             best_selling_prod_item = BestSellingListItem(product)
             layout.addWidget(best_selling_prod_item)
 

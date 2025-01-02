@@ -12,32 +12,65 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1054, 598)
+        Form.resize(854, 513)
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         Form.setFont(font)
-        Form.setStyleSheet("*{\n"
-"font-family: \"Inter\";\n"
-"color: #0D044E;\n"
+        Form.setStyleSheet("\n"
+"*{\n"
+"font: 10pt \"Noto Sans\";\n"
+"color: #1E1E1E;\n"
+"background-color: transparent;\n"
 "}\n"
-"#frame{\n"
+"#Form{\n"
+"background-color: #E0F2E9;\n"
+"}\n"
+"QLineEdit, QPlainTextEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
 "background-color: #fff;\n"
-"border-radius: 10px;\n"
 "}\n"
-"\n"
-"")
+"QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}\n"
+"QSpinBox{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"}")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.frame = QtWidgets.QFrame(parent=Form)
-        self.frame.setMinimumSize(QtCore.QSize(550, 0))
-        self.frame.setMaximumSize(QtCore.QSize(800, 16777215))
-        self.frame.setStyleSheet("")
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
+        self.frame_39 = QtWidgets.QFrame(parent=Form)
+        self.frame_39.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_39.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_39.setObjectName("frame_39")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_39)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(5)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.frame_2 = QtWidgets.QFrame(parent=self.frame)
+        self.frame_2 = QtWidgets.QFrame(parent=self.frame_39)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -47,7 +80,7 @@ class Ui_Form(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_2.setObjectName("frame_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_2)
-        self.horizontalLayout_2.setContentsMargins(9, 9, -1, -1)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(5)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label = QtWidgets.QLabel(parent=self.frame_2)
@@ -58,41 +91,27 @@ class Ui_Form(object):
         self.label.setSizePolicy(sizePolicy)
         self.label.setMinimumSize(QtCore.QSize(0, 20))
         font = QtGui.QFont()
-        font.setFamily("Inter Black")
+        font.setFamily("Noto Sans Black")
         font.setPointSize(16)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(10)
         self.label.setFont(font)
-        self.label.setStyleSheet("font: 87 16pt \"Inter Black\";")
+        self.label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;")
         self.label.setObjectName("label")
         self.horizontalLayout_2.addWidget(self.label, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.back_btn = QtWidgets.QPushButton(parent=self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.back_btn.sizePolicy().hasHeightForWidth())
-        self.back_btn.setSizePolicy(sizePolicy)
-        self.back_btn.setMinimumSize(QtCore.QSize(150, 30))
-        font = QtGui.QFont()
-        font.setFamily("Inter")
-        font.setPointSize(10)
-        self.back_btn.setFont(font)
-        self.back_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.back_btn.setStyleSheet("#back_btn{\n"
-"background-color: #fff;\n"
-"border: 1px solid #000;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"}")
-        self.back_btn.setObjectName("back_btn")
-        self.horizontalLayout_2.addWidget(self.back_btn, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout.addWidget(self.frame_2)
-        self.frame_3 = QtWidgets.QFrame(parent=self.frame)
+        self.frame_3 = QtWidgets.QFrame(parent=self.frame_39)
+        self.frame_3.setStyleSheet("\n"
+"background-color: #fff;\n"
+"border-radius:10px;")
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
         self.horizontalLayout_14 = QtWidgets.QHBoxLayout(self.frame_3)
+        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_14.setSpacing(5)
         self.horizontalLayout_14.setObjectName("horizontalLayout_14")
         self.frame_4 = QtWidgets.QFrame(parent=self.frame_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -132,7 +151,6 @@ class Ui_Form(object):
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_4.setObjectName("frame_4")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame_4)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame_5 = QtWidgets.QFrame(parent=self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -155,9 +173,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_2.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.label_2.setStyleSheet("")
+        self.label_2.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_2.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_2.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_3.addWidget(self.label_2)
         self.frame_18 = QtWidgets.QFrame(parent=self.frame_5)
@@ -179,6 +197,12 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.username_field.sizePolicy().hasHeightForWidth())
         self.username_field.setSizePolicy(sizePolicy)
         self.username_field.setMinimumSize(QtCore.QSize(200, 30))
+        self.username_field.setStyleSheet("QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.username_field.setObjectName("username_field")
         self.horizontalLayout_16.addWidget(self.username_field)
         self.horizontalLayout_3.addWidget(self.frame_18)
@@ -202,8 +226,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
-        self.label_3.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_3.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_3.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_3.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_3.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_4.addWidget(self.label_3)
         self.frame_19 = QtWidgets.QFrame(parent=self.frame_14)
@@ -225,6 +250,12 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.email_field.sizePolicy().hasHeightForWidth())
         self.email_field.setSizePolicy(sizePolicy)
         self.email_field.setMinimumSize(QtCore.QSize(200, 30))
+        self.email_field.setStyleSheet("QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.email_field.setObjectName("email_field")
         self.horizontalLayout_17.addWidget(self.email_field)
         self.horizontalLayout_4.addWidget(self.frame_19)
@@ -261,8 +292,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
         self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_4.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_4.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_4.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_4.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_15.addWidget(self.label_4)
         self.frame_20 = QtWidgets.QFrame(parent=self.frame_16)
@@ -285,6 +317,12 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.password_field.sizePolicy().hasHeightForWidth())
         self.password_field.setSizePolicy(sizePolicy)
         self.password_field.setMinimumSize(QtCore.QSize(200, 30))
+        self.password_field.setStyleSheet("QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.password_field.setObjectName("password_field")
         self.horizontalLayout_18.addWidget(self.password_field)
         self.horizontalLayout_15.addWidget(self.frame_20)
@@ -327,8 +365,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_5.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_5.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_5.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_5.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_5.setObjectName("label_5")
         self.horizontalLayout_6.addWidget(self.label_5)
         self.account_id_field = QtWidgets.QLabel(parent=self.frame_7)
@@ -358,8 +397,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
         self.label_7.setSizePolicy(sizePolicy)
-        self.label_7.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_7.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_7.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_7.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_7.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_7.setObjectName("label_7")
         self.horizontalLayout_8.addWidget(self.label_7)
         self.role_comboBox = QtWidgets.QComboBox(parent=self.frame_8)
@@ -372,6 +412,26 @@ class Ui_Form(object):
         font.setStyleStrategy(QtGui.QFont.StyleStrategy.PreferDefault)
         self.role_comboBox.setFont(font)
         self.role_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.role_comboBox.setStyleSheet("QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}")
         self.role_comboBox.setEditable(False)
         self.role_comboBox.setIconSize(QtCore.QSize(16, 16))
         self.role_comboBox.setFrame(True)
@@ -397,12 +457,33 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
         self.label_8.setSizePolicy(sizePolicy)
-        self.label_8.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_8.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_8.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_8.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_8.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_9.addWidget(self.label_8)
         self.jobTitle_comboBox = QtWidgets.QComboBox(parent=self.frame_9)
         self.jobTitle_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.jobTitle_comboBox.setStyleSheet("QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}")
         self.jobTitle_comboBox.setObjectName("jobTitle_comboBox")
         self.horizontalLayout_9.addWidget(self.jobTitle_comboBox)
         self.verticalLayout_2.addWidget(self.frame_9)
@@ -425,12 +506,33 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_9.sizePolicy().hasHeightForWidth())
         self.label_9.setSizePolicy(sizePolicy)
-        self.label_9.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_9.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_9.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_9.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_9.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_9.setObjectName("label_9")
         self.horizontalLayout_10.addWidget(self.label_9)
         self.status_comboBox = QtWidgets.QComboBox(parent=self.frame_10)
         self.status_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.status_comboBox.setStyleSheet("QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}")
         self.status_comboBox.setObjectName("status_comboBox")
         self.horizontalLayout_10.addWidget(self.status_comboBox)
         self.verticalLayout_2.addWidget(self.frame_10)
@@ -453,8 +555,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
         self.label_10.setSizePolicy(sizePolicy)
-        self.label_10.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_10.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_10.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_10.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_10.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_10.setObjectName("label_10")
         self.horizontalLayout_11.addWidget(self.label_10)
         self.frame_21 = QtWidgets.QFrame(parent=self.frame_11)
@@ -477,6 +580,12 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.fname_field.sizePolicy().hasHeightForWidth())
         self.fname_field.setSizePolicy(sizePolicy)
         self.fname_field.setMinimumSize(QtCore.QSize(200, 30))
+        self.fname_field.setStyleSheet("QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.fname_field.setObjectName("fname_field")
         self.horizontalLayout_19.addWidget(self.fname_field)
         self.horizontalLayout_11.addWidget(self.frame_21)
@@ -500,8 +609,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
         self.label_11.setSizePolicy(sizePolicy)
-        self.label_11.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_11.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_11.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_11.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_11.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_11.setObjectName("label_11")
         self.horizontalLayout_12.addWidget(self.label_11)
         self.frame_22 = QtWidgets.QFrame(parent=self.frame_12)
@@ -524,6 +634,12 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.lname_field.sizePolicy().hasHeightForWidth())
         self.lname_field.setSizePolicy(sizePolicy)
         self.lname_field.setMinimumSize(QtCore.QSize(200, 30))
+        self.lname_field.setStyleSheet("QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.lname_field.setObjectName("lname_field")
         self.horizontalLayout_20.addWidget(self.lname_field)
         self.horizontalLayout_12.addWidget(self.frame_22)
@@ -547,8 +663,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_12.sizePolicy().hasHeightForWidth())
         self.label_12.setSizePolicy(sizePolicy)
-        self.label_12.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_12.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.label_12.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_12.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.label_12.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_12.setObjectName("label_12")
         self.horizontalLayout_13.addWidget(self.label_12)
         self.frame_23 = QtWidgets.QFrame(parent=self.frame_13)
@@ -571,10 +688,18 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.address_field.sizePolicy().hasHeightForWidth())
         self.address_field.setSizePolicy(sizePolicy)
         self.address_field.setMinimumSize(QtCore.QSize(200, 30))
+        self.address_field.setStyleSheet("QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.address_field.setObjectName("address_field")
         self.horizontalLayout_21.addWidget(self.address_field)
         self.horizontalLayout_13.addWidget(self.frame_23)
         self.verticalLayout_2.addWidget(self.frame_13)
+        spacerItem = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem)
         self.frame_24 = QtWidgets.QFrame(parent=self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -585,10 +710,11 @@ class Ui_Form(object):
         self.frame_24.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_24.setObjectName("frame_24")
         self.horizontalLayout_22 = QtWidgets.QHBoxLayout(self.frame_24)
-        self.horizontalLayout_22.setContentsMargins(0, 10, 0, 0)
+        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_22.setSpacing(5)
         self.horizontalLayout_22.setObjectName("horizontalLayout_22")
-        spacerItem = QtWidgets.QSpacerItem(85, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_22.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_22.addItem(spacerItem1)
         self.createAcc_btn = QtWidgets.QPushButton(parent=self.frame_24)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -597,15 +723,15 @@ class Ui_Form(object):
         self.createAcc_btn.setSizePolicy(sizePolicy)
         self.createAcc_btn.setMinimumSize(QtCore.QSize(200, 30))
         self.createAcc_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.createAcc_btn.setStyleSheet("#createAcc_btn{\n"
-"background-color: #1654F3;\n"
+        self.createAcc_btn.setStyleSheet("background-color: #228B22;\n"
+"font: 87 12pt \"Noto Sans Black\";\n"
 "color: #fff;\n"
-"font-weight: bold;\n"
-"border-radius: 5px;\n"
-"}")
+"border-radius: 5px;")
         self.createAcc_btn.setObjectName("createAcc_btn")
-        self.horizontalLayout_22.addWidget(self.createAcc_btn, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.verticalLayout_2.addWidget(self.frame_24, 0, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.horizontalLayout_22.addWidget(self.createAcc_btn)
+        self.verticalLayout_2.addWidget(self.frame_24)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem2)
         self.horizontalLayout_14.addWidget(self.frame_4)
         self.frame_15 = QtWidgets.QFrame(parent=self.frame_3)
         self.frame_15.setMinimumSize(QtCore.QSize(200, 0))
@@ -615,6 +741,8 @@ class Ui_Form(object):
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_15.setObjectName("frame_15")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_15)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7.setSpacing(5)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.frame_37 = QtWidgets.QFrame(parent=self.frame_15)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -626,11 +754,18 @@ class Ui_Form(object):
         self.frame_37.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_37.setObjectName("frame_37")
         self.horizontalLayout_32 = QtWidgets.QHBoxLayout(self.frame_37)
+        self.horizontalLayout_32.setContentsMargins(9, 9, 9, 9)
+        self.horizontalLayout_32.setSpacing(5)
         self.horizontalLayout_32.setObjectName("horizontalLayout_32")
         self.label_13 = QtWidgets.QLabel(parent=self.frame_37)
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(7)
         self.label_13.setFont(font)
+        self.label_13.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_13.setObjectName("label_13")
         self.horizontalLayout_32.addWidget(self.label_13)
         self.verticalLayout_7.addWidget(self.frame_37)
@@ -641,12 +776,14 @@ class Ui_Form(object):
         self.frame_38.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_38.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_38.setObjectName("frame_38")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_38)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout_7.addWidget(self.frame_38)
         self.frame_38.raise_()
         self.frame_37.raise_()
         self.horizontalLayout_14.addWidget(self.frame_15)
         self.verticalLayout.addWidget(self.frame_3)
-        self.horizontalLayout.addWidget(self.frame)
+        self.horizontalLayout.addWidget(self.frame_39)
         self.frame_25 = QtWidgets.QFrame(parent=Form)
         self.frame_25.setMinimumSize(QtCore.QSize(300, 0))
         self.frame_25.setStyleSheet("#frame_25{\n"
@@ -668,11 +805,19 @@ class Ui_Form(object):
         self.frame_26.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_26.setObjectName("frame_26")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_26)
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 1)
+        self.horizontalLayout_7.setSpacing(0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.label_6 = QtWidgets.QLabel(parent=self.frame_26)
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans Black")
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(10)
         self.label_6.setFont(font)
+        self.label_6.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;")
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_7.addWidget(self.label_6)
         self.verticalLayout_5.addWidget(self.frame_26)
@@ -690,40 +835,59 @@ class Ui_Form(object):
         self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.frame_28 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_28.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_28.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_28.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_28.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_28.setObjectName("frame_28")
         self.horizontalLayout_23 = QtWidgets.QHBoxLayout(self.frame_28)
+        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_23.setSpacing(5)
         self.horizontalLayout_23.setObjectName("horizontalLayout_23")
         self.username_preview_2 = QtWidgets.QLabel(parent=self.frame_28)
+        self.username_preview_2.setMinimumSize(QtCore.QSize(100, 0))
+        self.username_preview_2.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.username_preview_2.setFont(font)
+        self.username_preview_2.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.username_preview_2.setObjectName("username_preview_2")
         self.horizontalLayout_23.addWidget(self.username_preview_2)
         self.username_preview = QtWidgets.QLabel(parent=self.frame_28)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.username_preview.sizePolicy().hasHeightForWidth())
+        self.username_preview.setSizePolicy(sizePolicy)
         self.username_preview.setText("")
         self.username_preview.setObjectName("username_preview")
         self.horizontalLayout_23.addWidget(self.username_preview)
         self.verticalLayout_6.addWidget(self.frame_28)
         self.frame_29 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_29.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_29.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_29.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_29.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_29.setObjectName("frame_29")
         self.horizontalLayout_24 = QtWidgets.QHBoxLayout(self.frame_29)
+        self.horizontalLayout_24.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_24.setSpacing(5)
         self.horizontalLayout_24.setObjectName("horizontalLayout_24")
         self.label_15 = QtWidgets.QLabel(parent=self.frame_29)
+        self.label_15.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_15.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_15.setFont(font)
+        self.label_15.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_15.setObjectName("label_15")
         self.horizontalLayout_24.addWidget(self.label_15)
         self.email_preview = QtWidgets.QLabel(parent=self.frame_29)
@@ -732,19 +896,26 @@ class Ui_Form(object):
         self.horizontalLayout_24.addWidget(self.email_preview)
         self.verticalLayout_6.addWidget(self.frame_29)
         self.frame_30 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_30.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_30.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_30.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_30.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_30.setObjectName("frame_30")
         self.horizontalLayout_25 = QtWidgets.QHBoxLayout(self.frame_30)
+        self.horizontalLayout_25.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_25.setSpacing(5)
         self.horizontalLayout_25.setObjectName("horizontalLayout_25")
         self.label_16 = QtWidgets.QLabel(parent=self.frame_30)
+        self.label_16.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_16.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_16.setFont(font)
+        self.label_16.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_16.setObjectName("label_16")
         self.horizontalLayout_25.addWidget(self.label_16)
         self.password_preview = QtWidgets.QLabel(parent=self.frame_30)
@@ -753,19 +924,26 @@ class Ui_Form(object):
         self.horizontalLayout_25.addWidget(self.password_preview)
         self.verticalLayout_6.addWidget(self.frame_30)
         self.frame_31 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_31.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_31.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_31.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_31.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_31.setObjectName("frame_31")
         self.horizontalLayout_26 = QtWidgets.QHBoxLayout(self.frame_31)
+        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_26.setSpacing(5)
         self.horizontalLayout_26.setObjectName("horizontalLayout_26")
         self.label_17 = QtWidgets.QLabel(parent=self.frame_31)
+        self.label_17.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_17.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_17.setFont(font)
+        self.label_17.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_17.setObjectName("label_17")
         self.horizontalLayout_26.addWidget(self.label_17)
         self.accountID_preview = QtWidgets.QLabel(parent=self.frame_31)
@@ -774,19 +952,26 @@ class Ui_Form(object):
         self.horizontalLayout_26.addWidget(self.accountID_preview)
         self.verticalLayout_6.addWidget(self.frame_31)
         self.frame_32 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_32.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_32.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_32.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_32.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_32.setObjectName("frame_32")
         self.horizontalLayout_27 = QtWidgets.QHBoxLayout(self.frame_32)
+        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_27.setSpacing(5)
         self.horizontalLayout_27.setObjectName("horizontalLayout_27")
         self.label_18 = QtWidgets.QLabel(parent=self.frame_32)
+        self.label_18.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_18.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_18.setFont(font)
+        self.label_18.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_18.setObjectName("label_18")
         self.horizontalLayout_27.addWidget(self.label_18)
         self.role_preview = QtWidgets.QLabel(parent=self.frame_32)
@@ -795,19 +980,26 @@ class Ui_Form(object):
         self.horizontalLayout_27.addWidget(self.role_preview)
         self.verticalLayout_6.addWidget(self.frame_32)
         self.frame_33 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_33.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_33.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_33.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_33.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_33.setObjectName("frame_33")
         self.horizontalLayout_28 = QtWidgets.QHBoxLayout(self.frame_33)
+        self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_28.setSpacing(5)
         self.horizontalLayout_28.setObjectName("horizontalLayout_28")
         self.label_19 = QtWidgets.QLabel(parent=self.frame_33)
+        self.label_19.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_19.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_19.setFont(font)
+        self.label_19.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_19.setObjectName("label_19")
         self.horizontalLayout_28.addWidget(self.label_19)
         self.job_preview = QtWidgets.QLabel(parent=self.frame_33)
@@ -816,19 +1008,26 @@ class Ui_Form(object):
         self.horizontalLayout_28.addWidget(self.job_preview)
         self.verticalLayout_6.addWidget(self.frame_33)
         self.frame_34 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_34.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_34.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_34.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_34.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_34.setObjectName("frame_34")
         self.horizontalLayout_29 = QtWidgets.QHBoxLayout(self.frame_34)
+        self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_29.setSpacing(5)
         self.horizontalLayout_29.setObjectName("horizontalLayout_29")
         self.label_20 = QtWidgets.QLabel(parent=self.frame_34)
+        self.label_20.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_20.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_20.setFont(font)
+        self.label_20.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_20.setObjectName("label_20")
         self.horizontalLayout_29.addWidget(self.label_20)
         self.status_preview = QtWidgets.QLabel(parent=self.frame_34)
@@ -837,19 +1036,26 @@ class Ui_Form(object):
         self.horizontalLayout_29.addWidget(self.status_preview)
         self.verticalLayout_6.addWidget(self.frame_34)
         self.frame_35 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_35.setMinimumSize(QtCore.QSize(0, 30))
+        self.frame_35.setMaximumSize(QtCore.QSize(16777215, 30))
         self.frame_35.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_35.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_35.setObjectName("frame_35")
         self.horizontalLayout_30 = QtWidgets.QHBoxLayout(self.frame_35)
+        self.horizontalLayout_30.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_30.setSpacing(5)
         self.horizontalLayout_30.setObjectName("horizontalLayout_30")
         self.label_21 = QtWidgets.QLabel(parent=self.frame_35)
+        self.label_21.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_21.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_21.setFont(font)
+        self.label_21.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_21.setObjectName("label_21")
         self.horizontalLayout_30.addWidget(self.label_21)
         self.fullName_preview = QtWidgets.QLabel(parent=self.frame_35)
@@ -867,15 +1073,20 @@ class Ui_Form(object):
         self.frame_36.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_36.setObjectName("frame_36")
         self.horizontalLayout_31 = QtWidgets.QHBoxLayout(self.frame_36)
+        self.horizontalLayout_31.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_31.setSpacing(5)
         self.horizontalLayout_31.setObjectName("horizontalLayout_31")
         self.label_22 = QtWidgets.QLabel(parent=self.frame_36)
+        self.label_22.setMinimumSize(QtCore.QSize(100, 0))
+        self.label_22.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Inter")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_22.setFont(font)
+        self.label_22.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_22.setObjectName("label_22")
         self.horizontalLayout_31.addWidget(self.label_22, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.address_preview = QtWidgets.QLabel(parent=self.frame_36)
@@ -892,8 +1103,6 @@ class Ui_Form(object):
         self.verticalLayout_6.addWidget(self.frame_36)
         self.verticalLayout_5.addWidget(self.frame_27, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.horizontalLayout.addWidget(self.frame_25)
-        self.frame_25.raise_()
-        self.frame.raise_()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -902,7 +1111,6 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "Create Account"))
-        self.back_btn.setText(_translate("Form", "Back"))
         self.label_2.setText(_translate("Form", "Username:"))
         self.label_3.setText(_translate("Form", "Email:"))
         self.label_4.setText(_translate("Form", "Password:"))
@@ -927,7 +1135,7 @@ class Ui_Form(object):
         self.label_20.setText(_translate("Form", "Status:"))
         self.label_21.setText(_translate("Form", "Full Name:"))
         self.label_22.setText(_translate("Form", "Address:"))
-        self.address_preview.setText(_translate("Form", "<html><head/><body><p>This is a long text that should wrap and adjust to the parent widget size.</p><p><br/></p></body></html>"))
+        self.address_preview.setText(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
 
 
 if __name__ == "__main__":

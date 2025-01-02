@@ -1,6 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QStackedLayout, QFrame
 from PyQt6.QtCore import QTimer
+
 from ui.NEW.new_account_page import Ui_Form as Ui_new_account_page
+
 from utils.Generate_password import PasswordGenerator
 from utils.Validation import Validator
 from pages.admin.username_requirement_section import UsernameAccountRequirementPage
@@ -63,7 +65,6 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         self.address_field.textChanged.connect(lambda: self.update_preview(self.address_field, label_name=self.address_preview))
         
         # BUTTONS
-        self.back_btn.clicked.connect(lambda: self.parent_window.content_window_layout.setCurrentIndex(2)) # back button
         self.createAcc_btn.clicked.connect(lambda: self.create_account_btn_clicked())
 
         self.requirement_layout = QStackedLayout(self.frame_38)

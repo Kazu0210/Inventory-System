@@ -6,48 +6,67 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1054</width>
-    <height>598</height>
+    <width>854</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <family>Inter</family>
+    <family>Noto Sans</family>
+    <pointsize>10</pointsize>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">*{
-font-family: &quot;Inter&quot;;
-color: #0D044E;
+   <string notr="true">
+*{
+font: 10pt &quot;Noto Sans&quot;;
+color: #1E1E1E;
+background-color: transparent;
 }
-#frame{
+#Form{
+background-color: #E0F2E9;
+}
+QLineEdit, QPlainTextEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
 background-color: #fff;
-border-radius: 10px;
 }
-
-</string>
+QComboBox{
+font: 10pt &quot;Inter&quot;;
+background-color: #fff;
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px
+}
+QComboBox::drop-down{
+border: none;
+background: transparent;
+}
+QComboBox::down-arrow {
+image: none;               
+border: none;              
+width: 0; height: 0;       
+border-left: 5px solid none; 
+border-right: 5px solid none;
+border-top: 7px solid #228B22; 
+margin: 0;
+}
+QSpinBox{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+}</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QFrame" name="frame">
-     <property name="minimumSize">
-      <size>
-       <width>550</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>800</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
+    <widget class="QFrame" name="frame_39">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -55,6 +74,21 @@ border-radius: 10px;
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>5</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QFrame" name="frame_2">
         <property name="sizePolicy">
@@ -74,10 +108,16 @@ border-radius: 10px;
           <number>5</number>
          </property>
          <property name="leftMargin">
-          <number>9</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>9</number>
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
          </property>
          <item alignment="Qt::AlignLeft">
           <widget class="QLabel" name="label">
@@ -95,7 +135,7 @@ border-radius: 10px;
            </property>
            <property name="font">
             <font>
-             <family>Inter Black</family>
+             <family>Noto Sans Black</family>
              <pointsize>16</pointsize>
              <weight>10</weight>
              <italic>false</italic>
@@ -103,46 +143,11 @@ border-radius: 10px;
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 87 16pt &quot;Inter Black&quot;;</string>
+            <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;</string>
            </property>
            <property name="text">
             <string>Create Account</string>
-           </property>
-          </widget>
-         </item>
-         <item alignment="Qt::AlignRight">
-          <widget class="QPushButton" name="back_btn">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Inter</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">#back_btn{
-background-color: #fff;
-border: 1px solid #000;
-border-radius: 5px;
-padding: 5px;
-}</string>
-           </property>
-           <property name="text">
-            <string>Back</string>
            </property>
           </widget>
          </item>
@@ -151,6 +156,11 @@ padding: 5px;
       </item>
       <item>
        <widget class="QFrame" name="frame_3">
+        <property name="styleSheet">
+         <string notr="true">
+background-color: #fff;
+border-radius:10px;</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -158,6 +168,21 @@ padding: 5px;
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QFrame" name="frame_4">
            <property name="sizePolicy">
@@ -208,18 +233,6 @@ margin: 0;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
             <item>
              <widget class="QFrame" name="frame_5">
               <property name="sizePolicy">
@@ -269,18 +282,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true"/>
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Username:</string>
@@ -327,6 +340,14 @@ margin: 0;
                       <width>200</width>
                       <height>30</height>
                      </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QLineEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+background-color: #fff;
+}</string>
                     </property>
                    </widget>
                   </item>
@@ -376,15 +397,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Email:</string>
@@ -431,6 +455,14 @@ margin: 0;
                       <width>200</width>
                       <height>30</height>
                      </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QLineEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+background-color: #fff;
+}</string>
                     </property>
                    </widget>
                   </item>
@@ -510,15 +542,18 @@ margin: 0;
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>80</width>
+                      <width>100</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>80</width>
+                      <width>100</width>
                       <height>16777215</height>
                      </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                     </property>
                     <property name="text">
                      <string>Password:</string>
@@ -568,6 +603,14 @@ margin: 0;
                          <width>200</width>
                          <height>30</height>
                         </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QLineEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+background-color: #fff;
+}</string>
                        </property>
                       </widget>
                      </item>
@@ -663,15 +706,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Account ID:</string>
@@ -735,15 +781,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Role:</string>
@@ -764,6 +813,28 @@ margin: 0;
                  </property>
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QComboBox{
+font: 10pt &quot;Inter&quot;;
+background-color: #fff;
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px
+}
+QComboBox::drop-down{
+border: none;
+background: transparent;
+}
+QComboBox::down-arrow {
+image: none;               
+border: none;              
+width: 0; height: 0;       
+border-left: 5px solid none; 
+border-right: 5px solid none;
+border-top: 7px solid #228B22; 
+margin: 0;
+}</string>
                  </property>
                  <property name="editable">
                   <bool>false</bool>
@@ -822,15 +893,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Job Title:</string>
@@ -841,6 +915,28 @@ margin: 0;
                 <widget class="QComboBox" name="jobTitle_comboBox">
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QComboBox{
+font: 10pt &quot;Inter&quot;;
+background-color: #fff;
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px
+}
+QComboBox::drop-down{
+border: none;
+background: transparent;
+}
+QComboBox::down-arrow {
+image: none;               
+border: none;              
+width: 0; height: 0;       
+border-left: 5px solid none; 
+border-right: 5px solid none;
+border-top: 7px solid #228B22; 
+margin: 0;
+}</string>
                  </property>
                 </widget>
                </item>
@@ -887,15 +983,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Status:</string>
@@ -906,6 +1005,28 @@ margin: 0;
                 <widget class="QComboBox" name="status_comboBox">
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QComboBox{
+font: 10pt &quot;Inter&quot;;
+background-color: #fff;
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px
+}
+QComboBox::drop-down{
+border: none;
+background: transparent;
+}
+QComboBox::down-arrow {
+image: none;               
+border: none;              
+width: 0; height: 0;       
+border-left: 5px solid none; 
+border-right: 5px solid none;
+border-top: 7px solid #228B22; 
+margin: 0;
+}</string>
                  </property>
                 </widget>
                </item>
@@ -952,15 +1073,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>First Name:</string>
@@ -1011,6 +1135,14 @@ margin: 0;
                       <height>30</height>
                      </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">QLineEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+background-color: #fff;
+}</string>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -1059,15 +1191,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Last Name:</string>
@@ -1118,6 +1253,14 @@ margin: 0;
                       <height>30</height>
                      </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">QLineEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+background-color: #fff;
+}</string>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -1166,15 +1309,18 @@ margin: 0;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>80</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Address:</string>
@@ -1225,6 +1371,14 @@ margin: 0;
                       <height>30</height>
                      </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">QLineEdit{
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+background-color: #fff;
+}</string>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -1233,7 +1387,23 @@ margin: 0;
               </layout>
              </widget>
             </item>
-            <item alignment="Qt::AlignLeft|Qt::AlignTop">
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>10</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
              <widget class="QFrame" name="frame_24">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1248,11 +1418,14 @@ margin: 0;
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_22">
+               <property name="spacing">
+                <number>5</number>
+               </property>
                <property name="leftMargin">
                 <number>0</number>
                </property>
                <property name="topMargin">
-                <number>10</number>
+                <number>0</number>
                </property>
                <property name="rightMargin">
                 <number>0</number>
@@ -1265,18 +1438,15 @@ margin: 0;
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>85</width>
+                   <width>40</width>
                    <height>20</height>
                   </size>
                  </property>
                 </spacer>
                </item>
-               <item alignment="Qt::AlignLeft">
+               <item>
                 <widget class="QPushButton" name="createAcc_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1294,12 +1464,10 @@ margin: 0;
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">#createAcc_btn{
-background-color: #1654F3;
+                  <string notr="true">background-color: #228B22;
+font: 87 12pt &quot;Noto Sans Black&quot;;
 color: #fff;
-font-weight: bold;
-border-radius: 5px;
-}</string>
+border-radius: 5px;</string>
                  </property>
                  <property name="text">
                   <string>Create Account</string>
@@ -1308,6 +1476,19 @@ border-radius: 5px;
                </item>
               </layout>
              </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -1336,6 +1517,21 @@ border-radius: 5px;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QFrame" name="frame_37">
               <property name="sizePolicy">
@@ -1351,12 +1547,34 @@ border-radius: 5px;
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_32">
+               <property name="spacing">
+                <number>5</number>
+               </property>
+               <property name="leftMargin">
+                <number>9</number>
+               </property>
+               <property name="topMargin">
+                <number>9</number>
+               </property>
+               <property name="rightMargin">
+                <number>9</number>
+               </property>
+               <property name="bottomMargin">
+                <number>9</number>
+               </property>
                <item>
                 <widget class="QLabel" name="label_13">
                  <property name="font">
                   <font>
-                   <family>Inter</family>
+                   <family>Noto Sans SemiBold</family>
+                   <pointsize>10</pointsize>
+                   <weight>7</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
                   </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                  </property>
                  <property name="text">
                   <string>Requirements:</string>
@@ -1379,6 +1597,7 @@ color: red;
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
+              <layout class="QVBoxLayout" name="verticalLayout_3"/>
              </widget>
             </item>
            </layout>
@@ -1428,12 +1647,35 @@ border-radius:10px;
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>1</number>
+         </property>
          <item>
           <widget class="QLabel" name="label_6">
            <property name="font">
             <font>
-             <family>Inter</family>
+             <family>Noto Sans Black</family>
+             <pointsize>16</pointsize>
+             <weight>10</weight>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;</string>
            </property>
            <property name="text">
             <string>Preview:</string>
@@ -1481,6 +1723,18 @@ font: 10pt &quot;Inter&quot;;
          </property>
          <item>
           <widget class="QFrame" name="frame_28">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1488,16 +1742,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_23">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="username_preview_2">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Username:</string>
@@ -1506,6 +1790,12 @@ font: 10pt &quot;Inter&quot;;
             </item>
             <item>
              <widget class="QLabel" name="username_preview">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -1516,6 +1806,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_29">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1523,16 +1825,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_24">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_15">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Email:</string>
@@ -1551,6 +1883,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_30">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1558,16 +1902,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_25">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_16">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Password:</string>
@@ -1586,6 +1960,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_31">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1593,16 +1979,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_26">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_17">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Account ID:</string>
@@ -1621,6 +2037,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_32">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1628,16 +2056,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_27">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_18">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Role:</string>
@@ -1656,6 +2114,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_33">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1663,16 +2133,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_28">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_19">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Job:</string>
@@ -1691,6 +2191,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_34">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1698,16 +2210,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_29">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_20">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Status:</string>
@@ -1726,6 +2268,18 @@ font: 10pt &quot;Inter&quot;;
          </item>
          <item>
           <widget class="QFrame" name="frame_35">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1733,16 +2287,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_30">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_21">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Full Name:</string>
@@ -1774,16 +2358,46 @@ font: 10pt &quot;Inter&quot;;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_31">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item alignment="Qt::AlignTop">
              <widget class="QLabel" name="label_22">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <family>Inter</family>
+                <family>Noto Sans SemiBold</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>7</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
               </property>
               <property name="text">
                <string>Address:</string>
@@ -1799,7 +2413,7 @@ font: 10pt &quot;Inter&quot;;
                </sizepolicy>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is a long text that should wrap and adjust to the parent widget size.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="textFormat">
                <enum>Qt::AutoText</enum>
@@ -1822,8 +2436,6 @@ font: 10pt &quot;Inter&quot;;
     </widget>
    </item>
   </layout>
-  <zorder>frame_25</zorder>
-  <zorder>frame</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -28,6 +28,7 @@ class AccountsPage(QWidget, accounts_page):
         # username of the account logged in
         self.account_username = username
 
+        # button connections
         self.createAccount_btn.clicked.connect(self.create_account)
 
         self.collection = self.connect_to_db('accounts')
@@ -151,7 +152,6 @@ class AccountsPage(QWidget, accounts_page):
                 print(f"An error occurred: {e}")
 
             document = self.collection.find_one({'account_id': row_data[account_id_header_index]}) # get all data by username on the database
-            # print(f"USERNAME: {row_data[username_header_index]}")
             print(f"ACCOUNT ID: {row_data[account_id_header_index]}")
             object_id = document['_id'] # get _id of username
 
@@ -167,7 +167,6 @@ class AccountsPage(QWidget, accounts_page):
             self.job = document['job']
             self.account_status = document['status']
             self.last_login = document['last_login']
-            print(f"CLICKED ACCOUNT ID {self.accountID}")
 
             self.selected_row = row_index
             
