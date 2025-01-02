@@ -6,10 +6,11 @@ from utils.Hashpassword import HashPassword
 from utils.Validation import Validator
 
 import pymongo
-# from ui.employee.profilePage import Ui_Form as profile_page
-from ui.NEW.employee.profile import Ui_Form as Ui_profile_page
+from ui.employee.profilePage import Ui_Form as profile_page
+# from ui.NEW.employee.profile import Ui_Form as Ui_profile_page
 
-class ProfilePage(QWidget, Ui_profile_page):
+
+class ProfilePage(QWidget, profile_page):
     def __init__(self, username, dashboard_mainWindow=None):
         super().__init__()
         self.setupUi(self)
