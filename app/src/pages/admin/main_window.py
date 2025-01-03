@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import QTimer, Qt, QSize
+from PyQt6.QtGui import QPixmap, QIcon
 
 # from ui.main_window import Ui_MainWindow
 from ui.final_ui.main_window import Ui_MainWindow
@@ -24,6 +24,7 @@ from pages.admin.backp_restore import BackupRestorePage
 from pages.admin.archive_page import ArchivePage
 from pages.admin.sales_report_page import SalesReportPage
 from pages.admin.prices_page import PricesPage
+from pages.admin.profile_page import ProfilePage
 import re
 import json
 import os
@@ -41,44 +42,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         client = MongoClient('mongodb://localhost:27017/')
         db = client['LPGTrading_DB']
-        self.collection = db['accounts']  
-
-        try:
-            if username:
-                self.username.setText(username) # set username in the dashboard
-            else:
-                self.username.setText("Unknown User") # set username in the dashboard
-        except Exception as e:
-            print(e)
+        self.collection = db['accounts']
 
         self.content_window_layout = QStackedLayout(self.content_widget)
 
         dashboard_section = Dashboard(username, self) # index 0
         self.content_window_layout.addWidget(dashboard_section)
 
-        # empty_widget = QWidget()
-        # self.content_window_layout.insertWidget(0, empty_widget)
+        price_section = PricesPage(self) # index 1
+        self.content_window_layout.addWidget(price_section)
 
-        activityLogs_section = Activity_Logs(self) # index 1
-        self.content_window_layout.addWidget(activityLogs_section)
-
-        self.accounts_section = AccountsPage(username, self) # index 2
-        self.content_window_layout.addWidget(self.accounts_section)
-
-        self.new_account_section = NewAccountPage(username, self) # index 3
-        self.content_window_layout.addWidget(self.new_account_section)
-
-        inventory_section = ItemsPage(username, self) # index 4
+        inventory_section = ItemsPage(username, self) # index 2
         self.content_window_layout.addWidget(inventory_section)
 
-        # addItem_section = NewItem(self, username) # index 5
-        # self.content_window_layout.addWidget(addItem_section)
-        
-        settings_section = settingsPage(self) # index 5
-        self.content_window_layout.addWidget(settings_section)
-
-        order_section = OrderPage(self) # index 6
+        order_section = OrderPage(self) # index 3
         self.content_window_layout.addWidget(order_section)
+
+        sales_section = SalesReportPage(self) # index 4
+        self.content_window_layout.addWidget(sales_section)
+
+        activityLogs_section = Activity_Logs(self) # index 5
+        self.content_window_layout.addWidget(activityLogs_section)
+        
+        settings_section = settingsPage(self) # index 6
+        self.content_window_layout.addWidget(settings_section)
 
         backupRestore_section = BackupRestorePage(self) # index 7
         self.content_window_layout.addWidget(backupRestore_section)
@@ -86,11 +73,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         archive_section = ArchivePage(self) # index 8
         self.content_window_layout.addWidget(archive_section)
 
-        sales_section = SalesReportPage(self) # index 9
-        self.content_window_layout.addWidget(sales_section)
+        self.accounts_section = AccountsPage(username, self) # index 9
+        self.content_window_layout.addWidget(self.accounts_section)
 
-        price_section = PricesPage(self) # index 10
-        self.content_window_layout.addWidget(price_section)
+        self.profile_page = ProfilePage(username, self) # index 10
+        self.content_window_layout.addWidget(self.profile_page)
+
+        self.new_account_section = NewAccountPage(username, self) # index 10 WALA NA DAPAT
+        self.content_window_layout.addWidget(self.new_account_section)
 
         self.buttons = [
             self.dashboard_pushButton,
@@ -120,28 +110,67 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ]
 
         self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_logo, self.frame_4, self.dashboard_pushButton, 0))
-        self.activityLogs_pushButton.clicked.connect(lambda: self.button_clicked(self.activity_logs_logo, self.frame_10, self.activityLogs_pushButton, 1))
-        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 2))
-        self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 4))
-        self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
-        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 5))
-        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 6))
+        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 1))
+        self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 2))
+        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 3))
+        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.sales_report_logo, self.frame_9, self.salesReport_pushButton, 4))
+        self.activityLogs_pushButton.clicked.connect(lambda: self.button_clicked(self.activity_logs_logo, self.frame_10, self.activityLogs_pushButton, 5))
+        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 6))
         self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backup_restore_logo, self.frame_13, self.backupRestore_pushButton, 7))
         self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 8))
-        self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.sales_report_logo, self.frame_9, self.salesReport_pushButton, 9))
-        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 10))
+        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 9))
+        self.profile_pushButton.clicked.connect(lambda: self.content_window_layout.setCurrentIndex(10))
+        self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
         self.systemSettings_pushButton.clicked.connect(lambda: self.show_system_settings_btn())
 
-        # print(f'Current index: {self.get_current_index()}')
-
         self.get_current_index()
-
         # call function to hide button once
         self.hide_buttons()
-
         self.add_graphics()
+        self.set_current_page_name()
+        self.set_username_label()
+
+    def set_username_label(self):
+        """set label to current account's username"""
+        try:
+            if self.account_username:
+                self.username_label.setText(self.account_username) # set username in the dashboard
+            else:
+                self.username_label.setText("Unknown User") # set username in the dashboard
+        except Exception as e:
+            print(e)
+            
+    def set_current_page_name(self):
+        """Set label to current page"""
+        current_index = self.get_current_index()
+        match current_index:
+            case 0:
+                self.current_page_label.setText("Dashboard")
+            case 1:
+                self.current_page_label.setText("Price")
+            case 2:
+                self.current_page_label.setText("Inventory")
+            case 3:
+                self.current_page_label.setText("Orders")
+            case 4:
+                self.current_page_label.setText("Sales")
+            case 5:
+                self.current_page_label.setText("Activity Logs")
+            case 6:
+                self.current_page_label.setText("Settings")
+            case 7:
+                self.current_page_label.setText("Backup and Restore")
+            case 8:
+                self.current_page_label.setText("Archive")
+            case 9:
+                self.current_page_label.setText("Accounts")
+
+    def set_profile_icon(self):
+        """Add icon to profile button"""
+        self.profile_pushButton.setIcon(QIcon("app/resources/icons/black-theme/user.png"))
+        self.profile_pushButton.setIconSize(QSize(17, 17))
 
     def add_graphics(self):
         """Add graphics to widgets (shadows, icons, others effects etc.)"""
@@ -150,8 +179,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.set_system_logo()
 
+        self.set_profile_icon()
+
         graphics = AddGraphics()
         graphics.shadow_effect(self.frame, blur=10, x=-4, y=4, alpha=50)
+        graphics.shadow_effect(self.profile_pushButton, blur=4, x=0, y=0, alpha=50)
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
@@ -175,72 +207,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Ensure the QLabel does not distort the pixmap
         self.logo.setScaledContents(True)
 
-    def set_btn_icons(self):
-        """Set icons for the buttons"""
-        dashboard_icon = QPixmap("app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.file_name = os.path.basename("app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.setPixmap(dashboard_icon)
-        self.dashboard_logo.setScaledContents(True)
-
-        prices_icon = QPixmap("app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.setPixmap(prices_icon)
-        self.prices_logo.setScaledContents(True)
-
-        inventory_icon = QPixmap("app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.file_name = os.path.basename("app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.setPixmap(inventory_icon)
-        self.inventory_logo.setScaledContents(True)
-
-        orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
-        self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
-        self.orders_logo.setPixmap(orders_icon)
-        self.orders_logo.setScaledContents(True)
-
-        reportsLogs_icon = QPixmap("app/resources/icons/black-theme/file.png")
-        self.reports_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/file.png")
-        self.reports_logs_logo.setPixmap(reportsLogs_icon)
-        self.reports_logs_logo.setScaledContents(True)
-        
-        sales_icon = QPixmap("app/resources/icons/black-theme/sales.png")
-        self.sales_report_logo.file_name = os.path.basename("app/resources/icons/black-theme/sales.png")
-        self.sales_report_logo.setPixmap(sales_icon)
-        self.sales_report_logo.setScaledContents(True)
-        
-        act_logs_icon = QPixmap("app/resources/icons/black-theme/restore.png")
-        self.activity_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/restore.png")
-        self.activity_logs_logo.setPixmap(act_logs_icon)
-        self.activity_logs_logo.setScaledContents(True)
-        
-        system_udpate_icon = QPixmap("app/resources/icons/black-theme/system-update.png")
-        self.system_settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/system-update.png")
-        self.system_settings_logo.setPixmap(system_udpate_icon)
-        self.system_settings_logo.setScaledContents(True)
-        
-        setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
-        self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
-        self.settings_logo.setPixmap(setting_icon)
-        self.settings_logo.setScaledContents(True)
-
-        backup_restore_icon = QPixmap("app/resources/icons/black-theme/database.png")
-        self.backup_restore_logo.file_name = os.path.basename("app/resources/icons/black-theme/database.png")
-        self.backup_restore_logo.setPixmap(backup_restore_icon)
-        self.backup_restore_logo.setScaledContents(True)
-        
-        archive_icon = QPixmap("app/resources/icons/black-theme/archive.png")
-        self.archive_logo.file_name = os.path.basename("app/resources/icons/black-theme/archive.png")
-        self.archive_logo.setPixmap(archive_icon)
-        self.archive_logo.setScaledContents(True)
-
-        accounts_icon = QPixmap("app/resources/icons/black-theme/user.png")
-        self.accounts_logo.file_name = os.path.basename("app/resources/icons/black-theme/user.png")
-        self.accounts_logo.setPixmap(accounts_icon)
-        self.accounts_logo.setScaledContents(True)
-        
-        logout_icon = QPixmap("app/resources/icons/black-theme/logout.png")
-        self.logout_logo.file_name = os.path.basename("app/resources/icons/black-theme/logout.png")
-        self.logout_logo.setPixmap(logout_icon)
-        self.logout_logo.setScaledContents(True)
 
     def show_system_settings_btn(self):
         def show_buttons():
@@ -409,6 +375,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if index is not None:
             self.content_window_layout.setCurrentIndex(index)
             print(f'Current Index: {self.get_current_index()}')
+            self.set_current_page_name()
             # self.current_index_update()
         else:
             print(f"{button.objectName()} button clicked.")
@@ -464,3 +431,70 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 background-color: #228B22;
             }
         """)
+        
+    def set_btn_icons(self):
+        """Set icons for the buttons"""
+        dashboard_icon = QPixmap("app/resources/icons/black-theme/dashboard.png")
+        self.dashboard_logo.file_name = os.path.basename("app/resources/icons/black-theme/dashboard.png")
+        self.dashboard_logo.setPixmap(dashboard_icon)
+        self.dashboard_logo.setScaledContents(True)
+
+        prices_icon = QPixmap("app/resources/icons/black-theme/price-tag.png")
+        self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
+        self.prices_logo.setPixmap(prices_icon)
+        self.prices_logo.setScaledContents(True)
+
+        inventory_icon = QPixmap("app/resources/icons/black-theme/inventory.png")
+        self.inventory_logo.file_name = os.path.basename("app/resources/icons/black-theme/inventory.png")
+        self.inventory_logo.setPixmap(inventory_icon)
+        self.inventory_logo.setScaledContents(True)
+
+        orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
+        self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
+        self.orders_logo.setPixmap(orders_icon)
+        self.orders_logo.setScaledContents(True)
+
+        reportsLogs_icon = QPixmap("app/resources/icons/black-theme/file.png")
+        self.reports_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/file.png")
+        self.reports_logs_logo.setPixmap(reportsLogs_icon)
+        self.reports_logs_logo.setScaledContents(True)
+        
+        sales_icon = QPixmap("app/resources/icons/black-theme/sales.png")
+        self.sales_report_logo.file_name = os.path.basename("app/resources/icons/black-theme/sales.png")
+        self.sales_report_logo.setPixmap(sales_icon)
+        self.sales_report_logo.setScaledContents(True)
+        
+        act_logs_icon = QPixmap("app/resources/icons/black-theme/restore.png")
+        self.activity_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/restore.png")
+        self.activity_logs_logo.setPixmap(act_logs_icon)
+        self.activity_logs_logo.setScaledContents(True)
+        
+        system_udpate_icon = QPixmap("app/resources/icons/black-theme/system-update.png")
+        self.system_settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/system-update.png")
+        self.system_settings_logo.setPixmap(system_udpate_icon)
+        self.system_settings_logo.setScaledContents(True)
+        
+        setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
+        self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
+        self.settings_logo.setPixmap(setting_icon)
+        self.settings_logo.setScaledContents(True)
+
+        backup_restore_icon = QPixmap("app/resources/icons/black-theme/database.png")
+        self.backup_restore_logo.file_name = os.path.basename("app/resources/icons/black-theme/database.png")
+        self.backup_restore_logo.setPixmap(backup_restore_icon)
+        self.backup_restore_logo.setScaledContents(True)
+        
+        archive_icon = QPixmap("app/resources/icons/black-theme/archive.png")
+        self.archive_logo.file_name = os.path.basename("app/resources/icons/black-theme/archive.png")
+        self.archive_logo.setPixmap(archive_icon)
+        self.archive_logo.setScaledContents(True)
+
+        accounts_icon = QPixmap("app/resources/icons/black-theme/user.png")
+        self.accounts_logo.file_name = os.path.basename("app/resources/icons/black-theme/user.png")
+        self.accounts_logo.setPixmap(accounts_icon)
+        self.accounts_logo.setScaledContents(True)
+        
+        logout_icon = QPixmap("app/resources/icons/black-theme/logout.png")
+        self.logout_logo.file_name = os.path.basename("app/resources/icons/black-theme/logout.png")
+        self.logout_logo.setPixmap(logout_icon)
+        self.logout_logo.setScaledContents(True)
