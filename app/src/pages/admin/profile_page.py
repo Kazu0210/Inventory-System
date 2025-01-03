@@ -47,8 +47,6 @@ class UpdateProfile(QWidget, update_profile_page):
             'job': job,
         }
 
-        print(f'New profile Data: {data}')
-
         # Define the filter for the document to update
         filter = {
             'username': self.username
@@ -57,11 +55,11 @@ class UpdateProfile(QWidget, update_profile_page):
         try:
             # Perform the update operation
             self.connect_to_db('accounts').update_one(filter, {'$set': data})
-            print("Profile updated successfully.")
             QMessageBox.information(self, "Success", "Profile updated successfully.")
             self.close()
         except Exception as e:
             print(f'Error: {e}')
+            QMessageBox.critical(self, "Error", "An Error Occured while updating your profile.")
 
     def get_data_db(self, username):
         """get data from database using username"""

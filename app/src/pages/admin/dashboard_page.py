@@ -64,14 +64,14 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # Initialize monitor to update total sales label
         self.sales_monitor = InventoryMonitor('sales')
         self.sales_monitor.start_listener_in_background()
-        self.sales_monitor.data_changed_signal.connect(self.update_total_sales)
+        self.sales_monitor.data_changed_signal.connect(self.update_today_sales)
 
         # Call the function to update the cylinder list
         self.update_cylinder_list()
         self.update_total_products()
         # Call funcion that display order summary once
         self.display_total_orders()
-        self.update_total_sales()
+        self.update_today_sales()
         self.update_total_orders()
         self.update_low_stock_label()
 
@@ -125,37 +125,39 @@ class Dashboard(QWidget, Ui_dashboard_page):
         except Exception as e:
             print(f"Error getting total orders: {e}")
 
+    def update_today_sales(self):
+        """Update the total sales today label"""
+        sales = self.update_total_sales()
+        formatted = f"{sales:,.2f}"
+        self.total_sales_label.setText(formatted)
+
     def update_total_sales(self):
         """Update total sales label (current sales today)"""
-        try:
-            # Get the start and end of the current day
-            today_start = datetime.combine(datetime.today(), datetime.min.time())
-            today_end = datetime.combine(datetime.today(), datetime.max.time())
-
-            # MongoDB aggregation pipeline
-            pipeline = [
-                {
-                    "$match": {
-                        "date": {"$gte": today_start, "$lt": today_end}  # Filter by today's range
-                    }
-                },
-                {
-                    "$group": {
-                        "_id": None,  # No specific grouping
-                        "total_sales": {"$sum": "$total_amount"}  # Sum the sales
-                    }
+        # Define the start of the day (midnight) for today
+        today_start = datetime.combine(datetime.now().date(), datetime.min.time())
+        pipeline = [
+            {
+                "$match": {
+                    "sale_date": {"$gte": today_start}
                 }
-            ]
+            },
+            {
+                "$group": {
+                    "_id": None,
+                    "total_sales": {"$sum": "$total_value"}
+                }
+            }
+        ]
+        result = list(self.connect_to_db("sales").aggregate(pipeline))  # Convert result to a list for easier handling
+        # print(f'results: {result}')
 
-            # Execute the aggregation query
-            result = self.connect_to_db("sales").aggregate(pipeline)
-            total_sales = next(result, {}).get('total_sales', 0)  # Get the total or default to 0
+        # print(f'today start date: {today_start}')
 
-            # Update the label
-            self.total_sales_label.setText(f"{total_sales:,.2f}")
-            print(f"Total sales: {total_sales:.2f}")
-        except Exception as e:
-            print(f"Error getting total sales: {e}")
+        if result:  # If result is not empty
+            total_sales = result[0].get("total_sales", 0)
+            return total_sales
+        else:
+            return 0  # Default to 0 if no sales found
 
     def expand_total_prods(self):
         """Expand total products frame"""
