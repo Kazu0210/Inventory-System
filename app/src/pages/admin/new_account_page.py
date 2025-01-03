@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QApplication, QStackedLayout, QFrame
-from PyQt6.QtCore import QTimer
+from PyQt6.QtWidgets import QWidget, QApplication, QStackedLayout, QFrame, QMessageBox
+from PyQt6.QtCore import QTimer, Qt
 
 from ui.NEW.new_account_page import Ui_Form as Ui_new_account_page
 
@@ -13,10 +13,10 @@ from utils.Activity_logs import Activity_Logs
 import sys, json, time, random, pymongo, os
 
 class NewAccountPage(QWidget, Ui_new_account_page):
-    def __init__(self, username, parent_window=None):
+    def __init__(self, username):
         super().__init__()
         self.setupUi(self)
-        self.parent_window = parent_window
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         if username != None:
             self.account_username = username # logged in account's username
@@ -201,8 +201,8 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         # Clear Create Account Form
         self.clear_form()
 
-        self.parent_window.content_window_layout.setCurrentIndex(2)
-
+        QMessageBox.information(self, "Account Created", "Account created successfully")
+        self.close()
 
     def highlight_empty_fields(self, fields):
         for field in fields:

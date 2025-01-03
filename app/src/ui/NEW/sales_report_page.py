@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1037, 641)
+        Form.resize(709, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
@@ -56,7 +56,7 @@ class Ui_Form(object):
 "                margin: 0px 0px 0px 0px;\n"
 "            }\n"
 "            QScrollBar::handle:horizontal {\n"
-"                background: #555;\n"
+"                background: #90A4AE;\n"
 "                border-radius: 7px;\n"
 "                min-width: 30px;\n"
 "            }\n"
@@ -70,26 +70,12 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-73, 0, 1093, 1656))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-398, 0, 1093, 1610))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.frame_18 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
-        self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_18.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_18.setObjectName("frame_18")
-        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_18)
-        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_10.setSpacing(0)
-        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.label_7 = QtWidgets.QLabel(parent=self.frame_18)
-        self.label_7.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;")
-        self.label_7.setObjectName("label_7")
-        self.horizontalLayout_10.addWidget(self.label_7, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.verticalLayout_3.addWidget(self.frame_18)
         self.frame_4 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_4.setStyleSheet("#frame_4{\n"
 "background-color: #fff;\n"
@@ -159,16 +145,9 @@ class Ui_Form(object):
         self.total_sales_label.setObjectName("total_sales_label")
         self.verticalLayout_12.addWidget(self.total_sales_label)
         self.horizontalLayout_3.addWidget(self.frame)
-        self.verticalLayout_3.addWidget(self.frame_4, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.frame_13 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
-        self.frame_13.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_13.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_13.setObjectName("frame_13")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_13)
-        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_7.setSpacing(5)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.verticalLayout_3.addWidget(self.frame_13)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem)
+        self.verticalLayout_3.addWidget(self.frame_4)
         self.frame_6 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_6.setStyleSheet("#frame_6{\n"
 "background-color: #fff;\n"
@@ -357,6 +336,7 @@ class Ui_Form(object):
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_8.setObjectName("frame_8")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_8)
+        self.verticalLayout_4.setSpacing(5)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.frame_11 = QtWidgets.QFrame(parent=self.frame_8)
         self.frame_11.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -371,8 +351,8 @@ class Ui_Form(object):
 "color: #333333;")
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_6.addWidget(self.label_3)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem1)
         self.verticalLayout_4.addWidget(self.frame_11)
         self.scrollArea_2 = QtWidgets.QScrollArea(parent=self.frame_8)
         self.scrollArea_2.setMinimumSize(QtCore.QSize(700, 0))
@@ -382,7 +362,7 @@ class Ui_Form(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 700, 640))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 700, 641))
         self.scrollAreaWidgetContents_2.setStyleSheet("border: none;")
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
@@ -435,8 +415,8 @@ class Ui_Form(object):
 "")
         self.best_selling_label.setObjectName("best_selling_label")
         self.horizontalLayout_7.addWidget(self.best_selling_label)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem2)
         self.verticalLayout_5.addWidget(self.frame_12, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.best_selling_scrollArea = QtWidgets.QScrollArea(parent=self.frame_9)
         self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(350, 250))
@@ -505,7 +485,6 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label_7.setText(_translate("Form", "Sales "))
         self.label_2.setText(_translate("Form", "Revenue This Month:"))
         self.revenue_month_label.setText(_translate("Form", "0"))
         self.label.setText(_translate("Form", "Total Sales Today:"))

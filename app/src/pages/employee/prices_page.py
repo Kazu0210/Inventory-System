@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout, QAbstractItemView, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QBrush, QColor
+from PyQt6.QtGui import QBrush, QColor, QIcon
 from ui.final_ui.prices_page import Ui_Form as Ui_price_page
 
 from utils.Inventory_Monitor import InventoryMonitor
@@ -8,7 +8,7 @@ from utils.Graphics import AddGraphics
 
 import json, pymongo, datetime, re, os
 
-class PricePage(QWidget, Ui_price_page):
+class PricesPage(QWidget, Ui_price_page):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
@@ -42,6 +42,10 @@ class PricePage(QWidget, Ui_price_page):
         self.searchBar_lineEdit.setMaxLength(50)
 
         self.add_graphics()
+    
+    def set_search_icon(self):
+        """Add icon to search button"""
+        self.search_pushButton.setIcon(QIcon("app/resources/icons/black-theme/search.png"))
 
     def handle_search_change(self):
         """Check if the search bar is empty"""
@@ -63,8 +67,9 @@ class PricePage(QWidget, Ui_price_page):
     def add_graphics(self):
         """Add shadows, etc. to widgets."""
         graphics = AddGraphics()
-        graphics.shadow_effect(self.price_history_tableWidget, blur=10, x=-0, y=0, alpha=160)
-        graphics.shadow_effect(self.prices_tableWidget, blur=10, x=-0, y=0, alpha=160)
+        # graphics.shadow_effect(self.price_history_tableWidget, blur=10, x=-0, y=0, alpha=160)
+
+        self.set_search_icon()
 
     def find_product_by_name_or_id(self, product_data):
         """Searches the collection using product id or product name"""
@@ -109,57 +114,57 @@ class PricePage(QWidget, Ui_price_page):
         table.setRowCount(0)  # Clear the table
 
         table.setStyleSheet("""
-        QTableWidget{
-        border-radius: 5px;
-        background-color: #fff;
-        color: #000;
-        }
-        QHeaderView:Section{
-        background-color: #032F30;
-        color: #fff;               
-        font: bold 12pt "Noto Sans";
-        }
-        QTableWidget::item {
-            border: none;  /* Remove border from each item */
-            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
-        }
-            QScrollBar:vertical {
-                border: none;
-                background: #0C959B;
-                width: 13px;
-                margin: 0px 0px 0px 0px;
+            QTableWidget{
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
             }
-            QScrollBar::handle:vertical {
-                background: #002E2C;
-                border-radius: 7px;
-                min-height: 30px;
+            QHeaderView:Section{
+            background-color: #228B22;
+            color: #fff;               
+            font: bold 12pt "Noto Sans";
             }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-                background: none;
+            QTableWidget::item {
+                border: none;  /* Remove border from each item */
+                padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
             }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-                background: #0C959B;
-            }
-            QScrollBar:horizontal {
-                border: none;
-                background: #f0f0f0;
-                height: 14px;
-                margin: 0px 0px 0px 0px;
-            }
-            QScrollBar::handle:horizontal {
-                background: #555;
-                border-radius: 7px;
-                min-width: 30px;
-            }
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                width: 0px;
-                background: none;
-            }
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: #f0f0f0;
-            }
-        """)
+                QScrollBar:vertical {
+                    border: none;
+                    background: #0C959B;
+                    width: 13px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #002E2C;
+                    border-radius: 7px;
+                    min-height: 30px;
+                }
+                QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                    height: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: #0C959B;
+                }
+                QScrollBar:horizontal {
+                    border: none;
+                    background: #f0f0f0;
+                    height: 14px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:horizontal {
+                    background: #555;
+                    border-radius: 7px;
+                    min-width: 30px;
+                }
+                QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                    width: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                    background: #f0f0f0;
+                }
+            """)
 
         # header json directory
         header_dir = "app/resources/config/table/priceHistory_tableHeader.json"
@@ -321,57 +326,57 @@ class PricePage(QWidget, Ui_price_page):
         table.setRowCount(0)  # Clear the table
 
         table.setStyleSheet("""
-        QTableWidget{
-        border-radius: 5px;
-        background-color: #fff;
-        color: #000;
-        }
-        QHeaderView:Section{
-        background-color: #032F30;
-        color: #fff;               
-        font: bold 12pt "Noto Sans";
-        }
-        QTableWidget::item {
-            border: none;  /* Remove border from each item */
-            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
-        }
-            QScrollBar:vertical {
-                border: none;
-                background: #0C959B;
-                width: 13px;
-                margin: 0px 0px 0px 0px;
+            QTableWidget{
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
             }
-            QScrollBar::handle:vertical {
-                background: #002E2C;
-                border-radius: 7px;
-                min-height: 30px;
+            QHeaderView:Section{
+            background-color: #228B22;
+            color: #fff;               
+            font: bold 12pt "Noto Sans";
             }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-                background: none;
+            QTableWidget::item {
+                border: none;  /* Remove border from each item */
+                padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
             }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-                background: #0C959B;
-            }
-            QScrollBar:horizontal {
-                border: none;
-                background: #f0f0f0;
-                height: 14px;
-                margin: 0px 0px 0px 0px;
-            }
-            QScrollBar::handle:horizontal {
-                background: #555;
-                border-radius: 7px;
-                min-width: 30px;
-            }
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                width: 0px;
-                background: none;
-            }
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: #f0f0f0;
-            }
-        """)
+                QScrollBar:vertical {
+                    border: none;
+                    background: #0C959B;
+                    width: 13px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #002E2C;
+                    border-radius: 7px;
+                    min-height: 30px;
+                }
+                QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                    height: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: #0C959B;
+                }
+                QScrollBar:horizontal {
+                    border: none;
+                    background: #f0f0f0;
+                    height: 14px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:horizontal {
+                    background: #555;
+                    border-radius: 7px;
+                    min-width: 30px;
+                }
+                QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                    width: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                    background: #f0f0f0;
+                }
+            """)
 
         # Header JSON directory
         header_dir = "app/resources/config/table/prices_tableHeader.json"

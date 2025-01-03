@@ -23,11 +23,8 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
         self.scrollArea.setStyleSheet("#scrollArea{\n"
-"background-color: #EAEAEA;\n"
 "border: none;\n"
-"border-radius: 5px;\n"
 "}\n"
-"\n"
 "QScrollBar:hover{\n"
 " cursor: pointer;\n"
 "}\n"
@@ -56,9 +53,9 @@ class Ui_Form(object):
 "                margin: 0px 0px 0px 0px;\n"
 "            }\n"
 "            QScrollBar::handle:horizontal {\n"
-"                background: #555;\n"
+"                background: #90A4AE;\n"
 "                border-radius: 7px;\n"
-"                min-width: 30px;\n"
+"                min-width: 14px;\n"
 "            }\n"
 "            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
 "                width: 0px;\n"
@@ -70,7 +67,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-71, 0, 1045, 544))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1045, 547))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -85,20 +82,6 @@ class Ui_Form(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setSpacing(5)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.frame_4 = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_4.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_4.setObjectName("frame_4")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_4)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setSpacing(0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.label = QtWidgets.QLabel(parent=self.frame_4)
-        self.label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;")
-        self.label.setObjectName("label")
-        self.horizontalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.verticalLayout_2.addWidget(self.frame_4)
         self.frame_3 = QtWidgets.QFrame(parent=self.frame_2)
         self.frame_3.setStyleSheet("#frame_3{\n"
 "background-color: #fff;\n"
@@ -207,7 +190,7 @@ class Ui_Form(object):
         self.archive_account_frame.setObjectName("archive_account_frame")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.archive_account_frame)
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setSpacing(10)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.frame_8 = QtWidgets.QFrame(parent=self.archive_account_frame)
         self.frame_8.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -338,6 +321,7 @@ class Ui_Form(object):
         self.label_13.setObjectName("label_13")
         self.horizontalLayout_7.addWidget(self.label_13)
         self.lastlogin_label = QtWidgets.QLabel(parent=self.frame_9)
+        self.lastlogin_label.setStyleSheet("color: red;")
         self.lastlogin_label.setText("")
         self.lastlogin_label.setObjectName("lastlogin_label")
         self.horizontalLayout_7.addWidget(self.lastlogin_label)
@@ -548,7 +532,6 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "Archive"))
         self.accounts_pushButton.setText(_translate("Form", "Archived Accounts"))
         self.products_pushButton.setText(_translate("Form", "Archived Products"))
         self.table_name_label.setText(_translate("Form", "Table"))

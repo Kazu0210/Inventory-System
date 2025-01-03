@@ -552,14 +552,17 @@ class ArchivePage(QWidget, Ui_archive):
                     if value is not None:
 
                         if header == "lastlogin":
-                            print(f'IF PAKENING WORK!')
-                            parsed_datetime = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                            if value:
+                                try:
+                                    parsed_datetime = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
 
-                            # Format the date and time
-                            formatted_date = parsed_datetime.strftime("%Y/%m/%d")
-                            formatted_time = parsed_datetime.strftime("%H:%M:%S")
+                                    # Format the date and time
+                                    formatted_date = parsed_datetime.strftime("%Y/%m/%d")
+                                    formatted_time = parsed_datetime.strftime("%H:%M:%S")
 
-                            value = f'{formatted_date}, {formatted_time}'
+                                    value = f'{formatted_date}, {formatted_time}'
+                                except Exception as e:
+                                    print(f'An error occured: {e}')
 
                         # Add the value to the table as a QTableWidgetItem
                         table_item = QTableWidgetItem(str(value))

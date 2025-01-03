@@ -25,6 +25,7 @@ class Ui_frame_info(object):
         self.prod_name_label.setObjectName("prod_name_label")
         self.horizontalLayout.addWidget(self.prod_name_label)
         self.quantity_label = QtWidgets.QLabel(parent=frame_info)
+        self.quantity_label.setStyleSheet("color: #333333;")
         self.quantity_label.setObjectName("quantity_label")
         self.horizontalLayout.addWidget(self.quantity_label)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)

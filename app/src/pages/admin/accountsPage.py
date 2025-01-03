@@ -5,6 +5,7 @@ from PyQt6.QtGui import QBrush, QColor
 
 from ui.NEW.accounts_page import Ui_Form as accounts_page
 from pages.admin.edit_account_page import editAccountPage
+from pages.admin.new_account_page import NewAccountPage
 
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
@@ -61,6 +62,13 @@ class AccountsPage(QWidget, accounts_page):
 
         self.current_logged_in()
 
+    def create_account(self):
+        """handle click event of create account button"""
+        print(f'Create account button clicked')
+
+        self.create_account_page = NewAccountPage(self.account_username)
+        self.create_account_page.show()
+
     def current_logged_in(self):
         # get the current logged in user's account id
         logged_in_account = self.account_username
@@ -102,10 +110,6 @@ class AccountsPage(QWidget, accounts_page):
 
     def get_accounts_table(self):
         return self._accounts_table
-
-    def create_account(self):
-        if self.dashboard_mainWindow:
-            self.dashboard_mainWindow.content_window_layout.setCurrentIndex(3)
 
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)

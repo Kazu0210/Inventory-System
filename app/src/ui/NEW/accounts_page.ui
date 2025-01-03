@@ -92,65 +92,11 @@ font: 10pt &quot;Noto Sans&quot;;
            <number>0</number>
           </property>
           <item>
-           <widget class="QFrame" name="frame_24">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_20">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_19">
-               <property name="styleSheet">
-                <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;</string>
-               </property>
-               <property name="text">
-                <string>Accounts</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QFrame" name="frame_8">
-            <property name="minimumSize">
-             <size>
-              <width>225</width>
-              <height>80</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>225</width>
-              <height>80</height>
-             </size>
-            </property>
+           <widget class="QFrame" name="frame_21">
             <property name="styleSheet">
-             <string notr="true">#frame_8{
+             <string notr="true">#frame_21{
 background-color: #fff;
-border: 1px solid #228B22;
 border-radius: 5px;
-}
-*{
-background-color: transparent;
 }</string>
             </property>
             <property name="frameShape">
@@ -159,59 +105,106 @@ background-color: transparent;
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <property name="spacing">
-              <number>5</number>
-             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
-              <widget class="QLabel" name="label_12">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Noto Sans SemiBold</family>
-                 <pointsize>12</pointsize>
-                 <weight>7</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-               </property>
-               <property name="text">
-                <string>Total Accounts:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="total_account_label">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+              <widget class="QFrame" name="frame_8">
                <property name="minimumSize">
                 <size>
-                 <width>50</width>
-                 <height>0</height>
+                 <width>225</width>
+                 <height>80</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>225</width>
+                 <height>80</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+                <string notr="true">#frame_8{
+background-color: #fff;
+border: 1px solid #228B22;
+border-radius: 5px;
+}
+*{
+background-color: transparent;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <property name="spacing">
+                 <number>5</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_12">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans SemiBold</family>
+                    <pointsize>12</pointsize>
+                    <weight>7</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+                  </property>
+                  <property name="text">
+                   <string>Total Accounts:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="total_account_label">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>50</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
 color: #333333;
 </string>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
+                  </property>
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -429,6 +422,19 @@ margin: 0;
                   </layout>
                  </widget>
                 </item>
+                <item>
+                 <spacer name="horizontalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
                </layout>
               </widget>
              </item>
@@ -483,6 +489,9 @@ background-color: transparent;
                    <property name="topMargin">
                     <number>0</number>
                    </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
@@ -502,7 +511,7 @@ background-color: transparent;
 color: #333333;</string>
                      </property>
                      <property name="text">
-                      <string>Account Management</string>
+                      <string>Accounts Table</string>
                      </property>
                     </widget>
                    </item>
@@ -748,7 +757,7 @@ color: #333333;</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <property name="spacing">
-                 <number>5</number>
+                 <number>10</number>
                 </property>
                 <property name="leftMargin">
                  <number>9</number>

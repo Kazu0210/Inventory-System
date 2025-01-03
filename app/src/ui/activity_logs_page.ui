@@ -40,7 +40,46 @@ font: 10pt &quot;Noto Sans&quot;;
      <property name="styleSheet">
       <string notr="true">#scrollArea{
 border: none;
-}</string>
+}
+QScrollBar:hover{
+ cursor: pointer;
+}
+            QScrollBar:vertical {
+                border: none;
+                background: #F0F0F0;
+                width: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #90A4AE;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #F0F0F0;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #90A4AE;
+                border-radius: 7px;
+                min-width: 14px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }</string>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
@@ -50,8 +89,8 @@ border: none;
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>774</width>
-        <height>633</height>
+        <width>777</width>
+        <height>651</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -70,44 +109,6 @@ border: none;
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item>
-        <widget class="QFrame" name="frame_2">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QLabel" name="label">
-            <property name="styleSheet">
-             <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;</string>
-            </property>
-            <property name="text">
-             <string>Activity Logs</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item alignment="Qt::AlignLeft">
         <widget class="QFrame" name="frame">
          <property name="styleSheet">
@@ -312,102 +313,185 @@ margin: 0;
            <number>0</number>
           </property>
           <item>
-           <widget class="QTableWidget" name="tableWidget">
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>500</height>
-             </size>
-            </property>
+           <widget class="QFrame" name="frame_2">
             <property name="styleSheet">
-             <string notr="true">#tableWidget{
-border:none;
+             <string notr="true">*{
+background-color: transparent;
+}
+#frame_2{
+background-color: #fff;
+border-radius: 5px;
+}
+
+QComboBox{
+font: 10pt &quot;Inter&quot;;
+background-color: #fff;
+border: 1px solid #228B22;
+border-radius: 5px;
+padding: 5px
+}
+QComboBox::drop-down{
+border: none;
+background: transparent;
+}
+QComboBox::down-arrow {
+image: none;               
+border: none;              
+width: 0; height: 0;       
+border-left: 5px solid none; 
+border-right: 5px solid none;
+border-top: 7px solid #228B22; 
+margin: 0;
 }</string>
             </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="QFrame" name="frame_6">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
              <property name="spacing">
               <number>5</number>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
              <item>
-              <widget class="QPushButton" name="prev_pushButton">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>30</height>
-                </size>
+              <widget class="QFrame" name="frame_7">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>30</height>
-                </size>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: #fff;
-border: 1px solid #000;
-border-radius: 5px;
-padding: 5px;
-font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #1E1E1E;</string>
-               </property>
-               <property name="text">
-                <string>Previous</string>
-               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <property name="spacing">
+                 <number>5</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="styleSheet">
+                   <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;</string>
+                  </property>
+                  <property name="text">
+                   <string>Logs Table</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="next_pushButton">
+              <widget class="QTableWidget" name="tableWidget">
                <property name="minimumSize">
                 <size>
-                 <width>150</width>
-                 <height>30</height>
+                 <width>300</width>
+                 <height>500</height>
                 </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: #fff;
+                <string notr="true">#tableWidget{
+border:none;
+}</string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QFrame" name="frame_6">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <property name="spacing">
+                 <number>5</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="prev_pushButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: #fff;
 border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
 font: 87 10pt &quot;Noto Sans Black&quot;;
 color: #1E1E1E;</string>
-               </property>
-               <property name="text">
-                <string>Next</string>
-               </property>
+                  </property>
+                  <property name="text">
+                   <string>Previous</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="next_pushButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: #fff;
+border: 1px solid #000;
+border-radius: 5px;
+padding: 5px;
+font: 87 10pt &quot;Noto Sans Black&quot;;
+color: #1E1E1E;</string>
+                  </property>
+                  <property name="text">
+                   <string>Next</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
