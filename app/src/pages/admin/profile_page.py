@@ -9,7 +9,6 @@ import pymongo
 from ui.employee.profilePage import Ui_Form as profile_page
 # from ui.NEW.employee.profile import Ui_Form as Ui_profile_page
 
-
 class ProfilePage(QWidget, profile_page):
     def __init__(self, username, dashboard_mainWindow=None):
         super().__init__()
@@ -19,7 +18,7 @@ class ProfilePage(QWidget, profile_page):
 
         # button connections
         # self.updateProfile_pushButton.clicked.connect(lambda: self.show_update_profile_form()) # show update profile form
-        self.password_btn.clicked.connect(lambda: self.show_update_pass_form()) # show password form
+        # self.password_btn.clicked.connect(lambda: self.show_update_pass_form()) # show password form
         # self.cancel_update_pushButton.clicked.connect(lambda: self.hide_update_profile_form()) # cancel update profile info
         # self.cancel_password_pushButton.clicked.connect(lambda: self.cancel_password_clicked()) # cancel create password
         # self.updatePass_pushButton.clicked.connect(lambda: self.save_new_password()) # save new password
@@ -115,28 +114,30 @@ class ProfilePage(QWidget, profile_page):
         pass
 
     def isFormClear(self):
-        lineEdits = [
-            self.firstname_line,
-            self.lastname_line,
-            self.email_line,
-            self.address_line,
-            self.username_line
-        ]
-        for lineEdit in lineEdits:
-            if lineEdit.text():
-                return False
-        return True
+        # lineEdits = [
+        #     self.firstname_line,
+        #     self.lastname_line,
+        #     self.email_line,
+        #     self.address_line,
+        #     self.username_line
+        # ]
+        # for lineEdit in lineEdits:
+        #     if lineEdit.text():
+        #         return False
+        # return True
+        pass
     
     def clearForm(self):
-        lineEdits = [
-            self.firstname_line,
-            self.lastname_line,
-            self.email_line,
-            self.address_line,
-            self.username_line
-        ]
-        for lineEdit in lineEdits:
-            lineEdit.clear()
+        # lineEdits = [
+        #     self.firstname_line,
+        #     self.lastname_line,
+        #     self.email_line,
+        #     self.address_line,
+        #     self.username_line
+        # ]
+        # for lineEdit in lineEdits:
+        #     lineEdit.clear()
+        pass
 
     def hide_update_profile_form(self):
         # check if form contains input ask to save changes
@@ -167,21 +168,39 @@ class ProfilePage(QWidget, profile_page):
     def display_user_info(self):
         try:
             document = self.connect_to_db("accounts").find_one({'username': self.username})
+
+            fname = document.get('first_name', '')
+            lname = document.get('last_name', '')
+            role = document.get('user_type', '')
+            job = document.get('job', '')
+            status = document.get('status', '')
+            address = document.get('address', '')
+            username = document.get('username', '')
+            email = document.get('email', '')
+            account_id = document.get('account_id', '')
         except Exception as e:
             print(f"Error: {e}")
 
-        if document:
-            # Update UI labels with document data
-            # self.fullname_label.setText(f"{document.get('last_name')}, {document.get('first_name')}")
-            self.username_label.setText(document.get('username', ''))
-            self.email_label.setText(document.get('email', ''))
-            # self.accountRole_label.setText(document.get('user_type'))
-            # self.accountStatus_label.setText(document.get('status'))
-            self.accountID_label.setText(document.get('account_id', ''))
-            self.address_label.setText(document.get('address', ''))
-            # self.lastLogin_label.setText(document.get('last_login', ''))
-        else:
-            QMessageBox.warning(self, "User Not Found", "The user information could not be found.")
+        try:
+            if document:
+                # Update UI labels with document data
+                self.full_name_label.setText(f"{lname}, {fname}")
+                self.role_job_label.setText(f"{role}| {job}")
+                self.status_label.setText(status)
+
+                self.fname_label.setText(fname)
+                self.lname_label.setText(lname)
+                self.address_label.setText(address)
+
+                self.username_label.setText(username)
+                self.email_label.setText(email)
+                self.accountid_label.setText(account_id)
+                self.role_label.setText(role)
+                self.job_label.setText(job)
+            else:
+                QMessageBox.warning(self, "User Not Found", "The user information could not be found.")
+        except Exception as e:
+            print(f'Error: {e}')
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
@@ -216,8 +235,10 @@ class ProfilePage(QWidget, profile_page):
         # }
 
         # Remove any fields that are empty (optional)
-        updated_data = {k: v for k, v in updated_data.items() if v}
-
+        try:
+            updated_data = {k: v for k, v in updated_data.items() if v}
+        except Exception as e:
+            print(f'Error: {e}')
         try:
             # Fetch the current user document for comparison
             current_document = self.connect_to_db('accounts').find_one({'username': self.username})

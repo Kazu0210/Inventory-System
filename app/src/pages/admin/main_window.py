@@ -119,7 +119,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backup_restore_logo, self.frame_13, self.backupRestore_pushButton, 7))
         self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 8))
         self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 9))
-        self.profile_pushButton.clicked.connect(lambda: self.content_window_layout.setCurrentIndex(10))
+        self.profile_pushButton.clicked.connect(lambda: self.profile_btn_clicked())
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
@@ -131,6 +131,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.add_graphics()
         self.set_current_page_name()
         self.set_username_label()
+
+    def profile_btn_clicked(self):
+        """handle click event for profile button"""
+        self.content_window_layout.setCurrentIndex(10)
+        print(f'Current index when profile button is clicked: {self.get_current_index()}')
+        self.set_current_page_name()
 
     def set_username_label(self):
         """set label to current account's username"""
@@ -166,6 +172,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.current_page_label.setText("Archive")
             case 9:
                 self.current_page_label.setText("Accounts")
+            case 10:
+                self.current_page_label.setText("Profile")
 
     def set_profile_icon(self):
         """Add icon to profile button"""
