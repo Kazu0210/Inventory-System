@@ -5,7 +5,9 @@ import pymongo
 from bson import ObjectId
 # from ui.inventoryPage import Ui_Form as items_page
 from pages.admin.newitemsPage import newItem_page
+
 from ui.NEW.inventory_page import Ui_Form as items_page
+
 from pages.admin.edit_product_page import EditProductInformation
 from pages.admin.restock_page import RestockProduct
 # from ui.itemsPage import Ui_Form as items_page
