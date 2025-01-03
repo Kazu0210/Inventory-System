@@ -58,6 +58,9 @@ color: #333333;</string>
    </item>
    <item>
     <widget class="QLabel" name="quantity_label">
+     <property name="styleSheet">
+      <string notr="true">color: #333333;</string>
+     </property>
      <property name="text">
       <string>Quantity</string>
      </property>

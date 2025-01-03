@@ -33,9 +33,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         self.set_icons()
 
-        # set username label
-        self.username_label.setText(f"WELCOME, {username.upper()}!")
-
         # Database connection
         self.collection_name = self.connect_to_db("products_items")
 
@@ -76,6 +73,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.display_total_orders()
         self.update_total_sales()
         self.update_total_orders()
+        self.update_low_stock_label()
 
         self.show_completed_order()
         self.show_pending_order()
@@ -87,6 +85,28 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         # call funcion that load the stock level chart once
         self.load_stock_level_chart()
+
+    def update_low_stock_label(self):
+        """Updates the low stock label"""
+        self.low_stock_label.setText(str(self.count_low_stock_products()))
+
+    def count_low_stock_products(self):
+        """
+        Counts all products that have stock levels below their respective low stock threshold.
+
+        :param inventory: The inventory data (a list of dictionaries).
+        :return: The count of products with stock below their individual low stock threshold.
+        """
+        inventory = self.connect_to_db('products_items').find({})
+        low_stock_count = 0
+        
+        # Iterate through each product in the inventory
+        for product in inventory:
+            # Check if the product's stock is below its low stock threshold
+            if product['quantity_in_stock'] < product['minimum_stock_level']:
+                low_stock_count += 1
+
+        return low_stock_count
 
     def orders_coll_change(self):
         """Update all the widgets with orders data related"""
@@ -210,6 +230,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.update_cylinder_list()
         self.load_stock_level_chart()
         self.update_total_products()
+        self.update_low_stock_label()
 
     def create_pie_chart(self, processed_data):
         series = QPieSeries()

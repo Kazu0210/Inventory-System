@@ -639,7 +639,7 @@ class Ui_MainWindow(object):
         self.frame_32.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_32.setObjectName("frame_32")
         self.horizontalLayout_29 = QtWidgets.QHBoxLayout(self.frame_32)
-        self.horizontalLayout_29.setContentsMargins(9, 9, 9, 9)
+        self.horizontalLayout_29.setContentsMargins(9, 5, 9, 5)
         self.horizontalLayout_29.setSpacing(5)
         self.horizontalLayout_29.setObjectName("horizontalLayout_29")
         self.frame_33 = QtWidgets.QFrame(parent=self.frame_32)
