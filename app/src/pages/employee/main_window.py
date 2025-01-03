@@ -7,7 +7,7 @@ from PyQt6.QtCore import QTimer, Qt
 from ui.employee.employee_main_window import Ui_MainWindow
 from pages.employee.dashboard_page import Dashboard
 from pages.employee.orders_page import OrderPage
-from pages.employee.price_page import PricePage
+from pages.employee.prices_page import PricesPage
 from pages.employee.settings_page import settingsPage
 from pages.employee.profile_page import ProfilePage
 from pages.employee.order_page import OrderPage
@@ -43,7 +43,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dashboard_section = Dashboard(username, self) # index 0
         self.content_window_layout.addWidget(dashboard_section)
 
-        price_section = PricePage(self) # index 1
+        price_section = PricesPage(self) # index 1
         self.content_window_layout.addWidget(price_section)
 
         order_section = OrderPage(self) # index 2
