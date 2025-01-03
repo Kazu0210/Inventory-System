@@ -1,7 +1,9 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
+
 from ui.activity_logs_page import Ui_Form as activityLogsPage
+
 from PyQt6.QtCore import QTimer
 from datetime import datetime
 

@@ -202,7 +202,8 @@ class ProfilePage(QWidget, profile_page):
             # self.email_lineEdit.setText(document.get('email'))
             # self.address_lineEdit.setText(document.get('address'))
         else:
-            QMessageBox.warning(self, "User Not Found", "The user information could not be found.")
+            # QMessageBox.warning(self, "User Not Found", "The user information could not be found.")
+            pass
     
     def save_user_info(self):
         """Save the updated user information when the Save button is clicked."""

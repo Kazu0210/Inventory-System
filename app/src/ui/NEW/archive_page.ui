@@ -39,11 +39,8 @@ font: 10pt &quot;Noto Sans&quot;;
     <widget class="QScrollArea" name="scrollArea">
      <property name="styleSheet">
       <string notr="true">#scrollArea{
-background-color: #EAEAEA;
 border: none;
-border-radius: 5px;
 }
-
 QScrollBar:hover{
  cursor: pointer;
 }
@@ -72,9 +69,9 @@ QScrollBar:hover{
                 margin: 0px 0px 0px 0px;
             }
             QScrollBar::handle:horizontal {
-                background: #555;
+                background: #90A4AE;
                 border-radius: 7px;
-                min-width: 30px;
+                min-width: 14px;
             }
             QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
                 width: 0px;
@@ -90,10 +87,10 @@ QScrollBar:hover{
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-71</x>
+        <x>0</x>
         <y>0</y>
         <width>1045</width>
-        <height>544</height>
+        <height>547</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -142,44 +139,6 @@ QScrollBar:hover{
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item>
-           <widget class="QFrame" name="frame_4">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item alignment="Qt::AlignTop">
-              <widget class="QLabel" name="label">
-               <property name="styleSheet">
-                <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;</string>
-               </property>
-               <property name="text">
-                <string>Archive</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item alignment="Qt::AlignLeft">
            <widget class="QFrame" name="frame_3">
             <property name="styleSheet">
@@ -427,7 +386,7 @@ color: #333333;</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <property name="spacing">
-              <number>0</number>
+              <number>10</number>
              </property>
              <property name="leftMargin">
               <number>0</number>

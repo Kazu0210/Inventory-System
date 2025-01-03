@@ -79,8 +79,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.profile_page = ProfilePage(username, self) # index 10
         self.content_window_layout.addWidget(self.profile_page)
 
-        self.new_account_section = NewAccountPage(username, self) # index 10 WALA NA DAPAT
-        self.content_window_layout.addWidget(self.new_account_section)
+        # self.new_account_section = NewAccountPage(username) # index 10 WALA NA DAPAT
+        # self.content_window_layout.addWidget(self.new_account_section)
 
         self.buttons = [
             self.dashboard_pushButton,
