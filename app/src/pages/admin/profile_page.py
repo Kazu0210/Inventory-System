@@ -5,11 +5,161 @@ from utils.Inventory_Monitor import InventoryMonitor
 from utils.Hashpassword import HashPassword
 from utils.Validation import Validator
 
-import pymongo
+import pymongo, json
 
 from ui.employee.profilePage import Ui_Form as profile_page
 from ui.employee.update_password import Ui_Form as update_pass_page
+from ui.employee.update_profile import Ui_Form as update_profile_page
 # from ui.NEW.employee.profile import Ui_Form as Ui_profile_page
+
+class UpdateProfile(QWidget, update_profile_page):
+    def __init__(self, username):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
+        self.username = username
+        self.load_data()
+
+        # button connections
+        self.update_pushButton.clicked.connect(lambda: self.update_btn_clicked())    
+        self.cancel_pushButton.clicked.connect(lambda: self.close())
+
+    def update_btn_clicked(self):
+        """handle clicked event of update push button"""
+        
+        # Get data from form
+        fname = self.fname_lineEdit.text().strip()
+        lname = self.lname_lineEdit.text().strip()
+        address = self.address_plainTextEdit.toPlainText().strip()
+        new_username = self.username_lineEdit.text().strip()
+        email = self.email_lineEdit.text().strip()
+        role = self.role_comboBox.currentText()
+        job = self.job_comboBox.currentText()
+
+        # Prepare the data to be updated
+        data = {
+            'first_name': fname,
+            'last_name': lname,
+            'address': address,
+            'username': new_username,
+            'email': email,
+            'user_type': role,
+            'job': job,
+        }
+
+        print(f'New profile Data: {data}')
+
+        # Define the filter for the document to update
+        filter = {
+            'username': self.username
+        }
+
+        try:
+            # Perform the update operation
+            self.connect_to_db('accounts').update_one(filter, {'$set': data})
+            print("Profile updated successfully.")
+            QMessageBox.information(self, "Success", "Profile updated successfully.")
+            self.close()
+        except Exception as e:
+            print(f'Error: {e}')
+
+    def get_data_db(self, username):
+        """get data from database using username"""
+        try:
+            document = list(self.connect_to_db('accounts').find({'username': username}))
+            return document
+        except Exception as e:
+            print(f'Error: {e}')
+
+    def load_job_filter(self, current_job):
+        job_dir = "app/resources/config/filters.json"
+
+        # Open and load the JSON file
+        with open(job_dir, 'r') as f:
+            data = json.load(f)
+
+        # Clear the combo box before adding items
+        self.job_comboBox.clear()
+
+        # Add the current job as the first item, if it exists in the job list
+        found_current_job = False
+        for job in data['job']:
+            job_value = list(job.values())[0]
+            if job_value == current_job:
+                self.job_comboBox.addItem(job_value)
+                found_current_job = True
+                break
+
+        # Add remaining items, skipping "Default", "Show All", and the current job
+        for job in data['job']:
+            job_value = list(job.values())[0]
+            if job_value not in ["Default", "Show All"] and job_value != current_job:
+                self.job_comboBox.addItem(job_value)
+
+        # Handle case where current_job is not found in the job list
+        if not found_current_job:
+            self.job_comboBox.insertItem(0, current_job)
+
+    def load_role_filter(self, current_role):
+        job_dir = "app/resources/config/filters.json"
+
+        # Open and load the JSON file
+        with open(job_dir, 'r') as f:
+            data = json.load(f)
+
+        # Clear the combo box before adding items
+        self.role_comboBox.clear()
+
+        # Add the current job as the first item, if it exists in the job list
+        found_current_job = False
+        for job in data['role']:
+            job_value = list(job.values())[0]
+            if job_value == current_role:
+                self.role_comboBox.addItem(job_value)
+                found_current_job = True
+                break
+
+        # Add remaining items, skipping "Default", "Show All", and the current job
+        for job in data['role']:
+            job_value = list(job.values())[0]
+            if job_value not in ["Default", "Show All"] and job_value != current_role:
+                self.role_comboBox.addItem(job_value)
+
+        # Handle case where current_job is not found in the job list
+        if not found_current_job:
+            self.role_comboBox.insertItem(0, current_role)
+
+    def load_data(self):
+        """load data to line edit"""
+        try:
+            data = self.get_data_db(self.username)
+            print(f'Retreive data from database: {data}')
+
+            for item in data:
+                fname = item.get("first_name", "")
+                lname = item.get("last_name", "")
+                address = item.get("address", "")
+                username = item.get("username", "")
+                email = item.get("email", "")
+                role = item.get("user_type", "")
+                job = item.get("job", "")
+
+                self.fname_lineEdit.setText(fname)
+                self.lname_lineEdit.setText(lname)
+                self.address_plainTextEdit.setPlainText(address)
+                self.username_lineEdit.setText(username)
+                self.email_lineEdit.setText(email)
+                self.load_job_filter(job)
+                self.load_role_filter(role)
+
+        except Exception as e:
+            print(f'Error: {e}')
+
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        return client[db][collection_name]
 
 class UpdatePassword(QWidget, update_pass_page):
     # signals
@@ -102,8 +252,6 @@ class UpdatePassword(QWidget, update_pass_page):
             else:
                 print('update password process not cancelled')
 
-
-
 class ProfilePage(QWidget, profile_page):
     def __init__(self, username, dashboard_mainWindow=None):
         super().__init__()
@@ -113,6 +261,7 @@ class ProfilePage(QWidget, profile_page):
 
         # button connections
         self.changePass_pushButton.clicked.connect(lambda: self.show_update_pass_form())
+        self.update_profile_pushButton.clicked.connect(lambda: self.update_profile_clicked())
         # self.updateProfile_pushButton.clicked.connect(lambda: self.show_update_profile_form()) # show update profile form
         # self.password_btn.clicked.connect(lambda: self.show_update_pass_form()) # show password form
         # self.cancel_update_pushButton.clicked.connect(lambda: self.hide_update_profile_form()) # cancel update profile info
@@ -131,6 +280,12 @@ class ProfilePage(QWidget, profile_page):
 
         # Set validator instance
         validator = Validator()
+
+    def update_profile_clicked(self):
+        """Handle click event for update profile button"""
+        print('update profile button clicked')
+        self.update_profile = UpdateProfile(self.username)
+        self.update_profile.show()
 
     def show_update_pass_form(self):
         self.update_pass = UpdatePassword(self.username)

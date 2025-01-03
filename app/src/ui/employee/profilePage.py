@@ -414,16 +414,16 @@ class Ui_Form(object):
         self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_20.setSpacing(0)
         self.horizontalLayout_20.setObjectName("horizontalLayout_20")
-        self.pushButton = QtWidgets.QPushButton(parent=self.frame_31)
-        self.pushButton.setMinimumSize(QtCore.QSize(125, 30))
-        self.pushButton.setMaximumSize(QtCore.QSize(125, 30))
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.pushButton.setStyleSheet("background-color: #228B22;\n"
+        self.update_profile_pushButton = QtWidgets.QPushButton(parent=self.frame_31)
+        self.update_profile_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.update_profile_pushButton.setMaximumSize(QtCore.QSize(125, 30))
+        self.update_profile_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.update_profile_pushButton.setStyleSheet("background-color: #228B22;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
 "color: #fff;\n"
 "border-radius: 5px;")
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_20.addWidget(self.pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.update_profile_pushButton.setObjectName("update_profile_pushButton")
+        self.horizontalLayout_20.addWidget(self.update_profile_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout_12.addWidget(self.frame_31, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.horizontalLayout_3.addWidget(self.frame_11)
         self.verticalLayout_13.addWidget(self.frame_10, 0, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
@@ -462,7 +462,7 @@ class Ui_Form(object):
         self.label_49.setText(_translate("Form", "Password:"))
         self.username_label_2.setText(_translate("Form", "********"))
         self.changePass_pushButton.setText(_translate("Form", "Change Password"))
-        self.pushButton.setText(_translate("Form", "Update Profile"))
+        self.update_profile_pushButton.setText(_translate("Form", "Update Profile"))
 
 
 if __name__ == "__main__":

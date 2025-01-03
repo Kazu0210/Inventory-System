@@ -1148,7 +1148,7 @@ border-radius: 5px;</string>
                  <number>0</number>
                 </property>
                 <item alignment="Qt::AlignRight">
-                 <widget class="QPushButton" name="pushButton">
+                 <widget class="QPushButton" name="update_profile_pushButton">
                   <property name="minimumSize">
                    <size>
                     <width>125</width>
