@@ -58,7 +58,7 @@ class Ui_Form(object):
 "                margin: 0px 0px 0px 0px;\n"
 "            }\n"
 "            QScrollBar::handle:horizontal {\n"
-"                background: #90A4AE;\n"
+"                background: #F0F0F0;\n"
 "                border-radius: 7px;\n"
 "                min-width: 14px;\n"
 "            }\n"
@@ -73,7 +73,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -596, 854, 1267))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 854, 1267))
         self.scrollAreaWidgetContents.setStyleSheet("border: none;")
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
@@ -178,12 +178,12 @@ class Ui_Form(object):
 "}\n"
 "            QScrollBar:vertical {\n"
 "                border: none;\n"
-"                background: #11B3BE;\n"
+"                background: #F0F0F0;\n"
 "                width: 14px;\n"
 "                margin: 0px 0px 0px 0px;\n"
 "            }\n"
 "            QScrollBar::handle:vertical {\n"
-"                background: #002E2C;\n"
+"                background: #90A4AE;\n"
 "                border-radius: 7px;\n"
 "                min-height: 30px;\n"
 "            }\n"
@@ -196,12 +196,12 @@ class Ui_Form(object):
 "            }\n"
 "            QScrollBar:horizontal {\n"
 "                border: none;\n"
-"                background: #f0f0f0;\n"
+"                background: #F0F0F0;\n"
 "                height: 14px;\n"
 "                margin: 0px 0px 0px 0px;\n"
 "            }\n"
 "            QScrollBar::handle:horizontal {\n"
-"                background: #555;\n"
+"                background: #90A4AE;\n"
 "                border-radius: 7px;\n"
 "                min-width: 30px;\n"
 "            }\n"

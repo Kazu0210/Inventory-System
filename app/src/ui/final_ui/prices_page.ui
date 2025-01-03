@@ -82,7 +82,7 @@ QScrollBar:hover{
                 margin: 0px 0px 0px 0px;
             }
             QScrollBar::handle:horizontal {
-                background: #90A4AE;
+                background: #F0F0F0;
                 border-radius: 7px;
                 min-width: 14px;
             }
@@ -104,7 +104,7 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-596</y>
+        <y>0</y>
         <width>854</width>
         <height>1267</height>
        </rect>
@@ -363,12 +363,12 @@ color: #000;
 }
             QScrollBar:vertical {
                 border: none;
-                background: #11B3BE;
+                background: #F0F0F0;
                 width: 14px;
                 margin: 0px 0px 0px 0px;
             }
             QScrollBar::handle:vertical {
-                background: #002E2C;
+                background: #90A4AE;
                 border-radius: 7px;
                 min-height: 30px;
             }
@@ -381,12 +381,12 @@ color: #000;
             }
             QScrollBar:horizontal {
                 border: none;
-                background: #f0f0f0;
+                background: #F0F0F0;
                 height: 14px;
                 margin: 0px 0px 0px 0px;
             }
             QScrollBar::handle:horizontal {
-                background: #555;
+                background: #90A4AE;
                 border-radius: 7px;
                 min-width: 30px;
             }
