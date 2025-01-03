@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(904, 727)
+        Form.resize(904, 708)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -57,11 +57,52 @@ class Ui_Form(object):
         self.verticalLayout_9.setSpacing(5)
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
-        self.scrollArea.setStyleSheet("")
+        self.scrollArea.setStyleSheet("#scrollArea{\n"
+"border: none;\n"
+"}\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-width: 14px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1100, 1103))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-210, 0, 1100, 1064))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -80,20 +121,6 @@ class Ui_Form(object):
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_5.setSpacing(5)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.frame = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label = QtWidgets.QLabel(parent=self.frame)
-        self.label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;")
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
-        self.verticalLayout_5.addWidget(self.frame)
         self.frame_21 = QtWidgets.QFrame(parent=self.frame_2)
         self.frame_21.setStyleSheet("#frame_21{\n"
 "background-color: #fff;\n"
@@ -587,8 +614,6 @@ class Ui_Form(object):
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setSpacing(5)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        spacerItem2 = QtWidgets.QSpacerItem(20, 35, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
-        self.verticalLayout_6.addItem(spacerItem2)
         self.frame_23 = QtWidgets.QFrame(parent=self.frame_19)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -704,8 +729,8 @@ class Ui_Form(object):
 "color: #333333;")
         self.orders_quantity_label.setObjectName("orders_quantity_label")
         self.horizontalLayout_3.addWidget(self.orders_quantity_label)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem3)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem2)
         self.verticalLayout_10.addWidget(self.frame_28)
         self.ordered_items_scrollArea = QtWidgets.QScrollArea(parent=self.frame_27)
         self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(350, 320))
@@ -784,8 +809,8 @@ class Ui_Form(object):
         self.horizontalLayout_23.addWidget(self.finalize_order_pushButton)
         self.verticalLayout_10.addWidget(self.frame_9)
         self.verticalLayout_6.addWidget(self.frame_27)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem4)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem3)
         self.horizontalLayout_17.addWidget(self.frame_19)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_9.addWidget(self.scrollArea)
@@ -796,7 +821,6 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "Orders"))
         self.label_14.setText(_translate("Form", "Total Orders:"))
         self.label_16.setText(_translate("Form", "(Today)"))
         self.total_orders_label.setText(_translate("Form", "0"))
