@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1022, 670)
+        Form.resize(757, 670)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -23,11 +23,52 @@ class Ui_Form(object):
         self.verticalLayout_5.setSpacing(5)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
-        self.scrollArea.setStyleSheet("border: none;")
+        self.scrollArea.setStyleSheet("#scrollArea{\n"
+"border: none;\n"
+"}\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-width: 14px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1043, 653))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1045, 656))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_60.setContentsMargins(0, 0, 0, 0)

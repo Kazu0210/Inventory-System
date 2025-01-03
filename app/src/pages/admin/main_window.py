@@ -149,13 +149,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             case 0:
                 self.current_page_label.setText("Dashboard")
             case 1:
-                self.current_page_label.setText("Price")
+                self.current_page_label.setText("Prices")
             case 2:
                 self.current_page_label.setText("Inventory")
             case 3:
                 self.current_page_label.setText("Orders")
             case 4:
-                self.current_page_label.setText("Sales")
+                self.current_page_label.setText("Sales Report")
             case 5:
                 self.current_page_label.setText("Activity Logs")
             case 6:

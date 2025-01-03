@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1022</width>
+    <width>757</width>
     <height>670</height>
    </rect>
   </property>
@@ -39,7 +39,48 @@ background-color: transparent;
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="styleSheet">
-      <string notr="true">border: none;</string>
+      <string notr="true">#scrollArea{
+border: none;
+}
+QScrollBar:hover{
+ cursor: pointer;
+}
+            QScrollBar:vertical {
+                border: none;
+                background: #F0F0F0;
+                width: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #90A4AE;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #F0F0F0;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #90A4AE;
+                border-radius: 7px;
+                min-width: 14px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }</string>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
@@ -49,8 +90,8 @@ background-color: transparent;
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1043</width>
-        <height>653</height>
+        <width>1045</width>
+        <height>656</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_60">
