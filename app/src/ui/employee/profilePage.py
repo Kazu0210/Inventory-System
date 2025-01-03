@@ -69,7 +69,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 729, 498))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -17, 729, 498))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
@@ -406,6 +406,25 @@ class Ui_Form(object):
         self.verticalLayout_12.addWidget(self.frame_2)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout_12.addItem(spacerItem1)
+        self.frame_31 = QtWidgets.QFrame(parent=self.frame_11)
+        self.frame_31.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_31.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_31.setObjectName("frame_31")
+        self.horizontalLayout_20 = QtWidgets.QHBoxLayout(self.frame_31)
+        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_20.setSpacing(0)
+        self.horizontalLayout_20.setObjectName("horizontalLayout_20")
+        self.pushButton = QtWidgets.QPushButton(parent=self.frame_31)
+        self.pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.pushButton.setMaximumSize(QtCore.QSize(125, 30))
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton.setStyleSheet("background-color: #228B22;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border-radius: 5px;")
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_20.addWidget(self.pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.verticalLayout_12.addWidget(self.frame_31, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.horizontalLayout_3.addWidget(self.frame_11)
         self.verticalLayout_13.addWidget(self.frame_10, 0, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
@@ -443,6 +462,7 @@ class Ui_Form(object):
         self.label_49.setText(_translate("Form", "Password:"))
         self.username_label_2.setText(_translate("Form", "********"))
         self.changePass_pushButton.setText(_translate("Form", "Change Password"))
+        self.pushButton.setText(_translate("Form", "Update Profile"))
 
 
 if __name__ == "__main__":

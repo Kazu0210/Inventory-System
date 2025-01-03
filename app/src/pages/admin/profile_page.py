@@ -1,73 +1,69 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QMessageBox
-from PyQt6.QtCore import QStringConverter
+from PyQt6.QtCore import QStringConverter, Qt, pyqtSignal
 
 from utils.Inventory_Monitor import InventoryMonitor
 from utils.Hashpassword import HashPassword
 from utils.Validation import Validator
 
 import pymongo
+
 from ui.employee.profilePage import Ui_Form as profile_page
+from ui.employee.update_password import Ui_Form as update_pass_page
 # from ui.NEW.employee.profile import Ui_Form as Ui_profile_page
 
-class ProfilePage(QWidget, profile_page):
-    def __init__(self, username, dashboard_mainWindow=None):
+class UpdatePassword(QWidget, update_pass_page):
+    # signals
+    update_password_signal = pyqtSignal(str)
+
+    def __init__(self, username):
         super().__init__()
         self.setupUi(self)
-        self.dashboard_mainWindow = dashboard_mainWindow
-        self.username = username  # Store the username for use in methods
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+        print(f'received username: {username}')
 
         # button connections
-        # self.updateProfile_pushButton.clicked.connect(lambda: self.show_update_profile_form()) # show update profile form
-        # self.password_btn.clicked.connect(lambda: self.show_update_pass_form()) # show password form
-        # self.cancel_update_pushButton.clicked.connect(lambda: self.hide_update_profile_form()) # cancel update profile info
-        # self.cancel_password_pushButton.clicked.connect(lambda: self.cancel_password_clicked()) # cancel create password
-        # self.updatePass_pushButton.clicked.connect(lambda: self.save_new_password()) # save new password
-        # self.update_pushButton.clicked.connect(lambda: self.save_user_info()) # save new user info
+        self.update_pushButton.clicked.connect(lambda: self.save_new_password(username))
+        self.cancel_pushButton.clicked.connect(lambda: self.close())
 
-        self.display_user_info()
-        self.hide_update_profile_form()
-        self.hide_update_pass_form()
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        return client[db][collection_name]
 
-        # Initialize Monitor for account collection
-        monitor = InventoryMonitor('accounts')
-        monitor.start_listener_in_background()
-        monitor.data_changed_signal.connect(self.display_user_info)
-
-        # Set validator instance
-        validator = Validator()
-    
-    def save_new_password(self):
+    def save_new_password(self, username):
         # Get the new password from the input field
 
         # check if password field is empty
         if not self.isPasswordEmpty():
             print(f'password field is not empty')
-            raw_password = self.password_lineEdit.text().strip()
+            raw_password = self.new_pass_lineEdit.text().strip()
             print(f"New password: {raw_password}")
 
             hasher = HashPassword(raw_password)
             hashed_password = hasher.hash_password()
 
-            current_document = self.connect_to_db('accounts').find_one({'username': self.username})
+            current_document = self.connect_to_db('accounts').find_one({'username': username})
             if not current_document:
                 QMessageBox.warning(self, "User Not Found", "The current user does not exist in the database.")
                 return
             
             try:
                 # Fetch the current user document for comparison
-                current_document = self.connect_to_db('accounts').find_one({'username': self.username})
+                current_document = self.connect_to_db('accounts').find_one({'username': username})
                 if not current_document:
                     QMessageBox.warning(self, "User Not Found", "The current user does not exist in the database.")
                     return
 
                 # Update the current user's document in the collection using the stored username
-                result = self.connect_to_db('accounts').update_one({'username': self.username}, {'$set': {'password': hashed_password}})
+                result = self.connect_to_db('accounts').update_one({'username': username}, {'$set': {'password': hashed_password}})
 
                 if result.modified_count > 0:
                     QMessageBox.information(self, "Update Password Successful", "Password updated successfully.")
     
-                    # self.password_lineEdit.clear() # clear password field
-                    self.hide_update_pass_form() # hide form
+                    self.new_pass_lineEdit.clear() # clear password field
+                    self.close() # hide form
                 else:
                     QMessageBox.warning(self, "No Changes", "No changes were made to the user information.")
             except Exception as e:
@@ -81,11 +77,8 @@ class ProfilePage(QWidget, profile_page):
                 "Password field is empty. Please enter a new password.",
             )
 
-    def show_update_pass_form(self):
-        self.update_pass_form.show()
-
     def isPasswordEmpty(self):
-        if self.password_lineEdit.text().strip():
+        if self.new_pass_lineEdit.text().strip():
             return False
         else:
             return True
@@ -93,8 +86,8 @@ class ProfilePage(QWidget, profile_page):
     def cancel_password_clicked(self):
         if self.isPasswordEmpty():
             print('password field is empty')
-            # self.password_lineEdit.clear() # clear password field
-            self.hide_update_pass_form() # hide update password form
+            self.new_pass_lineEdit.clear() # clear password field
+            self.close() # hide update password form
         else:
             print('password field is not empty')
             reply = QMessageBox.question(
@@ -104,10 +97,44 @@ class ProfilePage(QWidget, profile_page):
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.Yes
             )
             if reply == QMessageBox.StandardButton.Yes:
-                # self.password_lineEdit.clear() # clear password field
-                self.hide_update_pass_form() # hide update password form
+                self.new_pass_lineEdit.clear() # clear password field
+                self.close() # hide update password form
             else:
                 print('update password process not cancelled')
+
+
+
+class ProfilePage(QWidget, profile_page):
+    def __init__(self, username, dashboard_mainWindow=None):
+        super().__init__()
+        self.setupUi(self)
+        self.dashboard_mainWindow = dashboard_mainWindow
+        self.username = username  # Store the username for use in methods
+
+        # button connections
+        self.changePass_pushButton.clicked.connect(lambda: self.show_update_pass_form())
+        # self.updateProfile_pushButton.clicked.connect(lambda: self.show_update_profile_form()) # show update profile form
+        # self.password_btn.clicked.connect(lambda: self.show_update_pass_form()) # show password form
+        # self.cancel_update_pushButton.clicked.connect(lambda: self.hide_update_profile_form()) # cancel update profile info
+        # self.cancel_password_pushButton.clicked.connect(lambda: self.cancel_password_clicked()) # cancel create password
+        # self.updatePass_pushButton.clicked.connect(lambda: self.save_new_password()) # save new password
+        # self.update_pushButton.clicked.connect(lambda: self.save_user_info()) # save new user info
+
+        self.display_user_info()
+        # self.hide_update_profile_form()
+        self.hide_update_pass_form()
+
+        # Initialize Monitor for account collection
+        monitor = InventoryMonitor('accounts')
+        monitor.start_listener_in_background()
+        monitor.data_changed_signal.connect(self.display_user_info)
+
+        # Set validator instance
+        validator = Validator()
+
+    def show_update_pass_form(self):
+        self.update_pass = UpdatePassword(self.username)
+        self.update_pass.show()
 
     def hide_update_pass_form(self):
         # self.update_pass_form.hide()
