@@ -12,8 +12,9 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(762, 835)
-        Form.setStyleSheet("font: 10pt \"Noto Sans\";")
+        Form.resize(868, 671)
+        Form.setStyleSheet("font: 10pt \"Noto Sans\";\n"
+"border: 1px solid black;")
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
@@ -26,12 +27,53 @@ class Ui_Form(object):
         self.scrollArea.setSizePolicy(sizePolicy)
         self.scrollArea.setMinimumSize(QtCore.QSize(0, 0))
         self.scrollArea.setAutoFillBackground(False)
-        self.scrollArea.setStyleSheet("border: none;")
+        self.scrollArea.setStyleSheet("#scrollArea{\n"
+"border: none;\n"
+"}\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-width: 14px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
         self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 901, 1320))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -596, 854, 1267))
         self.scrollAreaWidgetContents.setStyleSheet("border: none;")
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
@@ -46,20 +88,6 @@ class Ui_Form(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setSpacing(5)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.frame_6 = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_6)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label = QtWidgets.QLabel(parent=self.frame_6)
-        self.label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;")
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.verticalLayout_4.addWidget(self.frame_6)
         self.frame_7 = QtWidgets.QFrame(parent=self.frame_2)
         self.frame_7.setStyleSheet("#frame_7{\n"
 "background-color: #fff;\n"
@@ -71,8 +99,38 @@ class Ui_Form(object):
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame_7)
         self.verticalLayout_6.setSpacing(5)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.frame_4 = QtWidgets.QFrame(parent=self.frame_7)
-        self.frame_4.setStyleSheet("background-color: transparent;")
+        self.frame_6 = QtWidgets.QFrame(parent=self.frame_7)
+        self.frame_6.setStyleSheet("#frame_6{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_6.setObjectName("frame_6")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_6)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(5)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.frame_12 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_12.setStyleSheet("*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_12.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_12.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_12.setObjectName("frame_12")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_12)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.label = QtWidgets.QLabel(parent=self.frame_12)
+        self.label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;")
+        self.label.setObjectName("label")
+        self.horizontalLayout_6.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.frame_12, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.frame_4 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_4.setStyleSheet("border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"background-color: #fff;")
         self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_4.setObjectName("frame_4")
@@ -88,11 +146,9 @@ class Ui_Form(object):
         self.searchBar_lineEdit.setSizePolicy(sizePolicy)
         self.searchBar_lineEdit.setMinimumSize(QtCore.QSize(260, 30))
         self.searchBar_lineEdit.setMaximumSize(QtCore.QSize(350, 30))
-        self.searchBar_lineEdit.setStyleSheet("color: #000;\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"padding: 0px 5px;\n"
-"font: 10pt \"Noto Sans\";")
+        self.searchBar_lineEdit.setStyleSheet("border: none;\n"
+"padding: 5px;\n"
+"color: #000;")
         self.searchBar_lineEdit.setObjectName("searchBar_lineEdit")
         self.horizontalLayout_3.addWidget(self.searchBar_lineEdit, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.search_pushButton = QtWidgets.QPushButton(parent=self.frame_4)
@@ -101,21 +157,24 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.search_pushButton.sizePolicy().hasHeightForWidth())
         self.search_pushButton.setSizePolicy(sizePolicy)
-        self.search_pushButton.setMinimumSize(QtCore.QSize(100, 30))
-        self.search_pushButton.setMaximumSize(QtCore.QSize(120, 30))
+        self.search_pushButton.setMinimumSize(QtCore.QSize(30, 30))
+        self.search_pushButton.setMaximumSize(QtCore.QSize(30, 30))
         self.search_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.search_pushButton.setStyleSheet("background-color: #32CD32;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #fff;")
+        self.search_pushButton.setStyleSheet("border: none;\n"
+"background-color: #fff;")
+        self.search_pushButton.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.search_pushButton.setIcon(icon)
         self.search_pushButton.setObjectName("search_pushButton")
         self.horizontalLayout_3.addWidget(self.search_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_6.addWidget(self.frame_4, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.horizontalLayout.addWidget(self.frame_4, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.verticalLayout_6.addWidget(self.frame_6)
         self.prices_tableWidget = QtWidgets.QTableWidget(parent=self.frame_7)
-        self.prices_tableWidget.setMinimumSize(QtCore.QSize(883, 550))
-        self.prices_tableWidget.setMaximumSize(QtCore.QSize(16777215, 550))
+        self.prices_tableWidget.setMinimumSize(QtCore.QSize(0, 600))
+        self.prices_tableWidget.setMaximumSize(QtCore.QSize(16777215, 600))
         self.prices_tableWidget.setStyleSheet("#prices_tableWidget{\n"
 "color: #000;\n"
-"border: none;\n"
 "}\n"
 "            QScrollBar:vertical {\n"
 "                border: none;\n"
@@ -157,31 +216,25 @@ class Ui_Form(object):
         self.prices_tableWidget.setColumnCount(0)
         self.prices_tableWidget.setRowCount(0)
         self.verticalLayout_6.addWidget(self.prices_tableWidget)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem)
-        self.verticalLayout_4.addWidget(self.frame_7)
-        self.frame = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_3.setSpacing(5)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.frame_3 = QtWidgets.QFrame(parent=self.frame)
+        self.frame_3 = QtWidgets.QFrame(parent=self.frame_7)
         self.frame_3.setStyleSheet("QPushButton{\n"
 "background-color: #597784;\n"
 "border-radius: 5px;\n"
 "color: #fff;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
+"}\n"
+"#frame_3{\n"
+"background-color: transparent;\n"
 "}")
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_3)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setSpacing(5)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem)
         self.prev_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
         self.prev_pushButton.setMinimumSize(QtCore.QSize(100, 30))
         self.prev_pushButton.setMaximumSize(QtCore.QSize(120, 30))
@@ -194,9 +247,20 @@ class Ui_Form(object):
         self.next_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.next_pushButton.setObjectName("next_pushButton")
         self.horizontalLayout_2.addWidget(self.next_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignVCenter)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem2)
-        self.verticalLayout_3.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
+        self.verticalLayout_6.addWidget(self.frame_3)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem2)
+        self.verticalLayout_4.addWidget(self.frame_7, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame = QtWidgets.QFrame(parent=self.frame_2)
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setSpacing(5)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout_4.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_2.addWidget(self.frame_2)
         self.frame_5 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
@@ -205,6 +269,8 @@ class Ui_Form(object):
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_5.setObjectName("frame_5")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_5)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_5.setSpacing(5)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.frame_8 = QtWidgets.QFrame(parent=self.frame_5)
         self.frame_8.setMinimumSize(QtCore.QSize(0, 32))
@@ -240,9 +306,23 @@ class Ui_Form(object):
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_8.setSpacing(5)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.frame_10 = QtWidgets.QFrame(parent=self.frame_11)
+        self.frame_9 = QtWidgets.QFrame(parent=self.frame_11)
+        self.frame_9.setMinimumSize(QtCore.QSize(0, 520))
+        self.frame_9.setStyleSheet("#frame_9{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_9)
+        self.verticalLayout_7.setContentsMargins(9, 9, 9, 9)
+        self.verticalLayout_7.setSpacing(5)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.frame_10 = QtWidgets.QFrame(parent=self.frame_9)
         self.frame_10.setMinimumSize(QtCore.QSize(0, 36))
         self.frame_10.setMaximumSize(QtCore.QSize(16777215, 36))
+        self.frame_10.setStyleSheet("background-color: transparent;")
         self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_10.setObjectName("frame_10")
@@ -256,20 +336,7 @@ class Ui_Form(object):
 "")
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_5.addWidget(self.label_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.verticalLayout_8.addWidget(self.frame_10)
-        self.frame_9 = QtWidgets.QFrame(parent=self.frame_11)
-        self.frame_9.setMinimumSize(QtCore.QSize(0, 520))
-        self.frame_9.setStyleSheet("#frame_9{\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_9.setObjectName("frame_9")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_9)
-        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_7.setSpacing(0)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.verticalLayout_7.addWidget(self.frame_10)
         self.price_history_tableWidget = QtWidgets.QTableWidget(parent=self.frame_9)
         self.price_history_tableWidget.setMinimumSize(QtCore.QSize(580, 500))
         self.price_history_tableWidget.setMaximumSize(QtCore.QSize(16777215, 500))
@@ -315,6 +382,8 @@ class Ui_Form(object):
         self.verticalLayout_7.addWidget(self.price_history_tableWidget, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.verticalLayout_8.addWidget(self.frame_9)
         self.verticalLayout_5.addWidget(self.frame_11)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem3)
         self.verticalLayout_2.addWidget(self.frame_5)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
@@ -325,13 +394,12 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "Prices"))
+        self.label.setText(_translate("Form", "Price Table"))
         self.searchBar_lineEdit.setPlaceholderText(_translate("Form", "Type Product ID or Product Name Here"))
-        self.search_pushButton.setText(_translate("Form", "Search"))
         self.prev_pushButton.setText(_translate("Form", "Previous"))
         self.next_pushButton.setText(_translate("Form", "Next"))
         self.price_history_pushButton.setText(_translate("Form", "View Price History"))
-        self.label_2.setText(_translate("Form", "Price History"))
+        self.label_2.setText(_translate("Form", "Price History Table"))
 
 
 if __name__ == "__main__":
