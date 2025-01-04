@@ -29,8 +29,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.setupUi(self)
         self.main_window = main_window
 
-        # self.expand_total_prod_pushButton.clicked.connect(lambda: self.expand_total_prods())
-
         self.set_icons()
 
         # Database connection

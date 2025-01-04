@@ -67,16 +67,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         settings_section = settingsPage(self) # index 6
         self.content_window_layout.addWidget(settings_section)
 
-        backupRestore_section = BackupRestorePage(self) # index 7
-        self.content_window_layout.addWidget(backupRestore_section)
-
-        archive_section = ArchivePage(self) # index 8
+        archive_section = ArchivePage(self) # index 7
         self.content_window_layout.addWidget(archive_section)
 
-        self.accounts_section = AccountsPage(username, self) # index 9
+        self.accounts_section = AccountsPage(username, self) # index 8
         self.content_window_layout.addWidget(self.accounts_section)
 
-        self.profile_page = ProfilePage(username, self) # index 10
+        self.profile_page = ProfilePage(username, self) # index 9
         self.content_window_layout.addWidget(self.profile_page)
 
         # self.new_account_section = NewAccountPage(username) # index 10 WALA NA DAPAT
@@ -90,7 +87,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.logout_pushButton,
             self.settings_pushButton,
             self.orders_pushButton,
-            self.backupRestore_pushButton,
             self.archive_pushButton,
             self.salesReport_pushButton,
             self.prices_pushButton
@@ -103,7 +99,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.frame_6,
             self.frame_12,
             self.frame_7,
-            self.frame_13,
             self.frame_14,
             self.frame_9,
             self.frame_5
@@ -116,14 +111,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.salesReport_pushButton.clicked.connect(lambda: self.button_clicked(self.sales_report_logo, self.frame_9, self.salesReport_pushButton, 4))
         self.activityLogs_pushButton.clicked.connect(lambda: self.button_clicked(self.activity_logs_logo, self.frame_10, self.activityLogs_pushButton, 5))
         self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 6))
-        self.backupRestore_pushButton.clicked.connect(lambda: self.button_clicked(self.backup_restore_logo, self.frame_13, self.backupRestore_pushButton, 7))
-        self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 8))
-        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 9))
+        self.archive_pushButton.clicked.connect(lambda: self.button_clicked(self.archive_logo, self.frame_14, self.archive_pushButton, 7))
+        self.accounts_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.accounts_pushButton, 8))
         self.profile_pushButton.clicked.connect(lambda: self.profile_btn_clicked())
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
-        self.systemSettings_pushButton.clicked.connect(lambda: self.show_system_settings_btn())
 
         self.get_current_index()
         # call function to hide button once
@@ -167,12 +160,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             case 6:
                 self.current_page_label.setText("Settings")
             case 7:
-                self.current_page_label.setText("Backup and Restore")
-            case 8:
                 self.current_page_label.setText("Archive")
-            case 9:
+            case 8:
                 self.current_page_label.setText("Accounts")
-            case 10:
+            case 9:
                 self.current_page_label.setText("Profile")
 
     def set_profile_icon(self):
@@ -215,24 +206,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Ensure the QLabel does not distort the pixmap
         self.logo.setScaledContents(True)
 
-
-    def show_system_settings_btn(self):
-        def show_buttons():
-            self.frame_12.show() # settings button frame
-            self.frame_13.show() # backup and restore button frame
-
-        def hide_buttons():
-            self.frame_12.hide()
-            self.frame_13.hide()
-
-        def check_buttons_visibility():
-            if not self.frame_12.isVisible() or not self.frame_13.isVisible():
-                show_buttons()  # Show the buttons if either is not visible
-            else:
-                hide_buttons()  # Hide the buttons if both are already visible
-
-        check_buttons_visibility()
-
     def show_reports_and_logs_btn(self):
         def show_buttons():
             print('showing reports and logs buttons')
@@ -256,8 +229,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         buttons = [
             self.frame_9, # sales report button frame
             self.frame_10, # activity logs button frame
-            self.frame_12, # settings button frame
-            self.frame_13 # backup restore button frame
         ]
         for button in buttons:
             button.hide()
@@ -477,20 +448,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.activity_logs_logo.setPixmap(act_logs_icon)
         self.activity_logs_logo.setScaledContents(True)
         
-        system_udpate_icon = QPixmap("app/resources/icons/black-theme/system-update.png")
-        self.system_settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/system-update.png")
-        self.system_settings_logo.setPixmap(system_udpate_icon)
-        self.system_settings_logo.setScaledContents(True)
-        
         setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
         self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
         self.settings_logo.setPixmap(setting_icon)
         self.settings_logo.setScaledContents(True)
-
-        backup_restore_icon = QPixmap("app/resources/icons/black-theme/database.png")
-        self.backup_restore_logo.file_name = os.path.basename("app/resources/icons/black-theme/database.png")
-        self.backup_restore_logo.setPixmap(backup_restore_icon)
-        self.backup_restore_logo.setScaledContents(True)
         
         archive_icon = QPixmap("app/resources/icons/black-theme/archive.png")
         self.archive_logo.file_name = os.path.basename("app/resources/icons/black-theme/archive.png")

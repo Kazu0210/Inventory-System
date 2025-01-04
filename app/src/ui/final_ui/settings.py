@@ -12,19 +12,32 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(709, 560)
-        Form.setStyleSheet("font: 10pt \"Noto Sans\";")
+        Form.resize(753, 651)
+        Form.setStyleSheet("*{\n"
+"font: 10pt \"Noto Sans\";\n"
+"}\n"
+"QLineEdit{\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"background-color: #fff;\n"
+"}")
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.scrollArea = QtWidgets.QScrollArea(parent=Form)
+        self.scrollArea.setStyleSheet("#scrollArea{\n"
+"border: none;\n"
+"}")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 707, 558))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -199, 736, 850))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frame_2 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_2.setStyleSheet("#frame_2{\n"
@@ -46,15 +59,25 @@ class Ui_Form(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(5)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(parent=self.frame)
-        self.label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+        self.label.setStyleSheet("font: 63 15pt \"Noto Sans SemiBold\";\n"
 "color: #333333;")
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.verticalLayout_2.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.timeFormat_comboBox = QtWidgets.QComboBox(parent=self.frame_2)
-        self.timeFormat_comboBox.setMinimumSize(QtCore.QSize(120, 0))
+        self.frame_3 = QtWidgets.QFrame(parent=self.frame_2)
+        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_3)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setSpacing(5)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.timeFormat_comboBox = QtWidgets.QComboBox(parent=self.frame_3)
+        self.timeFormat_comboBox.setMinimumSize(QtCore.QSize(150, 0))
         self.timeFormat_comboBox.setMaximumSize(QtCore.QSize(150, 16777215))
         self.timeFormat_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.timeFormat_comboBox.setStyleSheet("QComboBox{\n"
@@ -78,12 +101,402 @@ class Ui_Form(object):
 "margin: 0;\n"
 "}")
         self.timeFormat_comboBox.setObjectName("timeFormat_comboBox")
-        self.verticalLayout_2.addWidget(self.timeFormat_comboBox)
-        self.timeFormat_comboBox.raise_()
-        self.frame.raise_()
-        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem)
+        self.horizontalLayout_2.addWidget(self.timeFormat_comboBox)
+        self.update_format_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
+        self.update_format_pushButton.setMinimumSize(QtCore.QSize(120, 30))
+        self.update_format_pushButton.setMaximumSize(QtCore.QSize(120, 30))
+        self.update_format_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.update_format_pushButton.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;")
+        self.update_format_pushButton.setObjectName("update_format_pushButton")
+        self.horizontalLayout_2.addWidget(self.update_format_pushButton)
+        self.change_format_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
+        self.change_format_pushButton.setMinimumSize(QtCore.QSize(120, 30))
+        self.change_format_pushButton.setMaximumSize(QtCore.QSize(120, 30))
+        self.change_format_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.change_format_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 9pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.change_format_pushButton.setObjectName("change_format_pushButton")
+        self.horizontalLayout_2.addWidget(self.change_format_pushButton)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem)
+        self.verticalLayout_2.addWidget(self.frame_3)
+        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame_4 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
+        self.frame_4.setStyleSheet("#frame_4{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_4.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_4.setObjectName("frame_4")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_4)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.frame_5 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_5)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.label_2 = QtWidgets.QLabel(parent=self.frame_5)
+        self.label_2.setStyleSheet("font: 63 15pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_3.addWidget(self.label_2)
+        self.verticalLayout_4.addWidget(self.frame_5)
+        self.frame_6 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_6.setObjectName("frame_6")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_6)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.label_3 = QtWidgets.QLabel(parent=self.frame_6)
+        self.label_3.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout_5.addWidget(self.label_3)
+        self.frame_7 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_7.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame_7)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(5)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.label_4 = QtWidgets.QLabel(parent=self.frame_7)
+        self.label_4.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_6.addWidget(self.label_4)
+        self.frame_8 = QtWidgets.QFrame(parent=self.frame_7)
+        self.frame_8.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_8.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_8.setObjectName("frame_8")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_8)
+        self.verticalLayout_7.setContentsMargins(-1, 0, -1, 0)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.BackupEntireDB_radioButton = QtWidgets.QRadioButton(parent=self.frame_8)
+        self.BackupEntireDB_radioButton.setObjectName("BackupEntireDB_radioButton")
+        self.verticalLayout_7.addWidget(self.BackupEntireDB_radioButton)
+        self.BackupSpecifics_radioButton = QtWidgets.QRadioButton(parent=self.frame_8)
+        self.BackupSpecifics_radioButton.setObjectName("BackupSpecifics_radioButton")
+        self.verticalLayout_7.addWidget(self.BackupSpecifics_radioButton)
+        self.verticalLayout_6.addWidget(self.frame_8)
+        self.verticalLayout_5.addWidget(self.frame_7)
+        self.frame_9 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_9)
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_8.setSpacing(5)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.label_5 = QtWidgets.QLabel(parent=self.frame_9)
+        self.label_5.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_5.setObjectName("label_5")
+        self.verticalLayout_8.addWidget(self.label_5)
+        self.BackupEntireDb_frame = QtWidgets.QFrame(parent=self.frame_9)
+        self.BackupEntireDb_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.BackupEntireDb_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.BackupEntireDb_frame.setObjectName("BackupEntireDb_frame")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.BackupEntireDb_frame)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.frame_10 = QtWidgets.QFrame(parent=self.BackupEntireDb_frame)
+        self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_10.setObjectName("frame_10")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_10)
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_10.setSpacing(5)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.label_6 = QtWidgets.QLabel(parent=self.frame_10)
+        self.label_6.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_6.setObjectName("label_6")
+        self.verticalLayout_10.addWidget(self.label_6)
+        self.backupFormat_comboBox = QtWidgets.QComboBox(parent=self.frame_10)
+        self.backupFormat_comboBox.setMinimumSize(QtCore.QSize(150, 30))
+        self.backupFormat_comboBox.setMaximumSize(QtCore.QSize(150, 30))
+        self.backupFormat_comboBox.setStyleSheet("QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 2px solid #228B22;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: white;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}")
+        self.backupFormat_comboBox.setObjectName("backupFormat_comboBox")
+        self.verticalLayout_10.addWidget(self.backupFormat_comboBox)
+        self.verticalLayout_9.addWidget(self.frame_10)
+        self.frame_11 = QtWidgets.QFrame(parent=self.BackupEntireDb_frame)
+        self.frame_11.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_11.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_11.setObjectName("frame_11")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_11)
+        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_11.setSpacing(5)
+        self.verticalLayout_11.setObjectName("verticalLayout_11")
+        self.label_7 = QtWidgets.QLabel(parent=self.frame_11)
+        self.label_7.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_7.setObjectName("label_7")
+        self.verticalLayout_11.addWidget(self.label_7)
+        self.frame_12 = QtWidgets.QFrame(parent=self.frame_11)
+        self.frame_12.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_12.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_12.setObjectName("frame_12")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_12)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setSpacing(5)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.location1_lineEdit = QtWidgets.QLineEdit(parent=self.frame_12)
+        self.location1_lineEdit.setMinimumSize(QtCore.QSize(200, 30))
+        self.location1_lineEdit.setMaximumSize(QtCore.QSize(400, 30))
+        self.location1_lineEdit.setObjectName("location1_lineEdit")
+        self.horizontalLayout_4.addWidget(self.location1_lineEdit)
+        self.browseFile1_pushButton = QtWidgets.QPushButton(parent=self.frame_12)
+        self.browseFile1_pushButton.setMinimumSize(QtCore.QSize(120, 30))
+        self.browseFile1_pushButton.setMaximumSize(QtCore.QSize(120, 30))
+        self.browseFile1_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.browseFile1_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 9pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.browseFile1_pushButton.setObjectName("browseFile1_pushButton")
+        self.horizontalLayout_4.addWidget(self.browseFile1_pushButton)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem1)
+        self.verticalLayout_11.addWidget(self.frame_12)
+        self.verticalLayout_9.addWidget(self.frame_11)
+        self.verticalLayout_8.addWidget(self.BackupEntireDb_frame)
+        self.BackupSpecificCollection_frame = QtWidgets.QFrame(parent=self.frame_9)
+        self.BackupSpecificCollection_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.BackupSpecificCollection_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.BackupSpecificCollection_frame.setObjectName("BackupSpecificCollection_frame")
+        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.BackupSpecificCollection_frame)
+        self.verticalLayout_12.setObjectName("verticalLayout_12")
+        self.frame_13 = QtWidgets.QFrame(parent=self.BackupSpecificCollection_frame)
+        self.frame_13.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_13.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_13.setObjectName("frame_13")
+        self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.frame_13)
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, -1)
+        self.verticalLayout_13.setObjectName("verticalLayout_13")
+        self.label_8 = QtWidgets.QLabel(parent=self.frame_13)
+        self.label_8.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_8.setObjectName("label_8")
+        self.verticalLayout_13.addWidget(self.label_8)
+        self.collections_frame = QtWidgets.QFrame(parent=self.frame_13)
+        self.collections_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.collections_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.collections_frame.setObjectName("collections_frame")
+        self.verticalLayout_13.addWidget(self.collections_frame)
+        self.verticalLayout_12.addWidget(self.frame_13)
+        self.frame_14 = QtWidgets.QFrame(parent=self.BackupSpecificCollection_frame)
+        self.frame_14.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_14.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_14.setObjectName("frame_14")
+        self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.frame_14)
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_14.setSpacing(5)
+        self.verticalLayout_14.setObjectName("verticalLayout_14")
+        self.label_9 = QtWidgets.QLabel(parent=self.frame_14)
+        self.label_9.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_9.setObjectName("label_9")
+        self.verticalLayout_14.addWidget(self.label_9)
+        self.comboBox_2 = QtWidgets.QComboBox(parent=self.frame_14)
+        self.comboBox_2.setMinimumSize(QtCore.QSize(150, 30))
+        self.comboBox_2.setMaximumSize(QtCore.QSize(150, 30))
+        self.comboBox_2.setStyleSheet("QComboBox{\n"
+"font: 10pt \"Inter\";\n"
+"background-color: #fff;\n"
+"border: 2px solid #228B22;\n"
+"border-radius: 5px;\n"
+"padding: 5px\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"border: none;\n"
+"background: white;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"image: none;               \n"
+"border: none;              \n"
+"width: 0; height: 0;       \n"
+"border-left: 5px solid none; \n"
+"border-right: 5px solid none;\n"
+"border-top: 7px solid #228B22; \n"
+"margin: 0;\n"
+"}")
+        self.comboBox_2.setObjectName("comboBox_2")
+        self.verticalLayout_14.addWidget(self.comboBox_2)
+        self.verticalLayout_12.addWidget(self.frame_14)
+        self.frame_15 = QtWidgets.QFrame(parent=self.BackupSpecificCollection_frame)
+        self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_15.setObjectName("frame_15")
+        self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.frame_15)
+        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_15.setSpacing(5)
+        self.verticalLayout_15.setObjectName("verticalLayout_15")
+        self.label_10 = QtWidgets.QLabel(parent=self.frame_15)
+        self.label_10.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_10.setObjectName("label_10")
+        self.verticalLayout_15.addWidget(self.label_10)
+        self.frame_16 = QtWidgets.QFrame(parent=self.frame_15)
+        self.frame_16.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_16.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_16.setObjectName("frame_16")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_16)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setSpacing(5)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.location2_lineEdit = QtWidgets.QLineEdit(parent=self.frame_16)
+        self.location2_lineEdit.setMinimumSize(QtCore.QSize(200, 30))
+        self.location2_lineEdit.setMaximumSize(QtCore.QSize(400, 30))
+        self.location2_lineEdit.setObjectName("location2_lineEdit")
+        self.horizontalLayout_5.addWidget(self.location2_lineEdit)
+        self.browseFile2_pushButton = QtWidgets.QPushButton(parent=self.frame_16)
+        self.browseFile2_pushButton.setMinimumSize(QtCore.QSize(120, 30))
+        self.browseFile2_pushButton.setMaximumSize(QtCore.QSize(120, 30))
+        self.browseFile2_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.browseFile2_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 9pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.browseFile2_pushButton.setObjectName("browseFile2_pushButton")
+        self.horizontalLayout_5.addWidget(self.browseFile2_pushButton)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem2)
+        self.verticalLayout_15.addWidget(self.frame_16)
+        self.verticalLayout_12.addWidget(self.frame_15)
+        self.verticalLayout_8.addWidget(self.BackupSpecificCollection_frame)
+        self.verticalLayout_5.addWidget(self.frame_9)
+        self.frame_20 = QtWidgets.QFrame(parent=self.frame_6)
+        self.frame_20.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_20.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_20.setObjectName("frame_20")
+        self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.frame_20)
+        self.verticalLayout_17.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_17.setSpacing(5)
+        self.verticalLayout_17.setObjectName("verticalLayout_17")
+        self.label_12 = QtWidgets.QLabel(parent=self.frame_20)
+        self.label_12.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_12.setObjectName("label_12")
+        self.verticalLayout_17.addWidget(self.label_12)
+        self.frame_17 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_17.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_17.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_17.setObjectName("frame_17")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_17)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(5)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.pushButton = QtWidgets.QPushButton(parent=self.frame_17)
+        self.pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.pushButton.setMaximumSize(QtCore.QSize(125, 30))
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;")
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_6.addWidget(self.pushButton)
+        self.progressBar = QtWidgets.QProgressBar(parent=self.frame_17)
+        self.progressBar.setMinimumSize(QtCore.QSize(450, 30))
+        self.progressBar.setMaximumSize(QtCore.QSize(450, 30))
+        self.progressBar.setProperty("value", 0)
+        self.progressBar.setObjectName("progressBar")
+        self.horizontalLayout_6.addWidget(self.progressBar)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem3)
+        self.verticalLayout_17.addWidget(self.frame_17)
+        self.verticalLayout_5.addWidget(self.frame_20)
+        self.verticalLayout_4.addWidget(self.frame_6)
+        self.frame_18 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_18.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_18.setObjectName("frame_18")
+        self.verticalLayout_16 = QtWidgets.QVBoxLayout(self.frame_18)
+        self.verticalLayout_16.setSpacing(5)
+        self.verticalLayout_16.setObjectName("verticalLayout_16")
+        self.label_11 = QtWidgets.QLabel(parent=self.frame_18)
+        self.label_11.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_11.setObjectName("label_11")
+        self.verticalLayout_16.addWidget(self.label_11)
+        self.frame_19 = QtWidgets.QFrame(parent=self.frame_18)
+        self.frame_19.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_19.setObjectName("frame_19")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_19)
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_7.setSpacing(5)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.location3_lineEdit = QtWidgets.QLineEdit(parent=self.frame_19)
+        self.location3_lineEdit.setMinimumSize(QtCore.QSize(200, 30))
+        self.location3_lineEdit.setMaximumSize(QtCore.QSize(400, 30))
+        self.location3_lineEdit.setObjectName("location3_lineEdit")
+        self.horizontalLayout_7.addWidget(self.location3_lineEdit)
+        self.browseFile3_pushButton = QtWidgets.QPushButton(parent=self.frame_19)
+        self.browseFile3_pushButton.setMinimumSize(QtCore.QSize(120, 30))
+        self.browseFile3_pushButton.setMaximumSize(QtCore.QSize(120, 30))
+        self.browseFile3_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.browseFile3_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 9pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.browseFile3_pushButton.setObjectName("browseFile3_pushButton")
+        self.horizontalLayout_7.addWidget(self.browseFile3_pushButton)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem4)
+        self.verticalLayout_16.addWidget(self.frame_19)
+        self.restore_pushButton = QtWidgets.QPushButton(parent=self.frame_18)
+        self.restore_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.restore_pushButton.setMaximumSize(QtCore.QSize(125, 30))
+        self.restore_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.restore_pushButton.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;")
+        self.restore_pushButton.setObjectName("restore_pushButton")
+        self.verticalLayout_16.addWidget(self.restore_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_4.addWidget(self.frame_18)
+        self.verticalLayout_3.addWidget(self.frame_4)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem5)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
 
@@ -94,6 +507,26 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "Time Format"))
+        self.update_format_pushButton.setText(_translate("Form", "Update"))
+        self.change_format_pushButton.setText(_translate("Form", "Change Format"))
+        self.label_2.setText(_translate("Form", "Backup & Restore"))
+        self.label_3.setText(_translate("Form", "Backup"))
+        self.label_4.setText(_translate("Form", "Backup Options"))
+        self.BackupEntireDB_radioButton.setText(_translate("Form", "Backup Entire Database"))
+        self.BackupSpecifics_radioButton.setText(_translate("Form", "Backup Specific Collections"))
+        self.label_5.setText(_translate("Form", "Backup Configuration"))
+        self.label_6.setText(_translate("Form", "Backup Format:"))
+        self.label_7.setText(_translate("Form", "Choose Save Location:"))
+        self.browseFile1_pushButton.setText(_translate("Form", "Browse"))
+        self.label_8.setText(_translate("Form", "Collections:"))
+        self.label_9.setText(_translate("Form", "Backup Format:"))
+        self.label_10.setText(_translate("Form", "Choose Save Location:"))
+        self.browseFile2_pushButton.setText(_translate("Form", "Browse"))
+        self.label_12.setText(_translate("Form", "Backup Progress:"))
+        self.pushButton.setText(_translate("Form", "Start Backup"))
+        self.label_11.setText(_translate("Form", "Restore"))
+        self.browseFile3_pushButton.setText(_translate("Form", "Browse"))
+        self.restore_pushButton.setText(_translate("Form", "Restore"))
 
 
 if __name__ == "__main__":

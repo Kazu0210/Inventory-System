@@ -7,13 +7,28 @@
     <x>0</x>
     <y>0</y>
     <width>824</width>
-    <height>578</height>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>5</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QFrame" name="frame">
      <property name="frameShape">
@@ -78,13 +93,16 @@ background-color: transparent;
              <number>5</number>
             </property>
             <property name="leftMargin">
-             <number>9</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
-             <number>9</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>9</number>
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
             <item alignment="Qt::AlignLeft">
              <widget class="QFrame" name="frame_6">
@@ -559,9 +577,9 @@ border:none;</string>
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
-                 <width>785</width>
-                 <height>618</height>
+                 <y>-130</y>
+                 <width>803</width>
+                 <height>623</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -590,7 +608,7 @@ border:none;</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_16">
                    <property name="spacing">
-                    <number>0</number>
+                    <number>5</number>
                    </property>
                    <property name="leftMargin">
                     <number>0</number>
@@ -1043,7 +1061,6 @@ color: #000;</string>
                   <property name="styleSheet">
                    <string notr="true">#frame_13{
 background-color:rgb(255, 255, 255);
-border:1px solid gray;
 }</string>
                   </property>
                   <property name="frameShape">
