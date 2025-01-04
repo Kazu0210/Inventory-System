@@ -283,9 +283,48 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                             payment_stat.addItem(str(value))
                         except Exception as e:
                             print(f"Error loading payment status: {e}")
-
                         continue
+                    elif header == 'orderstatus':
+                        # Retrieve the order_id for the current row (assuming order_id is in column 0)
+                        order_id = self.orders_tableWidget.item(row, 0).text() if self.orders_tableWidget.item(row, 0) else None
 
+                        try:
+                            order_stat = QComboBox()
+                            
+                            # Ensure the correct order_id is captured in the lambda
+                            order_stat.currentTextChanged.connect(
+                                lambda text, oid=order_id, v=value, r=row: self.handle_order_status(v, r, text, oid)
+                            )
+
+                            self.orders_tableWidget.setCellWidget(row, column, order_stat)
+                            order_stat_dir = "app/resources/config/filters.json"
+
+                            # Open and load the JSON file
+                            with open(order_stat_dir, 'r') as f:
+                                data = json.load(f)
+
+                            # Populate the combobox with values
+                            order_stat.clear()
+                            found_current_status = False
+                            for job in data['order_status']:
+                                job_value = list(job.values())[0]
+                                if job_value == value:
+                                    order_stat.addItem(job_value)
+                                    found_current_status = True
+                                    break
+
+                            for job in data['order_status']:
+                                job_value = list(job.values())[0]
+                                if job_value not in ["Default", "Show All"] and job_value != value:
+                                    order_stat.addItem(job_value)
+
+                            if not found_current_status:
+                                order_stat.insertItem(0, value)
+
+                            order_stat.addItem(str(value))
+                        except Exception as e:
+                            print(f"Error loading order status: {e}")
+                        continue
 
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
@@ -296,6 +335,30 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         # Add navigation controls
         # self.update_navigation_controls(len(data), page, rows_per_page)
+
+    def handle_order_status(self, pending_status, row, text, order_id):
+        """handle payment button clicked"""
+        print(f"row: {row}")
+        print(f"Pending Status: {pending_status}")
+        print(f'New text: {text}')
+        print(f'Order id: {order_id}')
+
+        if text != pending_status:
+            print(f'Not the same')
+            msg_box = QMessageBox.question(self, 
+                                  "Confirm Action",
+                                  "Are you sure you want to perform this action?",
+                                  QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+            
+            if msg_box == QMessageBox.StandardButton.Yes:
+                filter = {
+                    'order_id': order_id
+                }
+                self.connect_to_db('orders').update_one(filter, {'$set': {'order_status': text}})
+
+                QMessageBox.information(self, "Success", "Order status updated successfully")
+            else:
+                print('User selected no')
 
     def handle_payment(self, pending_status, row, text, order_id):
         """handle payment button clicked"""
@@ -321,7 +384,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             else:
                 print('User selected no')
 
-        
     def load_view_products_table(self, products, page=0, rows_per_page=10):
         """Load the view products table with the products sold"""
         self.current_page = page  # Keep track of the current page
