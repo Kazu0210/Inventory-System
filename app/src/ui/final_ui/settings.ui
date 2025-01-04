@@ -54,7 +54,7 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-130</y>
+        <y>0</y>
         <width>736</width>
         <height>850</height>
        </rect>
@@ -136,7 +136,8 @@ background-color: transparent;
               <widget class="QLabel" name="label">
                <property name="styleSheet">
                 <string notr="true">font: 63 15pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
+color: #333333;
+background-color: transparent;</string>
                </property>
                <property name="text">
                 <string>Time Format</string>
@@ -334,7 +335,8 @@ background-color: transparent;
               <widget class="QLabel" name="label_2">
                <property name="styleSheet">
                 <string notr="true">font: 63 15pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
+color: #333333;
+background-color: transparent;</string>
                </property>
                <property name="text">
                 <string>Backup &amp; Restore</string>

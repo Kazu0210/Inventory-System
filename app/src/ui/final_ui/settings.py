@@ -33,7 +33,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -199, 736, 850))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 736, 850))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -64,7 +64,8 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(parent=self.frame)
         self.label.setStyleSheet("font: 63 15pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
+"color: #333333;\n"
+"background-color: transparent;")
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.verticalLayout_2.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
@@ -151,7 +152,8 @@ class Ui_Form(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_2 = QtWidgets.QLabel(parent=self.frame_5)
         self.label_2.setStyleSheet("font: 63 15pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
+"color: #333333;\n"
+"background-color: transparent;")
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_3.addWidget(self.label_2)
         self.verticalLayout_4.addWidget(self.frame_5)
