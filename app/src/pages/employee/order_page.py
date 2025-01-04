@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel, QPushButton, QComboBox
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
@@ -51,6 +51,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.update_total_orders()
 
+        self.hide_back_button()
+
         # Initialize the form with the provided order_id
         self.order_id = self.generate_order_id()
 
@@ -63,6 +65,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Button connections
         self.addItem_btn.clicked.connect(self.save_form)
         self.finalize_order_pushButton.clicked.connect(lambda: self.confirm_button_clicked())
+        self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
 
         self.add_product_name()
         self.reset_quantity_box()
@@ -225,37 +228,103 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                             print(f"Error: {e}")
 
                         # Inside the `for column, header in enumerate(self.header_labels):` loop
-                        if header == 'products':
-                            try:
-                                # Create a frame for the products column
-                                frame = QFrame()  # Create a frame for the products
-                                frame.setStyleSheet('border: 1px solid black;')
-                                frame.setLayout(QVBoxLayout())  # Set vertical layout for the frame
-                                
-                                print(F"PUNYETAAAAAAAAAAAAAAAAAAAA")
+                    elif header == 'products':
+                        # Ensure value is a list
+                        if isinstance(value, list):
+                            view_prod_pushButton = QPushButton('View Products')
+                            view_prod_pushButton.clicked.connect(lambda _, v=value, r=row: self.handle_view_products_button(v, r))
+                            # view_prod_pushButton.clicked.connect(lambda: self.handle_view_products_button())
+                            view_prod_pushButton.setStyleSheet("""
+                            color: #000;
+                            border: 1px solid #000;
+                            """)
+                            self.orders_tableWidget.setCellWidget(row, column, view_prod_pushButton)
 
-                                # Loop through each product in the value list
-                                for product in value:
-                                    # Create a label for each product (adjust based on the product data structure)
-                                    product_name = product['product_name']
-                                    print(f'Product Name in table: {product_name}')
-                                    product_label = QLabel(product_name)  # You can format this label as needed
-                                    product_label.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Left-align the text
-                                    
-                                    # Add the label to the frame
-                                    frame.layout().addWidget(product_label)
+                            continue
+                        else:
+                            value = "Invalid product data"
+                    elif header == 'paymentstatus':
+                        # Retrieve the order_id for the current row (assuming order_id is in column 0)
+                        order_id = self.orders_tableWidget.item(row, 0).text() if self.orders_tableWidget.item(row, 0) else None
 
-                                # Insert the frame into the table (into the corresponding row and column)
-                                table.setCellWidget(row, column, frame)
+                        try:
+                            payment_stat = QComboBox()
+                            
+                            # Ensure the correct order_id is captured in the lambda
+                            payment_stat.currentTextChanged.connect(
+                                lambda text, oid=order_id, v=value, r=row: self.handle_payment(v, r, text, oid)
+                            )
 
-                                # Set the width of the products column to 150
-                                table.setColumnWidth(column, 150)
+                            self.orders_tableWidget.setCellWidget(row, column, payment_stat)
+                            payment_stat_dir = "app/resources/config/filters.json"
 
-                                # Adjust the row height to automatically fit the content (set to the height of the frame)
-                                table.resizeRowToContents(row)
+                            # Open and load the JSON file
+                            with open(payment_stat_dir, 'r') as f:
+                                data = json.load(f)
 
-                            except Exception as e:
-                                print(f"Error: {e}")
+                            # Populate the combobox with values
+                            payment_stat.clear()
+                            found_current_status = False
+                            for job in data['payment_status']:
+                                job_value = list(job.values())[0]
+                                if job_value == value:
+                                    payment_stat.addItem(job_value)
+                                    found_current_status = True
+                                    break
+
+                            for job in data['payment_status']:
+                                job_value = list(job.values())[0]
+                                if job_value not in ["Default", "Show All"] and job_value != value:
+                                    payment_stat.addItem(job_value)
+
+                            if not found_current_status:
+                                payment_stat.insertItem(0, value)
+
+                            payment_stat.addItem(str(value))
+                        except Exception as e:
+                            print(f"Error loading payment status: {e}")
+                        continue
+                    elif header == 'orderstatus':
+                        # Retrieve the order_id for the current row (assuming order_id is in column 0)
+                        order_id = self.orders_tableWidget.item(row, 0).text() if self.orders_tableWidget.item(row, 0) else None
+
+                        try:
+                            order_stat = QComboBox()
+                            
+                            # Ensure the correct order_id is captured in the lambda
+                            order_stat.currentTextChanged.connect(
+                                lambda text, oid=order_id, v=value, r=row: self.handle_order_status(v, r, text, oid)
+                            )
+
+                            self.orders_tableWidget.setCellWidget(row, column, order_stat)
+                            order_stat_dir = "app/resources/config/filters.json"
+
+                            # Open and load the JSON file
+                            with open(order_stat_dir, 'r') as f:
+                                data = json.load(f)
+
+                            # Populate the combobox with values
+                            order_stat.clear()
+                            found_current_status = False
+                            for job in data['order_status']:
+                                job_value = list(job.values())[0]
+                                if job_value == value:
+                                    order_stat.addItem(job_value)
+                                    found_current_status = True
+                                    break
+
+                            for job in data['order_status']:
+                                job_value = list(job.values())[0]
+                                if job_value not in ["Default", "Show All"] and job_value != value:
+                                    order_stat.addItem(job_value)
+
+                            if not found_current_status:
+                                order_stat.insertItem(0, value)
+
+                            order_stat.addItem(str(value))
+                        except Exception as e:
+                            print(f"Error loading order status: {e}")
+                        continue
 
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
@@ -266,6 +335,218 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         # Add navigation controls
         # self.update_navigation_controls(len(data), page, rows_per_page)
+
+    def handle_order_status(self, pending_status, row, text, order_id):
+        """handle payment button clicked"""
+        print(f"row: {row}")
+        print(f"Pending Status: {pending_status}")
+        print(f'New text: {text}')
+        print(f'Order id: {order_id}')
+
+        if text != pending_status:
+            print(f'Not the same')
+            msg_box = QMessageBox.question(self, 
+                                  "Confirm Action",
+                                  "Are you sure you want to perform this action?",
+                                  QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+            
+            if msg_box == QMessageBox.StandardButton.Yes:
+                filter = {
+                    'order_id': order_id
+                }
+                self.connect_to_db('orders').update_one(filter, {'$set': {'order_status': text}})
+
+                QMessageBox.information(self, "Success", "Order status updated successfully")
+            else:
+                print('User selected no')
+
+    def handle_payment(self, pending_status, row, text, order_id):
+        """handle payment button clicked"""
+        print(f"row: {row}")
+        print(f"Pending Status: {pending_status}")
+        print(f'New text: {text}')
+        print(f'Order id: {order_id}')
+
+        if text != pending_status:
+            print(f'Not the same')
+            msg_box = QMessageBox.question(self, 
+                                  "Confirm Action",
+                                  "Are you sure you want to perform this action?",
+                                  QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+            
+            if msg_box == QMessageBox.StandardButton.Yes:
+                filter = {
+                    'order_id': order_id
+                }
+                self.connect_to_db('orders').update_one(filter, {'$set': {'payment_status': text}})
+
+                QMessageBox.information(self, "Success", "Payment status updated successfully")
+            else:
+                print('User selected no')
+
+    def load_view_products_table(self, products, page=0, rows_per_page=10):
+        """Load the view products table with the products sold"""
+        self.current_page = page  # Keep track of the current page
+        self.rows_per_page = rows_per_page  # Number of rows per page
+        table = self.orders_tableWidget
+        table.setSortingEnabled(True)
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
+        table.setRowCount(0)  # Clear the table
+        table.setStyleSheet("""
+        QTableWidget{
+        border-radius: 5px;
+        background-color: #fff;
+        color: #000;
+        }
+        QHeaderView:Section{
+        background-color: #228B22;
+        color: #fff;               
+        font: bold 12pt "Noto Sans";
+        }
+        QTableWidget::item {
+            border: none;  /* Remove border from each item */
+            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
+        }
+            QScrollBar:vertical {
+                border: none;
+                background: #0C959B;
+                width: 13px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #002E2C;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #0C959B;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }
+        """)
+        # Header JSON directory
+        header_dir = "app/resources/config/table/view_products_tableHeader.json"
+        # Settings directory
+        settings_dir = "app/resources/config/settings.json"
+        with open(header_dir, 'r') as f:
+            header_labels = json.load(f)
+        table.setColumnCount(len(header_labels))
+        table.setHorizontalHeaderLabels(header_labels)
+        header = self.orders_tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+
+        for column in range(table.columnCount()):
+            table.setColumnWidth(column, 145)
+
+        # Set uniform row height for all rows
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+        header.setFixedHeight(50)
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # Clean the header labels
+        self.header_labels = [self.clean_header(header) for header in header_labels]
+
+        # if self.search_lineEdit.text().strip():  # Check if the input is not empty and strip any whitespace
+        #     filter = {
+        #         "product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
+        #     }
+
+        # Get data from MongoDB
+        # data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
+        data = list(products)
+        if not data:
+            return  # Exit if the collection is empty
+        
+        with open(settings_dir, 'r') as f:
+            settings = json.load(f)
+            self.current_time_format = settings['time_date'][0]['time_format']
+        # Pagination logic
+        start_row = page * rows_per_page
+        end_row = start_row + rows_per_page
+        paginated_data = data[start_row:end_row]
+        # Populate table with paginated data
+        for row, item in enumerate(paginated_data):
+            table.setRowCount(row + 1)  # Add a new row for each item
+            for column, header in enumerate(self.header_labels):
+                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                original_key = original_keys[0] if original_keys else None
+                value = item.get(original_key)
+                if value is not None:
+                    if header == 'price':
+                        try:
+                            if value:
+                                formatted_value = f"₱ {value:,.2f}"
+                                value = formatted_value
+                        except Exception as e:
+                            print(f"Error: {e}")
+                    elif header == 'totalamount':  
+                        try:
+                            if value:
+                                formatted_value = f"₱ {value:,.2f}"
+                                value = formatted_value
+                        except Exception as e:
+                            print(f"Error: {e}")
+                    # Add the value to the table as a QTableWidgetItem
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                    # Check if row index is even for alternating row colors
+                    if row % 2 == 0:
+                        table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
+                    
+                    table.setItem(row, column, table_item)
+
+    def handle_view_products_button(self, products, row):
+        """Handle the 'View Products' button click event"""
+        self.clear_orders_table()
+        self.show_back_button()
+
+        print(f"Button clicked for row: {row}")
+        print(f"Products: {products}")
+
+        self.load_view_products_table(products)
+
+    def handle_back_button(self):
+        """Handle the 'Back' button click event"""
+        self.load_orders_table()
+        self.hide_back_button()
+
+    def hide_back_button(self):
+        """Hide back button"""
+        self.frame_36.hide()
+    
+    def show_back_button(self):
+        """Show back button"""
+        self.frame_36.show()
+    
+    def clear_orders_table(self):
+        """Clear orders table including the header"""
+        table = self.orders_tableWidget
+        table.clearContents()
+        table.setRowCount(0)
+        table.setColumnCount(0)
 
     def view_order_clicked(self):
         """Handles click event of view orders push button"""
@@ -348,9 +629,12 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         
     def confirm_button_clicked(self):
         """Handles the click event of the "Confirm Order" button"""
-        # Get cart data
-        data = self.get_cart_data()
-        order_id = data.get('order_id', 'N/A')
+        try:
+            # Get cart data
+            data = self.get_cart_data()
+            order_id = data.get('order_id', 'N/A')
+        except Exception as e:
+            print(f"Error: {e}")
 
         # Check if cart is empty
         if data is None:
@@ -1039,14 +1323,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.order_monitor = InventoryMonitor('orders')
         self.order_monitor.start_listener_in_background()
         self.order_monitor.data_changed_signal.connect(object_to_update)
-  
-
-    def createOrder(self):
-        print(f'Create order button clicked')
-        # self.new_order_page = NewOrderPage()
-        # self.new_order_page.show(
-        self.new_order_page = AddOrderForm(None)
-        self.new_order_page.show()
 
     def update_table(self):
             table = self.orders_tableWidget
