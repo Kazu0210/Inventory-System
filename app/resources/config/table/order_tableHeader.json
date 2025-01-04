@@ -2,11 +2,11 @@
     "Order ID",
     "Order Date",
     "Time",
+    "Payment Status",
+    "Order Status",
     "Customer Name",
     "Delivery Address",
     "Products",
     "Total Value",
-    "Payment Status",
-    "Order Status",
     "Remarks"
 ]
