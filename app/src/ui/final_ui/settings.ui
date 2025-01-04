@@ -54,7 +54,7 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-199</y>
+        <y>-130</y>
         <width>736</width>
         <height>850</height>
        </rect>

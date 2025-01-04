@@ -127,7 +127,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def profile_btn_clicked(self):
         """handle click event for profile button"""
-        self.content_window_layout.setCurrentIndex(10)
+        self.content_window_layout.setCurrentIndex(9)
         print(f'Current index when profile button is clicked: {self.get_current_index()}')
         self.set_current_page_name()
 
