@@ -2,7 +2,6 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
 
-# from ui.with_design.login_mainWindow import Ui_login_mainWindow as login_mainWindow
 from ui.final_ui.login_window import Ui_MainWindow as login_mainWindow
 
 from utils.Hashpassword import HashPassword
