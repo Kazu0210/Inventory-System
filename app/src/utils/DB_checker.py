@@ -13,7 +13,6 @@ class db_checker:
     def connect_to_client(self):
         try:
             self.client = pymongo.MongoClient(self.connectionString)
-            print("Connected to MongoDB client")
         except pymongo.errors.ConnectionFailure as e:
             print("Error connecting to MongoDB client:", e)
             sys.exit(1)
@@ -21,14 +20,12 @@ class db_checker:
     def connect_to_db(self):
         if self.client is not None:
             self.db = self.client[self.db_name]
-            print(f"Connected to database: {self.db_name}")
         else:
             print("Error: Client is not connected")
 
     def check_db_exist(self):
         if self.client is not None:
             if self.db_name in self.client.list_database_names():
-                print(f"Database {self.db_name} exists")
                 return True
             else:
                 print("Database does not exist")

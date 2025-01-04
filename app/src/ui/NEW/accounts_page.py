@@ -160,7 +160,8 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(7)
         self.label_5.setFont(font)
-        self.label_5.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_5.setStyleSheet("color: #333333;\n"
+"font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_5.setObjectName("label_5")
         self.horizontalLayout_6.addWidget(self.label_5)
         self.job_filter = QtWidgets.QComboBox(parent=self.frame_5)
@@ -172,6 +173,7 @@ class Ui_Form(object):
         self.job_filter.setMinimumSize(QtCore.QSize(140, 30))
         self.job_filter.setMaximumSize(QtCore.QSize(140, 30))
         self.job_filter.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.job_filter.setStyleSheet("color: #333333;")
         self.job_filter.setObjectName("job_filter")
         self.horizontalLayout_6.addWidget(self.job_filter)
         self.horizontalLayout_4.addWidget(self.frame_5)
@@ -185,18 +187,21 @@ class Ui_Form(object):
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.label_11 = QtWidgets.QLabel(parent=self.frame_6)
         font = QtGui.QFont()
-        font.setFamily("Noto Sans")
+        font.setFamily("Noto Sans SemiBold")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
+        font.setWeight(7)
         self.label_11.setFont(font)
+        self.label_11.setStyleSheet("color: #333333;\n"
+"font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_11.setObjectName("label_11")
         self.horizontalLayout_7.addWidget(self.label_11)
         self.account_status_filter = QtWidgets.QComboBox(parent=self.frame_6)
         self.account_status_filter.setMinimumSize(QtCore.QSize(140, 30))
         self.account_status_filter.setMaximumSize(QtCore.QSize(140, 30))
         self.account_status_filter.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.account_status_filter.setStyleSheet("color: #333333;")
         self.account_status_filter.setObjectName("account_status_filter")
         self.horizontalLayout_7.addWidget(self.account_status_filter)
         self.horizontalLayout_4.addWidget(self.frame_6)
@@ -351,7 +356,9 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.frame_3.setFont(font)
-        self.frame_3.setStyleSheet("")
+        self.frame_3.setStyleSheet("*{\n"
+"color: #333333;\n"
+"}")
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
@@ -466,7 +473,8 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(7)
         self.label_7.setFont(font)
-        self.label_7.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_7.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_7.setObjectName("label_7")
         self.horizontalLayout_11.addWidget(self.label_7)
         self.pass_label = QtWidgets.QLabel(parent=self.frame_12)
@@ -483,7 +491,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.pass_label.setFont(font)
-        self.pass_label.setStyleSheet("color: #0C0550;\n"
+        self.pass_label.setStyleSheet("color: #333333;\n"
 "background-color: #fff;")
         self.pass_label.setText("")
         self.pass_label.setObjectName("pass_label")
@@ -512,7 +520,8 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(7)
         self.label_3.setFont(font)
-        self.label_3.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_3.setStyleSheet("color: #333333;\n"
+"font: 63 10pt \"Noto Sans SemiBold\";")
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_12.addWidget(self.label_3)
         self.fname_label = QtWidgets.QLabel(parent=self.frame_13)
@@ -529,7 +538,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.fname_label.setFont(font)
-        self.fname_label.setStyleSheet("color: #0C0550;\n"
+        self.fname_label.setStyleSheet("color: #333333;\n"
 "background-color: #fff;")
         self.fname_label.setText("")
         self.fname_label.setObjectName("fname_label")
@@ -558,7 +567,8 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(7)
         self.label_6.setFont(font)
-        self.label_6.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_6.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_13.addWidget(self.label_6)
         self.lname_label = QtWidgets.QLabel(parent=self.frame_14)
@@ -575,7 +585,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.lname_label.setFont(font)
-        self.lname_label.setStyleSheet("color: #0C0550;\n"
+        self.lname_label.setStyleSheet("color: #333333;\n"
 "background-color: #fff;")
         self.lname_label.setText("")
         self.lname_label.setObjectName("lname_label")
@@ -683,7 +693,8 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(7)
         self.label_9.setFont(font)
-        self.label_9.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_9.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_9.setObjectName("label_9")
         self.horizontalLayout_16.addWidget(self.label_9)
         self.usertype_label = QtWidgets.QLabel(parent=self.frame_17)
@@ -699,7 +710,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.usertype_label.setFont(font)
-        self.usertype_label.setStyleSheet("color: #0C0550;\n"
+        self.usertype_label.setStyleSheet("color: #333333;\n"
 "background-color: #fff;")
         self.usertype_label.setText("")
         self.usertype_label.setObjectName("usertype_label")
@@ -728,7 +739,8 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(7)
         self.label_8.setFont(font)
-        self.label_8.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_8.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_17.addWidget(self.label_8)
         self.job_label = QtWidgets.QLabel(parent=self.frame_18)
@@ -744,7 +756,7 @@ class Ui_Form(object):
         font.setItalic(False)
         font.setWeight(50)
         self.job_label.setFont(font)
-        self.job_label.setStyleSheet("color: #0C0550;\n"
+        self.job_label.setStyleSheet("color: #333333;\n"
 "background-color: #fff;")
         self.job_label.setText("")
         self.job_label.setObjectName("job_label")

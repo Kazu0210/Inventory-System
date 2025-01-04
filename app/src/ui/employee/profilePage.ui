@@ -91,8 +91,8 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-17</y>
-        <width>729</width>
+        <y>0</y>
+        <width>726</width>
         <height>498</height>
        </rect>
       </property>
@@ -327,6 +327,9 @@ background-color: transparent;</string>
              </item>
              <item>
               <widget class="QFrame" name="frame_14">
+               <property name="styleSheet">
+                <string notr="true">color: #333333;</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -364,7 +367,8 @@ background-color: transparent;</string>
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                   <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                   </property>
                   <property name="text">
                    <string>First Name:</string>
@@ -395,6 +399,9 @@ background-color: transparent;</string>
              </item>
              <item>
               <widget class="QFrame" name="frame_15">
+               <property name="styleSheet">
+                <string notr="true">color: #333333;</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -463,6 +470,9 @@ background-color: transparent;</string>
              </item>
              <item>
               <widget class="QFrame" name="frame_16">
+               <property name="styleSheet">
+                <string notr="true">color: #333333;</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -658,6 +668,9 @@ background-color: transparent;</string>
                 </property>
                 <item>
                  <widget class="QFrame" name="frame_20">
+                  <property name="styleSheet">
+                   <string notr="true">color: #333333;</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -729,6 +742,9 @@ background-color: transparent;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_18">
+                  <property name="styleSheet">
+                   <string notr="true">color: #333333;</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -800,6 +816,9 @@ background-color: transparent;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_17">
+                  <property name="styleSheet">
+                   <string notr="true">color: #333333;</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -871,6 +890,9 @@ background-color: transparent;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_19">
+                  <property name="styleSheet">
+                   <string notr="true">color: #333333;</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -942,6 +964,9 @@ background-color: transparent;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_21">
+                  <property name="styleSheet">
+                   <string notr="true">color: #333333;</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -1013,6 +1038,9 @@ background-color: transparent;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_8">
+                  <property name="styleSheet">
+                   <string notr="true">color: #333333;</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>

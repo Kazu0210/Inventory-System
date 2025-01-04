@@ -89,7 +89,7 @@ QScrollBar:hover{
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>777</width>
+        <width>774</width>
         <height>651</height>
        </rect>
       </property>
@@ -190,7 +190,8 @@ margin: 0;
              <item>
               <widget class="QLabel" name="label_2">
                <property name="styleSheet">
-                <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                </property>
                <property name="text">
                 <string>Activity:</string>
@@ -210,6 +211,9 @@ margin: 0;
                  <width>140</width>
                  <height>30</height>
                 </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #333333;</string>
                </property>
               </widget>
              </item>
@@ -259,7 +263,8 @@ margin: 0;
              <item>
               <widget class="QLabel" name="label_3">
                <property name="styleSheet">
-                <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                </property>
                <property name="text">
                 <string>Status:</string>
@@ -279,6 +284,9 @@ margin: 0;
                  <width>140</width>
                  <height>30</height>
                 </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #333333;</string>
                </property>
               </widget>
              </item>

@@ -325,7 +325,8 @@ margin: 0;
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                      <string notr="true">color: #333333;
+font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                      </property>
                      <property name="text">
                       <string>Job:</string>
@@ -354,6 +355,9 @@ margin: 0;
                      </property>
                      <property name="cursor">
                       <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: #333333;</string>
                      </property>
                     </widget>
                    </item>
@@ -388,12 +392,16 @@ margin: 0;
                     <widget class="QLabel" name="label_11">
                      <property name="font">
                       <font>
-                       <family>Noto Sans</family>
+                       <family>Noto Sans SemiBold</family>
                        <pointsize>10</pointsize>
-                       <weight>50</weight>
+                       <weight>7</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                       </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: #333333;
+font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                      </property>
                      <property name="text">
                       <string>Account Status:</string>
@@ -416,6 +424,9 @@ margin: 0;
                      </property>
                      <property name="cursor">
                       <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: #333333;</string>
                      </property>
                     </widget>
                    </item>
@@ -747,7 +758,9 @@ color: #333333;</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true"/>
+                <string notr="true">*{
+color: #333333;
+}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1009,7 +1022,8 @@ color: #333333;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                      </property>
                      <property name="text">
                       <string>Password:</string>
@@ -1040,7 +1054,7 @@ color: #333333;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
+                      <string notr="true">color: #333333;
 background-color: #fff;</string>
                      </property>
                      <property name="text">
@@ -1105,7 +1119,8 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                      <string notr="true">color: #333333;
+font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                      </property>
                      <property name="text">
                       <string>First name:</string>
@@ -1136,7 +1151,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
+                      <string notr="true">color: #333333;
 background-color: #fff;</string>
                      </property>
                      <property name="text">
@@ -1201,7 +1216,8 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                      </property>
                      <property name="text">
                       <string>Last name:</string>
@@ -1232,7 +1248,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
+                      <string notr="true">color: #333333;
 background-color: #fff;</string>
                      </property>
                      <property name="text">
@@ -1472,7 +1488,8 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                      </property>
                      <property name="text">
                       <string>Usertype:</string>
@@ -1497,7 +1514,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
+                      <string notr="true">color: #333333;
 background-color: #fff;</string>
                      </property>
                      <property name="text">
@@ -1562,7 +1579,8 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                      <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                      </property>
                      <property name="text">
                       <string>Job:</string>
@@ -1587,7 +1605,7 @@ background-color: #fff;</string>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #0C0550;
+                      <string notr="true">color: #333333;
 background-color: #fff;</string>
                      </property>
                      <property name="text">

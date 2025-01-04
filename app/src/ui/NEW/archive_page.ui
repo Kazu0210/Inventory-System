@@ -90,7 +90,7 @@ QScrollBar:hover{
         <x>0</x>
         <y>0</y>
         <width>1045</width>
-        <height>547</height>
+        <height>544</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -192,7 +192,7 @@ border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
 font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #1E1E1E;</string>
+color: #333333;</string>
                </property>
                <property name="text">
                 <string>Archived Accounts</string>
@@ -222,7 +222,7 @@ border: 1px solid #000;
 border-radius: 5px;
 padding: 5px;
 font: 87 10pt &quot;Noto Sans Black&quot;;
-color: #1E1E1E;</string>
+color: #333333;</string>
                </property>
                <property name="text">
                 <string>Archived Products</string>
@@ -326,6 +326,7 @@ border-radius: 5px;
 }
 *{
 background-color: transparent;
+color: #333333;
 }</string>
          </property>
          <property name="frameShape">
@@ -439,7 +440,8 @@ color: #333333;</string>
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+                   <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
                   </property>
                   <property name="text">
                    <string>Name:</string>
@@ -808,7 +810,7 @@ color: #333333;</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <property name="spacing">
-              <number>0</number>
+              <number>10</number>
              </property>
              <property name="leftMargin">
               <number>0</number>
@@ -820,7 +822,7 @@ color: #333333;</string>
               <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item>
               <widget class="QFrame" name="frame_15">

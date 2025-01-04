@@ -67,7 +67,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1045, 547))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1045, 544))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -103,7 +103,7 @@ class Ui_Form(object):
 "border-radius: 5px;\n"
 "padding: 5px;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
-"color: #1E1E1E;")
+"color: #333333;")
         self.accounts_pushButton.setObjectName("accounts_pushButton")
         self.horizontalLayout_2.addWidget(self.accounts_pushButton)
         self.products_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
@@ -115,7 +115,7 @@ class Ui_Form(object):
 "border-radius: 5px;\n"
 "padding: 5px;\n"
 "font: 87 10pt \"Noto Sans Black\";\n"
-"color: #1E1E1E;")
+"color: #333333;")
         self.products_pushButton.setObjectName("products_pushButton")
         self.horizontalLayout_2.addWidget(self.products_pushButton)
         self.verticalLayout_2.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
@@ -163,6 +163,7 @@ class Ui_Form(object):
 "}\n"
 "*{\n"
 "background-color: transparent;\n"
+"color: #333333;\n"
 "}")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -203,7 +204,8 @@ class Ui_Form(object):
         self.label_2 = QtWidgets.QLabel(parent=self.frame_8)
         self.label_2.setMinimumSize(QtCore.QSize(80, 0))
         self.label_2.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.label_2.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_2.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_6.addWidget(self.label_2)
         self.name_label = QtWidgets.QLabel(parent=self.frame_8)
@@ -332,8 +334,8 @@ class Ui_Form(object):
         self.archive_product_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.archive_product_frame.setObjectName("archive_product_frame")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.archive_product_frame)
-        self.verticalLayout_6.setContentsMargins(0, 0, 0, 5)
-        self.verticalLayout_6.setSpacing(0)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(10)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.frame_15 = QtWidgets.QFrame(parent=self.archive_product_frame)
         self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)

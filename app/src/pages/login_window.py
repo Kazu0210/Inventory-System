@@ -190,7 +190,6 @@ class loginWindow(QMainWindow, login_mainWindow):
         if document:
             hashed_password = HashPassword(password)
             if hashed_password.verify_password(document['password']):
-                print("Password correct")
                 self.save_user_id(document['_id'])
 
                 user_type = document.get('user_type')

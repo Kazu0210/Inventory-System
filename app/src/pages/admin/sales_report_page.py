@@ -229,8 +229,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         return top_10_products
     
     def load_inventory_monitor(self):
-        print(f'LOADING INVENTORY MONITOR')
-
         # monitor for today sales
         self.sales_monitor = InventoryMonitor("sales")
         self.sales_monitor.start_listener_in_background()
@@ -497,11 +495,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                         elif header == 'saledate':
                             try:
                                 if value:
-                                    print(f'VALUEEEEEE: {value}')
-                                    
                                     # Directly format the datetime object
                                     value = value.strftime("%Y-%m-%d")
-                                    print(f"DATE ONLYYYY: {value}")  # Output: 2024-12-24
 
                             except Exception as e:
                                 print(f'Error: {e}')
@@ -510,13 +505,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                             print(f'Quantity sold: {value}')                                
 
                         elif header == 'productssold':
-                            print(f'KLEPORD GWAPO')
-                            print(f'value: {value}')
-                            
                             # Ensure value is a list
                             if isinstance(value, list):
                                 product_num = len(value)
-                                print(f'Count: {product_num}')
                                 
                                 view_prod_pushButton = QPushButton('View Products')
                                 view_prod_pushButton.clicked.connect(lambda _, v=value, r=row: self.handle_view_products_button(v, r))
