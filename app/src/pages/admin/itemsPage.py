@@ -1,7 +1,9 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QSplitter, QHBoxLayout
-from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFileDialog
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 import pymongo
+
+from fpdf import FPDF
 from bson import ObjectId
 # from ui.inventoryPage import Ui_Form as items_page
 from pages.admin.newitemsPage import newItem_page
@@ -29,8 +31,7 @@ class ItemsPage(QWidget, items_page):
 
         # new item button connection
         self.setItems.clicked.connect(lambda: self.open_add_product_form())
-        # print button
-        self.print_btn.clicked.connect(self.print_btn_clicked)
+        self.print_btn.clicked.connect(lambda: self.print_btn_clicked())
 
         self.collection = self.connect_to_db('products_items')
 
@@ -57,6 +58,85 @@ class ItemsPage(QWidget, items_page):
         # ComboBox connections
         self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
         self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
+
+    def print_btn_clicked(self):
+        print(f"Print button clicked.")
+        self.create_inventory_report()
+
+    def create_inventory_report(self):
+        """create inventory report"""
+        try:
+            # Fetch inventory data
+            inventory_data = self.connect_to_db("products_items").find()
+
+            # Initialize PDF
+            pdf = FPDF()
+            pdf.set_auto_page_break(auto=True, margin=15)
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
+
+            # Title and Company Name
+            pdf.set_font("Arial", style='B', size=16)
+            pdf.cell(200, 10, txt="Magtibay LPG Trading", ln=True, align='C')  # Company Name
+            pdf.ln(3)
+
+            # Date and Time
+            current_datetime = datetime.datetime.now()
+            formatted_date = current_datetime.strftime("%b. %d, %Y")  # "Jul. 20, 2020" format
+            formatted_time_print = current_datetime.strftime("%I:%M:%p")  # 12-hour format time with AM/PM (underscore separator)
+            formatted_time = current_datetime.strftime("%I_%M_%p")  # 12-hour format time with AM/PM (underscore separator)
+            pdf.set_font("Arial", size=10)
+            pdf.cell(200, 5, txt=f"Date: {formatted_date}", ln=True, align='C')  # Current Date
+            pdf.cell(200, 5, txt=f"Time: {formatted_time_print}", ln=True, align='C')  # Current Time
+
+            pdf.ln(10)
+
+            # Title
+            pdf.set_font("Arial", style='B', size=16)
+            pdf.cell(200, 10, txt="Inventory Report", ln=True, align='C')
+            pdf.ln(10)
+
+            # Table headers
+            pdf.set_font("Arial", style='B', size=12)
+            headers = ["Product ID", "Product Name", "Cylinder Size", "Quantity", "Price/Unit", "Total Value"]
+            for header in headers:
+                pdf.cell(30, 10, txt=header, border=1, align='C')  # Centered text
+            pdf.ln()
+
+            # Table data
+            pdf.set_font("Arial", size=10)
+            for item in inventory_data:
+                product_id = item["product_id"]
+                product_name = item["product_name"]
+                cylinder_size = item["cylinder_size"]
+                quantity = item["quantity_in_stock"]
+                price_per_unit = item["price_per_unit"]
+                total_value = quantity * price_per_unit
+                
+                pdf.cell(30, 10, txt=str(product_id), border=1, align='C')  # Centered text
+                pdf.cell(30, 10, txt=product_name, border=1, align='C')  # Centered text
+                pdf.cell(30, 10, txt=str(cylinder_size), border=1, align='C')  # Centered text
+                pdf.cell(30, 10, txt=str(quantity), border=1, align='C')  # Centered text
+                pdf.cell(30, 10, txt=f"{price_per_unit:,.2f}", border=1, align='C')  # Centered text
+                pdf.cell(30, 10, txt=f"{total_value:,.2f}", border=1, align='C')  # Centered text
+                pdf.ln()
+
+            # Open directory selection dialog
+            folder = QFileDialog.getExistingDirectory(None, "Select Folder")
+
+            if folder:
+                # Save PDF with dynamic filename in the selected directory
+                filename = f"{folder}/inventory_report_{formatted_date.replace(' ', '_').replace('.', '')}_{formatted_time}.pdf"
+                pdf.output(filename)
+                print(f"Report generated successfully! Filename: {filename}")
+                QMessageBox.information(None, "Success", f"Report generated successfully! Filename: {filename}")
+            else:
+                print("No folder selected.")
+                QMessageBox.warning(None, "No Folder Selected", "Please select a folder to save the report.")
+                
+        except Exception as e:
+            print(f'Error: {e}')
+            QMessageBox.critical(None, "Error", f"An error occurred while creating the report: {e}")
 
     def load_filters(self):
         """Add items to the filter dropdowns"""
@@ -420,57 +500,6 @@ class ItemsPage(QWidget, items_page):
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
         return client[db][collection_name]
-
-    # def CreateInventoryReport(self):
-        # Get current time
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        print('Creating Inventory Report')
-
-        # Create a new Document
-        doc = Document()
-
-        # Title
-        doc.add_heading('Magtibay LPG Trading: Inventory Report', level=1)
-        # Date
-        doc.add_heading(f'Date: {current_time}', level=4)
-
-        # Create a table
-        # Assuming you want to include fields like Product ID, Product Name, Cylinder Size, Quantity, Price, etc.
-        # Adjust the number of rows and columns based on your needs
-        table = doc.add_table(rows=1, cols=8)
-
-        # Define headers for the table
-        hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = 'Product ID'
-        hdr_cells[1].text = 'Product Name'
-        hdr_cells[2].text = 'Cylinder Size'
-        hdr_cells[3].text = 'Quantity in Stock'
-        hdr_cells[4].text = 'Price per Unit'
-        hdr_cells[5].text = 'Supplier'
-        hdr_cells[6].text = 'Last Restocked Date'
-        hdr_cells[7].text = 'Total Value'
-
-        # Example data to fill the table
-        # You can replace this with your actual data
-        inventory_data = [
-            ['001', 'LPG Cylinder A', '14kg', '50', '800', 'Supplier A', '2024-10-15', '40000'],
-            ['002', 'LPG Cylinder B', '11kg', '30', '750', 'Supplier B', '2024-10-10', '22500'],
-            ['003', 'LPG Cylinder C', '5kg', '20', '400', 'Supplier C', '2024-10-12', '8000'],
-        ]
-
-        # Add inventory data to the table
-        for item in inventory_data:
-            row_cells = table.add_row().cells
-            for i in range(len(item)):
-                row_cells[i].text = item[i]
-        # Save the document
-        doc.save('Inventory Report.docx')
-
-        print("Inventory Report created successfully!")
-
-    def print_btn_clicked(self):
-        print(f"Print button clicked.")
-        # self.CreateInventoryReport()
 
     def update_table(self):
         table = self.tableWidget
