@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QListWidgetItem, QAbstractItemView, QCheckBox, QFrame, QLabel, QPushButton, QMessageBox
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QAbstractItemView, QCheckBox, QFrame, QPushButton, QMessageBox, QFileDialog
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
@@ -8,11 +8,11 @@ from ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
 
 from utils.Inventory_Monitor import InventoryMonitor
 
-from datetime import datetime, timedelta
-
 from collections import defaultdict
 
-import pymongo, re, json, random, os
+from datetime import datetime, timedelta
+from fpdf import FPDF
+import pymongo, re, json, random, os, subprocess
 
 class BestSellingListItem(QFrame, best_selling_UiForm):
     def __init__(self, list_of_data):
@@ -77,6 +77,96 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
         self.prev_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page - 1, self.rows_per_page))
         self.next_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page + 1, self.rows_per_page))
+        self.create_sales_report_pushButton.clicked.connect(lambda: self.create_sales_report())
+
+    def create_sales_report(self):
+        """Create sales report"""
+        try:
+            # Fetch sales data
+            sales_data = self.connect_to_db("sales").find()
+
+            # Initialize PDF in landscape mode
+            pdf = FPDF(orientation='L', unit='mm', format='A4')
+            pdf.set_auto_page_break(auto=True, margin=15)
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
+
+            # Title and Company Name
+            pdf.set_font("Arial", style='B', size=16)
+            pdf.cell(200, 10, txt="Magtibay LPG Trading", ln=True, align='C')  # Company Name
+            pdf.ln(3)
+
+            # Date (removing the time)
+            current_datetime = datetime.now()
+            formatted_date = current_datetime.strftime("%b. %d, %Y")  # "Jul. 20, 2020" format
+            pdf.set_font("Arial", size=10)
+            pdf.cell(200, 5, txt=f"Date: {formatted_date}", ln=True, align='C')  # Current Date
+            pdf.ln(10)
+
+            # Title
+            pdf.set_font("Arial", style='B', size=16)
+            pdf.cell(200, 10, txt="Sales Report", ln=True, align='C')
+            pdf.ln(10)
+
+            # Table headers
+            pdf.set_font("Arial", style='B', size=10)
+            headers = ["Sale ID", "Customer Name", "Sale Date", "Product ID", "Product Name", "Cylinder Size", "Quantity", "Price/Unit", "Total Amount"]
+            for header in headers:
+                pdf.cell(30, 10, txt=header, border=1, align='C')  # Centered text
+            pdf.ln()
+
+            # Table data
+            pdf.set_font("Arial", size=10)
+            for sale in sales_data:
+                sale_id = sale["sale_id"]
+                customer_name = sale["customer_name"]
+                
+                # Check if sale_date is already a datetime object, if not, parse it
+                sale_date = sale["sale_date"]
+                if isinstance(sale_date, datetime):
+                    formatted_sale_date = sale_date.strftime("%b. %d, %Y")  # Formatting the sale date
+                else:
+                    # If it's not a datetime object, then convert it using strptime()
+                    sale_date = datetime.strptime(sale_date, "%Y-%m-%d")
+                    formatted_sale_date = sale_date.strftime("%b. %d, %Y")  # Only include the date, no time
+
+                # Iterate through the products_sold array
+                for product in sale["products_sold"]:
+                    product_id = product["product_id"]
+                    product_name = product["product_name"]
+                    cylinder_size = product["cylinder_size"]
+                    quantity = product["quantity"]
+                    price = product["price"]
+                    total_amount = product["total_amount"]
+                    
+                    pdf.cell(30, 10, txt=sale_id, border=1, align='C')  # Sale ID
+                    pdf.cell(30, 10, txt=customer_name, border=1, align='C')  # Customer Name
+                    pdf.cell(30, 10, txt=formatted_sale_date, border=1, align='C')  # Sale Date
+                    pdf.cell(30, 10, txt=product_id, border=1, align='C')  # Product ID
+                    pdf.cell(30, 10, txt=product_name, border=1, align='C')  # Product Name
+                    pdf.cell(30, 10, txt=cylinder_size, border=1, align='C')  # Cylinder Size
+                    pdf.cell(30, 10, txt=str(quantity), border=1, align='C')  # Quantity
+                    pdf.cell(30, 10, txt=f"{price:,.2f}", border=1, align='C')  # Price/Unit
+                    pdf.cell(30, 10, txt=f"{total_amount:,.2f}", border=1, align='C')  # Total Amount
+                    pdf.ln()
+
+            # Open directory selection dialog
+            folder = QFileDialog.getExistingDirectory(None, "Select Folder")
+
+            if folder:
+                # Save PDF with dynamic filename in the selected directory
+                filename = f"{folder}/sales_report_{formatted_date.replace(' ', '_').replace('.', '')}.pdf"
+                pdf.output(filename)
+                print(f"Sales report generated successfully! Filename: {filename}")
+                QMessageBox.information(None, "Success", f"Sales report generated successfully! Filename: {filename}")
+
+            else:
+                print("No folder selected.")
+                QMessageBox.warning(None, "No Folder Selected", "Please select a folder to save the report.")
+                
+        except Exception as e:
+            print(f'Error: {e}')
+            QMessageBox.critical(None, "Error", f"An error occurred while creating the sales report: {e}")
 
     def handle_search(self):
         """Handle the search functionality of the search bar"""

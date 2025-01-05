@@ -46,7 +46,6 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         
         self.username_minLength = setting["create_account_validation"][0]['username_min_lenght']
         self.username_maxLength = setting["create_account_validation"][1]['username_max_lenght']
-        # print(setting["create_account_validation"][1]['username_max_lenght']) # print the max length
 
         self.username_field.textChanged.connect(lambda: self.username_validation_labels())
         self.email_field.textChanged.connect(lambda: self.email_validation_label())
@@ -332,10 +331,3 @@ class NewAccountPage(QWidget, Ui_new_account_page):
                 comboBox_name.addItem(list(option.values())[0])
             if list(option.values())[0] == "Show All":
                 comboBox_name.addItem(" ")
-            
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = NewAccountPage(None)
-    window.show()
-    sys.exit(app.exec())

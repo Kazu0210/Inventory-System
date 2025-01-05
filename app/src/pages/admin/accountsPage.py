@@ -30,7 +30,7 @@ class AccountsPage(QWidget, accounts_page):
         self.account_username = username
 
         # button connections
-        self.createAccount_btn.clicked.connect(self.create_account)
+        self.createAccount_btn.clicked.connect(lambda: self.create_account())
 
         self.collection = self.connect_to_db('accounts')
         self.archive_collection = self.connect_to_db('account_archive')
