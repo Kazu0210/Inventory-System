@@ -577,7 +577,7 @@ border:none;</string>
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-130</y>
+                 <y>-196</y>
                  <width>803</width>
                  <height>623</height>
                 </rect>
@@ -593,7 +593,7 @@ border:none;</string>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>600</width>
+                    <width>450</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -626,7 +626,7 @@ border:none;</string>
                     <widget class="QFrame" name="frame_14">
                      <property name="minimumSize">
                       <size>
-                       <width>500</width>
+                       <width>450</width>
                        <height>300</height>
                       </size>
                      </property>
@@ -662,7 +662,7 @@ background-color: transparent;
                       <item alignment="Qt::AlignTop">
                        <widget class="QLabel" name="label_11">
                         <property name="styleSheet">
-                         <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+                         <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
 color: #333333;</string>
                         </property>
                         <property name="text">
@@ -736,8 +736,8 @@ QScrollBar:hover{
                           <rect>
                            <x>0</x>
                            <y>0</y>
-                           <width>580</width>
-                           <height>252</height>
+                           <width>430</width>
+                           <height>256</height>
                           </rect>
                          </property>
                         </widget>
@@ -756,7 +756,7 @@ QScrollBar:hover{
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>460</width>
+                       <width>450</width>
                        <height>300</height>
                       </size>
                      </property>
@@ -779,11 +779,11 @@ border:1px solid gray;
                      <property name="frameShadow">
                       <enum>QFrame::Raised</enum>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_9">
+                     <layout class="QVBoxLayout" name="verticalLayout_18">
                       <property name="topMargin">
                        <number>10</number>
                       </property>
-                      <item alignment="Qt::AlignTop">
+                      <item>
                        <widget class="QFrame" name="frame_17">
                         <property name="styleSheet">
                          <string notr="true">*{
@@ -815,7 +815,7 @@ background-color: transparent;
                          <item alignment="Qt::AlignTop">
                           <widget class="QLabel" name="label_12">
                            <property name="styleSheet">
-                            <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+                            <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
 color: #333333;</string>
                            </property>
                            <property name="text">
@@ -849,6 +849,12 @@ color: #333333;</string>
                             </property>
                             <item>
                              <widget class="QLabel" name="label_14">
+                              <property name="minimumSize">
+                               <size>
+                                <width>0</width>
+                                <height>0</height>
+                               </size>
+                              </property>
                               <property name="styleSheet">
                                <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
 color: #333333;</string>
@@ -1008,7 +1014,7 @@ color: #000;
 </string>
                            </property>
                            <property name="currentIndex">
-                            <number>1</number>
+                            <number>2</number>
                            </property>
                            <widget class="QWidget" name="tab">
                             <attribute name="title">
@@ -1073,7 +1079,7 @@ background-color:rgb(255, 255, 255);
                    <item>
                     <widget class="QLabel" name="label_20">
                      <property name="styleSheet">
-                      <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+                      <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
 color: #333333;</string>
                      </property>
                      <property name="text">

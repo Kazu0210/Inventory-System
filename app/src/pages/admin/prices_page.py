@@ -109,6 +109,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         table = self.price_history_tableWidget
         table.setSortingEnabled(True)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
@@ -401,7 +402,7 @@ class PricesPage(QWidget, Ui_price_page):
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
         header.setFixedHeight(50)
-
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 

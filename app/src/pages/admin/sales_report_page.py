@@ -444,7 +444,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
             header.setFixedHeight(50)
-
+            table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
             table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
@@ -602,6 +602,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
         header = self.sales_tableWidget.horizontalHeader()
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
 

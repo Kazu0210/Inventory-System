@@ -78,6 +78,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.rows_per_page = rows_per_page  # Number of rows per page
         table = self.tableWidget
         table.setSortingEnabled(True)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
