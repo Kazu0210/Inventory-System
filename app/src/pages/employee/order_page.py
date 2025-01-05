@@ -249,6 +249,15 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
                         try:
                             payment_stat = QComboBox()
+                            payment_stat.setStyleSheet("""
+                                QComboBox {
+                                    background-color: white;
+                                    color: black;
+                                }
+                                QComboBox QAbstractItemView {
+                                    background-color: white;
+                                }
+                            """)
                             
                             # Ensure the correct order_id is captured in the lambda
                             payment_stat.currentTextChanged.connect(
@@ -290,6 +299,15 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
                         try:
                             order_stat = QComboBox()
+                            order_stat.setStyleSheet("""
+                                QComboBox {
+                                    background-color: white;
+                                    color: black;
+                                }
+                                QComboBox QAbstractItemView {
+                                    background-color: white;
+                                }
+                            """)
                             
                             # Ensure the correct order_id is captured in the lambda
                             order_stat.currentTextChanged.connect(

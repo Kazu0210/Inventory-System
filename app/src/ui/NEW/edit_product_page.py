@@ -58,6 +58,7 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(5)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_9 = QtWidgets.QFrame(parent=Form)
+        self.frame_9.setStyleSheet("background-color: transparent;")
         self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_9.setObjectName("frame_9")
@@ -67,6 +68,7 @@ class Ui_Form(object):
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.label_8 = QtWidgets.QLabel(parent=self.frame_9)
         self.label_8.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"background-color: transparent;\n"
 "color: #333333;")
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_8.addWidget(self.label_8, 0, QtCore.Qt.AlignmentFlag.AlignTop)

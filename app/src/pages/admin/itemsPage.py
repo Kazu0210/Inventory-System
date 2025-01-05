@@ -494,6 +494,10 @@ class ItemsPage(QWidget, items_page):
             border: none;  /* Remove border from each item */
             padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
         }
+        QTableWidget::item:selected {
+            color: #000;  /* Change text color */
+            background-color: #E7E7E7;  /* Optional: Change background color */
+        }
             QScrollBar:vertical {
                 border: none;
                 background: #0C959B;

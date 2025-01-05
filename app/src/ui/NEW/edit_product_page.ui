@@ -83,6 +83,9 @@ padding: 5px;
    </property>
    <item alignment="Qt::AlignTop">
     <widget class="QFrame" name="frame_9">
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -109,6 +112,7 @@ padding: 5px;
        <widget class="QLabel" name="label_8">
         <property name="styleSheet">
          <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+background-color: transparent;
 color: #333333;</string>
         </property>
         <property name="text">

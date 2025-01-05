@@ -479,6 +479,10 @@ class AccountsPage(QWidget, accounts_page):
         color: #fff;               
         font: bold 12pt "Noto Sans";
         }
+        QTableWidget::item:selected {
+            color: #000;  /* Change text color */
+            background-color: #E7E7E7;  /* Optional: Change background color */
+        }
         QTableWidget::item {
             border: none;  /* Remove border from each item */
             padding: 5px;  /* Optional: Adjust padding to make the items look nicer */

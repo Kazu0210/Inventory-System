@@ -303,6 +303,10 @@ class ArchivePage(QWidget, Ui_archive):
             background-color: #fff;
             color: #000;
             }
+            QTableWidget::item:selected {
+            color: #000;  /* Change text color */
+            background-color: #E7E7E7;  /* Optional: Change background color */
+            }
             QHeaderView:Section{
             background-color: #228B22;
             color: #fff;               
@@ -446,6 +450,10 @@ class ArchivePage(QWidget, Ui_archive):
             background-color: #228B22;
             color: #fff;               
             font: bold 12pt "Noto Sans";
+            }
+            QTableWidget::item:selected {
+                color: #000;  /* Change text color */
+                background-color: #E7E7E7;  /* Optional: Change background color */
             }
             QTableWidget::item {
                 border: none;  /* Remove border from each item */
