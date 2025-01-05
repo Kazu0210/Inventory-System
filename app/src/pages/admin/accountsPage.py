@@ -536,7 +536,7 @@ class AccountsPage(QWidget, accounts_page):
 
         table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
-
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         header = self.tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)

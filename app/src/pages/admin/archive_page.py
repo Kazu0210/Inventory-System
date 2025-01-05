@@ -55,6 +55,7 @@ class ArchivePage(QWidget, Ui_archive):
         # For table
         self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
         self.tableWidget.itemClicked.connect(self.on_item_clicked)
+        self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.tableWidget.setShowGrid(False)
         self.tableWidget.verticalHeader().setVisible(False)
@@ -377,7 +378,7 @@ class ArchivePage(QWidget, Ui_archive):
             table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
             header.setFixedHeight(50)
-
+            table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
             table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
@@ -520,7 +521,7 @@ class ArchivePage(QWidget, Ui_archive):
             table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
             header.setFixedHeight(50)
-
+            table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
             table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 

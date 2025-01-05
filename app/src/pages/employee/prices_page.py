@@ -321,6 +321,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         table = self.prices_tableWidget
         table.setSortingEnabled(True)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table

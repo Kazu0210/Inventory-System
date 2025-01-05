@@ -99,6 +99,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         table = self.orders_tableWidget
         table.setSortingEnabled(True)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table

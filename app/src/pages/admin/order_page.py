@@ -179,7 +179,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
         header.setFixedHeight(50)
-
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
