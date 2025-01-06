@@ -5,6 +5,8 @@ from utils.Inventory_Monitor import InventoryMonitor
 from utils.Hashpassword import HashPassword
 from utils.Validation import Validator
 
+from custom_widgets.message_box import CustomMessageBox
+
 import pymongo, json
 
 from ui.employee.profilePage import Ui_Form as profile_page
@@ -55,11 +57,11 @@ class UpdateProfile(QWidget, update_profile_page):
         try:
             # Perform the update operation
             self.connect_to_db('accounts').update_one(filter, {'$set': data})
-            QMessageBox.information(self, "Success", "Profile updated successfully.")
+            CustomMessageBox.show_message('informaton', 'Success', 'Profile updated successfully.')
             self.close()
         except Exception as e:
             print(f'Error: {e}')
-            QMessageBox.critical(self, "Error", "An Error Occured while updating your profile.")
+            CustomMessageBox.show_message('information', 'Error', 'An error occurred while updating your profile')
 
     def get_data_db(self, username):
         """get data from database using username"""
@@ -194,36 +196,32 @@ class UpdatePassword(QWidget, update_pass_page):
 
             current_document = self.connect_to_db('accounts').find_one({'username': username})
             if not current_document:
-                QMessageBox.warning(self, "User Not Found", "The current user does not exist in the database.")
+                CustomMessageBox.show_message('warning', 'User Not Found', 'The current user does not exist in the database.')
                 return
             
             try:
                 # Fetch the current user document for comparison
                 current_document = self.connect_to_db('accounts').find_one({'username': username})
                 if not current_document:
-                    QMessageBox.warning(self, "User Not Found", "The current user does not exist in the database.")
+                    CustomMessageBox.show_message('warning', 'User Not Found', 'The current user does not exist in the database.')
                     return
 
                 # Update the current user's document in the collection using the stored username
                 result = self.connect_to_db('accounts').update_one({'username': username}, {'$set': {'password': hashed_password}})
 
                 if result.modified_count > 0:
-                    QMessageBox.information(self, "Update Password Successful", "Password updated successfully.")
+                    CustomMessageBox.show_message('information', 'Password Updated', 'Password updated successfully.')
     
                     self.new_pass_lineEdit.clear() # clear password field
                     self.close() # hide form
                 else:
-                    QMessageBox.warning(self, "No Changes", "No changes were made to the user information.")
+                    CustomMessageBox.show_message('warning', 'Password Not Updated', 'Password update failed.')
             except Exception as e:
                 print(f"Error updating document: {e}")
-                QMessageBox.critical(self, "Update Error", "Failed to update password in the database.")
+                CustomMessageBox.show_message('critical', 'Error', f"Error updating document: {e}")
 
         else:
-            QMessageBox.warning(
-                self,
-                "Update Password",
-                "Password field is empty. Please enter a new password.",
-            )
+            CustomMessageBox.show_message('warning', 'Password Field Empty', 'Password field is empty')
 
     def isPasswordEmpty(self):
         if self.new_pass_lineEdit.text().strip():
@@ -238,13 +236,12 @@ class UpdatePassword(QWidget, update_pass_page):
             self.close() # hide update password form
         else:
             print('password field is not empty')
-            reply = QMessageBox.question(
-                self,
-                'Update Password',
-                'Are you sure you want to cancel the update password process?',
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.Yes
+            reply = CustomMessageBox.show_message(
+                'question',
+                'Confirm Cancel',
+                'Are you sure you want to cancel the password update?',
             )
-            if reply == QMessageBox.StandardButton.Yes:
+            if reply == 1:
                 self.new_pass_lineEdit.clear() # clear password field
                 self.close() # hide update password form
             else:
@@ -322,14 +319,14 @@ class ProfilePage(QWidget, profile_page):
     def hide_update_profile_form(self):
         # check if form contains input ask to save changes
         if not self.isFormClear():
-            reply = QMessageBox.question(
-                self, 
-                'Save Changes', 
-                'Do you want to save changes before closing?', 
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.Yes)
+            reply = CustomMessageBox.show_message(
+                'question',
+                'Save Changes',
+                'Do you want to save changes before closing?',
+            )
             
             # hide form if the user clicked NO
-            if reply == QMessageBox.StandardButton.No:
+            if reply == 1:
                 # self.updateProfile_form.hide()
                 self.clearForm()
             else:
@@ -378,7 +375,7 @@ class ProfilePage(QWidget, profile_page):
                 self.role_label.setText(role)
                 self.job_label.setText(job)
             else:
-                QMessageBox.warning(self, "User Not Found", "The user information could not be found.")
+                CustomMessageBox.show_message('warning', 'User Not Found', 'The user information could not be found.')
         except Exception as e:
             print(f'Error: {e}')
 
@@ -401,7 +398,6 @@ class ProfilePage(QWidget, profile_page):
             # self.email_lineEdit.setText(document.get('email'))
             # self.address_lineEdit.setText(document.get('address'))
         else:
-            # QMessageBox.warning(self, "User Not Found", "The user information could not be found.")
             pass
     
     def save_user_info(self):
@@ -423,14 +419,14 @@ class ProfilePage(QWidget, profile_page):
             # Fetch the current user document for comparison
             current_document = self.connect_to_db('accounts').find_one({'username': self.username})
             if not current_document:
-                QMessageBox.warning(self, "User Not Found", "The current user does not exist in the database.")
+                CustomMessageBox.show_message('warning', 'User Not Found', 'The user information could not be found.')
                 return
 
             # Identify which fields are different
             changes = {k: v for k, v in updated_data.items() if current_document.get(k) != v}
 
             if not changes:
-                QMessageBox.warning(self, "No Changes", "No changes were made to the user information.")
+                CustomMessageBox.show_message('warning', 'No Changes', 'No changes were made to the user information.')
                 return
 
             # Update the current user's document in the collection using the stored username
@@ -438,12 +434,12 @@ class ProfilePage(QWidget, profile_page):
             # self.username = self.username_lineEdit.text().strip() # update value of self.username
 
             if result.modified_count > 0:
-                QMessageBox.information(self, "Update Successful", "User information updated successfully.")
+                CustomMessageBox.show_message('information', 'Update Successful', 'User information updated successfully.')
  
                 self.clearForm() # clear form
                 self.hide_update_profile_form() # hide form
             else:
-                QMessageBox.warning(self, "No Changes", "No changes were made to the user information.")
+                CustomMessageBox.show_message('warning', 'No Changes', 'No changes were made to the user information.')
         except Exception as e:
             print(f"Error updating document: {e}")
-            QMessageBox.critical(self, "Update Error", "Failed to update user information in the database.")
+            CustomMessageBox.show_message('critical', 'Error', 'Failed to update user information in the database.')

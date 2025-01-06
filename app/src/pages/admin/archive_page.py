@@ -2,6 +2,9 @@ from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView, QFrame
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor
 from datetime import datetime
+
+from custom_widgets.message_box import CustomMessageBox
+
 import json, os, pymongo, re, threading
 
 from ui.NEW.archive_page import Ui_Form as Ui_archive
@@ -74,7 +77,7 @@ class ArchivePage(QWidget, Ui_archive):
                 'account_id': account_id
             }
             self.connect_to_db(self.current_collection).delete_one(filter)
-            QMessageBox.information(self, "Success", "Account deleted successfully")
+            CustomMessageBox.show_message('information', 'Success', 'Account deleted successfully')
 
         elif self.current_collection == 'product_archive':
             product_id = data['product_id'] # get account id 
@@ -82,7 +85,7 @@ class ArchivePage(QWidget, Ui_archive):
                 'product_id': product_id
             }
             self.connect_to_db(self.current_collection).delete_one(filter)
-            QMessageBox.information(self, "Success", "Product deleted successfully")
+            CustomMessageBox.show_message('information', 'Success', 'Product deleted successfully')
 
     def restoreButtonClicked(self):
         """Handle clicked event of restore button"""
@@ -100,7 +103,7 @@ class ArchivePage(QWidget, Ui_archive):
             }
             self.connect_to_db("accounts").insert_one(data)
             self.connect_to_db(self.current_collection).delete_one(filter)
-            QMessageBox.information(self, "Success", "Account restored successfully")
+            CustomMessageBox.show_message('information', 'Success', 'Account restored successfully')
 
         elif self.current_collection == 'product_archive':
             product_id = data['product_id'] # get account id 
@@ -109,7 +112,7 @@ class ArchivePage(QWidget, Ui_archive):
             }
             self.connect_to_db("products_items").insert_one(data)
             self.connect_to_db(self.current_collection).delete_one(filter)
-            QMessageBox.information(self, "Success", "Product restored successfully")
+            CustomMessageBox.show_message('information', 'Success', 'Product restored successfully')
 
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)
@@ -221,7 +224,7 @@ class ArchivePage(QWidget, Ui_archive):
                 self.lastlogin_label.setText(last_login)
             except Exception as e:
                 print(f'Error: {e}')
-                QMessageBox.critical(self, f"Error", f"An Error Occurred\n{e}")
+                CustomMessageBox.show_message('critical', 'Error', f"An Error Occurred\n{e}")
 
         elif collection == "product_archive":
             try:
@@ -249,7 +252,7 @@ class ArchivePage(QWidget, Ui_archive):
                 self.inv_stat_label.setText(inventory_status)
             except Exception as e:
                 print(f'Error: {e}')
-                QMessageBox.critical(self, f"Error", f"An Error Occurred\n{e}")
+                CustomMessageBox.show_message('critical', 'Error', f"An Error Occurred\n{e}")
         
     def handle_signal(self, collection_name):
         # Called when a change in any monitored collection is detected.

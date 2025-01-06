@@ -16,6 +16,7 @@ from pages.admin.restock_page import RestockProduct
 # from docx import Document
 
 from utils.Inventory_Monitor import InventoryMonitor
+from custom_widgets.message_box import CustomMessageBox
 
 import time
 import os
@@ -129,14 +130,26 @@ class ItemsPage(QWidget, items_page):
                 filename = f"{folder}/inventory_report_{formatted_date.replace(' ', '_').replace('.', '')}_{formatted_time}.pdf"
                 pdf.output(filename)
                 print(f"Report generated successfully! Filename: {filename}")
-                QMessageBox.information(None, "Success", f"Report generated successfully! Filename: {filename}")
+                CustomMessageBox.show_message(
+                    'information',
+                    'Inventory Report',
+                    'Report generated successfully! Filename: ' + filename
+                )
             else:
                 print("No folder selected.")
-                QMessageBox.warning(None, "No Folder Selected", "Please select a folder to save the report.")
+                CustomMessageBox.show_message(
+                    'information',
+                    "No Folder Selected",
+                    "Please select a folder to save the report."
+                )
                 
         except Exception as e:
             print(f'Error: {e}')
-            QMessageBox.critical(None, "Error", f"An error occurred while creating the report: {e}")
+            CustomMessageBox.show_message(
+                'critical',
+                "Error",
+                f"An error occurred while creating the report: {e}"
+            )
 
     def load_filters(self):
         """Add items to the filter dropdowns"""
@@ -388,14 +401,13 @@ class ItemsPage(QWidget, items_page):
         
         selected_rows = self.tableWidget.selectionModel().selectedRows()
 
-        reply = QMessageBox.question(
-            self, 
-            "Archive Confirmation", 
-            "Are you certain you want to add this product to the archive?", 
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        reply = CustomMessageBox.show_message(
+            'question',
+            "Archive Confirmation",
+            "Are you certain you want to add this product to the archive?",
         )
 
-        if reply == QMessageBox.StandardButton.Yes:
+        if reply == 1:
             print('Clicked yes')
 
             # Get the ObjectId of the account to be deleted

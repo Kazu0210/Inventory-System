@@ -10,6 +10,8 @@ from pages.admin.new_account_page import NewAccountPage
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
 
+from custom_widgets.message_box import CustomMessageBox
+
 from utils.Inventory_Monitor import InventoryMonitor
 from datetime import datetime
 import re
@@ -239,14 +241,13 @@ class AccountsPage(QWidget, accounts_page):
         selected_rows = self.tableWidget.selectionModel().selectedRows()
 
         print('archive button clicked')
-        reply = QMessageBox.question(
-            self, 
-            "Archive Confirmation", 
-            "Are you certain you want to add this account to the archive?", 
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        reply = CustomMessageBox.show_message(
+            'question',
+            'Archive Confirmation',
+            'Are you sure you want to archive this account?',
         )
 
-        if reply == QMessageBox.StandardButton.Yes:
+        if reply == 1:
             print('Clicked yes')
 
             # Get the ObjectId of the account to be deleted

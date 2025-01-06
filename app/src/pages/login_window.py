@@ -6,9 +6,12 @@ from ui.final_ui.login_window import Ui_MainWindow as login_mainWindow
 
 from utils.Hashpassword import HashPassword
 from utils.Activity_logs import Activity_Logs
-from employee_account.dashboard import employee_dashboard
-from pages.admin.main_window import MainWindow
+from custom_widgets.message_box import CustomMessageBox
 from utils.create_default_admin import createDefaultAdmin
+
+from employee_account.dashboard import employee_dashboard
+
+from pages.admin.main_window import MainWindow
 
 from pages.employee.main_window import MainWindow as employee_mainWindow
 import pymongo
@@ -31,10 +34,6 @@ class loginWindow(QMainWindow, login_mainWindow):
 
         self.set_system_logo()
         self.set_button_icon(self.close_pushButton, "app/resources/icons/black-theme/close.png")
-
-    def close_system(self):
-        """Closes the system"""
-        self.close()
 
     def set_button_icon(self, button, icon_path):
         icon = QPixmap(icon_path)
@@ -110,6 +109,10 @@ class loginWindow(QMainWindow, login_mainWindow):
 
         if self.is_account_inactive():
             self.logs.login_attempt_failed(f"Login failed: {username} account is inactive")
+            CustomMessageBox.show_message('warning',
+                                        'Login Attempt Failed',
+                                        "Your account is inactive. Please contact the admin to reactivate your account.",
+                              )
             QMessageBox.warning(
                 self,
                 "Login Attempt Failed",
@@ -117,18 +120,13 @@ class loginWindow(QMainWindow, login_mainWindow):
             )
         elif self.is_account_pending():
             self.logs.login_attempt_failed(f"Login failed: {username} account is pending")
-            QMessageBox.warning(
-                self,
-                "Login Attempt Failed",
-                "Your account is pending. Please contact the admin to activate your account.",
-            )
+            CustomMessageBox.show_message('warning',
+                                          'Login Attempt Failed',
+                                          "Your account is pending. Please contact the admin to activate your account."
+                                          )
         elif self.is_account_blocked():
             self.logs.login_attempt_failed(f"Login failed: {username} account is blocked")
-            QMessageBox.warning(
-                self,
-                "Login Attempt Failed",
-                "Your account is blocked. Please contact the admin to unblock your account.",
-            )
+            CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Your account is blocked. Please contact the admin to unblock your account.")
         else:
             user_role = self.validate_credentials(username, password)
             if user_role:
@@ -146,11 +144,7 @@ class loginWindow(QMainWindow, login_mainWindow):
                     self.employee_dashboard.show()
             else:
                 self.logs.login_attempt_failed(username)
-                QMessageBox.warning(
-                    self,
-                    "Login Attempt Failed",
-                    "Invalid username or password. Please try again.",
-                )
+                CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Invalid username or password. Please try again.")
 
     def default_admin_login(self, username, password):
         print('logging in default admin account.')
@@ -219,3 +213,7 @@ class loginWindow(QMainWindow, login_mainWindow):
         db = client["LPGTrading_DB"]
 
         return db[collection_name]
+
+    def close_system(self):
+        """Closes the system"""
+        self.close()

@@ -7,6 +7,7 @@ from ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
 from ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
 
 from utils.Inventory_Monitor import InventoryMonitor
+from custom_widgets.message_box import CustomMessageBox
 
 from collections import defaultdict
 
@@ -39,7 +40,7 @@ class BestSellingListItem(QFrame, best_selling_UiForm):
             self.totalQuantitySold_label.setText(total_quantity_sold)
         except Exception as e:
             print(f"Error: {e}")
-            QMessageBox.warning(self, "Error", "An unexpected error occurred while updating the labels. Please try again if the issue persists.")
+            CustomMessageBox.show_message('warning', 'Error', 'An unexpected error occurred while updating the labels. Please try again if the issue persists.')
 
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
@@ -157,16 +158,15 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 # Save PDF with dynamic filename in the selected directory
                 filename = f"{folder}/sales_report_{formatted_date.replace(' ', '_').replace('.', '')}.pdf"
                 pdf.output(filename)
-                print(f"Sales report generated successfully! Filename: {filename}")
-                QMessageBox.information(None, "Success", f"Sales report generated successfully! Filename: {filename}")
+                CustomMessageBox.show_message('information', 'Success', f"Sales report generated successfully! Filename: {filename}")
 
             else:
                 print("No folder selected.")
-                QMessageBox.warning(None, "No Folder Selected", "Please select a folder to save the report.")
+                CustomMessageBox.show_message('warning', 'Error', "No folder selected. Please select a folder to save the report.")
                 
         except Exception as e:
             print(f'Error: {e}')
-            QMessageBox.critical(None, "Error", f"An error occurred while creating the sales report: {e}")
+            CustomMessageBox.show_message('critical', 'Error', f"An error occurred while creating the sales report: {e}")
 
     def handle_search(self):
         """Handle the search functionality of the search bar"""

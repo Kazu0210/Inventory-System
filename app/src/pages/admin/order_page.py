@@ -12,6 +12,7 @@ from ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_produ
 # from pages.admin.new_order_page import AddOrderForm
 
 from utils.Inventory_Monitor import InventoryMonitor
+from custom_widgets.message_box import CustomMessageBox
 import pymongo, json, re, os
 from pymongo import DESCENDING
 from datetime import datetime
@@ -363,18 +364,19 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         if text != pending_status:
             print(f'Not the same')
-            msg_box = QMessageBox.question(self, 
-                                  "Confirm Action",
-                                  "Are you sure you want to perform this action?",
-                                  QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+
+            msg_box = CustomMessageBox.show_message(
+                                    "question",
+                                    "Confirm Action",
+                                    "Are you sure you want to perform this action?",)
             
-            if msg_box == QMessageBox.StandardButton.Yes:
+            if msg_box == 1:
                 filter = {
                     'order_id': order_id
                 }
                 self.connect_to_db('orders').update_one(filter, {'$set': {'order_status': text}})
 
-                QMessageBox.information(self, "Success", "Order status updated successfully")
+                CustomMessageBox.show_message('information', 'Success', 'Order status updated successfully')
             else:
                 print('User selected no')
 
@@ -387,18 +389,19 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         if text != pending_status:
             print(f'Not the same')
-            msg_box = QMessageBox.question(self, 
-                                  "Confirm Action",
-                                  "Are you sure you want to perform this action?",
-                                  QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+
+            msg_box = CustomMessageBox.show_message(
+                                    "question",
+                                    "Confirm Action",
+                                    "Are you sure you want to perform this action?",)
             
-            if msg_box == QMessageBox.StandardButton.Yes:
+            if msg_box == 1:
                 filter = {
                     'order_id': order_id
                 }
                 self.connect_to_db('orders').update_one(filter, {'$set': {'payment_status': text}})
 
-                QMessageBox.information(self, "Success", "Payment status updated successfully")
+                CustomMessageBox.show_message('information', 'Success', 'Payment status updated successfully')
             else:
                 print('User selected no')
 
@@ -667,10 +670,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             # Clear the cart after processing the order
             self.connect_to_db('cart').delete_many({})
 
-            QMessageBox.information(self, "Order Confirmation", "Order has been successfully placed.")
+            CustomMessageBox.show_message('information', 'Order Confirmation', 'Order has been successfully placed.')
         except Exception as e:
             print(f'Error saving order: {e}')
-            QMessageBox.critical(self, "Order Confirmation", "Failed to place order.")
+            
+            CustomMessageBox.show_message('critical', 'Order Confirmation', 'Failed to place order.')
         
     def get_cart_data(self):
         """Returns the cart data and updates inventory"""
@@ -679,7 +683,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         if cart_count == 0:
             # Show a message if the cart is empty
-            QMessageBox.information(self, "Select an item first!", "Please select an item from the list before proceeding.")
+            CustomMessageBox.show_message('information', 'Select an item first!', 'Please select an item from the list before proceeding.')
             return None  # Or return a suitable response if necessary
 
         # Aggregate to calculate the total value
@@ -880,7 +884,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 print(f"Quantity of item with ID {id} incremented to {new_quantity}.")
             else:
                 print(f"Cannot increment quantity for item with ID {id}. Maximum stock reached ({current_stock_value}).")
-                QMessageBox.warning(self, "Maximum Stock Reached", "You have reached the maximum stock available for this item.")
+                CustomMessageBox.show_message('warning', 'Maximum Stock Reached', 'You have reached the maximum stock available for this item.')
         except Exception as e:
             print(f"Error incrementing quantity: {e}")
 
@@ -904,11 +908,9 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
                 # Ask for confirmation if the item quantity is being reduced to 0
                 if new_quantity == 0:
-                    reply = QMessageBox.question(self, 'Confirm Removal',
-                                                f"Are you sure you want to remove the item '{product_name}' (Cylinder Size: {cylinder_size}) from the cart?",
-                                                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-                    
-                    if reply == QMessageBox.StandardButton.Yes:
+                    reply = CustomMessageBox.show_message('question', 'Confirm Removal', f"Are you sure you want to remove the item '{product_name}' (Cylinder Size: {cylinder_size}) from the cart?")
+
+                    if reply == 1:
                         # Remove item from cart without returning quantity to stock
                         self.connect_to_db('cart').delete_one({"_id": id})
                         print(f"Item with ID {id} removed from the cart as quantity reached 0.")
@@ -1079,12 +1081,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             # self.connect_to_db('orders').insert_one(sales_data)
 
             # Show confirmation message
-            # QMessageBox.information(self, "Sales Recorded", "Sales recorded successfully!")
         except ValueError:
-            QMessageBox.warning(self, "Input Error", "Please enter valid numbers for price and total amount.")
+            CustomMessageBox.show_message('warning', 'Input Error', 'Please enter valid numbers for price and total amount.')
         except Exception as e:
             print(f"An error occurred while recording sales: {e}")
-            QMessageBox.critical(self, "Database Error", f"An error occurred while recording sales: {e}")
+            CustomMessageBox.show_message('critical', 'Database Error', 'An error occurred while recording sales: {e}')
 
     def get_quantity_in_stock(self, product_name, cylinder_size):
         product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
@@ -1170,7 +1171,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 
         except (FileNotFoundError, json.JSONDecodeError) as e:
             print(f"Error loading payment status options: {e}")
-            QMessageBox.warning(self, "Error", "Could not load payment status options.")
+            CustomMessageBox.show_message('warning', 'Error', 'Could not load payment status options')
     
     def load_cylinder_status_options(self):
         try:
@@ -1186,7 +1187,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 
         except (FileNotFoundError, json.JSONDecodeError) as e:
             print(f"Error loading cylinder status options: {e}")
-            QMessageBox.warning(self, "Error", "Could not load cylinder status options.")
+            CustomMessageBox.show_message('warning', 'Error', 'Could not load cylinder status options')
 
     def load_order_status_options(self):
         try:
@@ -1202,7 +1203,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 
         except (FileNotFoundError, json.JSONDecodeError) as e:
             print(f"Error loading order status options: {e}")
-            QMessageBox.warning(self, "Error", "Could not load order status options.")
+            CustomMessageBox.show_message('warning', 'Error', 'Could not load order status options')
 
     def calculate_total_amount(self):
         """Calculate and update the total amount based on quantity and price."""
@@ -1213,7 +1214,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             self.amount_input.setText(f"{total_amount:.2f}")
         except ValueError:
             self.amount_input.setText("0.00")
-            QMessageBox.warning(self, "Input Error", "Please enter a valid number for price.")
+            CustomMessageBox.show_message('warning', 'Error', 'Please enter a valid number for price')
 
     def update_total_value(self):
         try:
@@ -1229,7 +1230,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 self.connect_to_db('products_items').update_one({"product_name": product_name}, {"$set": {"total_value": new_total_value}})
         except Exception as e:
             print(f"An error occurred while updating the total value: {e}")
-            QMessageBox.critical(self, "Database Error", f"An error occurred while updating the total value: {e}")
+            CustomMessageBox.show_message('critical', 'Error', 'An error occurred while updating the total value')
 
     def reduce_quantity(self):
         try:
@@ -1243,7 +1244,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 self.connect_to_db('products_items').update_one({"product_name": product_name}, {"$set": {"quantity_in_stock": new_quantity}})
         except Exception as e:
             print(f"An error occurred while reducing the quantity: {e}")
-            QMessageBox.critical(self, "Database Error", f"An error occurred while reducing the quantity: {e}")
+            CustomMessageBox.show_message('critical', 'Error', 'An error occurred while reducing the quantity')
 
     
 
@@ -1292,11 +1293,9 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                         "total_amount": new_total_amount
                     }}
                 )
-                QMessageBox.information(self, "Data Updated", "Order updated successfully!")
             else:
                 # If the item does not exist, insert it as a new order
                 self.connect_to_db('cart').insert_one(order_data)
-                QMessageBox.information(self, "Data Submitted", "New order added successfully!")
 
             # Update total value (no stock reduction)
             self.update_total_value()

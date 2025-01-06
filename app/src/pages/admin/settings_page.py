@@ -1,5 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox
 from ui.final_ui.settings import Ui_Form as Ui_settings_page
+
+from custom_widgets.message_box import CustomMessageBox
+
 import json
 
 class settingsPage(QWidget, Ui_settings_page):
@@ -57,20 +60,20 @@ class settingsPage(QWidget, Ui_settings_page):
                 json.dump(settings, file, indent=4)
                 print("File updated successfully.")
 
-            QMessageBox.information(self, "Success", "Time format updated successfully.")
+            CustomMessageBox.show_message('information', 'Success', 'Time format updated successfully')
 
             self.hide_widgets()
             self.change_format_pushButton.show()
 
         except FileNotFoundError:
             print(f"Error: Settings file '{self.settings_dir}' not found.")
-            QMessageBox.critical(self, "Error", f"Settings file '{self.settings_dir}' not found.")
+            CustomMessageBox.show_message('critical', 'Error', 'Settings file not found')
         except json.JSONDecodeError:
             print(f"Error: Settings file '{self.settings_dir}' contains invalid JSON.")
-            QMessageBox.critical(self, "Error", f"Settings file '{self.settings_dir}' contains invalid JSON.")
+            CustomMessageBox.show_message('critical', 'Error', 'Settings file contains invalid JSON')
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-            QMessageBox.critical(self, "Error", f"An unexpected error occurred: {e}")
+            CustomMessageBox.show_message('critical', 'Error', 'An unexpected error occurred')
 
     def show_change_format_widgets(self):
         """show widgets to change time format"""
