@@ -8,6 +8,7 @@ from src.pages.admin.username_requirement_section import UsernameAccountRequirem
 from src.pages.admin.emali_requirement_section import EmailAccountRequirementPage
 from src.utils.Hashpassword import HashPassword
 from src.utils.Activity_logs import Activity_Logs
+from src.custom_widgets.message_box import CustomMessageBox
 
 import json, time, random, pymongo
 
@@ -45,8 +46,8 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         self.username_minLength = setting["create_account_validation"][0]['username_min_lenght']
         self.username_maxLength = setting["create_account_validation"][1]['username_max_lenght']
 
-        self.username_field.textChanged.connect(lambda: self.username_validation_labels())
-        self.email_field.textChanged.connect(lambda: self.email_validation_label())
+        # self.username_field.textChanged.connect(lambda: self.username_validation_labels())
+        # self.email_field.textChanged.connect(lambda: self.email_validation_label())
 
         self.generatePassword_checkBox.stateChanged.connect(self.generate_password) # generate password when checkbox state changed
 
@@ -184,7 +185,7 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         # Clear Create Account Form
         self.clear_form()
 
-        QMessageBox.information(self, "Account Created", "Account created successfully")
+        CustomMessageBox.show_message('information', 'Account Created', 'Account Created Successfully')
         self.close()
 
     def highlight_empty_fields(self, fields):
