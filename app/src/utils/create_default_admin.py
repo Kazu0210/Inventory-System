@@ -3,7 +3,7 @@ import json
 
 class createDefaultAdmin:
     def __init__(self):
-        self.settings_dir = "resources/config/settings.json"
+        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
         with open(self.settings_dir, 'r') as f: # open settings.json
             self.data = json.load(f)
 

@@ -27,11 +27,11 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         self.validator.string_only_validator(self.fname_field)
         self.validator.string_only_validator(self.lname_field)
 
-        filter_filename = "filters.json" # directory file name
+        filter_filename = "filters.json"
         self.update_combo_box(filter_filename)
   
         # settings directory
-        self.settings_dir = "resources/config/settings.json"
+        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
         with open(self.settings_dir, 'r') as f:
             setting = json.load(f)
 
@@ -305,7 +305,7 @@ class NewAccountPage(QWidget, Ui_new_account_page):
             self.password_field.clear()
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
-        filter_dir = f"resources/config/{directory_name}"
+        filter_dir = f"D:/Inventory-System/app/resources/config/{directory_name}"
 
         with open(filter_dir, 'r') as f:
             options = json.load(f)

@@ -41,7 +41,7 @@ class loginWindow(QMainWindow, login_mainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("resources\icons\system-icon.png")
+        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
         
         min_height = 180  # Minimum height
         max_height = 200  # Maximum height
@@ -131,17 +131,18 @@ class loginWindow(QMainWindow, login_mainWindow):
             user_role = self.validate_credentials(username, password)
             if user_role:
                 self.logs.login_attempt_success(username)
-                self.close()
-
+                
                 if user_role == 'Admin':
                     print('User is an admin')
                     self.admin_dashboard = MainWindow(username)
                     self.admin_dashboard.show()
+                    self.close()
 
                 elif user_role == 'Employee':
                     print('User is an employee')
                     self.employee_dashboard = employee_mainWindow(username)
                     self.employee_dashboard.show()
+                    self.close()
             else:
                 self.logs.login_attempt_failed(username)
                 CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Invalid username or password. Please try again.")
@@ -183,7 +184,7 @@ class loginWindow(QMainWindow, login_mainWindow):
         if document:
             hashed_password = HashPassword(password)
             if hashed_password.verify_password(document['password']):
-                self.save_user_id(document['_id'])
+                # self.save_user_id(document['_id'])
 
                 user_type = document.get('user_type')
                 if user_type == "Admin":

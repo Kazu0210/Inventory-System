@@ -44,7 +44,7 @@ class PricesPage(QWidget, Ui_price_page):
     
     def set_search_icon(self):
         """Add icon to search button"""
-        self.search_pushButton.setIcon(QIcon("resources/icons/black_theme/search.png"))
+        self.search_pushButton.setIcon(QIcon("D:/Inventory-System/app/resources/icons/black-theme/search.png"))
 
     def handle_search_change(self):
         """Check if the search bar is empty"""
@@ -167,10 +167,10 @@ class PricesPage(QWidget, Ui_price_page):
             """)
 
         # header json directory
-        header_dir = "resources/config/table/priceHistory_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/priceHistory_tableHeader.json"
 
         # settings directory
-        settings_dir = "resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
@@ -379,10 +379,10 @@ class PricesPage(QWidget, Ui_price_page):
             """)
 
         # Header JSON directory
-        header_dir = "resources/config/table/prices_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/prices_tableHeader.json"
 
         # Settings directory
-        settings_dir = "resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)

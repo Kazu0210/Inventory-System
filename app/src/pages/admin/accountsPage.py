@@ -54,14 +54,19 @@ class AccountsPage(QWidget, accounts_page):
         
         self._accounts_table = self.tableWidget
 
-        # update all the filter only once
-        self.update_filters()
-
         print(self.generate_account_id(self.collection))
 
         self.hide_buttons()
 
         self.current_logged_in()
+
+        self.filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        self.accounts_table_header = "D:/Inventory-System/app/resources/config/table/accounts_tableHeader.json"
+        self.job_titles_dir = "D:/Inventory-System/app/resources/data/job_titles.json"
+        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+
+        # update all the filter only once
+        self.update_filters()
 
     def create_account(self):
         """handle click event of create account button"""
@@ -89,9 +94,7 @@ class AccountsPage(QWidget, accounts_page):
         self.get_account_total()
 
     def add_account_status_filter(self):
-        filter_dir = "resources/config/filters.json"
-
-        with open(filter_dir, 'r') as f:
+        with open(self.filter_dir, 'r') as f:
             data = json.load(f)
 
         self.account_status_filter.clear()
@@ -99,9 +102,7 @@ class AccountsPage(QWidget, accounts_page):
             self.account_status_filter.addItem(list(status.values())[0])
 
     def add_job_filter(self):
-        job_dir = "resources/config/filters.json"
-
-        with open(job_dir, 'r') as f:
+        with open(self.filter_dir, 'r') as f:
             data = json.load(f)
 
         self.job_filter.clear()
@@ -143,9 +144,7 @@ class AccountsPage(QWidget, accounts_page):
                 else:
                     row_data.append("")
 
-            account_header_dir = "resources/config/table/accounts_tableHeader.json"
-
-            with open(account_header_dir, 'r') as f:
+            with open(self.accounts_table_header, 'r') as f:
                 data = json.load(f)
 
             try:
@@ -309,14 +308,12 @@ class AccountsPage(QWidget, accounts_page):
             self.new_job_dialog.show()
 
     def save_new_job_title(self, new_job_title):
-        print(f'New Job title: {new_job_title}')
-
-        with open('resources/data/job_titles.json', 'r') as f:
+        with open(self.job_titles_dir, 'r') as f:
             job_titles = json.load(f)   
 
         job_titles.append(new_job_title)
 
-        with open('resources/data/job_titles.json', 'w') as f:
+        with open(self.job_titles_dir, 'w') as f:
             json.dump(job_titles, f)
 
         # Update the job_field combobox
@@ -369,7 +366,7 @@ class AccountsPage(QWidget, accounts_page):
         self.job_field.addItem(self.job)
 
         # Load job titles from JSON file
-        with open('resources/data/job_titles.json', 'r') as f:
+        with open(self.job_titles_dir, 'r') as f:
             job_titles = json.load(f)
         
         # Add job titles to the combobox
@@ -390,7 +387,7 @@ class AccountsPage(QWidget, accounts_page):
         layout.addWidget(usertype_label)
         layout.addWidget(usertype_field)
 
-        with open("resources/config/filters.json") as f: # get all account status filter from json file
+        with open(self.filter_dir) as f: # get all account status filter from json file
             data = json.load(f)
 
         
@@ -525,13 +522,7 @@ class AccountsPage(QWidget, accounts_page):
             }
         """)
 
-        # header json directory
-        header_dir = "resources/config/table/accounts_tableHeader.json"
-
-        # settings directory
-        settings_dir = "resources/config/settings.json"
-
-        with open(header_dir, 'r') as f:
+        with open(self.accounts_table_header, 'r') as f:
             header_labels = json.load(f)
 
         table.setColumnCount(len(header_labels))
@@ -569,7 +560,7 @@ class AccountsPage(QWidget, accounts_page):
         if not data:
             return  # Exit if the collection is empty
         
-        with open(settings_dir, 'r') as f:
+        with open(self.settings_dir, 'r') as f:
             settings = json.load(f)
             self.current_time_format = settings['time_date'][0]['time_format']
         

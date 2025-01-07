@@ -166,7 +166,7 @@ class EditProductInformation(QWidget, editProductPage):
         self.UpdateComboBox('filters.json')
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
-        filter_dir = f"resources/config/{directory_name}"
+        filter_dir = f"D:/Inventory-System/app/resources/config/{directory_name}"
 
         print(f"ComboBox's current text: {comboBox_name.currentText()}")
         currentText = comboBox_name.currentText()

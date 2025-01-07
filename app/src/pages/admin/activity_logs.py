@@ -22,7 +22,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.logs_monitor.data_changed_signal.connect(lambda: self.update_table())
 
         # settings json file directory
-        self.settings_dir = 'resources/config/settings.json'
+        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         self.update_all() # call update table once
 
@@ -37,7 +37,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.update_table() # update the activity logs table
 
     def category_filter(self):
-        categories_dir = "resources/data/logs.json"
+        categories_dir = "D:/Inventory-System/app/resources/data/logs.json"
         with open(categories_dir, 'r') as f:
             data = json.load(f)
 
@@ -49,7 +49,7 @@ class Activity_Logs(QWidget, activityLogsPage):
             self.categories_combobox.addItem(list(category.values())[0])
 
     def status_filter(self):
-        status_dir = "resources/data/logs.json"
+        status_dir = "D:/Inventory-System/app/resources/data/logs.json"
         with open(status_dir, 'r') as f:
             data = json.load(f)
 
@@ -129,9 +129,9 @@ class Activity_Logs(QWidget, activityLogsPage):
             }
         """)
         # Header JSON directory
-        header_dir = "resources/config/table/activity_logs_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/activity_logs_tableHeader.json"
         # Settings directory
-        settings_dir = "resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))

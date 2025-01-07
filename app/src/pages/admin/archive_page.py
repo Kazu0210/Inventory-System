@@ -358,10 +358,10 @@ class ArchivePage(QWidget, Ui_archive):
             """)
 
             # Header JSON directory
-            header_dir = "app/resources/config/table/product_tableHeader.json"
+            header_dir = "D:/Inventory-System/app/resources/config/table/product_tableHeader.json"
 
             # Settings directory
-            settings_dir = "app/resources/config/settings.json"
+            settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)
@@ -501,10 +501,10 @@ class ArchivePage(QWidget, Ui_archive):
             """)
 
             # Header JSON directory
-            header_dir = "app/resources/config/table/accounts_tableHeader.json"
+            header_dir = "D:/Inventory-System/app/resources/config/table/accounts_tableHeader.json"
 
             # Settings directory
-            settings_dir = "app/resources/config/settings.json"
+            settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)

@@ -82,7 +82,7 @@ class Activity_Logs:
         }
 
         # Read logs categories from json file
-        logs_dir = "resources/data/logs.json"
+        logs_dir = "D:/Inventory-System/app/resources/data/logs.json"
         with open(logs_dir, 'r') as f:
             category_data = json.load(f)
 

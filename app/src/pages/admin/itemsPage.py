@@ -147,7 +147,7 @@ class ItemsPage(QWidget, items_page):
     
     def load_stock_level_filter(self):
         """Add stock level filter to the dropdown"""
-        filter_dir = "resources/config/filters.json"
+        filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
         with open(filter_dir, 'r') as f:
             data = json.load(f)
 
@@ -160,7 +160,7 @@ class ItemsPage(QWidget, items_page):
 
     def add_cylinder_size_filter(self):
         """Add cylinder size filter to the dropdown"""
-        filter_dir = "resources/config/filters.json"
+        filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
         with open(filter_dir, 'r') as f:
             data = json.load(f)
 
@@ -270,7 +270,7 @@ class ItemsPage(QWidget, items_page):
                 else:
                     row_data.append("")
 
-            product_header_dir = "resources/config/table/items_tableHeader.json"
+            product_header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
             with open(product_header_dir, 'r') as f:
                 data = json.load(f)
@@ -567,7 +567,7 @@ class ItemsPage(QWidget, items_page):
         """)
 
         # header json directory
-        header_dir = "resources/config/table/items_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
