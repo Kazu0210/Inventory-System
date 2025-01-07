@@ -1,16 +1,15 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QStackedLayout, QFrame, QMessageBox
 from PyQt6.QtCore import QTimer, Qt
 
-from ui.NEW.new_account_page import Ui_Form as Ui_new_account_page
+from src.ui.NEW.new_account_page import Ui_Form as Ui_new_account_page
+from src.utils.Generate_password import PasswordGenerator
+from src.utils.Validation import Validator
+from src.pages.admin.username_requirement_section import UsernameAccountRequirementPage
+from src.pages.admin.emali_requirement_section import EmailAccountRequirementPage
+from src.utils.Hashpassword import HashPassword
+from src.utils.Activity_logs import Activity_Logs
 
-from utils.Generate_password import PasswordGenerator
-from utils.Validation import Validator
-from pages.admin.username_requirement_section import UsernameAccountRequirementPage
-from pages.admin.emali_requirement_section import EmailAccountRequirementPage
-from utils.Hashpassword import HashPassword
-from utils.Activity_logs import Activity_Logs
-
-import sys, json, time, random, pymongo, os
+import json, time, random, pymongo
 
 class NewAccountPage(QWidget, Ui_new_account_page):
     def __init__(self, username):
@@ -32,7 +31,7 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         self.update_combo_box(filter_filename)
   
         # settings directory
-        self.settings_dir = "app/resources/config/settings.json"
+        self.settings_dir = "resources/config/settings.json"
         with open(self.settings_dir, 'r') as f:
             setting = json.load(f)
 
@@ -42,7 +41,6 @@ class NewAccountPage(QWidget, Ui_new_account_page):
 
         # set account ID on preview section
         self.accountID_preview.setText(self.account_id)
-
         
         self.username_minLength = setting["create_account_validation"][0]['username_min_lenght']
         self.username_maxLength = setting["create_account_validation"][1]['username_max_lenght']
@@ -65,20 +63,6 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         
         # BUTTONS
         self.createAcc_btn.clicked.connect(lambda: self.create_account_btn_clicked())
-
-        self.requirement_layout = QStackedLayout(self.frame_38)
-
-        self.empty_section = QFrame()
-        self.requirement_layout.addWidget(self.empty_section) # index 0
-
-        self.username_account_requirement_section = UsernameAccountRequirementPage(self) # index 1
-        self.requirement_layout.addWidget(self.username_account_requirement_section)
-
-        self.email_account_requirement_section = EmailAccountRequirementPage(self) # index 2
-        self.requirement_layout.addWidget(self.email_account_requirement_section)
-
-        self.username_field.mousePressEvent = self.on_username_field_clicked        
-        self.email_field.mousePressEvent = self.on_email_field_clicked
 
     def generate_account_id(self):
         date_component = time.strftime("%Y%m%d") # get current date
@@ -321,7 +305,7 @@ class NewAccountPage(QWidget, Ui_new_account_page):
             self.password_field.clear()
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
-        filter_dir = f"app/resources/config/{directory_name}"
+        filter_dir = f"resources/config/{directory_name}"
 
         with open(filter_dir, 'r') as f:
             options = json.load(f)

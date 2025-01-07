@@ -3,20 +3,19 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QThread, pyqtSignal, Qt, QWaitCondition, QMutex, QTimer
 from PyQt6.QtGui import QBrush, QColor
 
-from ui.NEW.accounts_page import Ui_Form as accounts_page
-from pages.admin.edit_account_page import editAccountPage
-from pages.admin.new_account_page import NewAccountPage
+from src.ui.NEW.accounts_page import Ui_Form as accounts_page
+from src.pages.admin.edit_account_page import editAccountPage
+from src.pages.admin.new_account_page import NewAccountPage
 
-from utils.Hashpassword import HashPassword
-from utils.Activity_logs import Activity_Logs
+from src.utils.Hashpassword import HashPassword
+from src.utils.Activity_logs import Activity_Logs
 
-from custom_widgets.message_box import CustomMessageBox
+from src.custom_widgets.message_box import CustomMessageBox
 
-from utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Inventory_Monitor import InventoryMonitor
 from datetime import datetime
-import re
-import json
-import os
+
+import re, json, os
 
 class AccountsPage(QWidget, accounts_page):
     def __init__(self, username, dashboard_mainWindow=None):
@@ -90,7 +89,7 @@ class AccountsPage(QWidget, accounts_page):
         self.get_account_total()
 
     def add_account_status_filter(self):
-        filter_dir = "app/resources/config/filters.json"
+        filter_dir = "resources/config/filters.json"
 
         with open(filter_dir, 'r') as f:
             data = json.load(f)
@@ -100,7 +99,7 @@ class AccountsPage(QWidget, accounts_page):
             self.account_status_filter.addItem(list(status.values())[0])
 
     def add_job_filter(self):
-        job_dir = "app/resources/config/filters.json"
+        job_dir = "resources/config/filters.json"
 
         with open(job_dir, 'r') as f:
             data = json.load(f)
@@ -144,7 +143,7 @@ class AccountsPage(QWidget, accounts_page):
                 else:
                     row_data.append("")
 
-            account_header_dir = "app/resources/config/table/accounts_tableHeader.json"
+            account_header_dir = "resources/config/table/accounts_tableHeader.json"
 
             with open(account_header_dir, 'r') as f:
                 data = json.load(f)
@@ -312,12 +311,12 @@ class AccountsPage(QWidget, accounts_page):
     def save_new_job_title(self, new_job_title):
         print(f'New Job title: {new_job_title}')
 
-        with open('app/resources/data/job_titles.json', 'r') as f:
+        with open('resources/data/job_titles.json', 'r') as f:
             job_titles = json.load(f)   
 
         job_titles.append(new_job_title)
 
-        with open('app/resources/data/job_titles.json', 'w') as f:
+        with open('resources/data/job_titles.json', 'w') as f:
             json.dump(job_titles, f)
 
         # Update the job_field combobox
@@ -370,7 +369,7 @@ class AccountsPage(QWidget, accounts_page):
         self.job_field.addItem(self.job)
 
         # Load job titles from JSON file
-        with open('app/resources/data/job_titles.json', 'r') as f:
+        with open('resources/data/job_titles.json', 'r') as f:
             job_titles = json.load(f)
         
         # Add job titles to the combobox
@@ -391,7 +390,7 @@ class AccountsPage(QWidget, accounts_page):
         layout.addWidget(usertype_label)
         layout.addWidget(usertype_field)
 
-        with open("app/resources/config/filters.json") as f: # get all account status filter from json file
+        with open("resources/config/filters.json") as f: # get all account status filter from json file
             data = json.load(f)
 
         
@@ -527,10 +526,10 @@ class AccountsPage(QWidget, accounts_page):
         """)
 
         # header json directory
-        header_dir = "app/resources/config/table/accounts_tableHeader.json"
+        header_dir = "resources/config/table/accounts_tableHeader.json"
 
         # settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)

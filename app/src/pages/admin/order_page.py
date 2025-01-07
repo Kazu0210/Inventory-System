@@ -2,18 +2,15 @@ from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
-# from ui.NEW.orders_page import Ui_orderPage_Form
-from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
-from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
-from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
-from ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
-from ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
-# from pages.admin.new_order_page import NewOrderPage
-# from pages.admin.new_order_page import AddOrderForm
+from src.ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
+from src.ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
+from src.ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
+from src.ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
+from src.ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.custom_widgets.message_box import CustomMessageBox
 
-from utils.Inventory_Monitor import InventoryMonitor
-from custom_widgets.message_box import CustomMessageBox
-import pymongo, json, re, os
+import pymongo, json, re
 from pymongo import DESCENDING
 from datetime import datetime
 
@@ -158,10 +155,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         """)
 
         # Header JSON directory
-        header_dir = "app/resources/config/table/order_tableHeader.json"
+        header_dir = "resources/config/table/order_tableHeader.json"
 
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
@@ -266,7 +263,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                             )
 
                             self.orders_tableWidget.setCellWidget(row, column, payment_stat)
-                            payment_stat_dir = "app/resources/config/filters.json"
+                            payment_stat_dir = "resources/config/filters.json"
 
                             # Open and load the JSON file
                             with open(payment_stat_dir, 'r') as f:
@@ -316,7 +313,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                             )
 
                             self.orders_tableWidget.setCellWidget(row, column, order_stat)
-                            order_stat_dir = "app/resources/config/filters.json"
+                            order_stat_dir = "resources/config/filters.json"
 
                             # Open and load the JSON file
                             with open(order_stat_dir, 'r') as f:
@@ -357,11 +354,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def handle_order_status(self, pending_status, row, text, order_id):
         """handle payment button clicked"""
-        print(f"row: {row}")
-        print(f"Pending Status: {pending_status}")
-        print(f'New text: {text}')
-        print(f'Order id: {order_id}')
-
         if text != pending_status:
             print(f'Not the same')
 
@@ -382,11 +374,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def handle_payment(self, pending_status, row, text, order_id):
         """handle payment button clicked"""
-        print(f"row: {row}")
-        print(f"Pending Status: {pending_status}")
-        print(f'New text: {text}')
-        print(f'Order id: {order_id}')
-
         if text != pending_status:
             print(f'Not the same')
 
@@ -467,9 +454,9 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             }
         """)
         # Header JSON directory
-        header_dir = "app/resources/config/table/view_products_tableHeader.json"
+        header_dir = "resources/config/table/view_products_tableHeader.json"
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "resources/config/settings.json"
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))
@@ -767,7 +754,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def set_remove_icon(self, button_object):
         """Set remove icon for each cart item"""
-        remove_icon = QIcon("app/resources/icons/black-theme/trash-bin.png")
+        remove_icon = QIcon("resources/icons/black-theme/trash-bin.png")
         button_object.setIcon(remove_icon)
 
     def update_cart(self):
@@ -1159,7 +1146,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def load_payment_status_options(self):
         try:
-            filter_dir = "app/resources/config/filters_box.json"
+            filter_dir = "resources/config/filters_box.json"
 
             with open(filter_dir, 'r') as f:
                 data = json.load(f)
@@ -1175,7 +1162,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     
     def load_cylinder_status_options(self):
         try:
-            filter_dir = "app/resources/config/filters_box.json"
+            filter_dir = "resources/config/filters_box.json"
 
             with open(filter_dir, 'r') as f:
                 data = json.load(f)
@@ -1191,7 +1178,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def load_order_status_options(self):
         try:
-            filter_dir = "app/resources/config/filters_box.json"
+            filter_dir = "resources/config/filters_box.json"
 
             with open(filter_dir, 'r') as f:
                 data = json.load(f)
@@ -1345,7 +1332,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             table = self.orders_tableWidget
             table.setRowCount(0)  # Clear the table
 
-            header_dir = "app/resources/config/table/order_tableHeader.json"
+            header_dir = "resources/config/table/order_tableHeader.json"
 
             # Read header labels from the JSON file
             with open(header_dir, 'r') as f:

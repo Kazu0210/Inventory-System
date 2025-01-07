@@ -3,13 +3,12 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor
 from datetime import datetime
 
-from custom_widgets.message_box import CustomMessageBox
+from src.custom_widgets.message_box import CustomMessageBox
+from src.ui.NEW.archive_page import Ui_Form as Ui_archive
+from src.ui.final_ui.archive_account_information import Ui_Frame as Ui_archive_account_info
+from src.utils.Inventory_Monitor import InventoryMonitor
 
 import json, os, pymongo, re, threading
-
-from ui.NEW.archive_page import Ui_Form as Ui_archive
-from ui.final_ui.archive_account_information import Ui_Frame as Ui_archive_account_info
-from utils.Inventory_Monitor import InventoryMonitor
 
 class AccountArchive(QFrame, Ui_archive_account_info):
     def __init__(self, parent_window=None):

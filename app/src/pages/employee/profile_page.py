@@ -1,16 +1,13 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QMessageBox
 from PyQt6.QtCore import QStringConverter, Qt, pyqtSignal
 
-from utils.Inventory_Monitor import InventoryMonitor
-from utils.Hashpassword import HashPassword
-from utils.Validation import Validator
-
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Hashpassword import HashPassword
+from src.utils.Validation import Validator
+from src.ui.employee.profilePage import Ui_Form as profile_page
+from src.ui.employee.update_password import Ui_Form as update_pass_page
+from src.ui.employee.update_profile import Ui_Form as update_profile_page
 import pymongo, json
-
-from ui.employee.profilePage import Ui_Form as profile_page
-from ui.employee.update_password import Ui_Form as update_pass_page
-from ui.employee.update_profile import Ui_Form as update_profile_page
-# from ui.NEW.employee.profile import Ui_Form as Ui_profile_page
 
 class UpdateProfile(QWidget, update_profile_page):
     def __init__(self, username):

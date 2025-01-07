@@ -3,17 +3,14 @@ from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 
-from ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
-from ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
-
-from utils.Inventory_Monitor import InventoryMonitor
-from custom_widgets.message_box import CustomMessageBox
-
-from collections import defaultdict
+from src.ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
+from src.ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.custom_widgets.message_box import CustomMessageBox
 
 from datetime import datetime, timedelta
 from fpdf import FPDF
-import pymongo, re, json, random, os, subprocess
+import pymongo, re, json
 
 class BestSellingListItem(QFrame, best_selling_UiForm):
     def __init__(self, list_of_data):
@@ -180,7 +177,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
     def set_icons(self):
         """Set icons to buttons"""
-        self.search_pushButton.setIcon(QIcon("app/resources/icons/black-theme/search.png"))
+        self.search_pushButton.setIcon(QIcon("resources/icons/black-theme/search.png"))
 
     def load_product_category_filter(self):
         """Load product categories (cylinder sizes) from the database and populate the product category frame"""
@@ -512,10 +509,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             """)
 
             # Header JSON directory
-            header_dir = "app/resources/config/table/sales_tableHeader.json"
+            header_dir = "resources/config/table/sales_tableHeader.json"
 
             # Settings directory
-            settings_dir = "app/resources/config/settings.json"
+            settings_dir = "resources/config/settings.json"
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)
@@ -684,9 +681,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             }
         """)
         # Header JSON directory
-        header_dir = "app/resources/config/table/view_products_tableHeader.json"
+        header_dir = "resources/config/table/view_products_tableHeader.json"
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "resources/config/settings.json"
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))

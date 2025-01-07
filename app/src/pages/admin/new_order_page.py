@@ -1,8 +1,7 @@
 from PyQt6.QtWidgets import QFrame, QMessageBox, QToolTip
 
-from ui.employee.add_order_item import Ui_Frame as Ui_add_form
-
-from utils.Inventory_Monitor import InventoryMonitor
+from src.ui.employee.add_order_item import Ui_Frame as Ui_add_form
+from src.utils.Inventory_Monitor import InventoryMonitor
 
 import pymongo, json
 from datetime import datetime

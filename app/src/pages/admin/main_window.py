@@ -3,31 +3,25 @@ from PyQt6.QtCore import QTimer, Qt, QSize
 from PyQt6.QtGui import QPixmap, QIcon
 
 # from ui.main_window import Ui_MainWindow
-from ui.final_ui.main_window import Ui_MainWindow
+from src.ui.final_ui.main_window import Ui_MainWindow
+from src.pages.admin.activity_logs import Activity_Logs
+from src.pages.admin.accountsPage import AccountsPage
+from src.pages.admin.dashboard_page import Dashboard
+from src.pages.admin.itemsPage import ItemsPage
+from src.pages.admin.newitemsPage import newItem_page as NewItem
+from src.utils.Activity_logs import Activity_Logs as activity_logs
+from src.utils.Graphics import AddGraphics
+from src.pages.admin.settings_page import settingsPage
+from src.pages.admin.new_account_page import NewAccountPage
+from src.pages.admin.order_page import OrderPage
+from src.pages.admin.backp_restore import BackupRestorePage
+from src.pages.admin.archive_page import ArchivePage
+from src.pages.admin.sales_report_page import SalesReportPage
+from src.pages.admin.prices_page import PricesPage
+from src.pages.admin.profile_page import ProfilePage
 
-from pages.admin.activity_logs import Activity_Logs
-from pages.admin.accountsPage import AccountsPage
-# from accountsPage import UpdateThread
-# from newEmployee_page import newEmployeePage
-from pages.admin.dashboard_page import Dashboard
-from pages.admin.itemsPage import ItemsPage
-from pages.admin.newitemsPage import newItem_page as NewItem
 from pymongo import MongoClient
-
-from utils.Activity_logs import Activity_Logs as activity_logs
-from utils.Graphics import AddGraphics
-
-from pages.admin.settings_page import settingsPage
-from pages.admin.new_account_page import NewAccountPage
-from pages.admin.order_page import OrderPage
-from pages.admin.backp_restore import BackupRestorePage
-from pages.admin.archive_page import ArchivePage
-from pages.admin.sales_report_page import SalesReportPage
-from pages.admin.prices_page import PricesPage
-from pages.admin.profile_page import ProfilePage
-import re
-import json
-import os
+import re, json, os
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, username):
@@ -168,7 +162,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_profile_icon(self):
         """Add icon to profile button"""
-        self.profile_pushButton.setIcon(QIcon("app/resources/icons/black-theme/user.png"))
+        self.profile_pushButton.setIcon(QIcon("resources/icons/black_theme/user.png"))
         self.profile_pushButton.setIconSize(QSize(17, 17))
 
     def add_graphics(self):
@@ -186,7 +180,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("app/resources/icons/system-icon.png")
+        logo = QPixmap("resources/icons/system-icon.png")
         
         min_height = 150  # Minimum height
         max_height = 180  # Maximum height
@@ -236,7 +230,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def logout_btn_clicked(self):
         print("Application is closed")
         try:
-            temp_data_dir = "app/resources/data/temp_user_data.json"
+            temp_data_dir = "resources/data/temp_user_data.json"
             if os.path.exists(temp_data_dir):
                 with open(temp_data_dir, 'r') as file:
                     data = json.load(file)
@@ -389,7 +383,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # print(f"Icon widget's file name: {icon_widget.file_name}")
         file_name = icon_widget.file_name
 
-        file_path = f"app/resources/icons/{file_name}"
+        file_path = f"resources/icons/{file_name}"
         icon = QPixmap(file_path)
         icon_widget.file_name = os.path.basename(file_path)
         icon_widget.setPixmap(icon)
@@ -413,57 +407,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
     def set_btn_icons(self):
         """Set icons for the buttons"""
-        dashboard_icon = QPixmap("app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.file_name = os.path.basename("app/resources/icons/black-theme/dashboard.png")
+        dashboard_icon = QPixmap("resources/icons/black_theme/dashboard.png")
+        self.dashboard_logo.file_name = os.path.basename("resources/icons/black_theme/dashboard.png")
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
 
-        prices_icon = QPixmap("app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
+        prices_icon = QPixmap("resources/icons/black_theme/price-tag.png")
+        self.prices_logo.file_name = os.path.basename("resources/icons/black_theme/price-tag.png")
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
 
-        inventory_icon = QPixmap("app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.file_name = os.path.basename("app/resources/icons/black-theme/inventory.png")
+        inventory_icon = QPixmap("resources/icons/black_theme/inventory.png")
+        self.inventory_logo.file_name = os.path.basename("resources/icons/black_theme/inventory.png")
         self.inventory_logo.setPixmap(inventory_icon)
         self.inventory_logo.setScaledContents(True)
 
-        orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
-        self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
+        orders_icon = QPixmap("resources/icons/black_theme/booking.png")
+        self.orders_logo.file_name = os.path.basename("resources/icons/black_theme/booking.png")
         self.orders_logo.setPixmap(orders_icon)
         self.orders_logo.setScaledContents(True)
 
-        reportsLogs_icon = QPixmap("app/resources/icons/black-theme/file.png")
-        self.reports_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/file.png")
+        reportsLogs_icon = QPixmap("resources/icons/black_theme/file.png")
+        self.reports_logs_logo.file_name = os.path.basename("resources/icons/black_theme/file.png")
         self.reports_logs_logo.setPixmap(reportsLogs_icon)
         self.reports_logs_logo.setScaledContents(True)
         
-        sales_icon = QPixmap("app/resources/icons/black-theme/sales.png")
-        self.sales_report_logo.file_name = os.path.basename("app/resources/icons/black-theme/sales.png")
+        sales_icon = QPixmap("resources/icons/black_theme/sales.png")
+        self.sales_report_logo.file_name = os.path.basename("resources/icons/black_theme/sales.png")
         self.sales_report_logo.setPixmap(sales_icon)
         self.sales_report_logo.setScaledContents(True)
         
-        act_logs_icon = QPixmap("app/resources/icons/black-theme/restore.png")
-        self.activity_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/restore.png")
+        act_logs_icon = QPixmap("resources/icons/black_theme/restore.png")
+        self.activity_logs_logo.file_name = os.path.basename("resources/icons/black_theme/restore.png")
         self.activity_logs_logo.setPixmap(act_logs_icon)
         self.activity_logs_logo.setScaledContents(True)
         
-        setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
-        self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
+        setting_icon = QPixmap("resources/icons/black_theme/settings.png")
+        self.settings_logo.file_name = os.path.basename("resources/icons/black_theme/settings.png")
         self.settings_logo.setPixmap(setting_icon)
         self.settings_logo.setScaledContents(True)
         
-        archive_icon = QPixmap("app/resources/icons/black-theme/archive.png")
-        self.archive_logo.file_name = os.path.basename("app/resources/icons/black-theme/archive.png")
+        archive_icon = QPixmap("resources/icons/black_theme/archive.png")
+        self.archive_logo.file_name = os.path.basename("resources/icons/black_theme/archive.png")
         self.archive_logo.setPixmap(archive_icon)
         self.archive_logo.setScaledContents(True)
 
-        accounts_icon = QPixmap("app/resources/icons/black-theme/user.png")
-        self.accounts_logo.file_name = os.path.basename("app/resources/icons/black-theme/user.png")
+        accounts_icon = QPixmap("resources/icons/black_theme/user.png")
+        self.accounts_logo.file_name = os.path.basename("resources/icons/black_theme/user.png")
         self.accounts_logo.setPixmap(accounts_icon)
         self.accounts_logo.setScaledContents(True)
         
-        logout_icon = QPixmap("app/resources/icons/black-theme/logout.png")
-        self.logout_logo.file_name = os.path.basename("app/resources/icons/black-theme/logout.png")
+        logout_icon = QPixmap("resources/icons/black_theme/logout.png")
+        self.logout_logo.file_name = os.path.basename("resources/icons/black_theme/logout.png")
         self.logout_logo.setPixmap(logout_icon)
         self.logout_logo.setScaledContents(True)

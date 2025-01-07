@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QApplication
 from PyQt6.QtCore import Qt
-from ui.NEW.edit_account_page import Ui_Form as edit_account_page_Ui
-from utils.Hashpassword import HashPassword
+from src.ui.NEW.edit_account_page import Ui_Form as edit_account_page_Ui
+from src.utils.Hashpassword import HashPassword
 import sys, pymongo, json
 
 class editAccountPage(QWidget, edit_account_page_Ui):

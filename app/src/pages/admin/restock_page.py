@@ -2,7 +2,8 @@ from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtCore import pyqtSignal, Qt, QRegularExpression
 from PyQt6.QtGui import QRegularExpressionValidator
 # from ui.NEW.restock_page import Ui_Form as Ui_restock_form
-from ui.final_ui.restock_product import Ui_Form as Ui_restock_form
+from src.ui.final_ui.restock_product import Ui_Form as Ui_restock_form
+from src.custom_widgets.message_box import CustomMessageBox
 from datetime import date
 import pymongo
 
@@ -55,7 +56,7 @@ class RestockProduct(QWidget, Ui_restock_form):
             }
 
             self.collection.update_one({"product_id": self.productID}, {"$set": fixed_data})
-            QMessageBox.information(self, 'Success', 'Product Information Updated Successfully')
+            CustomMessageBox.show_message('information', 'Success', 'Product Informatoin Udpated Successfully')
             self.save_signal.emit(data)
             self.close()
         except Exception as e:

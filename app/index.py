@@ -2,8 +2,8 @@ import sys, json
 from pathlib import Path
 from PyQt6.QtWidgets import *
 
-from pages.login_window import loginWindow
-from utils.Activity_logs import Activity_Logs
+from src.pages.login_window import loginWindow
+from src.utils.Activity_logs import Activity_Logs
 
 def on_about_to_quit():
     # Define the relative path to the file

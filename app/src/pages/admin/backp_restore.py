@@ -1,12 +1,12 @@
 # BACKUP AND RESTORE PAGE for admin account
 from PyQt6.QtWidgets import QWidget, QMessageBox, QListWidgetItem, QListWidget, QAbstractItemView, QFrame, QVBoxLayout
 from PyQt6.QtCore import Qt, QThread, QObject, pyqtSignal
-from ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
-from utils.Inventory_Monitor import InventoryMonitor
 
-from pages.admin.daily_backup_page import DailyBackup
-from pages.admin.new_backupPage import NewBackupPage
-from pages.admin.dragDrop_frame import DragDropFrame
+from src.ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.pages.admin.daily_backup_page import DailyBackup
+from src.pages.admin.new_backupPage import NewBackupPage
+from src.pages.admin.dragDrop_frame import DragDropFrame
 
 import os, json, pymongo, plyer
 from datetime import datetime
@@ -274,7 +274,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         collection_name = collectionN
         return client[db][collection_name]
     
-from ui.NEW.custom_listItem import Ui_Form as Ui_ListItem
+from src.ui.NEW.custom_listItem import Ui_Form as Ui_ListItem
 class CustomListItem(QWidget, Ui_ListItem):
     def __init__(self, list_of_data):
         super().__init__()

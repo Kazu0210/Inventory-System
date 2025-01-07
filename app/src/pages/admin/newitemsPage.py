@@ -1,10 +1,11 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtCore import QRegularExpression, QTimer, Qt
-# from ui.newitemsPage import Ui_Form as NewItemsPage
-# from ui.addItem_page import Ui_Form as Ui_addItemPage
-from ui.final_ui.add_product import Ui_Form as Ui_addItemPage
-from utils.Activity_logs import Activity_Logs as activity_logs_util
+
+from src.ui.final_ui.add_product import Ui_Form as Ui_addItemPage
+from src.utils.Activity_logs import Activity_Logs as activity_logs_util
+from src.custom_widgets.message_box import CustomMessageBox
+
 import datetime, pymongo, sys, json, datetime, random
 
 class newItem_page(QWidget, Ui_addItemPage):
@@ -18,7 +19,7 @@ class newItem_page(QWidget, Ui_addItemPage):
         # activity logs class
         self.logs = activity_logs_util()
 
-        self.settings_dir = "app/resources/config/filters.json" # settings.json directory
+        self.settings_dir = "resources/config/filters.json" # settings.json directory
 
         self.fill_form()
 
@@ -155,17 +156,7 @@ class newItem_page(QWidget, Ui_addItemPage):
         data = self.get_data()
 
         if self.is_data_empty():
-            QMessageBox.information(
-                self,
-                "Empty Fields",
-                "All fields are empty. Please fill out the form."
-            )
-        else:
-            QMessageBox.information(
-                self,
-                "Fields Filled",
-                "At least one field has been filled."
-            )
+            CustomMessageBox.show_message('information', 'Empty Fields', 'All fields are empty. Please fill out the form.')
 
         if not self.is_productExist():
             self.save(data)

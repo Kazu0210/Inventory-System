@@ -1,7 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox 
 from PyQt6.QtCore import pyqtSignal, Qt, QRegularExpression
 from PyQt6.QtGui import QRegularExpressionValidator
-from ui.NEW.edit_product_page import Ui_Form as editProductPage
+from src.ui.NEW.edit_product_page import Ui_Form as editProductPage
+from src.custom_widgets.message_box import CustomMessageBox
 import json, pymongo
 from datetime import datetime
 
@@ -35,7 +36,7 @@ class EditProductInformation(QWidget, editProductPage):
             self.save_to_price_history() # add new record to price history if not changed
             self.connect_to_db("products_items").update_one({"product_id": self.productID}, {"$set": data})
             
-            QMessageBox.information(self, 'Success', 'Product Information Updated Successfully')
+            CustomMessageBox.show_message('information', 'Success', 'Product Information Updated Successfully')
             self.save_signal.emit(data)
             self.close()
         except Exception as e:
@@ -165,7 +166,7 @@ class EditProductInformation(QWidget, editProductPage):
         self.UpdateComboBox('filters.json')
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
-        filter_dir = f"app/resources/config/{directory_name}"
+        filter_dir = f"resources/config/{directory_name}"
 
         print(f"ComboBox's current text: {comboBox_name.currentText()}")
         currentText = comboBox_name.currentText()

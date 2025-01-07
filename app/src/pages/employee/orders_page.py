@@ -3,15 +3,14 @@ from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
 # from ui.NEW.orders_page import Ui_orderPage_Form
-from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
-from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
-from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
-from ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
-from ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
-# from pages.admin.new_order_page import NewOrderPage
-from pages.admin.new_order_page import AddOrderForm
+from src.ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
+from src.ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
+from src.ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
+from src.ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
+from src.ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
+from src.pages.admin.new_order_page import AddOrderForm
+from src.utils.Inventory_Monitor import InventoryMonitor
 
-from utils.Inventory_Monitor import InventoryMonitor
 import pymongo, json, re, os
 from pymongo import DESCENDING
 from datetime import datetime

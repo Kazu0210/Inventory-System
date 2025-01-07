@@ -1,11 +1,11 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox, QStackedLayout
 from PyQt6.QtCore import Qt, pyqtSignal
-from ui.NEW.new_backupSched_page import Ui_Form
 from datetime import datetime
 
-from pages.admin.daily_backup_page import DailyBackup
-from pages.admin.weekly_backup_page import WeeklyBackup
-from pages.admin.monthly_backup_page import MonthlyBackup
+from src.ui.NEW.new_backupSched_page import Ui_Form
+from src.pages.admin.daily_backup_page import DailyBackup
+from src.pages.admin.weekly_backup_page import WeeklyBackup
+from src.pages.admin.monthly_backup_page import MonthlyBackup
 
 import json, os, pymongo, random
 

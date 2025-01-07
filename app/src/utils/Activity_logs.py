@@ -1,8 +1,7 @@
-import datetime
-import os
-import json
+import datetime, json
 from bson.objectid import ObjectId
-from utils.DB_checker import db_checker
+
+from src.utils.DB_checker import db_checker
 
 class Activity_Logs:
     def __init__(self):
@@ -83,7 +82,7 @@ class Activity_Logs:
         }
 
         # Read logs categories from json file
-        logs_dir = "app/resources/data/logs.json"
+        logs_dir = "resources/data/logs.json"
         with open(logs_dir, 'r') as f:
             category_data = json.load(f)
 

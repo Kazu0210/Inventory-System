@@ -1,17 +1,17 @@
 from PyQt6.QtWidgets import *
 from pymongo import MongoClient
 from PyQt6.QtGui import QPixmap
-from utils.Graphics import AddGraphics
 from PyQt6.QtCore import QTimer, Qt
 
-from ui.employee.employee_main_window import Ui_MainWindow
-from pages.employee.dashboard_page import Dashboard
-from pages.employee.orders_page import OrderPage
-from pages.employee.prices_page import PricesPage
-from pages.employee.settings_page import settingsPage
-from pages.employee.profile_page import ProfilePage
-from pages.employee.order_page import OrderPage
-from utils.Activity_logs import Activity_Logs as activity_logs
+from src.utils.Graphics import AddGraphics
+from src.ui.employee.employee_main_window import Ui_MainWindow
+from src.pages.employee.dashboard_page import Dashboard
+from src.pages.employee.orders_page import OrderPage
+from src.pages.employee.prices_page import PricesPage
+from src.pages.employee.settings_page import settingsPage
+from src.pages.employee.profile_page import ProfilePage
+from src.pages.employee.order_page import OrderPage
+from src.utils.Activity_logs import Activity_Logs as activity_logs
 
 import os, json, re
 

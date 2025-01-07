@@ -1,17 +1,18 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt6.QtGui import QColor, QLinearGradient, QBrush, QIcon
-# from ui.dashboard_page import Ui_Form as Ui_dashboard_page
-from ui.final_ui.dashboard import Ui_Form as Ui_dashboard_page
-from ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
-from ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockInfo
-
-from utils.DB_checker import db_checker
-from utils.Inventory_Monitor import InventoryMonitor
-
 from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, QEasingCurve
+# from ui.dashboard_page import Ui_Form as Ui_dashboard_page
+
+from src.ui.final_ui.dashboard import Ui_Form as Ui_dashboard_page
+from src.ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
+from src.ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockInfo
+
+from src.utils.DB_checker import db_checker
+from src.utils.Inventory_Monitor import InventoryMonitor
+
 from datetime import datetime, timedelta
-import pymongo, random
+import pymongo
 
 class ProductInStockItem(QFrame, Ui_prodStockItem):
     def __init__(self):
