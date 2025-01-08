@@ -85,6 +85,8 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # call funcion that load the stock level chart once
         self.load_stock_level_chart()
 
+        print('dashboard page done loading')
+
     def update_low_stock_label(self):
         """Updates the low stock label"""
         self.low_stock_label.setText(str(self.count_low_stock_products()))

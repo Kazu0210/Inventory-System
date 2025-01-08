@@ -12,6 +12,7 @@ from src.utils.create_default_admin import createDefaultAdmin
 from src.employee_account.dashboard import employee_dashboard
 
 from src.pages.admin.main_window import MainWindow
+from src.pages.splash_screen import SplashScreen
 
 from src.pages.employee.main_window import MainWindow as employee_mainWindow
 
@@ -134,6 +135,9 @@ class loginWindow(QMainWindow, login_mainWindow):
                 
                 if user_role == 'Admin':
                     print('User is an admin')
+                    # self.splash = SplashScreen(user_role, username)
+                    # self.splash.show()
+
                     self.admin_dashboard = MainWindow(username)
                     self.admin_dashboard.show()
                     self.close()

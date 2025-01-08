@@ -28,18 +28,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
 
-        # activity logs
-        self.logs = activity_logs()
-
         # logged in account username
         self.account_username = username
+
+        # activity logs
+        self.logs = activity_logs()
 
         client = MongoClient('mongodb://localhost:27017/')
         db = client['LPGTrading_DB']
         self.collection = db['accounts']
 
+        self.load_pages(username)
+        self.load_btn_connections()
+
+        self.get_current_index()
+        self.hide_buttons()
+        self.add_graphics()
+        self.set_current_page_name()
+        self.set_username_label()
+
+    def load_pages(self, username):
+        """load pages for the dashboad"""
         self.content_window_layout = QStackedLayout(self.content_widget)
 
+        print('opening dashboard section')
         dashboard_section = Dashboard(username, self) # index 0
         self.content_window_layout.addWidget(dashboard_section)
 
@@ -70,9 +82,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.profile_page = ProfilePage(username, self) # index 9
         self.content_window_layout.addWidget(self.profile_page)
 
-        # self.new_account_section = NewAccountPage(username) # index 10 WALA NA DAPAT
-        # self.content_window_layout.addWidget(self.new_account_section)
-
+    def load_btn_connections(self):
+        """load connection of buttons"""
         self.buttons = [
             self.dashboard_pushButton,
             self.activityLogs_pushButton,
@@ -97,7 +108,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.frame_9,
             self.frame_5
         ]
-
         self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_logo, self.frame_4, self.dashboard_pushButton, 0))
         self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 1))
         self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 2))
@@ -111,13 +121,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
-
-        self.get_current_index()
-        # call function to hide button once
-        self.hide_buttons()
-        self.add_graphics()
-        self.set_current_page_name()
-        self.set_username_label()
 
     def profile_btn_clicked(self):
         """handle click event for profile button"""
@@ -255,88 +258,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def get_current_index(self):
         return self.content_window_layout.currentIndex()
-    
-    def current_index_update(self):
-        if self.get_current_index() == 1:
-            self.frame_7.hide()
-            self.comboBox.hide()
-        if self.get_current_index() == 2:
-            self.comboBox.hide()
-
-            search_bar = self.searchbar
-            search_bar.setPlaceholderText("Search username here")
-            
-            search_bar.textChanged.connect(self.search_bar_text_changed)
-            
-        else:
-            self.frame_7.show()
-            self.comboBox.show()
-            self.searchbar.setPlaceholderText("Type here...")
-
-    def search_bar_text_changed(self, text):
-        print(f"Search bar text changed to: {text}")
-        # pause thread update
-        if text:  # if search text is not empty
-            self.accounts_section.timer.timeout.connect(self.accounts_section.update_all)
-            self.accounts_section.timer.stop()
-            # clear table
-            self.accounts_section.tableWidget.setRowCount(0)
-
-            search_results = self.collection.find({
-                "$or": [
-                    {"username": {"$regex": "^" + text, "$options": "i"}}
-                    # {"first_name": {"$regex": "^" + text, "$options": "i"}},
-                    # {"last_name": {"$regex": "^" + text, "$options": "i"}}
-                ]
-            })
-
-            if search_results:
-                # convert the search results to a list
-                results_list = list(search_results)
-
-                # automatically print the result when the text is changed
-                for result in results_list:
-                    print(f"Username: {result['username']}, First Name: {result['first_name']}, Last Name: {result['last_name']}, Job: {result['job']}, User Type: {result['user_type']}, account status: {result['status']}")
-
-                table = self.accounts_section.tableWidget
-                column_count = table.columnCount()
-
-                header_labels = []
-                for i in range(column_count):
-                    item = table.horizontalHeaderItem(i)
-                    if item is not None:
-                        header_labels.append(item.text())
-                header_labels = [self.clean_key(label) for label in header_labels]
-
-                keys = set()
-                for item in results_list:
-                    keys.update(self.clean_key(key) for key in item.keys())
-
-                # Find the maximum number of keys across all documents
-                max_column_count = max(len(item.keys()) for item in results_list) if results_list else 0
-
-                # Set table dimensions
-                table.setRowCount(len(results_list))
-                table.setColumnCount(max_column_count)
-
-                # Populate table with data
-                for row, item in enumerate(results_list):
-                    for column, key in enumerate(header_labels):
-                        original_keys = [k for k in item.keys() if self.clean_key(k) == key]
-                        original_key = original_keys[0] if original_keys else None
-                        value = item.get(original_key)
-                        table.setItem(row, column, QTableWidgetItem(str(value)))
-            else:
-                # If no results, keep the table headers and clear the rows
-                table = self.accounts_section.tableWidget
-                table.setRowCount(0)
-        else:  # if search text is empty, populate table with original data
-            self.accounts_section.timer.timeout.connect(self.accounts_section.update_all)
-            self.accounts_section.timer.start()
-            self.accounts_section.update_table()
-            
-    def clean_key(self, key):
-        return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
 
     def button_clicked(self, icon_widget, parent_widget, button, index):
         self.reset_button_styles()
@@ -349,7 +270,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.content_window_layout.setCurrentIndex(index)
             print(f'Current Index: {self.get_current_index()}')
             self.set_current_page_name()
-            # self.current_index_update()
         else:
             print(f"{button.objectName()} button clicked.")
 
@@ -380,7 +300,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_btn_icons()
 
     def set_active_icon(self, icon_widget):
-        # print(f"Icon widget's file name: {icon_widget.file_name}")
         file_name = icon_widget.file_name
 
         file_path = f"D:/Inventory-System/app/resources/icons/{file_name}"
