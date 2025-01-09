@@ -51,7 +51,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """load pages for the dashboad"""
         self.content_window_layout = QStackedLayout(self.content_widget)
 
-        print('opening dashboard section')
         dashboard_section = Dashboard(username, self) # index 0
         self.content_window_layout.addWidget(dashboard_section)
 

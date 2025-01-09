@@ -54,7 +54,7 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-195</y>
         <width>736</width>
         <height>850</height>
        </rect>
@@ -171,6 +171,17 @@ background-color: transparent;</string>
              <property name="bottomMargin">
               <number>0</number>
              </property>
+             <item>
+              <widget class="QLabel" name="current_time_format_label">
+               <property name="styleSheet">
+                <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QComboBox" name="timeFormat_comboBox">
                <property name="minimumSize">
@@ -516,7 +527,7 @@ color: #333333;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QComboBox" name="backupFormat_comboBox">
+                       <widget class="QComboBox" name="EntireBackupFormat_comboBox">
                         <property name="minimumSize">
                          <size>
                           <width>150</width>
@@ -632,7 +643,7 @@ color: #333333;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="browseFile1_pushButton">
+                          <widget class="QPushButton" name="entireBrowseFile_pushButton">
                            <property name="minimumSize">
                             <size>
                              <width>120</width>
@@ -769,7 +780,7 @@ color: #333333;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QComboBox" name="comboBox_2">
+                       <widget class="QComboBox" name="CollectionBackupFormat_comboBox">
                         <property name="minimumSize">
                          <size>
                           <width>150</width>
@@ -885,7 +896,7 @@ color: #333333;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="browseFile2_pushButton">
+                          <widget class="QPushButton" name="collectionBrowseFile_pushButton">
                            <property name="minimumSize">
                             <size>
                              <width>120</width>
@@ -998,7 +1009,7 @@ color: #333333;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QPushButton" name="pushButton">
+                    <widget class="QPushButton" name="start_backup_pushButton">
                      <property name="minimumSize">
                       <size>
                        <width>125</width>
@@ -1131,7 +1142,7 @@ color: #333333;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="browseFile3_pushButton">
+                 <widget class="QPushButton" name="RestoreBrowseFile_pushButton">
                   <property name="minimumSize">
                    <size>
                     <width>120</width>
