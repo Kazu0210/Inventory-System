@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'settings.ui'
+# Form implementation generated from reading ui file '.\settings.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -14,6 +14,7 @@ class Ui_Form(object):
         Form.setObjectName("Form")
         Form.resize(753, 651)
         Form.setStyleSheet("*{\n"
+"border: none;\n"
 "font: 10pt \"Noto Sans\";\n"
 "}\n"
 "QLineEdit{\n"
@@ -33,7 +34,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -195, 736, 850))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 736, 802))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)

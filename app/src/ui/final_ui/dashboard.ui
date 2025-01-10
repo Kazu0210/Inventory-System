@@ -80,6 +80,7 @@ border-radius: 5px;
 }
 *{
 background-color: transparent;
+border: none;
 }</string>
            </property>
            <property name="frameShape">
@@ -577,7 +578,7 @@ border:none;</string>
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-196</y>
+                 <y>0</y>
                  <width>803</width>
                  <height>623</height>
                 </rect>
@@ -737,7 +738,7 @@ QScrollBar:hover{
                            <x>0</x>
                            <y>0</y>
                            <width>430</width>
-                           <height>256</height>
+                           <height>251</height>
                           </rect>
                          </property>
                         </widget>

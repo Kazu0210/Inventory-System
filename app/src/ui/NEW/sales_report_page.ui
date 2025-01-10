@@ -16,6 +16,7 @@
   <property name="styleSheet">
    <string notr="true">*{
 font: 10pt &quot;Noto Sans&quot;;
+border: none;
 }
 </string>
   </property>
@@ -90,10 +91,10 @@ QScrollBar:hover{
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-398</x>
+        <x>0</x>
         <y>0</y>
-        <width>1093</width>
-        <height>1610</height>
+        <width>1091</width>
+        <height>1598</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -807,7 +808,7 @@ border: none;
                   <x>0</x>
                   <y>0</y>
                   <width>700</width>
-                  <height>641</height>
+                  <height>645</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -997,7 +998,7 @@ QScrollBar:hover{
                   <x>0</x>
                   <y>0</y>
                   <width>350</width>
-                  <height>622</height>
+                  <height>626</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_8"/>

@@ -101,7 +101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("app/resources/icons/system-icon.png")
+        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
         
         min_height = 150  # Minimum height
         max_height = 180  # Maximum height
@@ -123,34 +123,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_btn_icons(self):
         """Set icons for the buttons"""
-        dashboard_icon = QPixmap("app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.file_name = os.path.basename("app/resources/icons/black-theme/dashboard.png")
+        dashboard_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
+        self.dashboard_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
 
-        prices_icon = QPixmap("app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
+        prices_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
+        self.prices_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
 
-        orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
-        self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
+        orders_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
+        self.orders_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
         self.orders_logo.setPixmap(orders_icon)
         self.orders_logo.setScaledContents(True)
         
-        setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
-        self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
+        setting_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
+        self.settings_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
         self.settings_logo.setPixmap(setting_icon)
         self.settings_logo.setScaledContents(True)
 
-        accounts_icon = QPixmap("app/resources/icons/black-theme/user.png")
-        self.accounts_logo.file_name = os.path.basename("app/resources/icons/black-theme/user.png")
+        accounts_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/user.png")
+        self.accounts_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/user.png")
         self.accounts_logo.setPixmap(accounts_icon)
         self.accounts_logo.setScaledContents(True)
         
-        logout_icon = QPixmap("app/resources/icons/black-theme/logout.png")
-        self.logout_logo.file_name = os.path.basename("app/resources/icons/black-theme/logout.png")
-        self.logout_logo.setPixmap(logout_icon)
+        logout_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
+        self.logout_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
         self.logout_logo.setScaledContents(True)
 
     # def show_system_settings_btn(self):

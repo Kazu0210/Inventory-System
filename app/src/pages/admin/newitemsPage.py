@@ -19,7 +19,7 @@ class newItem_page(QWidget, Ui_addItemPage):
         # activity logs class
         self.logs = activity_logs_util()
 
-        self.settings_dir = "resources/config/filters.json" # settings.json directory
+        self.settings_dir = "D:/Inventory-System/app/resources/config/filters.json" # settings.json directory
 
         self.fill_form()
 
@@ -79,6 +79,8 @@ class newItem_page(QWidget, Ui_addItemPage):
             self.close()
             #  zself.itempage.content_window_layout.setCurrentIndex(4)
             # NEED TO ADD ACTIVITY LOGS
+            CustomMessageBox.show_message('information', 'New Product', 'Product Saved Successfully.')
+            
         except Exception as e:
             print(f"Error saving data to database: {e}")
 

@@ -24,8 +24,7 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    noarchive=False,
-    optimize=0,
+    noarchive=False
 )
 
 # Create a Python bytecode archive
@@ -39,7 +38,7 @@ exe = EXE(
     a.datas,
     [],
     name='Inventory-System',  # Name of the output executable
-    icon='app/resources/icons/system-icon.ico',
+    icon='app/resources/icons/system-icon2.ico',
     debug=True,
     bootloader_ignore_signals=False,
     strip=False,

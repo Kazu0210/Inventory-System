@@ -15,6 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">*{
+border: none;
 font: 10pt &quot;Noto Sans&quot;;
 }
 QLineEdit{
@@ -54,9 +55,9 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-195</y>
+        <y>0</y>
         <width>736</width>
-        <height>850</height>
+        <height>802</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">

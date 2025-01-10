@@ -14,7 +14,8 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 10pt &quot;Noto Sans&quot;;</string>
+   <string notr="true">font: 10pt &quot;Noto Sans&quot;;
+border: none;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <property name="spacing">
@@ -92,8 +93,8 @@ QScrollBar:hover{
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>726</width>
-        <height>498</height>
+        <width>729</width>
+        <height>494</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">

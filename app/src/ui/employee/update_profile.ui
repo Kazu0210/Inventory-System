@@ -29,6 +29,7 @@
    <string notr="true">*{
 font: 10pt &quot;Noto Sans&quot;;
 color: #1E1E1E;
+border: none;
 background-color: transparent;
 }
 #Form{

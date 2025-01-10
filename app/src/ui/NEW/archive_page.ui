@@ -16,6 +16,7 @@
   <property name="styleSheet">
    <string notr="true">*{
 font: 10pt &quot;Noto Sans&quot;;
+border: none;
 }
 </string>
   </property>
@@ -90,7 +91,7 @@ QScrollBar:hover{
         <x>0</x>
         <y>0</y>
         <width>1045</width>
-        <height>544</height>
+        <height>547</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
