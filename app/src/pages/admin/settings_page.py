@@ -122,6 +122,19 @@ class settingsPage(QWidget, Ui_settings_page):
         self.timeFormat_comboBox.addItem("12hr")
         self.timeFormat_comboBox.addItem("24hr")
 
+    def get_checked_collections(self):
+        """Retrieve the text of all checked checkboxes in the collections frame."""
+        checked_collections = []
+
+        # Iterate over all child widgets in the layout
+        for i in range(self.collections_frame.layout().count()):
+            widget = self.collections_frame.layout().itemAt(i).widget()  # Get the widget
+
+            if isinstance(widget, QCheckBox) and widget.isChecked():  # Check if it's a QCheckBox and if it's checked
+                checked_collections.append(widget.text())  # Add the text to the list
+
+        return checked_collections
+
     def load_collection_names(self):
         """show all the collection names in the database for collections backup option"""
         collection_names = [
@@ -156,6 +169,25 @@ class settingsPage(QWidget, Ui_settings_page):
             # If the item contains a layout (nested layout), clear it recursively
             elif item.layout() is not None:
                 self.clear_layout(item.layout())
+    
+    def clean_selected_collections(self, collections):
+        """cleaned that selected collections to match the name of the collections in the database"""
+        if collections:
+            cleaned_collections = []
+            collection_names = [
+                'accounts',
+                'account_archive',
+                'products_items',
+                'product_archive',
+                'sales',
+                'price_history',
+                'logs',
+                'orders',
+                'prices',
+            ]
+
+            for collection in collections:
+                print(f'collection: {collection}')
 
     def get_directory_backup_entire(self):
         """get the directory for the entire backup option. handles the browse file button click event"""
@@ -257,6 +289,10 @@ class settingsPage(QWidget, Ui_settings_page):
             format = self.CollectionBackupFormat_comboBox.currentText()
             dir = self.location2_lineEdit.text()
             print(f'Format: {format}, directory: {dir}')
+
+            checked_collections = self.get_checked_collections()
+            print(f'checked collections: {checked_collections}')
+            self.clean_selected_collections(checked_collections)
         else:
             CustomMessageBox.show_message('critical', 'Error', 'Please select a backup option')
 

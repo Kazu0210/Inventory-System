@@ -83,3 +83,12 @@ collection_names = db.list_collection_names()
 # Print collection names
 print(collection_names) 
 print(type(collection_names))
+
+for collection in collection_names:
+    print(collection)
+
+    if collection == "logs":
+        collection_names.remove('logs')
+        collection_names.append('hatdog')
+
+print(collection_names)
