@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\settings.ui'
+# Form implementation generated from reading ui file 'settings.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -34,7 +34,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 736, 802))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -151, 736, 827))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -443,12 +443,26 @@ class Ui_Form(object):
         self.progressBar = QtWidgets.QProgressBar(parent=self.frame_17)
         self.progressBar.setMinimumSize(QtCore.QSize(450, 30))
         self.progressBar.setMaximumSize(QtCore.QSize(450, 30))
+        self.progressBar.setStyleSheet("background-color: #fff;")
         self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
         self.horizontalLayout_6.addWidget(self.progressBar)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem3)
         self.verticalLayout_17.addWidget(self.frame_17)
+        self.frame_21 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_21.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_21.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_21.setObjectName("frame_21")
+        self.verticalLayout_18 = QtWidgets.QVBoxLayout(self.frame_21)
+        self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_18.setSpacing(0)
+        self.verticalLayout_18.setObjectName("verticalLayout_18")
+        self.backup_progress_label = QtWidgets.QLabel(parent=self.frame_21)
+        self.backup_progress_label.setText("")
+        self.backup_progress_label.setObjectName("backup_progress_label")
+        self.verticalLayout_18.addWidget(self.backup_progress_label)
+        self.verticalLayout_17.addWidget(self.frame_21)
         self.verticalLayout_5.addWidget(self.frame_20)
         self.verticalLayout_4.addWidget(self.frame_6)
         self.frame_18 = QtWidgets.QFrame(parent=self.frame_4)
