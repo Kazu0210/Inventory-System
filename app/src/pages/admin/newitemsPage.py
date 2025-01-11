@@ -188,7 +188,7 @@ class newItem_page(QWidget, Ui_addItemPage):
 
     def get_data(self):
         data = {
-            "item_id": self.productID_label.text(),
+            "item_id": self.generate_id(),
             "product_name": self.prod_name_lineEdit.text(),
             "supplier": self.supplier_lineEdit.text(),
             "price": self.price_lineEdit.text(),

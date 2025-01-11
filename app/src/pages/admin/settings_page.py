@@ -187,7 +187,7 @@ class settingsPage(QWidget, Ui_settings_page):
             ]
 
     def get_directory_backup_entire(self):
-        """get the directory for the entire backup option. handles the browse file button click event"""
+        """get the directory for the entire backup option. handles the browse file buttonj click event"""
         dir = QFileDialog.getExistingDirectory(self, "Select Directory") # get directory using file dialog
         if dir:
             self.location1_lineEdit.setText(dir)

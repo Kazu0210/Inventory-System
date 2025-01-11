@@ -1,10 +1,10 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt6.QtGui import QColor, QLinearGradient, QBrush, QIcon
-from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, QEasingCurve
+from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, Qt
 # from ui.dashboard_page import Ui_Form as Ui_dashboard_page
 
-from src.ui.final_ui.dashboard import Ui_Form as Ui_dashboard_page
+from src.ui.ui_dashboard import Ui_Form as Ui_dashboard_page
 from src.ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
 from src.ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockInfo
 
@@ -12,7 +12,8 @@ from src.utils.DB_checker import db_checker
 from src.utils.Inventory_Monitor import InventoryMonitor
 
 from datetime import datetime, timedelta
-import pymongo
+from collections import defaultdict
+import pymongo, json, re
 
 class ProductInStockItem(QFrame, Ui_prodStockItem):
     def __init__(self):
@@ -30,84 +31,232 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.setupUi(self)
         self.main_window = main_window
 
-        self.set_icons()
+        self.load_collection_monitors()
 
-        # Database connection
-        self.collection_name = self.connect_to_db("products_items")
+        self.update_sales_widgets()
+        self.load_sales_today_table()
+        # self.set_icons()
 
-        # Create and start the update thread for total stock
-        self.update_thread = UpdateThread(self.collection_name)
-        self.update_thread.updated.connect(self.update_total_stock_label)
-        self.update_thread.start()
+        # # Database connection
+        # self.collection_name = self.connect_to_db("products_items")
+
+        # # Create and start the update thread for total stock
+        # self.update_thread = UpdateThread(self.collection_name)
+        # self.update_thread.updated.connect(self.update_total_stock_label)
+        # self.update_thread.start()
         
-        # Set up the layout for the QScrollArea
-        cylinderContainerWidget = self.cylinderContainerLayout
-        self.cylinderContainerLayout = QVBoxLayout(cylinderContainerWidget)
-        self.cylinderTypes_scrollArea.setWidget(cylinderContainerWidget)
+        # # Set up the layout for the QScrollArea
+        # cylinderContainerWidget = self.cylinderContainerLayout
+        # self.cylinderContainerLayout = QVBoxLayout(cylinderContainerWidget)
+        # self.cylinderTypes_scrollArea.setWidget(cylinderContainerWidget)
 
-        self.labels = []
+        # self.labels = []
 
-        # Initialize the products monitor to listen for changes
-        self.products_monitor = InventoryMonitor('products_items')
-        self.products_monitor.start_listener_in_background()
-        self.products_monitor.data_changed_signal.connect(self.update_stock_widgets)
+        # # Initialize the products monitor to listen for changes
+        # self.products_monitor = InventoryMonitor('products_items')
+        # self.products_monitor.start_listener_in_background()
+        # self.products_monitor.data_changed_signal.connect(self.update_stock_widgets)
 
-        # Initialize orders monitor
-        self.order_monitor = InventoryMonitor('orders')
-        self.order_monitor.start_listener_in_background()
-        self.order_monitor.data_changed_signal.connect(self.orders_coll_change)
+        # # Initialize orders monitor
+        # self.order_monitor = InventoryMonitor('orders')
+        # self.order_monitor.start_listener_in_background()
+        # self.order_monitor.data_changed_signal.connect(self.orders_coll_change)
 
-        # Initialize monitor to update stock level chart
-        self.stock_level_monitor = InventoryMonitor('products')
+        # # Initialize monitor to update stock level chart
+        # self.stock_level_monitor = InventoryMonitor('products')
+
+        # # Call the function to update the cylinder list
+        # self.update_cylinder_list()
+        # self.update_total_products()
+        # # Call funcion that display order summary once
+        # self.display_total_orders()
+        # self.update_total_orders()
+        # self.update_low_stock_label()
+
+        # self.show_completed_order()
+        # self.show_pending_order()
+        # self.show_cancelled_order()
+
+        # self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        # self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        # self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # # call funcion that load the stock level chart once
+        # self.load_stock_level_chart()
         
-        # Initialize monitor to update total sales label
+        # print('dashboard page done loading')
+
+    def update_sales_widgets(self):
+        """update all the widgets that uses sales data"""
+        self.load_sales_today_table()
+        self.udpate_sales_today_label()
+        self.update_total_sales_in_table()
+
+    def load_collection_monitors(self):
+        """initialize the monitors for the collections"""
         self.sales_monitor = InventoryMonitor('sales')
         self.sales_monitor.start_listener_in_background()
-        self.sales_monitor.data_changed_signal.connect(self.update_today_sales)
+        self.sales_monitor.data_changed_signal.connect(self.update_sales_widgets)
 
-        # Call the function to update the cylinder list
-        self.update_cylinder_list()
-        self.update_total_products()
-        # Call funcion that display order summary once
-        self.display_total_orders()
-        self.update_today_sales()
-        self.update_total_orders()
-        self.update_low_stock_label()
+        # # Initialize the products monitor to listen for changes
+        # self.products_monitor = InventoryMonitor('products_items')
+        # self.products_monitor.start_listener_in_background()
+        # self.products_monitor.data_changed_signal.connect(self.update_stock_widgets)
 
-        self.show_completed_order()
-        self.show_pending_order()
-        self.show_cancelled_order()
+        # # Initialize orders monitor
+        # self.order_monitor = InventoryMonitor('orders')
+        # self.order_monitor.start_listener_in_background()
+        # self.order_monitor.data_changed_signal.connect(self.orders_coll_change)
 
-        self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+    def update_total_sales_in_table(self):
+        """Update the total sales in the table"""
+        # Get the data for today's sales
+        data = self.get_products_sold_today()
 
-        # call funcion that load the stock level chart once
-        self.load_stock_level_chart()
+        # Format the total sales amount as currency
+        total_sale_amount = f"₱ {data['total_sales_amount']:,.2f}"
+        print(f'total sale amount: {total_sale_amount}')
 
-        print('dashboard page done loading')
+        # Update the label with the formatted total sales amount
+        self.total_sale_table_label.setText(total_sale_amount)
 
-    def update_low_stock_label(self):
-        """Updates the low stock label"""
-        self.low_stock_label.setText(str(self.count_low_stock_products()))
+    def load_sales_today_table(self):
+        """load the sales today table"""
+        table = self.sales_today_tableWidget
+        table.setSortingEnabled(True)
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
+        table.setRowCount(0)  # Clear the table
+        table.setSelectionMode(table.SelectionMode.NoSelection)
 
-    def count_low_stock_products(self):
-        """
-        Counts all products that have stock levels below their respective low stock threshold.
+        # header json directory
+        header_dir = "D:/Inventory-System/app/resources/config/table/sales_today_tableHeader.json"
+        with open(header_dir, 'r') as f:
+            header_labels = json.load(f)
 
-        :param inventory: The inventory data (a list of dictionaries).
-        :return: The count of products with stock below their individual low stock threshold.
-        """
-        inventory = self.connect_to_db('products_items').find({})
-        low_stock_count = 0
+        table.setColumnCount(len(header_labels))
+        table.setHorizontalHeaderLabels(header_labels)
+
+        header = self.sales_today_tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+        header.setStretchLastSection(True)
+
+        # # set width of all the columns
+        # for column in range(table.columnCount()):
+        #     table.setColumnWidth(column, 150)
+
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+        # Set uniform row height for all rows
+        header.setFixedHeight(40)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # Clean the header labels
+        self.header_labels = [self.clean_header(header) for header in header_labels]
+        print(f'header labels: {self.header_labels}')
+
+        data = self.get_products_sold_today() # get data for the table
+        products = data['products']
+
+        if products:
+            self.no_sales_frame.hide()
+            self.sales_today_tableWidget.show()
+        else:
+            self.no_sales_frame.show()
+            self.sales_today_tableWidget.hide()
         
-        # Iterate through each product in the inventory
-        for product in inventory:
-            # Check if the product's stock is below its low stock threshold
-            if product['quantity_in_stock'] < product['minimum_stock_level']:
-                low_stock_count += 1
+        for row, item in enumerate(products):
+            table.setRowCount(row + 1)  # Add a new row for each item
+            for column, header in enumerate(self.header_labels):
+                # Clean and match the keys
+                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                original_key = original_keys[0] if original_keys else None
+                value = item.get(original_key)
 
-        return low_stock_count
+                if value is not None:
+                    # Check if the header is 'price'
+                    print(f'Header: {header}')
+                    if header == 'price':
+                        print(f'Hidir: {header}')
+                        print(f'da pakening value before formatting: {value}')
+                        
+                        # Ensure the value is a float before formatting
+                        if isinstance(value, (int, float)):
+                            formatted_price = f"₱ {value:,.2f}"  # Format value as price with two decimals
+                            print(f'Formatted price: {formatted_price}')
+                            value = formatted_price
+                        else:
+                            print('Value is not a valid number')
+                        
+                    # For other columns
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                    table.setItem(row, column, table_item)
+
+    def get_products_sold_today(self):
+        # Connect to the MongoDB instance
+        # Get today's date
+        today = datetime.utcnow()
+        start_of_day = datetime(today.year, today.month, today.day)
+        end_of_day = start_of_day + timedelta(days=1)
+
+        # Query to find all sales from today
+        sales_today = self.connect_to_db('sales').find({
+            "sale_date": {"$gte": start_of_day, "$lt": end_of_day}
+        })
+
+        # Dictionary to store product data, combining same product ids
+        products = defaultdict(lambda: {
+            "product_name": "",
+            "cylinder_size": "",
+            "quantity": 0,
+            "total_amount": 0
+        })
+
+        # Variable to track total sales amount
+        total_sales_amount = 0
+
+        # Process each sale
+        for sale in sales_today:
+            for product in sale.get("products_sold", []):
+                product_id = product["product_id"]
+                products[product_id]["product_name"] = product["product_name"]
+                products[product_id]["cylinder_size"] = product["cylinder_size"]
+                products[product_id]["quantity"] += product["quantity"]
+                products[product_id]["total_amount"] += product["total_amount"]
+                
+                # Add the product's total amount to the overall total sales amount
+                total_sales_amount += product["total_amount"]
+
+        # Sort products by cylinder size (extract numeric value for sorting)
+        def extract_size(cylinder_size):
+            # Assuming the cylinder_size is a string like '5kg', '10kg', etc.
+            # Extract numeric part (e.g., '5' from '5kg')
+            return int(''.join(filter(str.isdigit, cylinder_size)))
+
+        sorted_products = sorted(products.values(), key=lambda x: extract_size(x["cylinder_size"]))
+
+        # Return the processed product data as a list along with the total sales amount
+        return {
+            "products": [
+                {
+                    "brand": data["product_name"],
+                    "size": data["cylinder_size"],
+                    "quantity": data["quantity"],
+                    "price": data["total_amount"]
+                }
+                for data in sorted_products
+            ],
+            "total_sales_amount": total_sales_amount
+        }
+
+    def udpate_sales_today_label(self):
+        """update sales today label"""
+        sales = self.get_today_sales()
+        formatted = f"{sales:,.2f}"
+        self.total_sales_label.setText(formatted)
 
     def orders_coll_change(self):
         """Update all the widgets with orders data related"""
@@ -126,14 +275,8 @@ class Dashboard(QWidget, Ui_dashboard_page):
         except Exception as e:
             print(f"Error getting total orders: {e}")
 
-    def update_today_sales(self):
-        """Update the total sales today label"""
-        sales = self.update_total_sales()
-        formatted = f"{sales:,.2f}"
-        self.total_sales_label.setText(formatted)
-
-    def update_total_sales(self):
-        """Update total sales label (current sales today)"""
+    def get_today_sales(self):
+        """get data for today's sale (current sales today)"""
         # Define the start of the day (midnight) for today
         today_start = datetime.combine(datetime.now().date(), datetime.min.time())
         pipeline = [
@@ -661,6 +804,12 @@ class Dashboard(QWidget, Ui_dashboard_page):
         db = "LPGTrading_DB"
         return client[db][collection_name]
     
+    def clean_key(self, key):
+        return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
+
+    def clean_header(self, header):
+            return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
+    
 class UpdateThread(QThread):
     updated = pyqtSignal(int)
 
@@ -680,3 +829,4 @@ class UpdateThread(QThread):
 
     def stop(self):
         self.running = False
+

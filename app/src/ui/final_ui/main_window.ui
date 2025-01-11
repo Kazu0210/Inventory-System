@@ -175,7 +175,7 @@ QScrollBar:hover{
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-112</y>
+            <y>0</y>
             <width>188</width>
             <height>490</height>
            </rect>
@@ -1353,6 +1353,12 @@ background-color: #228B22;
        </property>
        <item>
         <widget class="QFrame" name="frame_32">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>40</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">background-color: #fff;
 border-radius: 5px</string>
@@ -1405,12 +1411,21 @@ border-radius: 5px</string>
              </property>
              <item>
               <widget class="QLabel" name="current_page_label">
+               <property name="font">
+                <font>
+                 <family>Noto Sans Black</family>
+                 <pointsize>14</pointsize>
+                 <weight>10</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
                <property name="styleSheet">
-                <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+                <string notr="true">font: 87 14pt &quot;Noto Sans Black&quot;;
 color: #333333;</string>
                </property>
                <property name="text">
-                <string>n/a</string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -1430,16 +1445,16 @@ color: #333333;</string>
               <number>5</number>
              </property>
              <property name="leftMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item>
               <widget class="QLabel" name="username_label">
@@ -1457,7 +1472,7 @@ color: #333333;</string>
 color: #333333;</string>
                </property>
                <property name="text">
-                <string>Text Label</string>
+                <string>Profile</string>
                </property>
               </widget>
              </item>
@@ -1481,14 +1496,14 @@ color: #333333;</string>
               <widget class="QPushButton" name="profile_pushButton">
                <property name="minimumSize">
                 <size>
-                 <width>35</width>
-                 <height>35</height>
+                 <width>25</width>
+                 <height>25</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>35</width>
-                 <height>35</height>
+                 <width>25</width>
+                 <height>25</height>
                 </size>
                </property>
                <property name="cursor">
@@ -1523,22 +1538,6 @@ border-radius: 17px;</string>
            <verstretch>10</verstretch>
           </sizepolicy>
          </property>
-         <widget class="QWidget" name="content_widget_2" native="true">
-          <property name="geometry">
-           <rect>
-            <x>50</x>
-            <y>-60</y>
-            <width>554</width>
-            <height>530</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>10</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
          <widget class="QFrame" name="frame_34">
           <property name="geometry">
            <rect>

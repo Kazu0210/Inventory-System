@@ -142,25 +142,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         current_index = self.get_current_index()
         match current_index:
             case 0:
-                self.current_page_label.setText("Dashboard")
+                self.current_page_label.setText("DASHBOARD")
             case 1:
-                self.current_page_label.setText("Prices")
+                self.current_page_label.setText("PRICES")
             case 2:
-                self.current_page_label.setText("Inventory")
+                self.current_page_label.setText("INVENTORY")
             case 3:
-                self.current_page_label.setText("Orders")
+                self.current_page_label.setText("ORDERS")
             case 4:
-                self.current_page_label.setText("Sales Report")
+                self.current_page_label.setText("SALES REPORT")
             case 5:
-                self.current_page_label.setText("Activity Logs")
+                self.current_page_label.setText("ACTIVITY LOGS")
             case 6:
-                self.current_page_label.setText("Settings")
+                self.current_page_label.setText("SETTINGS")
             case 7:
-                self.current_page_label.setText("Archive")
+                self.current_page_label.setText("ARCHIVE")
             case 8:
-                self.current_page_label.setText("Accounts")
+                self.current_page_label.setText("ACCOUNTS")
             case 9:
-                self.current_page_label.setText("Profile")
+                self.current_page_label.setText("PROFILE")
 
     def set_profile_icon(self):
         """Add icon to profile button"""

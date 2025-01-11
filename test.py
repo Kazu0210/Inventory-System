@@ -1,6 +1,9 @@
 import json
 import pymongo
 from datetime import datetime
+from datetime import timedelta
+from collections import defaultdict
+
 
 # Connect to MongoDB
 # client = MongoClient('mongodb://localhost:27017/')  # Update with your MongoDB URI
@@ -73,22 +76,66 @@ def connect_to_db(collection_name):
 #     # total_doc = collection.count_documents({})
 #     # print(f'total document: {total_doc}')
 
-client = pymongo.MongoClient('mongodb://localhost:27017/')
-# Access your database
-db = client['LPGTrading_DB']  # Replace with your database name
+# client = pymongo.MongoClient('mongodb://localhost:27017/')
+# # Access your database
+# db = client['LPGTrading_DB']  # Replace with your database name
 
-# Get a list of all collection names
-collection_names = db.list_collection_names()
+# # Get a list of all collection names
+# collection_names = db.list_collection_names()
 
-# Print collection names
-print(collection_names) 
-print(type(collection_names))
+# # Print collection names
+# print(collection_names) 
+# print(type(collection_names))
 
-for collection in collection_names:
-    print(collection)
+# for collection in collection_names:
+#     print(collection)
 
-    if collection == "logs":
-        collection_names.remove('logs')
-        collection_names.append('hatdog')
+#     if collection == "logs":
+#         collection_names.remove('logs')
+#         collection_names.append('hatdog')
 
-print(collection_names)
+# print(collection_names)
+def get_products_sold_today():
+    # Connect to the MongoDB instance
+    # Get today's date
+    today = datetime.utcnow()
+    start_of_day = datetime(today.year, today.month, today.day)
+    end_of_day = start_of_day + timedelta(days=1)
+
+    # Query to find all sales from today
+    sales_today = connect_to_db('sales').find({
+        "sale_date": {"$gte": start_of_day, "$lt": end_of_day}
+    })
+
+    # Dictionary to store product data, combining same product ids
+    products = defaultdict(lambda: {
+        "product_name": "",
+        "cylinder_size": "",
+        "quantity": 0,
+        "total_amount": 0
+    })
+
+    # Process each sale
+    for sale in sales_today:
+        for product in sale.get("products_sold", []):
+            product_id = product["product_id"]
+            products[product_id]["product_name"] = product["product_name"]
+            products[product_id]["cylinder_size"] = product["cylinder_size"]
+            products[product_id]["quantity"] += product["quantity"]
+            products[product_id]["total_amount"] += product["total_amount"]
+
+    # Return the processed product data as a list
+    return [
+        {
+            "product_name": data["product_name"],
+            "cylinder_size": data["cylinder_size"],
+            "quantity": data["quantity"],
+            "total_amount": data["total_amount"]
+        }
+        for data in products.values()
+    ]
+
+# Example usage
+sold_products = get_products_sold_today()
+for product in sold_products:
+    print(product)
