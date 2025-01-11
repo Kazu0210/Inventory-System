@@ -186,9 +186,6 @@ class settingsPage(QWidget, Ui_settings_page):
                 'prices',
             ]
 
-            for collection in collections:
-                print(f'collection: {collection}')
-
     def get_directory_backup_entire(self):
         """get the directory for the entire backup option. handles the browse file button click event"""
         dir = QFileDialog.getExistingDirectory(self, "Select Directory") # get directory using file dialog
