@@ -1,28 +1,17 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFileDialog
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFileDialog
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
-import pymongo
 
 from fpdf import FPDF
-from bson import ObjectId
-# from ui.inventoryPage import Ui_Form as items_page
-from pages.admin.newitemsPage import newItem_page
 
-from ui.NEW.inventory_page import Ui_Form as items_page
+from src.pages.admin.newitemsPage import newItem_page
+from src.ui.NEW.inventory_page import Ui_Form as items_page
+from src.pages.admin.edit_product_page import EditProductInformation
+from src.pages.admin.restock_page import RestockProduct
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.custom_widgets.message_box import CustomMessageBox
 
-from pages.admin.edit_product_page import EditProductInformation
-from pages.admin.restock_page import RestockProduct
-# from ui.itemsPage import Ui_Form as items_page
-# from docx import Document
-
-from utils.Inventory_Monitor import InventoryMonitor
-from custom_widgets.message_box import CustomMessageBox
-
-import time
-import os
-import re
-import json
-import datetime
+import pymongo, os, re, json, datetime
 
 class ItemsPage(QWidget, items_page):
     def __init__(self, username, dashboard_mainWindow):
@@ -158,7 +147,7 @@ class ItemsPage(QWidget, items_page):
     
     def load_stock_level_filter(self):
         """Add stock level filter to the dropdown"""
-        filter_dir = "app/resources/config/filters.json"
+        filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
         with open(filter_dir, 'r') as f:
             data = json.load(f)
 
@@ -171,7 +160,7 @@ class ItemsPage(QWidget, items_page):
 
     def add_cylinder_size_filter(self):
         """Add cylinder size filter to the dropdown"""
-        filter_dir = "app/resources/config/filters.json"
+        filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
         with open(filter_dir, 'r') as f:
             data = json.load(f)
 
@@ -281,7 +270,7 @@ class ItemsPage(QWidget, items_page):
                 else:
                     row_data.append("")
 
-            product_header_dir = "app/resources/config/table/items_tableHeader.json"
+            product_header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
             with open(product_header_dir, 'r') as f:
                 data = json.load(f)
@@ -578,7 +567,7 @@ class ItemsPage(QWidget, items_page):
         """)
 
         # header json directory
-        header_dir = "app/resources/config/table/items_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)

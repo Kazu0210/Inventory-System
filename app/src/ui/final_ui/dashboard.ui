@@ -71,7 +71,7 @@ background-color: transparent;
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
-         <item alignment="Qt::AlignVCenter">
+         <item>
           <widget class="QFrame" name="frame_5">
            <property name="styleSheet">
             <string notr="true">#frame_4{
@@ -80,6 +80,7 @@ border-radius: 5px;
 }
 *{
 background-color: transparent;
+border: none;
 }</string>
            </property>
            <property name="frameShape">
@@ -134,17 +135,6 @@ background-color: transparent;
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item>
-                <widget class="QLabel" name="label_3">
-                 <property name="styleSheet">
-                  <string notr="true">font: 63 15pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-                 </property>
-                 <property name="text">
-                  <string>Overview:</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </item>
@@ -172,7 +162,7 @@ color: #333333;</string>
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item alignment="Qt::AlignTop">
+               <item>
                 <widget class="QFrame" name="frame_7">
                  <property name="minimumSize">
                   <size>
@@ -252,7 +242,7 @@ color: #fff;</string>
                     </layout>
                    </widget>
                   </item>
-                  <item alignment="Qt::AlignLeft|Qt::AlignTop">
+                  <item alignment="Qt::AlignLeft">
                    <widget class="QFrame" name="frame_22">
                     <property name="frameShape">
                      <enum>QFrame::StyledPanel</enum>
@@ -307,195 +297,6 @@ color: #fff;
                       </widget>
                      </item>
                     </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QFrame" name="frame_8">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>100</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#frame_8{
-background-color: #fff;
-border: 1px solid #228B22;
-border-radius: 5px;
-}</string>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_5">
-                  <property name="spacing">
-                   <number>5</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_6">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-                    </property>
-                    <property name="text">
-                     <string>Total Orders:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="total_orders_label">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;
-</string>
-                    </property>
-                    <property name="text">
-                     <string>0.00</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QFrame" name="frame_9">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>100</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#frame_9{
-background-color: #fff;
-border: 1px solid #228B22;
-border-radius: 5px;
-}</string>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_6">
-                  <property name="spacing">
-                   <number>5</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_8">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-                    </property>
-                    <property name="text">
-                     <string>Total Products In Stock:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="totalItemStock_label">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;
-</string>
-                    </property>
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QFrame" name="frame_11">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>100</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#frame_11{
-background-color: #fff;
-border: 1px solid #FF7043;
-border-radius: 5px;
-}</string>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <property name="spacing">
-                   <number>5</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_10">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-                    </property>
-                    <property name="text">
-                     <string>Low Stock:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="low_stock_label">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;
-</string>
-                    </property>
-                    <property name="text">
-                     <string>0</string>
-                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -577,7 +378,7 @@ border:none;</string>
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-196</y>
+                 <y>0</y>
                  <width>803</width>
                  <height>623</height>
                 </rect>
@@ -737,7 +538,7 @@ QScrollBar:hover{
                            <x>0</x>
                            <y>0</y>
                            <width>430</width>
-                           <height>256</height>
+                           <height>251</height>
                           </rect>
                          </property>
                         </widget>

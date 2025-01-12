@@ -2,20 +2,21 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
 
-from ui.final_ui.login_window import Ui_MainWindow as login_mainWindow
+from src.ui.final_ui.login_window import Ui_MainWindow as login_mainWindow
 
-from utils.Hashpassword import HashPassword
-from utils.Activity_logs import Activity_Logs
-from custom_widgets.message_box import CustomMessageBox
-from utils.create_default_admin import createDefaultAdmin
+from src.utils.Hashpassword import HashPassword
+from src.utils.Activity_logs import Activity_Logs
+from src.custom_widgets.message_box import CustomMessageBox
+from src.utils.create_default_admin import createDefaultAdmin
 
-from employee_account.dashboard import employee_dashboard
+from src.employee_account.dashboard import employee_dashboard
 
-from pages.admin.main_window import MainWindow
+from src.pages.admin.main_window import MainWindow
+from src.pages.splash_screen import SplashScreen
 
-from pages.employee.main_window import MainWindow as employee_mainWindow
-import pymongo
-import json
+from src.pages.employee.main_window import MainWindow as employee_mainWindow
+
+import pymongo, json
 
 class loginWindow(QMainWindow, login_mainWindow):
     def __init__(self):
@@ -28,12 +29,12 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.close_pushButton.clicked.connect(lambda: self.close_system())
 
         # hide title bar
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
         self.defaultAdmin = createDefaultAdmin()  
 
         self.set_system_logo()
-        self.set_button_icon(self.close_pushButton, "app/resources/icons/black-theme/close.png")
+        self.set_button_icon(self.close_pushButton, "resources\icons\black_theme\close.png")
 
     def set_button_icon(self, button, icon_path):
         icon = QPixmap(icon_path)
@@ -41,7 +42,7 @@ class loginWindow(QMainWindow, login_mainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("app/resources/icons/system-icon.png")
+        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
         
         min_height = 180  # Minimum height
         max_height = 200  # Maximum height
@@ -131,17 +132,21 @@ class loginWindow(QMainWindow, login_mainWindow):
             user_role = self.validate_credentials(username, password)
             if user_role:
                 self.logs.login_attempt_success(username)
-                self.close()
-
+                
                 if user_role == 'Admin':
                     print('User is an admin')
+                    # self.splash = SplashScreen(user_role, username)
+                    # self.splash.show()
+
                     self.admin_dashboard = MainWindow(username)
                     self.admin_dashboard.show()
+                    self.close()
 
                 elif user_role == 'Employee':
                     print('User is an employee')
                     self.employee_dashboard = employee_mainWindow(username)
                     self.employee_dashboard.show()
+                    self.close()
             else:
                 self.logs.login_attempt_failed(username)
                 CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Invalid username or password. Please try again.")
@@ -183,7 +188,7 @@ class loginWindow(QMainWindow, login_mainWindow):
         if document:
             hashed_password = HashPassword(password)
             if hashed_password.verify_password(document['password']):
-                self.save_user_id(document['_id'])
+                # self.save_user_id(document['_id'])
 
                 user_type = document.get('user_type')
                 if user_type == "Admin":
@@ -197,7 +202,7 @@ class loginWindow(QMainWindow, login_mainWindow):
         return False
 
     def save_user_id(self, user_id):
-        temp_data_dir = "app/resources/data/temp_user_data.json"
+        temp_data_dir = "/resources/data/temp_user_data.json"
         data = {"_id": str(user_id)}
 
         try:

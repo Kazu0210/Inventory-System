@@ -2,16 +2,10 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 
-from ui.activity_logs_page import Ui_Form as activityLogsPage
+from src.ui.activity_logs_page import Ui_Form as activityLogsPage
+from src.utils.Inventory_Monitor import InventoryMonitor
 
-from PyQt6.QtCore import QTimer
-from datetime import datetime
-
-from utils.Inventory_Monitor import InventoryMonitor
-
-import pymongo
-import re
-import json
+import pymongo, re, json
 
 class Activity_Logs(QWidget, activityLogsPage):
     def __init__(self, mainWindow):
@@ -28,7 +22,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.logs_monitor.data_changed_signal.connect(lambda: self.update_table())
 
         # settings json file directory
-        self.settings_dir = 'app/resources/config/settings.json'
+        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         self.update_all() # call update table once
 
@@ -43,7 +37,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.update_table() # update the activity logs table
 
     def category_filter(self):
-        categories_dir = "app/resources/data/logs.json"
+        categories_dir = "D:/Inventory-System/app/resources/data/logs.json"
         with open(categories_dir, 'r') as f:
             data = json.load(f)
 
@@ -55,7 +49,7 @@ class Activity_Logs(QWidget, activityLogsPage):
             self.categories_combobox.addItem(list(category.values())[0])
 
     def status_filter(self):
-        status_dir = "app/resources/data/logs.json"
+        status_dir = "D:/Inventory-System/app/resources/data/logs.json"
         with open(status_dir, 'r') as f:
             data = json.load(f)
 
@@ -135,9 +129,9 @@ class Activity_Logs(QWidget, activityLogsPage):
             }
         """)
         # Header JSON directory
-        header_dir = "app/resources/config/table/activity_logs_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/activity_logs_tableHeader.json"
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))

@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QFrame
-from ui.NEW.create_account_requirements.email_requirements import Ui_Frame
+from src.ui.NEW.create_account_requirements.email_requirements import Ui_Frame
 
 class EmailAccountRequirementPage(QFrame, Ui_Frame):
     def __init__(self, parent_window):

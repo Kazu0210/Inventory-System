@@ -30,6 +30,7 @@
 font: 10pt &quot;Noto Sans&quot;;
 color: #1E1E1E;
 background-color: transparent;
+border: none;
 }
 #Form{
 background-color: #E0F2E9;

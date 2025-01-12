@@ -1,7 +1,7 @@
 {
     "time_date": [
         {
-            "time_format": "24hr"
+            "time_format": "12hr"
         }
     ],
     "create_account_validation": [

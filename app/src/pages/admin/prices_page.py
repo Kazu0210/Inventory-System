@@ -1,10 +1,9 @@
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout, QAbstractItemView, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor, QIcon
-from ui.final_ui.prices_page import Ui_Form as Ui_price_page
-
-from utils.Inventory_Monitor import InventoryMonitor
-from utils.Graphics import AddGraphics
+from src.ui.final_ui.prices_page import Ui_Form as Ui_price_page
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Graphics import AddGraphics
 
 import json, pymongo, datetime, re, os
 
@@ -45,7 +44,7 @@ class PricesPage(QWidget, Ui_price_page):
     
     def set_search_icon(self):
         """Add icon to search button"""
-        self.search_pushButton.setIcon(QIcon("app/resources/icons/black-theme/search.png"))
+        self.search_pushButton.setIcon(QIcon("D:/Inventory-System/app/resources/icons/black-theme/search.png"))
 
     def handle_search_change(self):
         """Check if the search bar is empty"""
@@ -168,10 +167,10 @@ class PricesPage(QWidget, Ui_price_page):
             """)
 
         # header json directory
-        header_dir = "app/resources/config/table/priceHistory_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/priceHistory_tableHeader.json"
 
         # settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
@@ -380,10 +379,10 @@ class PricesPage(QWidget, Ui_price_page):
             """)
 
         # Header JSON directory
-        header_dir = "app/resources/config/table/prices_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/prices_tableHeader.json"
 
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)

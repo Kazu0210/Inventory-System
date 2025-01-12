@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget
-from ui.employee.dashboard_page import Ui_Form as dashboard_employee_page
+from src.ui.employee.dashboard_page import Ui_Form as dashboard_employee_page
 
 class employee_dashboard(QWidget):
     def __init__(self):

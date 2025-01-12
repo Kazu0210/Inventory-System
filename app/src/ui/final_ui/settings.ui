@@ -15,6 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">*{
+border: none;
 font: 10pt &quot;Noto Sans&quot;;
 }
 QLineEdit{
@@ -54,9 +55,9 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-151</y>
         <width>736</width>
-        <height>850</height>
+        <height>827</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -171,6 +172,17 @@ background-color: transparent;</string>
              <property name="bottomMargin">
               <number>0</number>
              </property>
+             <item>
+              <widget class="QLabel" name="current_time_format_label">
+               <property name="styleSheet">
+                <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QComboBox" name="timeFormat_comboBox">
                <property name="minimumSize">
@@ -516,7 +528,7 @@ color: #333333;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QComboBox" name="backupFormat_comboBox">
+                       <widget class="QComboBox" name="EntireBackupFormat_comboBox">
                         <property name="minimumSize">
                          <size>
                           <width>150</width>
@@ -632,7 +644,7 @@ color: #333333;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="browseFile1_pushButton">
+                          <widget class="QPushButton" name="entireBrowseFile_pushButton">
                            <property name="minimumSize">
                             <size>
                              <width>120</width>
@@ -769,7 +781,7 @@ color: #333333;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QComboBox" name="comboBox_2">
+                       <widget class="QComboBox" name="CollectionBackupFormat_comboBox">
                         <property name="minimumSize">
                          <size>
                           <width>150</width>
@@ -885,7 +897,7 @@ color: #333333;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="browseFile2_pushButton">
+                          <widget class="QPushButton" name="collectionBrowseFile_pushButton">
                            <property name="minimumSize">
                             <size>
                              <width>120</width>
@@ -998,7 +1010,7 @@ color: #333333;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QPushButton" name="pushButton">
+                    <widget class="QPushButton" name="start_backup_pushButton">
                      <property name="minimumSize">
                       <size>
                        <width>125</width>
@@ -1040,6 +1052,9 @@ border-radius: 5px;</string>
                        <height>30</height>
                       </size>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: #fff;</string>
+                     </property>
                      <property name="value">
                       <number>0</number>
                      </property>
@@ -1057,6 +1072,40 @@ border-radius: 5px;</string>
                       </size>
                      </property>
                     </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_21">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_18">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="backup_progress_label">
+                     <property name="text">
+                      <string/>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
@@ -1131,7 +1180,7 @@ color: #333333;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="browseFile3_pushButton">
+                 <widget class="QPushButton" name="RestoreBrowseFile_pushButton">
                   <property name="minimumSize">
                    <size>
                     <width>120</width>

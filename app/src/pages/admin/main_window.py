@@ -3,47 +3,52 @@ from PyQt6.QtCore import QTimer, Qt, QSize
 from PyQt6.QtGui import QPixmap, QIcon
 
 # from ui.main_window import Ui_MainWindow
-from ui.final_ui.main_window import Ui_MainWindow
+from src.ui.final_ui.main_window import Ui_MainWindow
+from src.pages.admin.activity_logs import Activity_Logs
+from src.pages.admin.accountsPage import AccountsPage
+from src.pages.admin.dashboard_page import Dashboard
+from src.pages.admin.itemsPage import ItemsPage
+from src.pages.admin.newitemsPage import newItem_page as NewItem
+from src.utils.Activity_logs import Activity_Logs as activity_logs
+from src.utils.Graphics import AddGraphics
+from src.pages.admin.settings_page import settingsPage
+from src.pages.admin.new_account_page import NewAccountPage
+from src.pages.admin.order_page import OrderPage
+from src.pages.admin.backp_restore import BackupRestorePage
+from src.pages.admin.archive_page import ArchivePage
+from src.pages.admin.sales_report_page import SalesReportPage
+from src.pages.admin.prices_page import PricesPage
+from src.pages.admin.profile_page import ProfilePage
 
-from pages.admin.activity_logs import Activity_Logs
-from pages.admin.accountsPage import AccountsPage
-# from accountsPage import UpdateThread
-# from newEmployee_page import newEmployeePage
-from pages.admin.dashboard_page import Dashboard
-from pages.admin.itemsPage import ItemsPage
-from pages.admin.newitemsPage import newItem_page as NewItem
 from pymongo import MongoClient
-
-from utils.Activity_logs import Activity_Logs as activity_logs
-from utils.Graphics import AddGraphics
-
-from pages.admin.settings_page import settingsPage
-from pages.admin.new_account_page import NewAccountPage
-from pages.admin.order_page import OrderPage
-from pages.admin.backp_restore import BackupRestorePage
-from pages.admin.archive_page import ArchivePage
-from pages.admin.sales_report_page import SalesReportPage
-from pages.admin.prices_page import PricesPage
-from pages.admin.profile_page import ProfilePage
-import re
-import json
-import os
+import re, json, os
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, username):
         super(MainWindow, self).__init__()
         self.setupUi(self)
 
-        # activity logs
-        self.logs = activity_logs()
-
         # logged in account username
         self.account_username = username
+
+        # activity logs
+        self.logs = activity_logs()
 
         client = MongoClient('mongodb://localhost:27017/')
         db = client['LPGTrading_DB']
         self.collection = db['accounts']
 
+        self.load_pages(username)
+        self.load_btn_connections()
+
+        self.get_current_index()
+        self.hide_buttons()
+        self.add_graphics()
+        self.set_current_page_name()
+        self.set_username_label()
+
+    def load_pages(self, username):
+        """load pages for the dashboad"""
         self.content_window_layout = QStackedLayout(self.content_widget)
 
         dashboard_section = Dashboard(username, self) # index 0
@@ -76,9 +81,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.profile_page = ProfilePage(username, self) # index 9
         self.content_window_layout.addWidget(self.profile_page)
 
-        # self.new_account_section = NewAccountPage(username) # index 10 WALA NA DAPAT
-        # self.content_window_layout.addWidget(self.new_account_section)
-
+    def load_btn_connections(self):
+        """load connection of buttons"""
         self.buttons = [
             self.dashboard_pushButton,
             self.activityLogs_pushButton,
@@ -103,7 +107,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.frame_9,
             self.frame_5
         ]
-
         self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_logo, self.frame_4, self.dashboard_pushButton, 0))
         self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 1))
         self.inventory_pushButton.clicked.connect(lambda: self.button_clicked(self.inventory_logo, self.frame_6, self.inventory_pushButton, 2))
@@ -117,13 +120,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
         self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
-
-        self.get_current_index()
-        # call function to hide button once
-        self.hide_buttons()
-        self.add_graphics()
-        self.set_current_page_name()
-        self.set_username_label()
 
     def profile_btn_clicked(self):
         """handle click event for profile button"""
@@ -146,29 +142,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         current_index = self.get_current_index()
         match current_index:
             case 0:
-                self.current_page_label.setText("Dashboard")
+                self.current_page_label.setText("DASHBOARD")
             case 1:
-                self.current_page_label.setText("Prices")
+                self.current_page_label.setText("PRICES")
             case 2:
-                self.current_page_label.setText("Inventory")
+                self.current_page_label.setText("INVENTORY")
             case 3:
-                self.current_page_label.setText("Orders")
+                self.current_page_label.setText("ORDERS")
             case 4:
-                self.current_page_label.setText("Sales Report")
+                self.current_page_label.setText("SALES REPORT")
             case 5:
-                self.current_page_label.setText("Activity Logs")
+                self.current_page_label.setText("ACTIVITY LOGS")
             case 6:
-                self.current_page_label.setText("Settings")
+                self.current_page_label.setText("SETTINGS")
             case 7:
-                self.current_page_label.setText("Archive")
+                self.current_page_label.setText("ARCHIVE")
             case 8:
-                self.current_page_label.setText("Accounts")
+                self.current_page_label.setText("ACCOUNTS")
             case 9:
-                self.current_page_label.setText("Profile")
+                self.current_page_label.setText("PROFILE")
 
     def set_profile_icon(self):
         """Add icon to profile button"""
-        self.profile_pushButton.setIcon(QIcon("app/resources/icons/black-theme/user.png"))
+        self.profile_pushButton.setIcon(QIcon("D:/Inventory-System/app/resources/icons/black-theme/user.png"))
         self.profile_pushButton.setIconSize(QSize(17, 17))
 
     def add_graphics(self):
@@ -186,7 +182,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("app/resources/icons/system-icon.png")
+        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
         
         min_height = 150  # Minimum height
         max_height = 180  # Maximum height
@@ -236,7 +232,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def logout_btn_clicked(self):
         print("Application is closed")
         try:
-            temp_data_dir = "app/resources/data/temp_user_data.json"
+            temp_data_dir = "resources/data/temp_user_data.json"
             if os.path.exists(temp_data_dir):
                 with open(temp_data_dir, 'r') as file:
                     data = json.load(file)
@@ -261,88 +257,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def get_current_index(self):
         return self.content_window_layout.currentIndex()
-    
-    def current_index_update(self):
-        if self.get_current_index() == 1:
-            self.frame_7.hide()
-            self.comboBox.hide()
-        if self.get_current_index() == 2:
-            self.comboBox.hide()
-
-            search_bar = self.searchbar
-            search_bar.setPlaceholderText("Search username here")
-            
-            search_bar.textChanged.connect(self.search_bar_text_changed)
-            
-        else:
-            self.frame_7.show()
-            self.comboBox.show()
-            self.searchbar.setPlaceholderText("Type here...")
-
-    def search_bar_text_changed(self, text):
-        print(f"Search bar text changed to: {text}")
-        # pause thread update
-        if text:  # if search text is not empty
-            self.accounts_section.timer.timeout.connect(self.accounts_section.update_all)
-            self.accounts_section.timer.stop()
-            # clear table
-            self.accounts_section.tableWidget.setRowCount(0)
-
-            search_results = self.collection.find({
-                "$or": [
-                    {"username": {"$regex": "^" + text, "$options": "i"}}
-                    # {"first_name": {"$regex": "^" + text, "$options": "i"}},
-                    # {"last_name": {"$regex": "^" + text, "$options": "i"}}
-                ]
-            })
-
-            if search_results:
-                # convert the search results to a list
-                results_list = list(search_results)
-
-                # automatically print the result when the text is changed
-                for result in results_list:
-                    print(f"Username: {result['username']}, First Name: {result['first_name']}, Last Name: {result['last_name']}, Job: {result['job']}, User Type: {result['user_type']}, account status: {result['status']}")
-
-                table = self.accounts_section.tableWidget
-                column_count = table.columnCount()
-
-                header_labels = []
-                for i in range(column_count):
-                    item = table.horizontalHeaderItem(i)
-                    if item is not None:
-                        header_labels.append(item.text())
-                header_labels = [self.clean_key(label) for label in header_labels]
-
-                keys = set()
-                for item in results_list:
-                    keys.update(self.clean_key(key) for key in item.keys())
-
-                # Find the maximum number of keys across all documents
-                max_column_count = max(len(item.keys()) for item in results_list) if results_list else 0
-
-                # Set table dimensions
-                table.setRowCount(len(results_list))
-                table.setColumnCount(max_column_count)
-
-                # Populate table with data
-                for row, item in enumerate(results_list):
-                    for column, key in enumerate(header_labels):
-                        original_keys = [k for k in item.keys() if self.clean_key(k) == key]
-                        original_key = original_keys[0] if original_keys else None
-                        value = item.get(original_key)
-                        table.setItem(row, column, QTableWidgetItem(str(value)))
-            else:
-                # If no results, keep the table headers and clear the rows
-                table = self.accounts_section.tableWidget
-                table.setRowCount(0)
-        else:  # if search text is empty, populate table with original data
-            self.accounts_section.timer.timeout.connect(self.accounts_section.update_all)
-            self.accounts_section.timer.start()
-            self.accounts_section.update_table()
-            
-    def clean_key(self, key):
-        return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
 
     def button_clicked(self, icon_widget, parent_widget, button, index):
         self.reset_button_styles()
@@ -355,7 +269,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.content_window_layout.setCurrentIndex(index)
             print(f'Current Index: {self.get_current_index()}')
             self.set_current_page_name()
-            # self.current_index_update()
         else:
             print(f"{button.objectName()} button clicked.")
 
@@ -386,10 +299,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_btn_icons()
 
     def set_active_icon(self, icon_widget):
-        # print(f"Icon widget's file name: {icon_widget.file_name}")
         file_name = icon_widget.file_name
 
-        file_path = f"app/resources/icons/{file_name}"
+        file_path = f"D:/Inventory-System/app/resources/icons/{file_name}"
         icon = QPixmap(file_path)
         icon_widget.file_name = os.path.basename(file_path)
         icon_widget.setPixmap(icon)
@@ -413,57 +325,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
     def set_btn_icons(self):
         """Set icons for the buttons"""
-        dashboard_icon = QPixmap("app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.file_name = os.path.basename("app/resources/icons/black-theme/dashboard.png")
+        dashboard_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
+        self.dashboard_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
 
-        prices_icon = QPixmap("app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.file_name = os.path.basename("app/resources/icons/black-theme/price-tag.png")
+        prices_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
+        self.prices_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
 
-        inventory_icon = QPixmap("app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.file_name = os.path.basename("app/resources/icons/black-theme/inventory.png")
+        inventory_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/inventory.png")
+        self.inventory_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/inventory.png")
         self.inventory_logo.setPixmap(inventory_icon)
         self.inventory_logo.setScaledContents(True)
 
-        orders_icon = QPixmap("app/resources/icons/black-theme/booking.png")
-        self.orders_logo.file_name = os.path.basename("app/resources/icons/black-theme/booking.png")
+        orders_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
+        self.orders_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
         self.orders_logo.setPixmap(orders_icon)
         self.orders_logo.setScaledContents(True)
 
-        reportsLogs_icon = QPixmap("app/resources/icons/black-theme/file.png")
-        self.reports_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/file.png")
+        reportsLogs_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/file.png")
+        self.reports_logs_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/file.png")
         self.reports_logs_logo.setPixmap(reportsLogs_icon)
         self.reports_logs_logo.setScaledContents(True)
         
-        sales_icon = QPixmap("app/resources/icons/black-theme/sales.png")
-        self.sales_report_logo.file_name = os.path.basename("app/resources/icons/black-theme/sales.png")
+        sales_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/sales.png")
+        self.sales_report_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/sales.png")
         self.sales_report_logo.setPixmap(sales_icon)
         self.sales_report_logo.setScaledContents(True)
         
-        act_logs_icon = QPixmap("app/resources/icons/black-theme/restore.png")
-        self.activity_logs_logo.file_name = os.path.basename("app/resources/icons/black-theme/restore.png")
+        act_logs_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/restore.png")
+        self.activity_logs_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/restore.png")
         self.activity_logs_logo.setPixmap(act_logs_icon)
         self.activity_logs_logo.setScaledContents(True)
         
-        setting_icon = QPixmap("app/resources/icons/black-theme/settings.png")
-        self.settings_logo.file_name = os.path.basename("app/resources/icons/black-theme/settings.png")
+        setting_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
+        self.settings_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
         self.settings_logo.setPixmap(setting_icon)
         self.settings_logo.setScaledContents(True)
         
-        archive_icon = QPixmap("app/resources/icons/black-theme/archive.png")
-        self.archive_logo.file_name = os.path.basename("app/resources/icons/black-theme/archive.png")
+        archive_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/archive.png")
+        self.archive_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/archive.png")
         self.archive_logo.setPixmap(archive_icon)
         self.archive_logo.setScaledContents(True)
 
-        accounts_icon = QPixmap("app/resources/icons/black-theme/user.png")
-        self.accounts_logo.file_name = os.path.basename("app/resources/icons/black-theme/user.png")
+        accounts_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/user.png")
+        self.accounts_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/user.png")
         self.accounts_logo.setPixmap(accounts_icon)
         self.accounts_logo.setScaledContents(True)
         
-        logout_icon = QPixmap("app/resources/icons/black-theme/logout.png")
-        self.logout_logo.file_name = os.path.basename("app/resources/icons/black-theme/logout.png")
+        logout_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
+        self.logout_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
         self.logout_logo.setPixmap(logout_icon)
         self.logout_logo.setScaledContents(True)

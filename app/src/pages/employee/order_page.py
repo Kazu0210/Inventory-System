@@ -3,16 +3,14 @@ from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
 # from ui.NEW.orders_page import Ui_orderPage_Form
-from ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
-from ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
-from ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
-from ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
-from ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
-# from pages.admin.new_order_page import NewOrderPage
-# from pages.admin.new_order_page import AddOrderForm
-
-from utils.Inventory_Monitor import InventoryMonitor
+from src.ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
+from src.ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
+from src.ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
+from src.ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
+from src.ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
+from src.utils.Inventory_Monitor import InventoryMonitor
 import pymongo, json, re, os
+
 from pymongo import DESCENDING
 from datetime import datetime
 
@@ -158,10 +156,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         """)
 
         # Header JSON directory
-        header_dir = "app/resources/config/table/order_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/order_tableHeader.json"
 
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
@@ -266,7 +264,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                             )
 
                             self.orders_tableWidget.setCellWidget(row, column, payment_stat)
-                            payment_stat_dir = "app/resources/config/filters.json"
+                            payment_stat_dir = "D:/Inventory-System/app/resources/config/filters.json"
 
                             # Open and load the JSON file
                             with open(payment_stat_dir, 'r') as f:
@@ -316,7 +314,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                             )
 
                             self.orders_tableWidget.setCellWidget(row, column, order_stat)
-                            order_stat_dir = "app/resources/config/filters.json"
+                            order_stat_dir = "D:/Inventory-System/app/resources/config/filters.json"
 
                             # Open and load the JSON file
                             with open(order_stat_dir, 'r') as f:
@@ -465,9 +463,9 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             }
         """)
         # Header JSON directory
-        header_dir = "app/resources/config/table/view_products_tableHeader.json"
+        header_dir = "D:/Inventory-System/app/resources/config/table/view_products_tableHeader.json"
         # Settings directory
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))
@@ -1159,7 +1157,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def load_payment_status_options(self):
         try:
-            filter_dir = "app/resources/config/filters_box.json"
+            filter_dir = "D:/Inventory-System/app/resources/config/filters_box.json"
 
             with open(filter_dir, 'r') as f:
                 data = json.load(f)
@@ -1175,7 +1173,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     
     def load_cylinder_status_options(self):
         try:
-            filter_dir = "app/resources/config/filters_box.json"
+            filter_dir = "D:/Inventory-System/app/resources/config/filters_box.json"
 
             with open(filter_dir, 'r') as f:
                 data = json.load(f)
@@ -1191,7 +1189,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def load_order_status_options(self):
         try:
-            filter_dir = "app/resources/config/filters_box.json"
+            filter_dir = "D:/Inventory-System/app/resources/config/filters_box.json"
 
             with open(filter_dir, 'r') as f:
                 data = json.load(f)
@@ -1347,7 +1345,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             table = self.orders_tableWidget
             table.setRowCount(0)  # Clear the table
 
-            header_dir = "app/resources/config/table/order_tableHeader.json"
+            header_dir = "D:/Inventory-System/app/resources/config/table/order_tableHeader.json"
 
             # Read header labels from the JSON file
             with open(header_dir, 'r') as f:

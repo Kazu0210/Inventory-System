@@ -1,6 +1,8 @@
-from PyQt6.QtWidgets import QWidget, QMessageBox
-from PyQt6.QtCore import pyqtSignal, Qt
-from ui.NEW.weekly_backup_page import Ui_Form
+from PyQt6.QtWidgets import QWidget
+from PyQt6.QtCore import pyqtSignal
+
+from src.ui.NEW.weekly_backup_page import Ui_Form
+
 import json
 
 class WeeklyBackup(QWidget, Ui_Form):

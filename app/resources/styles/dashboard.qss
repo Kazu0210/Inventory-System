@@ -1,0 +1,10 @@
+QTableWidget {
+    border: none;  
+    gridline-color: transparent; 
+}
+QTableWidget::item {
+    border: none; 
+}
+QHeaderView::section {
+    border: none; 
+}

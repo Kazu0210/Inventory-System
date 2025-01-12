@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtCore import pyqtSignal, Qt
-from ui.NEW.daily_backup_page import Ui_Form
-import json
+from src.ui.NEW.daily_backup_page import Ui_Form
+
 
 class DailyBackup(QWidget, Ui_Form):
     # signals
