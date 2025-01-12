@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>713</width>
-    <height>572</height>
+    <width>926</width>
+    <height>801</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,9 +85,9 @@ width: 10px;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-52</y>
-        <width>703</width>
-        <height>701</height>
+        <y>0</y>
+        <width>1007</width>
+        <height>784</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -271,14 +271,14 @@ color: #fff;
            <widget class="QFrame" name="frame_4">
             <property name="minimumSize">
              <size>
-              <width>0</width>
-              <height>600</height>
+              <width>500</width>
+              <height>500</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>420</width>
-              <height>600</height>
+              <width>500</width>
+              <height>500</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -404,13 +404,13 @@ color: #333333;</string>
                  <widget class="QTableWidget" name="sales_today_tableWidget">
                   <property name="minimumSize">
                    <size>
-                    <width>400</width>
+                    <width>480</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>400</width>
+                    <width>480</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -503,6 +503,24 @@ color: #228B22;</string>
           </item>
           <item>
            <widget class="QFrame" name="frame_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>500</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">#frame_5{
 background-color: #fff;
@@ -510,7 +528,6 @@ border-radius: 10px;
 }
 *{
 background-color: transparent;
-border: 1px solid;
 }</string>
             </property>
             <property name="frameShape">
@@ -519,50 +536,174 @@ border: 1px solid;
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QFrame" name="frame_3">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>10</y>
-               <width>135</width>
-               <height>49</height>
-              </rect>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_6">
-                <property name="styleSheet">
-                 <string notr="true">font: 87 14pt &quot;Noto Sans Black&quot;;
-color: #333333;</string>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item alignment="Qt::AlignTop">
+              <widget class="QFrame" name="frame_3">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <property name="spacing">
+                 <number>0</number>
                 </property>
-                <property name="text">
-                 <string>PRODUCTS</string>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="styleSheet">
+                   <string notr="true">font: 87 14pt &quot;Noto Sans Black&quot;;
+color: #333333;</string>
+                  </property>
+                  <property name="text">
+                   <string>Products In Stock</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignTop">
+              <widget class="QScrollArea" name="cylinderTypes_scrollArea">
+               <property name="styleSheet">
+                <string notr="true">*{
+border: none;
+}
+#cylinderTypes_scrollArea{
+border: none;
+}
+QScrollBar:hover{
+ cursor: pointer;
+}
+QScrollBar:vertical {
+ border: none;
+ background: #F0F0F0;
+width: 10px;
+ margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #90A4AE;
+                border-radius: 7px;
+                min-height: 30px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: #F0F0F0;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #555;
+                border-radius: 7px;
+                min-width: 30px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: #f0f0f0;
+            }</string>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="cylinderContainerLayout">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>482</width>
+                  <height>60</height>
+                 </rect>
                 </property>
                </widget>
-              </item>
-             </layout>
-            </widget>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_9">
+         <property name="styleSheet">
+          <string notr="true">*{
+border: 1px solid;
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QFrame" name="frame_10">
+            <property name="styleSheet">
+             <string notr="true">#frame_10{
+background-color: #fff;
+border-radius: 10px;
+}
+*{
+background-color: transparent;
+}</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
            </widget>
           </item>
          </layout>

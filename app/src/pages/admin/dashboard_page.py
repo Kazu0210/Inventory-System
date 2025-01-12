@@ -45,12 +45,12 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # self.update_thread.updated.connect(self.update_total_stock_label)
         # self.update_thread.start()
         
-        # # Set up the layout for the QScrollArea
-        # cylinderContainerWidget = self.cylinderContainerLayout
-        # self.cylinderContainerLayout = QVBoxLayout(cylinderContainerWidget)
-        # self.cylinderTypes_scrollArea.setWidget(cylinderContainerWidget)
+        # Set up the layout for the QScrollArea
+        cylinderContainerWidget = self.cylinderContainerLayout
+        self.cylinderContainerLayout = QVBoxLayout(cylinderContainerWidget)
+        self.cylinderTypes_scrollArea.setWidget(cylinderContainerWidget)
 
-        # self.labels = []
+        self.labels = []
 
         # # Initialize the products monitor to listen for changes
         # self.products_monitor = InventoryMonitor('products_items')
@@ -66,7 +66,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # self.stock_level_monitor = InventoryMonitor('products')
 
         # # Call the function to update the cylinder list
-        # self.update_cylinder_list()
+        self.update_cylinder_list()
         # self.update_total_products()
         # # Call funcion that display order summary once
         # self.display_total_orders()
@@ -198,7 +198,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
     def get_products_sold_today(self):
         # Connect to the MongoDB instance
         # Get today's date
-        today = datetime.utcnow()
+        today = datetime.now()
         start_of_day = datetime(today.year, today.month, today.day)
         end_of_day = start_of_day + timedelta(days=1)
 
@@ -374,9 +374,9 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
     def update_stock_widgets(self):
         self.update_cylinder_list()
-        self.load_stock_level_chart()
-        self.update_total_products()
-        self.update_low_stock_label()
+        # self.load_stock_level_chart()
+        # self.update_total_products()
+        # self.update_low_stock_label()
 
     def create_pie_chart(self, processed_data):
         series = QPieSeries()
@@ -614,27 +614,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         return str(order_count)
     
-    def get_daily_order_count_shyet(self):
-        try:
-            pipeline = [
-                {
-                    "$group": {
-                        "_id": "$order_date",  # Group by date
-                        "total_orders": {"$sum": 1}  # Count the orders
-                    }
-                }
-            ]
-            result = self.connect_to_db("orders").aggregate(pipeline)
-            daily_orders = {}
-            for item in result:
-                date = item['_id']
-                total_orders = item['total_orders']
-                daily_orders[date] = total_orders
-            return daily_orders
-        except Exception as e:
-            print(f"Error getting daily order count: {e}")
-            return {}
-        
     def get_products_in_stock(self):
         """
         Retrieves total stock of each product size and provides a breakdown by product name, including quantities.

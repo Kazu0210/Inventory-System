@@ -95,47 +95,50 @@ def connect_to_db(collection_name):
 #         collection_names.append('hatdog')
 
 # print(collection_names)
-def get_products_sold_today():
-    # Connect to the MongoDB instance
-    # Get today's date
-    today = datetime.utcnow()
-    start_of_day = datetime(today.year, today.month, today.day)
-    end_of_day = start_of_day + timedelta(days=1)
+# def get_products_sold_today():
+#     # Connect to the MongoDB instance
+#     # Get today's date
+#     today = datetime.utcnow()
+#     start_of_day = datetime(today.year, today.month, today.day)
+#     end_of_day = start_of_day + timedelta(days=1)
 
-    # Query to find all sales from today
-    sales_today = connect_to_db('sales').find({
-        "sale_date": {"$gte": start_of_day, "$lt": end_of_day}
-    })
+#     # Query to find all sales from today
+#     sales_today = connect_to_db('sales').find({
+#         "sale_date": {"$gte": start_of_day, "$lt": end_of_day}
+#     })
 
-    # Dictionary to store product data, combining same product ids
-    products = defaultdict(lambda: {
-        "product_name": "",
-        "cylinder_size": "",
-        "quantity": 0,
-        "total_amount": 0
-    })
+#     # Dictionary to store product data, combining same product ids
+#     products = defaultdict(lambda: {
+#         "product_name": "",
+#         "cylinder_size": "",
+#         "quantity": 0,
+#         "total_amount": 0
+#     })
 
-    # Process each sale
-    for sale in sales_today:
-        for product in sale.get("products_sold", []):
-            product_id = product["product_id"]
-            products[product_id]["product_name"] = product["product_name"]
-            products[product_id]["cylinder_size"] = product["cylinder_size"]
-            products[product_id]["quantity"] += product["quantity"]
-            products[product_id]["total_amount"] += product["total_amount"]
+#     # Process each sale
+#     for sale in sales_today:
+#         for product in sale.get("products_sold", []):
+#             product_id = product["product_id"]
+#             products[product_id]["product_name"] = product["product_name"]
+#             products[product_id]["cylinder_size"] = product["cylinder_size"]
+#             products[product_id]["quantity"] += product["quantity"]
+#             products[product_id]["total_amount"] += product["total_amount"]
 
-    # Return the processed product data as a list
-    return [
-        {
-            "product_name": data["product_name"],
-            "cylinder_size": data["cylinder_size"],
-            "quantity": data["quantity"],
-            "total_amount": data["total_amount"]
-        }
-        for data in products.values()
-    ]
+#     # Return the processed product data as a list
+#     return [
+#         {
+#             "product_name": data["product_name"],
+#             "cylinder_size": data["cylinder_size"],
+#             "quantity": data["quantity"],
+#             "total_amount": data["total_amount"]
+#         }
+#         for data in products.values()
+#     ]
 
-# Example usage
-sold_products = get_products_sold_today()
-for product in sold_products:
-    print(product)
+# # Example usage
+# sold_products = get_products_sold_today()
+# for product in sold_products:
+#     print(product)
+
+today = datetime.now()
+print(f'today: {today}')
