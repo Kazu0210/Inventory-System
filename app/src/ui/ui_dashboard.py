@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\ui_dashboard.ui'
+# Form implementation generated from reading ui file 'ui_dashboard.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -327,10 +327,54 @@ class Ui_Form(object):
         self.verticalLayout_8.addItem(spacerItem)
         self.horizontalLayout_4.addWidget(self.frame_5)
         self.verticalLayout_4.addWidget(self.frame_7, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame_9 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
+        self.frame_9.setStyleSheet("*{\n"
+"border: 1px solid;\n"
+"}")
+        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_9)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setSpacing(5)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.frame_10 = QtWidgets.QFrame(parent=self.frame_9)
+        self.frame_10.setStyleSheet("#frame_10{\n"
+"background-color: #fff;\n"
+"border-radius: 10px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_10.setObjectName("frame_10")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.frame_10)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.frame_11 = QtWidgets.QFrame(parent=self.frame_10)
+        self.frame_11.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_11.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_11.setObjectName("frame_11")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_11)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(5)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.label_7 = QtWidgets.QLabel(parent=self.frame_11)
+        self.label_7.setStyleSheet("font: 87 14pt \"Noto Sans Black\";\n"
+"color: #333333;")
+        self.label_7.setObjectName("label_7")
+        self.horizontalLayout_6.addWidget(self.label_7)
+        self.verticalLayout_9.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.sizes_tabWidget = QtWidgets.QTabWidget(parent=self.frame_10)
+        self.sizes_tabWidget.setObjectName("sizes_tabWidget")
+        self.verticalLayout_9.addWidget(self.sizes_tabWidget)
+        self.horizontalLayout_5.addWidget(self.frame_10)
+        self.verticalLayout_4.addWidget(self.frame_9)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
 
         self.retranslateUi(Form)
+        self.sizes_tabWidget.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -344,6 +388,7 @@ class Ui_Form(object):
         self.label_3.setText(_translate("Form", "Total Sale:"))
         self.total_sale_table_label.setText(_translate("Form", "0"))
         self.label_6.setText(_translate("Form", "Products In Stock"))
+        self.label_7.setText(_translate("Form", "Stock Level"))
 
 
 if __name__ == "__main__":

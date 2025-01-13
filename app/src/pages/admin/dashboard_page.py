@@ -85,6 +85,44 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # self.load_stock_level_chart()
         
         # print('dashboard page done loading')
+        
+        self.create_cylinder_sizes_tab()
+
+    def load_pie_chart(self):
+        """load the chart stock levels"""
+
+    def create_cylinder_sizes_tab(self):
+        """ Get all the cylinder sizes and create a tab for each cylinder size """
+        try:
+            # Get distinct cylinder sizes
+            cylinder_sizes = self.connect_to_db('products_items').distinct('cylinder_size')
+
+            # Sort the cylinder sizes in descending order
+            cylinder_sizes.sort(reverse=True)
+
+            # Create the tab widget
+            self.tab_widget = self.sizes_tabWidget
+            
+            # Add a tab for each cylinder size
+            for size in cylinder_sizes:
+                # Create the tab widget for this size
+                tab_widget = QWidget()
+
+                # initialize layout for tab widget
+                tab_widget_layout = QVBoxLayout()
+
+                tab_widget_layout.addWidget(QLabel(f'This is a label from {size} tab'))
+                
+                tab_widget.setLayout(tab_widget_layout)
+
+                # Add the tab to the tab widget
+                self.tab_widget.addTab(tab_widget, f"{size}")
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def get_cylinder_brands(self, cylinder_size):
+        """ Get all the cylinder brands for a given cylinder size and get their quantity """
 
     def update_sales_widgets(self):
         """update all the widgets that uses sales data"""
