@@ -1,6 +1,8 @@
 [
+    "_id",
+    "Product ID",
+    "Brand",
+    "Cylinder Size",
     "Selling Price",
-    "Supplier Price",
-    "Product Name",
-    "Cylinder Size"
+    "Supplier Price"
 ]

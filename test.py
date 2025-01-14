@@ -143,8 +143,13 @@ def connect_to_db(collection_name):
 # today = datetime.now()
 # print(f'today: {today}')
 
-size = '5kg'
-result = list(connect_to_db('products_items').find({'cylinder_size': size}, {'product_name': 1, 'cylinder_size': 1, 'quantity_in_stock': 1, '_id': 0}))
+# size = '5kg'
+# result = list(connect_to_db('products_items').find({'cylinder_size': size}, {'product_name': 1, 'cylinder_size': 1, 'quantity_in_stock': 1, '_id': 0}))
 
-for data in result:
-    print(f'data: {data}')
+# for data in result:
+#     print(f'data: {data}')
+
+filter = {'shyet'}
+
+if not filter:
+    print('may laman')
