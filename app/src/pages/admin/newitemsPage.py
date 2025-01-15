@@ -28,10 +28,76 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.cancel_pushButton.clicked.connect(lambda: self.cancel_clicked())
 
         self.load_product_selection_table()
+        self.load_status_comboBox()
 
     def confirm_button_clicked(self):
         """handles the confirm button click event"""
         print(f'Confirm button clicked')
+        print('Saving new brand')
+        self.save_table_data()
+
+    def save_table_data(self):
+        # Collect data from checked checkboxes
+        checked_rows = []
+        for row in range(self.product_selection_tableWidget.rowCount()):
+            # Get the checkbox widget from the first column
+            checkbox_widget = self.product_selection_tableWidget.cellWidget(row, 0)
+            if checkbox_widget and checkbox_widget.isChecked():
+                row_data = {}
+                # Get quantity and price values
+                quantity_widget = self.product_selection_tableWidget.cellWidget(row, 1)
+                price_widget = self.product_selection_tableWidget.cellWidget(row, 2)
+                row_data['Row'] = row
+                row_data['Size'] = checkbox_widget.text()  # Text of the checkbox
+                row_data['Quantity'] = quantity_widget.text() if quantity_widget else ""
+                row_data['Price'] = price_widget.text() if price_widget else ""
+
+                # Check if Quantity and Price are empty
+                if not row_data['Quantity'] or not row_data['Price']:
+                    self.show_error_message(f"Quantity and Price are required for size {row_data['Size']}.")
+                    return  # Stop and return if validation fails
+
+                checked_rows.append(row_data)
+
+        # Print only checked rows
+        print("Checked Rows Data:", checked_rows)
+
+        # Validate other fields
+        brand = self.brand_lineEdit.text().strip()
+        supplier = self.supplier_lineEdit.text().strip()
+        description = self.description_plainTextEdit.toPlainText().strip()
+        status = self.status_comboBox.currentText().strip()
+        low_stock_threshold = self.low_stock_threshold_spinBox.value()
+
+        # Check if any required field is empty (except description)
+        if not brand or not supplier:
+            self.show_error_message("Brand, Supplier, and Status are required fields.")
+            return
+
+        # If everything is valid, proceed to save the data
+        print("All fields are valid. Proceeding to save.")
+        # Implement your saving logic here...
+
+    def show_error_message(self, message):
+        CustomMessageBox.show_message('critical', 'Error', f'{message}')
+
+    def load_status_comboBox(self):
+        """load the status comboBox"""
+        filter_dir = 'D:/Inventory-System/app/resources/config/filters.json'
+        try:
+            with open(filter_dir, 'r') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            print(f"Error: File not found at {filter_dir}")
+        except json.JSONDecodeError:
+            print("Error: Invalid JSON format in header file.")
+
+        status = [list(status.values())[0] for status in data["item_status"]]
+        
+        for stats in status:
+            if stats != 'Show All':
+                self.status_comboBox.addItem(stats)
+
 
     def load_product_selection_table(self):
         """load the product selection table"""
@@ -173,28 +239,6 @@ class newItem_page(QWidget, Ui_addItemPage):
                 table.setCellWidget(row, 2, price_lineEdit)
 
                 row += 1
-    
-    # def save_table_data(self):
-    #     # Collect data from checked checkboxes
-    #     checked_rows = []
-    #     for row in range(table.rowCount()):
-    #         # Get the checkbox widget from the first column
-    #         checkbox_widget = table.cellWidget(row, 0)
-    #         if checkbox_widget and checkbox_widget.isChecked():
-    #             row_data = {}
-    #             # Get quantity and price values
-    #             quantity_widget = table.cellWidget(row, 1)
-    #             price_widget = table.cellWidget(row, 2)
-    #             row_data['Row'] = row
-    #             row_data['Size'] = checkbox_widget.text()  # Text of the checkbox
-    #             row_data['Quantity'] = quantity_widget.text() if quantity_widget else ""
-    #             row_data['Price'] = price_widget.text() if price_widget else ""
-    #             checked_rows.append(row_data)
-        
-    #     # Print only checked rows
-    #     print("Checked Rows Data:", checked_rows)
-
-
 
     # def get_stock_level(self, stock_quantity: int, stock_threshold: int):
     #     """Return stock level (in stock, low stock, out of stock)"""
