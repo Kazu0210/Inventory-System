@@ -143,8 +143,21 @@ def connect_to_db(collection_name):
 # today = datetime.now()
 # print(f'today: {today}')
 
-size = '5kg'
-result = list(connect_to_db('products_items').find({'cylinder_size': size}, {'product_name': 1, 'cylinder_size': 1, 'quantity_in_stock': 1, '_id': 0}))
+# size = '5kg'
+# result = list(connect_to_db('products_items').find({'cylinder_size': size}, {'product_name': 1, 'cylinder_size': 1, 'quantity_in_stock': 1, '_id': 0}))
 
-for data in result:
-    print(f'data: {data}')
+# for data in result:
+#     print(f'data: {data}')
+
+filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+with open(filters_dir, 'r') as f:
+    data = json.load(f)
+
+cylinder_size = [list(size.values())[0] for size in data["cylinder_size"]]
+
+print(f'Cylinder Size: {cylinder_size}')
+
+
+for size in cylinder_size:
+    if size != 'Show All':
+        print(f'Size: {size}')

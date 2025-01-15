@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'ui_dashboard.ui'
+# Form implementation generated from reading ui file '.\ui_dashboard.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -339,6 +339,8 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.label_6)
         self.verticalLayout_8.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.cylinderTypes_scrollArea = QtWidgets.QScrollArea(parent=self.frame_5)
+        self.cylinderTypes_scrollArea.setMinimumSize(QtCore.QSize(0, 445))
+        self.cylinderTypes_scrollArea.setMaximumSize(QtCore.QSize(16777215, 445))
         self.cylinderTypes_scrollArea.setStyleSheet("*{\n"
 "border: none;\n"
 "}\n"
@@ -387,12 +389,10 @@ class Ui_Form(object):
         self.cylinderTypes_scrollArea.setWidgetResizable(True)
         self.cylinderTypes_scrollArea.setObjectName("cylinderTypes_scrollArea")
         self.cylinderContainerLayout = QtWidgets.QWidget()
-        self.cylinderContainerLayout.setGeometry(QtCore.QRect(0, 0, 482, 60))
+        self.cylinderContainerLayout.setGeometry(QtCore.QRect(0, 0, 482, 445))
         self.cylinderContainerLayout.setObjectName("cylinderContainerLayout")
         self.cylinderTypes_scrollArea.setWidget(self.cylinderContainerLayout)
         self.verticalLayout_8.addWidget(self.cylinderTypes_scrollArea, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_8.addItem(spacerItem1)
         self.horizontalLayout_4.addWidget(self.frame_5)
         self.verticalLayout_4.addWidget(self.frame_7, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.frame_9 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
@@ -442,8 +442,8 @@ class Ui_Form(object):
         self.sizes_tabWidget.setObjectName("sizes_tabWidget")
         self.verticalLayout_9.addWidget(self.sizes_tabWidget)
         self.horizontalLayout_5.addWidget(self.frame_10, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem2)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem1)
         self.verticalLayout_4.addWidget(self.frame_9)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)

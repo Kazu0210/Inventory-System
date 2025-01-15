@@ -270,10 +270,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
                 if value is not None:
                     # Check if the header is 'price'
-                    print(f'Header: {header}')
                     if header == 'price':
-                        print(f'Hidir: {header}')
-                        print(f'da pakening value before formatting: {value}')
                         
                         # Ensure the value is a float before formatting
                         if isinstance(value, (int, float)):

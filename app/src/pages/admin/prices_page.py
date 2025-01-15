@@ -4,6 +4,7 @@ from PyQt6.QtGui import QBrush, QColor, QIcon
 from src.ui.final_ui.prices_page import Ui_Form as Ui_price_page
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Graphics import AddGraphics
+from src.custom_widgets.message_box import CustomMessageBox
 
 import json, pymongo, datetime, re, os
 
@@ -26,21 +27,28 @@ class PricesPage(QWidget, Ui_price_page):
         self.prices_monitor.data_changed_signal.connect(lambda: self.load_price_history_table())
 
         # button connections
-        self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
-        self.prev_pushButton.clicked.connect(lambda: self.load_prices(self.current_page - 1, self.rows_per_page))
-        self.next_pushButton.clicked.connect(lambda: self.load_prices(self.current_page + 1, self.rows_per_page))
-        self.search_pushButton.clicked.connect(lambda: self.load_prices())
+        # self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
+        # self.prev_pushButton.clicked.connect(lambda: self.load_prices(self.current_page - 1, self.rows_per_page))
+        # self.next_pushButton.clicked.connect(lambda: self.load_prices(self.current_page + 1, self.rows_per_page))
+        self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
 
         # search bar connection
         self.searchBar_lineEdit.textChanged.connect(lambda: self.handle_search_change())
 
         # call function that hide all widgets once
-        self.hide_widgets()
+        # self.hide_widgets()
 
         # set max lenght for search bar to 50 characters
         self.searchBar_lineEdit.setMaxLength(50)
 
         self.add_graphics()
+
+    def search_button_clicked(self):
+        """handles the click event for the search button"""
+        # Disconnect the signal from the slot
+        self.prices_tableWidget.itemChanged.disconnect(self.price_table_item_changed)
+        self.load_prices()
+
     
     def set_search_icon(self):
         """Add icon to search button"""
@@ -48,7 +56,13 @@ class PricesPage(QWidget, Ui_price_page):
 
     def handle_search_change(self):
         """Check if the search bar is empty"""
+        # Disconnect the signal from the slot
+
         if self.searchBar_lineEdit.text() == "":
+            try:
+                self.prices_tableWidget.itemChanged.disconnect(self.price_table_item_changed)
+            except Exception as e:
+                print(f'Error: {e}')
             self.load_prices()
 
     def handle_search(self):
@@ -103,15 +117,72 @@ class PricesPage(QWidget, Ui_price_page):
         self.price_history_pushButton.setText("Show Price History")
         self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
 
+    def price_table_item_changed(self, item):
+        """Handles the price table item changed event."""
+        print(f"Item changed at Row: {item.row()}, Column: {item.column()}")
+        print(f"New Value: {item.text()}")
+
+        try:
+            new_value = item.text()  # Try converting to float, can be int or float
+            column = item.column()
+            row = item.row()
+            print(f'Column: {column}')
+        except ValueError:
+            # If the conversion fails, show an error and exit
+            CustomMessageBox.show_message('critical', 'Error', 'Invalid price value')
+            print(f'Error: Invalid value for price: {item.text()}')
+            return  # Exit early if the value is not a valid number
+
+        # Get product id and header
+        product_id = self.prices_tableWidget.item(row, 1)  # Get the product ID (assumes it's in column 1)
+        header = self.prices_tableWidget.horizontalHeaderItem(column)
+
+        if product_id:  # Check if product id exists
+            product_id_value = product_id.text()
+
+            # Update the price if the header matches
+            if header and header.text() in ['Selling Price', 'Supplier Price']:
+                # Confirm with the user before updating
+                question = CustomMessageBox.show_message('question', f'Update {header.text()} value', 
+                                                        f'Are you sure you want to update the {header.text()} value for product {product_id_value} to {new_value}?')
+                if question == 1:  # User confirmed the update
+                    try:
+                        # Choose the field based on the header
+                        field = 'price_per_unit' if header.text() == 'Selling Price' else 'supplier_price'
+                        
+                        # Prepare filter and update query
+                        filter = {'product_id': product_id_value}
+                        update = {'$set': {field: float(new_value)}}  # Update the price (as float)
+
+                        # Perform the update in the database
+                        self.connect_to_db('products_items').update_one(filter, update)
+
+                        # Show success message
+                        CustomMessageBox.show_message('information', 'Price Update', f'{header.text()} Updated Successfully!')
+
+                        # Temporarily disconnect the signal to prevent re-triggering the function during reload
+                        self.prices_tableWidget.itemChanged.disconnect(self.price_table_item_changed)
+
+                        # Reload the table (refresh the data)
+                        self.load_prices()
+
+                        # Reconnect the signal after the reload
+                        self.prices_tableWidget.itemChanged.connect(self.price_table_item_changed)
+
+                    except Exception as e:
+                        print(f'Error updating data: {e}')
+            
     def load_price_history_table(self):
         """Loads price history table"""
 
         table = self.price_history_tableWidget
         table.setSortingEnabled(True)
-        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        # table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers) # enable edit
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers) # disable edit
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
+        # table.itemChanged.connect(self.price_table_item_changed)
 
         table.setStyleSheet("""
             QTableWidget{
@@ -122,7 +193,7 @@ class PricesPage(QWidget, Ui_price_page):
             QHeaderView:Section{
             background-color: #228B22;
             color: #fff;               
-            font: bold 12pt "Noto Sans";
+            font: bold 10pt "Noto Sans";
             }
             QTableWidget::item {
                 border: none;  /* Remove border from each item */
@@ -182,13 +253,14 @@ class PricesPage(QWidget, Ui_price_page):
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
 
-        for column in range(table.columnCount()):
-            table.setColumnWidth(column, 145)
+        # for column in range(table.columnCount()):
+        #     table.setColumnWidth(column, 145)
 
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 100
 
-        header.setFixedHeight(50)
+        header.setFixedHeight(40)
+        header.setStretchLastSection(True)
 
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
@@ -314,6 +386,19 @@ class PricesPage(QWidget, Ui_price_page):
         # Update page label
         # self.page_label.setText(f"Page: {current_page + 1}/{total_pages}")
 
+    def get_prices_data(self, filter):
+        """Get prices data for prices table"""
+        result = list(self.connect_to_db('products_items').find(filter).sort("_id", -1))
+        
+        # Rename 'product_name' to 'brand' in each item in the result
+        for item in result:
+            if 'product_name' in item:
+                item['brand'] = item.pop('product_name')  # Rename the key
+
+            if 'price_per_unit' in item:
+                item['selling_price'] = item.pop('price_per_unit')
+        return result
+
     def load_prices(self, page=0, rows_per_page=10):
         """Load prices current price on the prices table with pagination."""
         self.current_page = page  # Keep track of the current page
@@ -325,6 +410,8 @@ class PricesPage(QWidget, Ui_price_page):
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
 
+        table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers)
+
         table.setStyleSheet("""
             QTableWidget{
             border-radius: 5px;
@@ -334,7 +421,7 @@ class PricesPage(QWidget, Ui_price_page):
             QHeaderView:Section{
             background-color: #228B22;
             color: #fff;               
-            font: bold 12pt "Noto Sans";
+            font: bold 10pt "Noto Sans";
             }
             QTableWidget::item {
                 border: none;  /* Remove border from each item */
@@ -393,15 +480,15 @@ class PricesPage(QWidget, Ui_price_page):
         header = self.prices_tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
+        header.setStretchLastSection(True)
 
-        for column in range(table.columnCount()):
-            table.setColumnWidth(column, 145)
+        # for column in range(table.columnCount()):
+        #     table.setColumnWidth(column, 145)
 
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
-        header.setFixedHeight(50)
-        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        header.setFixedHeight(40)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
@@ -414,11 +501,11 @@ class PricesPage(QWidget, Ui_price_page):
         if self.searchBar_lineEdit != "":
             filter = {"$or": [
                 {"product_name": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
-                {"product_id": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
+                {"cylinder_size": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
             ]}
 
-        # Get data from MongoDB
-        data = list(self.connect_to_db('prices').find(filter).sort("_id", -1))
+        data = self.get_prices_data(filter)
+
         if not data:
             return  # Exit if the collection is empty
 
@@ -438,17 +525,32 @@ class PricesPage(QWidget, Ui_price_page):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
+                
                 if value is not None:
+                    if header in ['sellingprice', 'supplierprice']: 
+                        value = f"₱ {value:,.2f}"
+
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                    
                     # Check if row index is even
                     if row % 2 == 0:
                         table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
+
+                    # Make only 'sellingprice' and 'supplierprice' columns editable
+                    if header == 'sellingprice' or header == 'supplierprice':  # Modify this check as needed
+                        table_item.setFlags(table_item.flags() | Qt.ItemFlag.ItemIsEditable)  # Make editable
+                    else:
+                        table_item.setFlags(table_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Make non-editable
+
                     table.setItem(row, column, table_item)
 
-        # Add navigation controls
-        self.update_navigation_controls(len(data), page, rows_per_page)
+        table.itemChanged.connect(self.price_table_item_changed)
 
+        # hide the first column
+        table.setColumnHidden(0, True)
+        # Add navigation controls
+        # self.update_navigation_controls(len(data), page, rows_per_page)
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
