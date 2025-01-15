@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFileDialog
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
 
 from fpdf import FPDF
@@ -14,27 +14,15 @@ from src.custom_widgets.message_box import CustomMessageBox
 import pymongo, os, re, json, datetime
 
 class ItemsPage(QWidget, items_page):
+    table_loading_signal = pyqtSignal(str)
+
     def __init__(self, username, dashboard_mainWindow):
         super().__init__()
         self.setupUi(self)
         self.dashboard_mainWindow = dashboard_mainWindow
 
-        # new item button connection
-        self.setItems.clicked.connect(lambda: self.open_add_product_form())
-        self.print_btn.clicked.connect(lambda: self.print_btn_clicked())
-
         self.collection = self.connect_to_db('products_items')
 
-        # self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
-        # self.tableWidget.itemClicked.connect(self.on_item_clicked)
-        # self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        # self.tableWidget.setShowGrid(False)
-        # self.tableWidget.verticalHeader().setVisible(False)
-
-        # hide button
-        # self.HideButtons()
-
-        # Call function that load all the filters once
         self.load_filters()
 
         # Initialize Inventory Monitor
@@ -44,10 +32,7 @@ class ItemsPage(QWidget, items_page):
 
         # Call update_all function to populate table once
         self.update_all()
-
-        # ComboBox connections
-        self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
-        self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
+        self.load_button_connections()
 
     def print_btn_clicked(self):
         print(f"Print button clicked.")
@@ -219,16 +204,6 @@ class ItemsPage(QWidget, items_page):
                 low_stock_count += 1
 
         return low_stock_count
-
-    # def ShowButtons(self):
-    #     self.restock_pushButton.show()
-    #     self.editProduct_pushButton.show()
-    #     self.archive_pushButton.show()
-        
-    # def HideButtons(self):
-    #     self.restock_pushButton.hide()
-    #     self.editProduct_pushButton.hide()
-    #     self.archive_pushButton.hide()
 
     def UpdateInventoryTotalValue(self):
         # Define the projection to include only the 'total_value' field
@@ -448,38 +423,6 @@ class ItemsPage(QWidget, items_page):
         self.editPage.show()
         self.editPage.save_signal.connect(self.handleSave)
 
-    def clearPreviewSection(self):
-        self.productID_label.clear()
-        self.productName_label.clear()
-        self.cylinderSize_label.clear()
-        self.quantity_label.clear()
-        self.price_label.clear()
-        self.supplier_label.clear()
-        self.restockedDate_label.clear()
-        self.description_label.clear()
-        self.totalValue_label.clear()
-        self.status_label.clear()
-        self.stock_level_label.clear()
-        self.low_stock_threshold_label.clear()
-
-    def updatePreviewSection(self, data_dict):
-        productID = data_dict.get('product_id')
-        print(f'RECEIVED PRODUCT ID: {productID}')
-        document = self.collection.find_one({'product_id': productID})
-        print(f'DOKYUMENT: {document}')
-
-        self.productID_label.setText(document['product_id'])
-        self.productName_label.setText(document['product_name'])
-        self.cylinderSize_label.setText(document['cylinder_size'])
-        self.quantity_label.setText(str(document['quantity_in_stock']))
-        self.price_label.setText(str(document['price_per_unit']))
-        self.supplier_label.setText(document['supplier'])
-        self.restockedDate_label.setText(document['last_restocked_date'])
-        self.description_label.setText(document['description'])
-        self.totalValue_label.setText(str(document['total_value']))
-        self.status_label.setText(document['inventory_status'])
-        self.low_stock_threshold_label.setText(str(document['minimum_stock_level']))
-
     def handleSave(self, data):
         print('Edit product saved')
         print(f'data received from edit product page: {data}')
@@ -518,11 +461,12 @@ class ItemsPage(QWidget, items_page):
     def update_table(self):
         table = self.tableWidget
         table.setSortingEnabled(True)
-        vertical_header = table.verticalHeader()
-        vertical_header.hide()
         table.setRowCount(0)  # Clear the table
         table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers)
         
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setStyleSheet("""
         QTableWidget{
         border-radius: 5px;
@@ -580,6 +524,8 @@ class ItemsPage(QWidget, items_page):
             }
         """)
 
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
         # header json directory
         header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
@@ -592,17 +538,11 @@ class ItemsPage(QWidget, items_page):
         header = self.tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
+        header.setFixedHeight(40)
 
         # set width of all the columns
         for column in range(table.columnCount()):
             table.setColumnWidth(column, 150)
-
-        # Set uniform row height for all rows
-        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
-
-        header.setFixedHeight(40)
-        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
@@ -611,7 +551,6 @@ class ItemsPage(QWidget, items_page):
         stock_level = self.stock_level_comboBox.currentText()
 
         filter = {}
-
         if cylinder_size != "Show All":
             filter['cylinder_size'] = cylinder_size
 
@@ -629,30 +568,18 @@ class ItemsPage(QWidget, items_page):
                 value = item.get(original_key)
 
                 if value is not None:
-                    if header == 'sellingprice' or header == 'supplierprice':
+                    if header == 'sellingprice' or header == 'supplierprice' or header == 'totalvalue':
                         # Format value as price
                         formatted_price = f"₱ {int(value):,.2f}" if value else ""
                         value = formatted_price
 
-                    # # Check if the field is quantityinstock and get minimum_stock_level
-                    # if header == 'quantityinstock':
-                    #     minimum_stock_level = item.get("minimum_stock_level")  # Assuming 'minimum_stock_level' exists in the document
-
-                    #     table_item = QTableWidgetItem(str(value))
-                    #     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
-
-                    #     # Highlight if the quantity is below the minimum stock level
-                    #     if value < minimum_stock_level:
-                    #         table_item.setForeground(QColor(255, 0, 0))  # Set text color to red, adjust RGB values as needed
-
-                    # else:
-                        # For other columns
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     
                     table.setItem(row, column, table_item)
 
         table.itemChanged.connect(self.price_table_item_changed)
+        table.hideColumn(0)
 
     def price_table_item_changed(self, item):
         """Handles the price table item changed event."""
@@ -660,7 +587,7 @@ class ItemsPage(QWidget, items_page):
         print(f"New Value: {item.text()}")
 
         try:
-            new_value = item.text()  # Try converting to float, can be int or float
+            new_value = item.text()
             column = item.column()
             row = item.row()
             print(f'Column: {column}')
@@ -671,8 +598,9 @@ class ItemsPage(QWidget, items_page):
             return  # Exit early if the value is not a valid number
 
         # Get product id and header
-        product_id = self.tableWidget.item(row, 1)  # Get the product ID (assumes it's in column 1)
+        product_id = self.tableWidget.item(row, 0)
         header = self.tableWidget.horizontalHeaderItem(column)
+        print(f'PAKENING PRODUCT ID: {product_id.text()}')
 
         if product_id:  # Check if product id exists
             product_id_value = product_id.text()
@@ -703,9 +631,6 @@ class ItemsPage(QWidget, items_page):
                         # Reload the table (refresh the data)
                         self.update_table()
 
-                        # Reconnect the signal after the reload
-                        self.tableWidget.itemChanged.connect(self.price_table_item_changed)
-
                     except Exception as e:
                         print(f'Error updating data: {e}')
 
@@ -722,10 +647,6 @@ class ItemsPage(QWidget, items_page):
         self.addProduct.show()
         # self.addProduct.save_signal.connect(self.handleSave)
 
-    
-    # def switch_to_items_page(self):
-    #     self.dashboard_mainWindow.content_window_layout.setCurrentIndex(5)
-
     def onCreateAccountBtnClicked(self):
         self.dashboard_mainWindow.content_window_layout.setCurrentIndex(0)
 
@@ -734,12 +655,11 @@ class ItemsPage(QWidget, items_page):
             self.edit_product_page.close()
             self.edit_product_page = None
 
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    Form = QWidget()
-    ui = ItemsPage(None)  # Pass `None` if there's no `dashboard_mainWindow` for standalone testing
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())
+    def load_button_connections(self):
+        """load button, comboBox etc connections"""
+        # ComboBox connections
+        self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
+        self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
+        # new item button connection
+        self.setItems.clicked.connect(lambda: self.open_add_product_form())
+        self.print_btn.clicked.connect(lambda: self.print_btn_clicked())

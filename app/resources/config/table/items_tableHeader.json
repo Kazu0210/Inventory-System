@@ -1,12 +1,10 @@
 [
+    "Product ID",
     "Brand",
     "Cylinder Size",
     "Quantity in Stock",
     "Selling Price",
     "Supplier Price",
     "Supplier",
-    "Last Restocked Date",
-    "Total Value",
-    "Inventory Status",
-    "Stock Level"
+    "Total Value"
 ]
