@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QAbstractItemView, QCheckBox, QTableWidgetItem, QLineEdit
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIntValidator
 
 # from src.ui.final_ui.add_product import Ui_Form as Ui_addItemPage
 from src.ui.new_brand_page import Ui_Form as Ui_addItemPage
@@ -30,10 +31,15 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.load_product_selection_table()
         self.load_status_comboBox()
 
+        self.load_validations()
+
+    def load_validations(self):
+        """load validations for qlineedits"""
+        self.brand_lineEdit.setMaxLength(30)
+        self.supplier_lineEdit.setMaxLength(20)
+
     def confirm_button_clicked(self):
         """handles the confirm button click event"""
-        print(f'Confirm button clicked')
-        print('Saving new brand')
         self.save_table_data()
 
     def save_table_data(self):
@@ -76,7 +82,39 @@ class newItem_page(QWidget, Ui_addItemPage):
 
         # If everything is valid, proceed to save the data
         print("All fields are valid. Proceeding to save.")
-        # Implement your saving logic here...
+
+        print(f'Count: {len(checked_rows)}')
+
+        for data in checked_rows:
+            size = data['Size']
+            quantity = int(data['Quantity'])
+            price = int(data['Price'])
+            product_id = self.generate_id()
+            total_value = float(quantity) * float(price)
+
+            if self.is_productExist(brand, size, supplier):
+                self.show_error_message(f"Product {brand} {size} {supplier} already exists.")
+            else:
+                data = {
+                    'product_id': product_id,
+                    'product_name': brand,
+                    'cylinder_size': size,
+                    'quantity_in_stock': quantity,
+                    'price_per_unit': price,
+                    'supplier': supplier,
+                    'last_restocked_date': "",
+                    'description': description,
+                    'total_value': total_value,
+                    'inventory_status': status,
+                    'minimum_stock_level': low_stock_threshold,
+                    'stock_level': 'In Stock',
+                    'supplier_price': 0
+                }
+
+                self.connect_to_db('products_items').insert_one(data)
+
+        CustomMessageBox.show_message('information', 'Product saved', 'Product saved successfully')
+        self.close()
 
     def show_error_message(self, message):
         CustomMessageBox.show_message('critical', 'Error', f'{message}')
@@ -97,7 +135,6 @@ class newItem_page(QWidget, Ui_addItemPage):
         for stats in status:
             if stats != 'Show All':
                 self.status_comboBox.addItem(stats)
-
 
     def load_product_selection_table(self):
         """load the product selection table"""
@@ -220,7 +257,7 @@ class newItem_page(QWidget, Ui_addItemPage):
         row = 0
         for size in cylinder_size:
             if size != "Show All":
-                print(f"Size: {size}")
+                validator = QIntValidator()
 
                 # Create and add a checkbox
                 checkbox = QCheckBox(f"{size}")
@@ -233,9 +270,13 @@ class newItem_page(QWidget, Ui_addItemPage):
                 table.setItem(row, 0, item)
 
                 quantity_lineEdit = QLineEdit()
+                quantity_lineEdit.setValidator(validator)
+                quantity_lineEdit.setMaxLength(4)
                 table.setCellWidget(row, 1, quantity_lineEdit)
 
                 price_lineEdit = QLineEdit()
+                price_lineEdit.setValidator(validator)
+                price_lineEdit.setMaxLength(4)
                 table.setCellWidget(row, 2, price_lineEdit)
 
                 row += 1
@@ -330,29 +371,26 @@ class newItem_page(QWidget, Ui_addItemPage):
 
     #         return price_id
 
-    # def is_productExist(self):
-    #     product_name = self.prod_name_lineEdit.text()
-    #     cylinder_size = self.category_comboBox.currentText()
-    #     supplier = self.supplier_lineEdit.text()
+    def is_productExist(self, product_name, size, supplier):
 
-    #     query = {
-    #         "product_name": product_name,
-    #         "cylinder_size": cylinder_size,
-    #         "supplier": supplier
-    #     }
+        query = {
+            "product_name": product_name,
+            "cylinder_size": size,
+            "supplier": supplier
+        }
 
-    #     # check if all in the query is present in the database
+        # check if all in the query is present in the database
 
-    #     if self.connect_to_db("products_items").find_one(query):
-    #         return True
-    #     else:
-    #         return False
+        if self.connect_to_db("products_items").find_one(query):
+            return True
+        else:
+            return False
 
-    # def connect_to_db(self, collection_name):
-    #     connection_string = "mongodb://localhost:27017/"
-    #     client = pymongo.MongoClient(connection_string)
-    #     db = "LPGTrading_DB"
-    #     return client[db][collection_name]
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        return client[db][collection_name]
     
     # def clearForm(self):
     #     for field in [self.prod_name_lineEdit, self.quantity_spinBox, self.price_lineEdit, self.supplier_lineEdit, self.desc_plainTextEdit]:
@@ -473,30 +511,28 @@ class newItem_page(QWidget, Ui_addItemPage):
     #         self.productID_label.setText(custom_id)
 
     # def is_idExist(self, custom_id):
-    #     item_id = custom_id
-    #     filter = {
-    #         "product_id": item_id
-    #     }
-    #     data = self.connect_to_db('products_items').find_one(filter)
-    #     if not self.connect_to_db('products_items').find_one(data):
-    #         return True
-    #     else:
-    #         return False
+        # item_id = custom_id
+        # filter = {
+        #     "product_id": item_id
+        # }
+        # data = self.connect_to_db('products_items').find_one(filter)
+        # if not self.connect_to_db('products_items').find_one(data):
+        #     return True
+        # else:
+        #     return False
         
-    # def generate_id(self):
-    #         current_date = datetime.datetime.now()
-    #         random_number = str(datetime.datetime.now().microsecond)[:2]
-    #         day = f"{current_date.strftime('%d')}"
-    #         yr = current_date.strftime('%y')
-
-    #         custom_id = f'LPG{day}{yr}{random_number}'
-    #         # print(f'CUSTOM ID: {custom_id}')
-    #         return custom_id
-
-    #         # print(f'IS ID EXIST? : {self.is_idExist(custom_id)}')
-
-    #         # if self.is_idExist:
-    #         #     self.itemID_label.setText(custom_id)
+    def generate_id(self):
+        """generate product id"""
+        current_date = datetime.datetime.now()
+        random_number = str(datetime.datetime.now().microsecond)[:2]
+        day = f"{current_date.strftime('%d')}"
+        yr = current_date.strftime('%y')
+        custom_id = f'LPG{day}{yr}{random_number}'
+        # print(f'CUSTOM ID: {custom_id}')
+        return custom_id
+        # print(f'IS ID EXIST? : {self.is_idExist(custom_id)}')
+        # if self.is_idExist:
+        #     self.itemID_label.setText(custom_id)
 
     # def close_event(self, event):
     #     """Detect if the X button is clicked to close the form"""

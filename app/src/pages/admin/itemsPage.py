@@ -25,14 +25,14 @@ class ItemsPage(QWidget, items_page):
 
         self.collection = self.connect_to_db('products_items')
 
-        self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
-        self.tableWidget.itemClicked.connect(self.on_item_clicked)
-        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.tableWidget.setShowGrid(False)
-        self.tableWidget.verticalHeader().setVisible(False)
+        # self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
+        # self.tableWidget.itemClicked.connect(self.on_item_clicked)
+        # self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        # self.tableWidget.setShowGrid(False)
+        # self.tableWidget.verticalHeader().setVisible(False)
 
         # hide button
-        self.HideButtons()
+        # self.HideButtons()
 
         # Call function that load all the filters once
         self.load_filters()
@@ -220,15 +220,15 @@ class ItemsPage(QWidget, items_page):
 
         return low_stock_count
 
-    def ShowButtons(self):
-        self.restock_pushButton.show()
-        self.editProduct_pushButton.show()
-        self.archive_pushButton.show()
+    # def ShowButtons(self):
+    #     self.restock_pushButton.show()
+    #     self.editProduct_pushButton.show()
+    #     self.archive_pushButton.show()
         
-    def HideButtons(self):
-        self.restock_pushButton.hide()
-        self.editProduct_pushButton.hide()
-        self.archive_pushButton.hide()
+    # def HideButtons(self):
+    #     self.restock_pushButton.hide()
+    #     self.editProduct_pushButton.hide()
+    #     self.archive_pushButton.hide()
 
     def UpdateInventoryTotalValue(self):
         # Define the projection to include only the 'total_value' field
@@ -508,7 +508,7 @@ class ItemsPage(QWidget, items_page):
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
-
+        
         table.setStyleSheet("""
         QTableWidget{
         border-radius: 5px;
@@ -586,7 +586,7 @@ class ItemsPage(QWidget, items_page):
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
-        header.setFixedHeight(50)
+        header.setFixedHeight(40)
         table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
@@ -637,8 +637,6 @@ class ItemsPage(QWidget, items_page):
                         table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     
                     table.setItem(row, column, table_item)
-                            
-
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))

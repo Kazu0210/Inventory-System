@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'new_brand_page.ui'
+# Form implementation generated from reading ui file '.\new_brand_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
