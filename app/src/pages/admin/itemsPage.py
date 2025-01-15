@@ -493,7 +493,7 @@ class ItemsPage(QWidget, items_page):
         self.update_table()
         self.UpdateTotalStock()
         self.UpdateInventoryTotalValue()
-        self.update_low_stock_label()
+        # self.update_low_stock_label()
         self.update_total_stock_label()
 
     def connect_to_db(self, collection_name):
@@ -518,7 +518,7 @@ class ItemsPage(QWidget, items_page):
         QHeaderView:Section{
         background-color: #228B22;
         color: #fff;               
-        font: bold 12pt "Noto Sans";
+        font: bold 10pt "Noto Sans";
         }
         QTableWidget::item {
             border: none;  /* Remove border from each item */

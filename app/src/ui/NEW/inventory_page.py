@@ -69,7 +69,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1043, 656))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1043, 653))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_60.setContentsMargins(0, 0, 0, 0)
@@ -104,6 +104,8 @@ class Ui_Form(object):
         self.horizontalLayout_7.setSpacing(5)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.frame_7 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_7.setMinimumSize(QtCore.QSize(200, 80))
+        self.frame_7.setMaximumSize(QtCore.QSize(200, 80))
         self.frame_7.setStyleSheet("#frame_7{\n"
 "background-color: #fff;\n"
 "border: 1px solid #228B22;\n"
@@ -130,6 +132,8 @@ class Ui_Form(object):
         self.verticalLayout_7.addWidget(self.total_stock_quantity_label)
         self.horizontalLayout_7.addWidget(self.frame_7, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.frame_8 = QtWidgets.QFrame(parent=self.frame_20)
+        self.frame_8.setMinimumSize(QtCore.QSize(200, 80))
+        self.frame_8.setMaximumSize(QtCore.QSize(200, 80))
         self.frame_8.setStyleSheet("#frame_8{\n"
 "background-color: #fff;\n"
 "border: 1px solid #228B22;\n"
@@ -168,32 +172,8 @@ class Ui_Form(object):
         self.inventoryTotalValue_label.setObjectName("inventoryTotalValue_label")
         self.verticalLayout_8.addWidget(self.inventoryTotalValue_label)
         self.horizontalLayout_7.addWidget(self.frame_8, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.frame_21 = QtWidgets.QFrame(parent=self.frame_20)
-        self.frame_21.setStyleSheet("#frame_21{\n"
-"background-color: #fff;\n"
-"border: 1px solid #FF7043;\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_21.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_21.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_21.setObjectName("frame_21")
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_21)
-        self.verticalLayout_10.setSpacing(5)
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
-        self.label_17 = QtWidgets.QLabel(parent=self.frame_21)
-        self.label_17.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.label_17.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.label_17.setObjectName("label_17")
-        self.verticalLayout_10.addWidget(self.label_17)
-        self.low_stock_label = QtWidgets.QLabel(parent=self.frame_21)
-        self.low_stock_label.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.low_stock_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;\n"
-"")
-        self.low_stock_label.setObjectName("low_stock_label")
-        self.verticalLayout_10.addWidget(self.low_stock_label)
-        self.horizontalLayout_7.addWidget(self.frame_21, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem)
         self.horizontalLayout.addWidget(self.frame_20)
         self.verticalLayout_9.addWidget(self.frame)
         self.frame_64 = QtWidgets.QFrame(parent=self.frame_4)
@@ -263,8 +243,8 @@ class Ui_Form(object):
         self.cylinderSize_comboBox.setObjectName("cylinderSize_comboBox")
         self.horizontalLayout_62.addWidget(self.cylinderSize_comboBox)
         self.horizontalLayout_61.addWidget(self.frame_65, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_61.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_61.addItem(spacerItem1)
         self.frame_5 = QtWidgets.QFrame(parent=self.frame_64)
         self.frame_5.setStyleSheet("#frame_5 *{\n"
 "font: 10pt \"Inter\";\n"
@@ -1086,8 +1066,8 @@ class Ui_Form(object):
         self.verticalLayout_4.addWidget(self.restock_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.verticalLayout_3.addWidget(self.frame_22)
         self.verticalLayout_2.addWidget(self.frame_3)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem2)
         self.verticalLayout_6.addWidget(self.info_cont)
         self.horizontalLayout_60.addWidget(self.frame_63)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -1103,8 +1083,6 @@ class Ui_Form(object):
         self.total_stock_quantity_label.setText(_translate("Form", "0"))
         self.label_15.setText(_translate("Form", "Total Stock Value:"))
         self.inventoryTotalValue_label.setText(_translate("Form", "0.00"))
-        self.label_17.setText(_translate("Form", "Low Stock:"))
-        self.low_stock_label.setText(_translate("Form", "0"))
         self.label_28.setText(_translate("Form", "Cylinder Size:"))
         self.label_29.setText(_translate("Form", "Stock Level:"))
         self.label_11.setText(_translate("Form", "Products Table"))

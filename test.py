@@ -149,7 +149,15 @@ def connect_to_db(collection_name):
 # for data in result:
 #     print(f'data: {data}')
 
-filter = {'shyet'}
+filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+with open(filters_dir, 'r') as f:
+    data = json.load(f)
 
-if not filter:
-    print('may laman')
+cylinder_size = [list(size.values())[0] for size in data["cylinder_size"]]
+
+print(f'Cylinder Size: {cylinder_size}')
+
+
+for size in cylinder_size:
+    if size != 'Show All':
+        print(f'Size: {size}')

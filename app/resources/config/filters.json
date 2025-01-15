@@ -20,7 +20,9 @@
     ],
     "cylinder_size": [
         {"Default": "Show All"},
+        {"2.5kg": "2.5kg"},
         {"5kg": "5kg"},
+        {"7kg": "7kg"},
         {"11kg": "11kg"},
         {"22kg": "22kg"},
         {"50kg": "50kg"}
