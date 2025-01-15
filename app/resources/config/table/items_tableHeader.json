@@ -1,8 +1,9 @@
 [
-    "Product Name",
+    "Brand",
     "Cylinder Size",
     "Quantity in Stock",
-    "Price per Unit",
+    "Selling Price",
+    "Supplier Price",
     "Supplier",
     "Last Restocked Date",
     "Total Value",

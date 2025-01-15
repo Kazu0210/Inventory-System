@@ -104,19 +104,6 @@ class PricesPage(QWidget, Ui_price_page):
         # Return the results
         return results
 
-    def show_price_history(self):
-        """Run when price history button is clicked"""
-        self.frame_11.show()
-        self.price_history_pushButton.setText("Hide Price History")
-
-        self.price_history_pushButton.clicked.connect(lambda: self.hide_price_history())
-
-    def hide_price_history(self):
-        """Run when hide price history button is clicked"""
-        self.frame_11.hide()
-        self.price_history_pushButton.setText("Show Price History")
-        self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
-
     def price_table_item_changed(self, item):
         """Handles the price table item changed event."""
         print(f"Item changed at Row: {item.row()}, Column: {item.column()}")

@@ -502,12 +502,26 @@ class ItemsPage(QWidget, items_page):
         db = "LPGTrading_DB"
         return client[db][collection_name]
 
+    def get_products_data(self, filter):
+        """Get prices data for prices table"""
+        result = list(self.connect_to_db('products_items').find(filter).sort("_id", -1))
+        
+        # Rename 'product_name' to 'brand' in each item in the result
+        for item in result:
+            if 'product_name' in item:
+                item['brand'] = item.pop('product_name')  # Rename the key
+
+            if 'price_per_unit' in item:
+                item['selling_price'] = item.pop('price_per_unit')
+        return result
+    
     def update_table(self):
         table = self.tableWidget
         table.setSortingEnabled(True)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
+        table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers)
         
         table.setStyleSheet("""
         QTableWidget{
@@ -587,7 +601,6 @@ class ItemsPage(QWidget, items_page):
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
         header.setFixedHeight(40)
-        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
@@ -605,7 +618,8 @@ class ItemsPage(QWidget, items_page):
         if stock_level != "Show All":
             filter['stock_level'] = stock_level
 
-        data = list(self.collection.find(filter).sort("_id", -1))
+        data = list(self.get_products_data(filter))
+        # data = list(self.collection.find(filter).sort("_id", -1))
         
         for row, item in enumerate(data):
             table.setRowCount(row + 1)  # Add a new row for each item
@@ -615,28 +629,85 @@ class ItemsPage(QWidget, items_page):
                 value = item.get(original_key)
 
                 if value is not None:
-                    if header == 'priceperunit' or header == 'totalvalue':
+                    if header == 'sellingprice' or header == 'supplierprice':
                         # Format value as price
                         formatted_price = f"₱ {int(value):,.2f}" if value else ""
                         value = formatted_price
 
-                    # Check if the field is quantityinstock and get minimum_stock_level
-                    if header == 'quantityinstock':
-                        minimum_stock_level = item.get("minimum_stock_level")  # Assuming 'minimum_stock_level' exists in the document
+                    # # Check if the field is quantityinstock and get minimum_stock_level
+                    # if header == 'quantityinstock':
+                    #     minimum_stock_level = item.get("minimum_stock_level")  # Assuming 'minimum_stock_level' exists in the document
 
-                        table_item = QTableWidgetItem(str(value))
-                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
+                    #     table_item = QTableWidgetItem(str(value))
+                    #     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
 
-                        # Highlight if the quantity is below the minimum stock level
-                        if value < minimum_stock_level:
-                            table_item.setForeground(QColor(255, 0, 0))  # Set text color to red, adjust RGB values as needed
+                    #     # Highlight if the quantity is below the minimum stock level
+                    #     if value < minimum_stock_level:
+                    #         table_item.setForeground(QColor(255, 0, 0))  # Set text color to red, adjust RGB values as needed
 
-                    else:
+                    # else:
                         # For other columns
-                        table_item = QTableWidgetItem(str(value))
-                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     
                     table.setItem(row, column, table_item)
+
+        table.itemChanged.connect(self.price_table_item_changed)
+
+    def price_table_item_changed(self, item):
+        """Handles the price table item changed event."""
+        print(f"Item changed at Row: {item.row()}, Column: {item.column()}")
+        print(f"New Value: {item.text()}")
+
+        try:
+            new_value = item.text()  # Try converting to float, can be int or float
+            column = item.column()
+            row = item.row()
+            print(f'Column: {column}')
+        except ValueError:
+            # If the conversion fails, show an error and exit
+            CustomMessageBox.show_message('critical', 'Error', 'Invalid price value')
+            print(f'Error: Invalid value for price: {item.text()}')
+            return  # Exit early if the value is not a valid number
+
+        # Get product id and header
+        product_id = self.tableWidget.item(row, 1)  # Get the product ID (assumes it's in column 1)
+        header = self.tableWidget.horizontalHeaderItem(column)
+
+        if product_id:  # Check if product id exists
+            product_id_value = product_id.text()
+
+            # Update the price if the header matches
+            if header and header.text() in ['Selling Price', 'Supplier Price']:
+                # Confirm with the user before updating
+                question = CustomMessageBox.show_message('question', f'Update {header.text()} value', 
+                                                        f'Are you sure you want to update the {header.text()} value for product {product_id_value} to {new_value}?')
+                if question == 1:  # User confirmed the update
+                    try:
+                        # Choose the field based on the header
+                        field = 'price_per_unit' if header.text() == 'Selling Price' else 'supplier_price'
+                        
+                        # Prepare filter and update query
+                        filter = {'product_id': product_id_value}
+                        update = {'$set': {field: float(new_value)}}  # Update the price (as float)
+
+                        # Perform the update in the database
+                        self.connect_to_db('products_items').update_one(filter, update)
+
+                        # Show success message
+                        CustomMessageBox.show_message('information', 'Price Update', f'{header.text()} Updated Successfully!')
+
+                        # Temporarily disconnect the signal to prevent re-triggering the function during reload
+                        self.tableWidget.itemChanged.disconnect(self.price_table_item_changed)
+
+                        # Reload the table (refresh the data)
+                        self.update_table()
+
+                        # Reconnect the signal after the reload
+                        self.tableWidget.itemChanged.connect(self.price_table_item_changed)
+
+                    except Exception as e:
+                        print(f'Error updating data: {e}')
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
