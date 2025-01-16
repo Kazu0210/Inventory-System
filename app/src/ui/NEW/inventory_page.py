@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'inventory_page.ui'
+# Form implementation generated from reading ui file '.\inventory_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -345,9 +345,16 @@ class Ui_Form(object):
         self.frame_78.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_78.setObjectName("frame_78")
         self.horizontalLayout_75 = QtWidgets.QHBoxLayout(self.frame_78)
-        self.horizontalLayout_75.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_75.setContentsMargins(5, 0, 5, 0)
         self.horizontalLayout_75.setSpacing(5)
         self.horizontalLayout_75.setObjectName("horizontalLayout_75")
+        self.remove_product_pushButton = QtWidgets.QPushButton(parent=self.frame_78)
+        self.remove_product_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.remove_product_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.remove_product_pushButton.setStyleSheet("background-color: red;\n"
+"font: 87 10pt \"Noto Sans Black\";")
+        self.remove_product_pushButton.setObjectName("remove_product_pushButton")
+        self.horizontalLayout_75.addWidget(self.remove_product_pushButton)
         self.setItems = QtWidgets.QPushButton(parent=self.frame_78)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -392,6 +399,7 @@ class Ui_Form(object):
         self.horizontalLayout_75.addWidget(self.print_btn)
         self.print_btn.raise_()
         self.setItems.raise_()
+        self.remove_product_pushButton.raise_()
         self.horizontalLayout_8.addWidget(self.frame_78, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.verticalLayout_11.addWidget(self.frame_25)
         self.tableWidget = QtWidgets.QTableWidget(parent=self.frame_77)
@@ -436,6 +444,7 @@ class Ui_Form(object):
         self.label_28.setText(_translate("Form", "Cylinder Size:"))
         self.label_29.setText(_translate("Form", "Stock Level:"))
         self.label_11.setText(_translate("Form", "Products Table"))
+        self.remove_product_pushButton.setText(_translate("Form", "Remove Product"))
         self.setItems.setText(_translate("Form", "Add Product"))
         self.print_btn.setText(_translate("Form", "Create Report"))
 

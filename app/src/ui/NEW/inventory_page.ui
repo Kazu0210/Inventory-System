@@ -710,17 +710,37 @@ font: 87 10pt &quot;Noto Sans Black&quot;;
                     <number>5</number>
                    </property>
                    <property name="leftMargin">
-                    <number>0</number>
+                    <number>5</number>
                    </property>
                    <property name="topMargin">
                     <number>0</number>
                    </property>
                    <property name="rightMargin">
-                    <number>0</number>
+                    <number>5</number>
                    </property>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
+                   <item>
+                    <widget class="QPushButton" name="remove_product_pushButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>125</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: red;
+font: 87 10pt &quot;Noto Sans Black&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>Remove Product</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item alignment="Qt::AlignVCenter">
                     <widget class="QPushButton" name="setItems">
                      <property name="sizePolicy">
@@ -798,6 +818,7 @@ color: #1E1E1E;</string>
                   </layout>
                   <zorder>print_btn</zorder>
                   <zorder>setItems</zorder>
+                  <zorder>remove_product_pushButton</zorder>
                  </widget>
                 </item>
                </layout>

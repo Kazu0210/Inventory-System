@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFileDialog
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QCheckBox, QAbstractItemView, QFileDialog, QHBoxLayout
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
 
@@ -17,22 +17,28 @@ class ItemsPage(QWidget, items_page):
     table_loading_signal = pyqtSignal(str)
 
     def __init__(self, username, dashboard_mainWindow):
-        super().__init__()
+        super().__init__()  
         self.setupUi(self)
+        
         self.dashboard_mainWindow = dashboard_mainWindow
+
+        self.is_updating_table = False  # Flag to track if the table is being updated
 
         self.collection = self.connect_to_db('products_items')
 
         self.load_filters()
 
-        # Initialize Inventory Monitor
-        self.products_monitor = InventoryMonitor("products_items")
-        self.products_monitor.start_listener_in_background()
-        self.products_monitor.data_changed_signal.connect(self.update_all)
+        self.load_monitors()
 
         # Call update_all function to populate table once
         self.update_all()
         self.load_button_connections()
+
+    def load_monitors(self):
+        """load collection monitors"""
+        self.products_monitor = InventoryMonitor("products_items")
+        self.products_monitor.start_listener_in_background()
+        self.products_monitor.data_changed_signal.connect(self.update_all)
 
     def print_btn_clicked(self):
         print(f"Print button clicked.")
@@ -350,10 +356,6 @@ class ItemsPage(QWidget, items_page):
 
     def add_to_archive(self, product_id):
         os.system('cls')
-
-        if not self.object_id:
-            print('Object ID is empty')
-            return
         
         print(f'Received account id: {product_id}')
         
@@ -373,9 +375,6 @@ class ItemsPage(QWidget, items_page):
 
         if reply == 1:
             print('Clicked yes')
-
-            # Get the ObjectId of the account to be deleted
-            self.collection.delete_one({'_id': self.object_id})
 
             # Remove the row from the table
             row_index = selected_rows[0].row()
@@ -459,74 +458,80 @@ class ItemsPage(QWidget, items_page):
         return result
     
     def update_table(self):
+        print('Loading inventory table')
         table = self.tableWidget
-        table.setSortingEnabled(True)
+
+        # Set the flag to indicate the table is being updated
+        self.is_updating_table = True
+
+        # Temporarily block signals to prevent itemChanged from being emitted during table population
+        table.blockSignals(True) 
+
         table.setRowCount(0)  # Clear the table
         table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers)
-        
-        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+
+        table.verticalHeader().setDefaultSectionSize(50)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setStyleSheet("""
-        QTableWidget{
-        border-radius: 5px;
-        background-color: #fff;
-        color: #000;
-        }
-        QHeaderView:Section{
-        background-color: #228B22;
-        color: #fff;               
-        font: bold 10pt "Noto Sans";
-        }
-        QTableWidget::item {
-            border: none;  /* Remove border from each item */
-            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
-        }
-        QTableWidget::item:selected {
-            color: #000;  /* Change text color */
-            background-color: #E7E7E7;  /* Optional: Change background color */
-        }
-            QScrollBar:vertical {
-                border: none;
-                background: #0C959B;
-                width: 13px;
-                margin: 0px 0px 0px 0px;
+            QTableWidget{
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
             }
-            QScrollBar::handle:vertical {
-                background: #002E2C;
-                border-radius: 7px;
-                min-height: 30px;
+            QHeaderView:Section{
+            background-color: #228B22;
+            color: #fff;               
+            font: bold 10pt "Noto Sans";
             }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-                background: none;
+            QTableWidget::item {
+                border: none;  /* Remove border from each item */
+                padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
             }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-                background: #0C959B;
+            QTableWidget::item:selected {
+                color: #000;  /* Change text color */
+                background-color: #E7E7E7;  /* Optional: Change background color */
             }
-            QScrollBar:horizontal {
-                border: none;
-                background: #f0f0f0;
-                height: 14px;
-                margin: 0px 0px 0px 0px;
-            }
-            QScrollBar::handle:horizontal {
-                background: #555;
-                border-radius: 7px;
-                min-width: 30px;
-            }
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                width: 0px;
-                background: none;
-            }
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: #f0f0f0;
-            }
+                QScrollBar:vertical {
+                    border: none;
+                    background: #0C959B;
+                    width: 13px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #002E2C;
+                    border-radius: 7px;
+                    min-height: 30px;
+                }
+                QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                    height: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: #0C959B;
+                }
+                QScrollBar:horizontal {
+                    border: none;
+                    background: #f0f0f0;
+                    height: 14px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:horizontal {
+                    background: #555;
+                    border-radius: 7px;
+                    min-width: 30px;
+                }
+                QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                    width: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                    background: #f0f0f0;
+                }
         """)
 
         vertical_header = table.verticalHeader()
         vertical_header.hide()
-        # header json directory
         header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
         with open(header_dir, 'r') as f:
@@ -540,11 +545,12 @@ class ItemsPage(QWidget, items_page):
         header.setDragEnabled(True)
         header.setFixedHeight(40)
 
-        # set width of all the columns
         for column in range(table.columnCount()):
-            table.setColumnWidth(column, 150)
+            if column == 0:
+                table.setColumnWidth(column, 20)
+            else:
+                table.setColumnWidth(column, 150)
 
-        # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
         cylinder_size = self.cylinderSize_comboBox.currentText()
@@ -558,81 +564,165 @@ class ItemsPage(QWidget, items_page):
             filter['stock_level'] = stock_level
 
         data = list(self.get_products_data(filter))
-        # data = list(self.collection.find(filter).sort("_id", -1))
-        
+
         for row, item in enumerate(data):
-            table.setRowCount(row + 1)  # Add a new row for each item
+            table.setRowCount(row + 1)
             for column, header in enumerate(self.header_labels):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
 
-                if value is not None:
+                if column == 0:  # Add checkbox to the first column
+                    check_box = QCheckBox()
+                    check_box.setChecked(False)  # Set initial checkbox state (unchecked)
+
+                    # Create a layout to center the checkbox
+                    layout = QHBoxLayout()
+                    layout.addWidget(check_box)
+                    layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                    
+                    # Create a QWidget to hold the layout and set it as the cell widget
+                    widget = QWidget()
+                    widget.setLayout(layout)
+                    table.setCellWidget(row, column, widget)
+
+                elif value is not None:
+                    # For other columns, format the value (price, etc.)
                     if header == 'sellingprice' or header == 'supplierprice' or header == 'totalvalue':
-                        # Format value as price
                         formatted_price = f"₱ {int(value):,.2f}" if value else ""
                         value = formatted_price
 
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                    
                     table.setItem(row, column, table_item)
 
+        # table.hideColumn(0) # column for remove product
+        table.hideColumn(1) # column for product id
+
+        # Unblock signals after table is populated
+        table.blockSignals(False)
+        # Reset the flag once the table is updated
+        self.is_updating_table = False
+
+        # Now, connect the itemChanged signal to the handler function after loading is done
         table.itemChanged.connect(self.price_table_item_changed)
-        table.hideColumn(0)
+
+    def get_row_data(self):
+        """Get all the checked rows in the table."""
+        checked_rows = []
+        for row in range(self.tableWidget.rowCount()):
+            # Get the checkbox widget from the first column
+            checkbox_widget = self.tableWidget.cellWidget(row, 0)
+
+            if checkbox_widget:
+                # Extract the QCheckBox from the widget
+                check_box = checkbox_widget.layout().itemAt(0).widget()
+
+                # Check if the checkbox is checked
+                if check_box.isChecked():
+                    row_data = {}
+                    # Get quantity and price values
+                    quantity_widget = self.tableWidget.item(row, 1)  # Assuming quantity is in column 1
+                    price_widget = self.tableWidget.item(row, 2)     # Assuming price is in column 2
+
+                    # Retrieve the text (or data) from quantity and price cells
+                    row_data['Row'] = row
+                    row_data['product_id'] = quantity_widget.text() if quantity_widget else ''
+                    row_data['brand'] = price_widget.text() if price_widget else ''
+
+                    checked_rows.append(row_data)
+
+        return checked_rows
+
+    def remove_button_clicked(self):
+        """handle click event for the remove products button"""
+        checked_rows = self.get_row_data()
+        print(f'Checked Rows: {checked_rows}')
+
+        # extract all the product id
+        product_ids = []
+        for data in checked_rows:
+            print(data['product_id'])
+            product_ids.append(data['product_id'])
+
+        if product_ids:
+            result = CustomMessageBox.show_message('question', 'Archive', 'The selected products will be archived. Are you sure?')
+            if result == 1:
+                for id in product_ids:
+                    self.add_to_archive(id)
+
+
 
     def price_table_item_changed(self, item):
-        """Handles the price table item changed event."""
-        print(f"Item changed at Row: {item.row()}, Column: {item.column()}")
-        print(f"New Value: {item.text()}")
-
+        """Handles the price table item changed event"""
         try:
+            if self.is_updating_table:
+                # If the table is being updated, don't handle item changes
+                print('Table is being updated, ignoring item change.')
+                return
+
+            self.tableWidget.blockSignals(True)  # Temporarily block signals to avoid recursion
+
             new_value = item.text()
             column = item.column()
             row = item.row()
-            print(f'Column: {column}')
-        except ValueError:
-            # If the conversion fails, show an error and exit
-            CustomMessageBox.show_message('critical', 'Error', 'Invalid price value')
-            print(f'Error: Invalid value for price: {item.text()}')
-            return  # Exit early if the value is not a valid number
 
-        # Get product id and header
-        product_id = self.tableWidget.item(row, 0)
-        header = self.tableWidget.horizontalHeaderItem(column)
-        print(f'PAKENING PRODUCT ID: {product_id.text()}')
+            print(f"Item changed: Row {row}, Column {column}, New Value: {new_value}")
 
-        if product_id:  # Check if product id exists
-            product_id_value = product_id.text()
+            product_id = self.tableWidget.item(row, 0).text()
+            header = self.tableWidget.horizontalHeaderItem(column)
+            cleaned_header = header.text().replace(' ', '_').lower()
 
-            # Update the price if the header matches
-            if header and header.text() in ['Selling Price', 'Supplier Price']:
-                # Confirm with the user before updating
-                question = CustomMessageBox.show_message('question', f'Update {header.text()} value', 
-                                                        f'Are you sure you want to update the {header.text()} value for product {product_id_value} to {new_value}?')
-                if question == 1:  # User confirmed the update
+            print(f"Product ID: {product_id}, Header: {cleaned_header}")
+
+            if product_id:
+                if cleaned_header == 'quantity_in_stock':
                     try:
-                        # Choose the field based on the header
-                        field = 'price_per_unit' if header.text() == 'Selling Price' else 'supplier_price'
-                        
-                        # Prepare filter and update query
-                        filter = {'product_id': product_id_value}
-                        update = {'$set': {field: float(new_value)}}  # Update the price (as float)
-
-                        # Perform the update in the database
+                        total_value = self.calculate_total_value_from_quantity(product_id, new_value)
+                        filter = {'product_id': product_id}
+                        update = {"$set": {cleaned_header: int(new_value), "total_value": total_value}}
                         self.connect_to_db('products_items').update_one(filter, update)
-
-                        # Show success message
-                        CustomMessageBox.show_message('information', 'Price Update', f'{header.text()} Updated Successfully!')
-
-                        # Temporarily disconnect the signal to prevent re-triggering the function during reload
-                        self.tableWidget.itemChanged.disconnect(self.price_table_item_changed)
-
-                        # Reload the table (refresh the data)
-                        self.update_table()
-
                     except Exception as e:
-                        print(f'Error updating data: {e}')
+                        print(f'Error: {e}')
+                elif cleaned_header == 'selling_price':
+                    try:
+                        total_value = self.calculate_total_value_from_selling_price(product_id, new_value)
+                        filter = {'product_id': product_id}
+                        update = {"$set": {"price_per_unit": float(new_value), "total_value": total_value}}
+                        self.connect_to_db('products_items').update_one(filter, update)
+                    except Exception as e:
+                        print(f'Error: {e}')
+                elif cleaned_header == 'supplier_price':
+                    try:
+                        filter = {'product_id': product_id}
+                        update = {"$set": {"supplier_price": float(new_value)}}
+                        self.connect_to_db('products_items').update_one(filter, update)
+                    except Exception as e:
+                        print(f'Error: {e}')
+        except Exception as e:
+            print(f'Error: {e}')
+        finally:
+            self.tableWidget.blockSignals(False)  # Re-enable signals after processing
+
+    def calculate_total_value_from_quantity(self, product_id, quantity):
+        """calculate the total value"""
+        filter = {'product_id': product_id}
+        projection = {'_id': 0}
+        result = list(self.connect_to_db('products_items').find(filter, projection))
+        if result:
+            for data in result:
+                price = data.get('price_per_unit', '')
+        return float(quantity) * float(price)
+
+    def calculate_total_value_from_selling_price(self, product_id, selling_price):
+        """calculate the total value"""
+        filter = {'product_id': product_id}
+        projection = {'_id': 0}
+        result = list(self.connect_to_db('products_items').find(filter, projection))
+        if result:
+            for data in result:
+                quantity = data.get('quantity_in_stock', '')
+        return float(quantity) * float(selling_price)
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
@@ -663,3 +753,4 @@ class ItemsPage(QWidget, items_page):
         # new item button connection
         self.setItems.clicked.connect(lambda: self.open_add_product_form())
         self.print_btn.clicked.connect(lambda: self.print_btn_clicked())
+        self.remove_product_pushButton.clicked.connect(lambda: self.remove_button_clicked())
