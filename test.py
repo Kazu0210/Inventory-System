@@ -171,6 +171,6 @@ def connect_to_db(collection_name):
 #         quantity = data.get('quantity_in_stock', '')
 #         print(f'QUantity: {quantity}')
 
-cylinder_size = list(connect_to_db('products_items').distinct('cylinder_size'))
-for size in cylinder_size:
-    print(f'Size: {size}')
+# cylinder_size = list(connect_to_db('products_items').distinct('cylinder_size'))
+# for size in cylinder_size:
+#     print(f'Size: {size}')

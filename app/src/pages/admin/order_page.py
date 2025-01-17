@@ -1,19 +1,38 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel, QPushButton, QComboBox, QSpacerItem
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel, QPushButton, QComboBox, QSpacerItem, QGridLayout
 from PyQt6.QtWidgets import QSizePolicy
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
-from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
+from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor, QMouseEvent
 
 from src.ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
 from src.ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
 from src.ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
 from src.ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
 from src.ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
+from src.ui.ui_item_frame import Ui_Frame as Ui_item_frame
+
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.custom_widgets.message_box import CustomMessageBox
 
 import pymongo, json, re
 from pymongo import DESCENDING
 from datetime import datetime
+
+class ClickableFrame(QFrame, Ui_item_frame):
+    add_to_cart_signal = pyqtSignal(bool, str) # add to cart signal
+
+    def __init__(self, product_id):
+        super().__init__()
+        self.setupUi(self)
+        self.setFrameShape(QFrame.Shape.StyledPanel)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        self.product_id = product_id
+
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.MouseButton.LeftButton:
+            print("Frame clicked!")
+            print(f'Product ID: {self.product_id}')
+            self.add_to_cart_signal.emit(True, self.product_id)
 
 class RecentOrderItem(QFrame, Ui_recentOrderItem):
     def __init__(self):
@@ -46,7 +65,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.load_payment_status_options()
             
         self.load_order_status_options()
-        self.load_cylinder_status_options()
 
         self.update_total_orders()
 
@@ -55,19 +73,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Initialize the form with the provided order_id
         self.order_id = self.generate_order_id()
 
-        # Connect signals to slots for automatic calculation
-        self.quantity_box.valueChanged.connect(self.calculate_total_amount)  # When quantity changes
-        self.price_input.textChanged.connect(self.calculate_total_amount)  # When price changes
-        self.productName_comboBox.currentTextChanged.connect(self.update_cylinder_size) # Change cylinder size when name changes
-        self.cylindersize_box.currentTextChanged.connect(lambda: self.update_price()) # Change price
-
-        # Button connections
-        self.addItem_btn.clicked.connect(self.save_form)
         self.finalize_order_pushButton.clicked.connect(lambda: self.confirm_button_clicked())
         self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
-
-        self.add_product_name()
-        self.reset_quantity_box()
 
         # Initialize Inventory Monitor
         self.product_monitor = InventoryMonitor('products_items')
@@ -92,6 +99,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.load_orders_table()
 
         self.load_menu()
+
+        
 
     def load_menu(self):
         """load products into scrollbar"""
@@ -133,6 +142,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             border-radius: 5px;
             }
             """)
+            button.clicked.connect(lambda checked, s=size: self.menu_button_clicked(s))
 
             layout.addWidget(button)
 
@@ -140,9 +150,56 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         layout.addItem(spacer)
 
-            
+    def menu_button_clicked(self, size):
+        """Handle menu button click event"""
+        print(f'{size} button clicked')
 
+        # Retrieve the size from the button
+        cylinder_size = size
 
+        # Ensure the scroll area has a layout (check for None)
+        layout = self.products_scrollArea_WidgetContents.layout()
+        if layout is None:
+            layout = QGridLayout()
+            self.products_scrollArea_WidgetContents.setLayout(layout)
+            self.products_scrollArea_WidgetContents.setContentsMargins(0,0,0,0)
+
+        # Clear the current layout if it exists
+        for i in reversed(range(layout.count())):
+            widget_to_remove = layout.itemAt(i).widget()
+            if widget_to_remove is not None:
+                widget_to_remove.deleteLater()
+
+        # Get the products for the selected size
+        filter = {'cylinder_size': cylinder_size}
+        products = list(self.connect_to_db('products_items').find(filter))
+        
+        row = 0
+        column = 0
+        for product in products:
+            print(f'Product: {product}')
+            product_id = product['product_id']
+            brand = product['product_name']
+            cylinder_size = product['cylinder_size']
+            price = product['price_per_unit']
+
+            # Create a new clickable frame
+            item_frame = ClickableFrame(product_id)
+            item_frame.setFixedSize(165, 75)
+            item_frame.brand_label.setText(brand)
+            item_frame.size_label.setText(str(cylinder_size))
+            item_frame.add_to_cart_signal.connect(lambda boolean, data: self.save_form(data))
+            formatted_price = f"₱ {price:,.2f}"
+            item_frame.price_label.setText(str(formatted_price))
+            # Add the frame to the grid layout in a 3-column format
+            layout.addWidget(item_frame, row, column)
+
+            # Update row and column to keep the grid in 3 columns
+            column += 1
+            if column == 3:  # Once 3 columns are filled, move to the next row
+                column = 0
+                row += 1
+                 
     def load_orders_table(self, page=0, rows_per_page=10):
         """Load prices current price on the prices table with pagination."""
         self.current_page = page  # Keep track of the current page
@@ -795,7 +852,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     
     def update_order_widgets(self):
         """Update all the widgets that connected to the products items db"""
-        self.add_product_name()
         self.update_cart()
         self.display_recent_orders()
         self.update_total_orders()
@@ -1015,7 +1071,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         """Returns current date for the order"""
         return datetime.now().strftime("%Y-%m-%d")
         
-
     def get_product_id(self, product_name, cylinder_size):
         product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
         if product_data:
@@ -1183,16 +1238,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
         return client[db][collection_name]
-    
-    def reset_quantity_box(self):
-        self.quantity_box.setValue(1)
 
-    def add_product_name(self):
-        # fill the comboBox for product name
-        product_name = self.connect_to_db('products_items').find({}, {"product_name": 1, "_id": 0}) # get all the product names on the db only
-
-        product_name_list = [product['product_name'] for product in product_name]
-        self.productName_comboBox.addItems(list(set(product_name_list))) # add names to the comboBox
         
     def generate_order_id(self):
         new_order_id = str(self.connect_to_db("orders").estimated_document_count() + 1).zfill(3)
@@ -1212,22 +1258,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         except (FileNotFoundError, json.JSONDecodeError) as e:
             print(f"Error loading payment status options: {e}")
             CustomMessageBox.show_message('warning', 'Error', 'Could not load payment status options')
-    
-    def load_cylinder_status_options(self):
-        try:
-            filter_dir = "D:/Inventory-System/app/resources/config/filters_box.json"
-
-            with open(filter_dir, 'r') as f:
-                data = json.load(f)
-
-            self.cylindersize_box.clear()
-            for status in data['cylinder_size']:
-
-                self.cylindersize_box.addItem(list(status.values())[0])
-                
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Error loading cylinder status options: {e}")
-            CustomMessageBox.show_message('warning', 'Error', 'Could not load cylinder status options')
 
     def load_order_status_options(self):
         try:
@@ -1256,22 +1286,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             self.amount_input.setText("0.00")
             CustomMessageBox.show_message('warning', 'Error', 'Please enter a valid number for price')
 
-    def update_total_value(self):
-        try:
-            product_name = self.productName_comboBox.currentText()
-            quantity = self.quantity_box.value()
-            price = float(self.price_input.text() or "0.0")
-            total_amount = quantity * price
-            self.amount_input.setText(f"{total_amount:.2f}")
-            product_data = self.connect_to_db('products_items').find_one({"product_name": product_name})
-            if product_data:
-                current_total_value = product_data.get("total_value", 0)
-                new_total_value = current_total_value + total_amount
-                self.connect_to_db('products_items').update_one({"product_name": product_name}, {"$set": {"total_value": new_total_value}})
-        except Exception as e:
-            print(f"An error occurred while updating the total value: {e}")
-            CustomMessageBox.show_message('critical', 'Error', 'An error occurred while updating the total value')
-
     def reduce_quantity(self):
         try:
             product_name = self.productName_comboBox.currentText()
@@ -1286,33 +1300,38 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             print(f"An error occurred while reducing the quantity: {e}")
             CustomMessageBox.show_message('critical', 'Error', 'An error occurred while reducing the quantity')
 
-    
-
-    def save_form(self):
-        """Save the order data after validating the input."""
+    def save_form(self, product_id):
+        """Save the order data to cart collection after validating the input."""
         try:
-            # Collect the input data
-            product_name = self.productName_comboBox.currentText()
-            customer_name = self.customer_name_lineEdit.text().strip()
-            quantity = self.quantity_box.value()
-            price = float(self.price_input.text().strip() or "0.0")
-            order_date = self.order_date_label.text()
-            order_status = self.status_box.currentText()
-            delivery_address = self.delivery_address_plainTextEdit.toPlainText()
-            payment_status = self.payment_box.currentText()
-            contact_info = self.contact_info.text().strip()
-            order_note = self.note_input.toPlainText()
-            total_amount = float(self.amount_input.text() or "0.0")
+            # get data using product id
+            product_data = list(self.connect_to_db('products_items').find({'product_id': product_id}))
+            for data in product_data:
+                print(f'PAKENING DATA NA PAPUNTA NG CART: {data["product_name"]}')
 
-            
+            product_name = data['product_name']
+            quantity = 1
+            price = data['price_per_unit']
+            size = data['cylinder_size']
+            # Collect the input data
+            # product_name = self.productName_comboBox.currentText()
+            # customer_name = self.customer_name_lineEdit.text().strip()
+            # quantity = self.quantity_box.value()
+            # price = float(self.price_input.text().strip() or "0.0")
+            # order_date = self.order_date_label.text()
+            # order_status = self.status_box.currentText()
+            # delivery_address = self.delivery_address_plainTextEdit.toPlainText()
+            # payment_status = self.payment_box.currentText()
+            # contact_info = self.contact_info.text().strip()
+            # order_note = self.note_input.toPlainText()
+            # total_amount = float(self.amount_input.text() or "0.0")
 
             order_data = {
-                "product_id": self.get_product_id(self.productName_comboBox.currentText(), self.cylindersize_box.currentText()),
+                "product_id": product_id,
                 "product_name": product_name,
-                "cylinder_size": self.cylindersize_box.currentText(),
+                "cylinder_size": size,
                 "quantity": quantity,
                 "price": price, 
-                "total_amount": total_amount
+                "total_amount": int(quantity) * int(price)
             }
 
             # Check if a record with the same product name and cylinder size exists
@@ -1336,9 +1355,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             else:
                 # If the item does not exist, insert it as a new order
                 self.connect_to_db('cart').insert_one(order_data)
-
-            # Update total value (no stock reduction)
-            self.update_total_value()
         except Exception as e:
             print(f"Error saving form: {e}")
 

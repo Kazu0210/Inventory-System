@@ -8,7 +8,6 @@ from src.ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
 from src.ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
 from src.ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item
 from src.ui.final_ui.ordered_products_table_item import Ui_Frame as Ui_ordered_products_table_item
-from src.pages.admin.new_order_page import AddOrderForm
 from src.utils.Inventory_Monitor import InventoryMonitor
 
 import pymongo, json, re, os

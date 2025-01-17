@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Frame</class>
+ <widget class="QFrame" name="Frame">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>163</width>
+    <height>71</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+font: 10pt &quot;Noto Sans&quot;;
+background-color: transparent;
+}
+#Frame{
+background-color: white;
+border-radius: 5px;
+border: 1px solid black;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>5</number>
+   </property>
+   <property name="leftMargin">
+    <number>9</number>
+   </property>
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="rightMargin">
+    <number>9</number>
+   </property>
+   <property name="bottomMargin">
+    <number>9</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>5</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="brand_label">
+        <property name="styleSheet">
+         <string notr="true">font: 87 12pt &quot;Noto Sans Black&quot;;
+color: #333333;</string>
+        </property>
+        <property name="text">
+         <string>Brand</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="size_label">
+        <property name="styleSheet">
+         <string notr="true">color: #333333;
+font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Cylinder Size</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+    <widget class="QLabel" name="price_label">
+     <property name="styleSheet">
+      <string notr="true">font: 63 11pt &quot;Noto Sans SemiBold&quot;;
+color: green;</string>
+     </property>
+     <property name="text">
+      <string>Price</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
