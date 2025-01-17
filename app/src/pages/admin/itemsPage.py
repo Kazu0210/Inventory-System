@@ -355,58 +355,29 @@ class ItemsPage(QWidget, items_page):
             self.clearPreviewSection()
 
     def add_to_archive(self, product_id):
-        os.system('cls')
-        
-        print(f'Received account id: {product_id}')
+        print(f'Received product id: {product_id}')
         
         # products archive collection
         archive_collection = self.connect_to_db('product_archive')
 
-        data = list(self.collection.find({"product_id": product_id}, {"_id": 0}))
-        print(f'Data collected using the Account id: {product_id}: {data}')
-        
-        selected_rows = self.tableWidget.selectionModel().selectedRows()
+        data_from_products_collection = list(self.connect_to_db('products_items').find({"product_id": product_id}, {"_id": 0}))
+        print(f'Data collected using the Account id: {product_id}: {data_from_products_collection}')
 
-        reply = CustomMessageBox.show_message(
-            'question',
-            "Archive Confirmation",
-            "Are you certain you want to add this product to the archive?",
-        )
+        try:
+            # If data is a list, iterate over each dictionary
+            if isinstance(data_from_products_collection, list):
+                for item in data_from_products_collection:
+                    item['inventory_status'] = "Inactive"
+                    archive_collection.insert_one(item)
+            else:
+                # If data_from_products_collection is a single dictionary, update it directly
+                data_from_products_collection['inventory_status'] = "Inactive"
+                archive_collection.insert_one(data_from_products_collection)
+            self.update_table()
 
-        if reply == 1:
-            print('Clicked yes')
-
-            # Remove the row from the table
-            row_index = selected_rows[0].row()
-            self.tableWidget.removeRow(row_index)
-
-            print(f"DATA NA KELANGAN KOOO: {data}")
-
-            print(f'BAGONG DATA: {data}')
-
-            try:
-                # If data is a list, iterate over each dictionary
-                if isinstance(data, list):
-                    for item in data:
-                        item['inventory_status'] = "Inactive"
-                        archive_collection.insert_one(item)
-                else:
-                    # If data is a single dictionary, update it directly
-                    data['inventory_status'] = "Inactive"
-                    archive_collection.insert_one(data)
-            except Exception as e:
-                print(f"Error adding to archive: {e}")
-
-            # Update the selected_row variable
-            self.selected_row = None
-
-            # Clear the account information section
-            # self.username_label.setText("")
-            # self.fname_label.setText("")
-            # self.lname_label.setText("")
-            # self.pass_label.setText("")
-            # self.job_label.setText("")
-            # self.usertype_label.setText("")
+            self.connect_to_db('products_items').delete_one({'product_id': product_id})
+        except Exception as e:
+            print(f'Error: {e}')
         
     def restockProduct(self, product_data):
         print(f'Restock button clicked.')
@@ -575,6 +546,25 @@ class ItemsPage(QWidget, items_page):
                 if column == 0:  # Add checkbox to the first column
                     check_box = QCheckBox()
                     check_box.setChecked(False)  # Set initial checkbox state (unchecked)
+                    check_box.setStyleSheet("""
+                        QCheckBox {
+                            font-size: 16px;
+                            color: #2c3e50;
+                            spacing: 10px;
+                        }
+                        QCheckBox::indicator {
+                            width: 10px;
+                            height: 10px;
+                        }
+                        QCheckBox::indicator:checked {
+                            background-color: #27ae60;
+                            border: 2px solid #2ecc71;
+                        }
+                        QCheckBox::indicator:unchecked {
+                            background-color: #ecf0f1;
+                            border: 2px solid #bdc3c7;
+                        }
+                    """)
 
                     # Create a layout to center the checkbox
                     layout = QHBoxLayout()
@@ -669,7 +659,7 @@ class ItemsPage(QWidget, items_page):
 
             print(f"Item changed: Row {row}, Column {column}, New Value: {new_value}")
 
-            product_id = self.tableWidget.item(row, 0).text()
+            product_id = self.tableWidget.item(row, 1).text()
             header = self.tableWidget.horizontalHeaderItem(column)
             cleaned_header = header.text().replace(' ', '_').lower()
 
