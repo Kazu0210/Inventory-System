@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel, QPushButton, QComboBox
+from PyQt6.QtWidgets import QMessageBox, QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFrame, QVBoxLayout, QLabel, QPushButton, QComboBox, QSpacerItem
+from PyQt6.QtWidgets import QSizePolicy
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor
 
@@ -89,6 +90,57 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.display_recent_orders()
         self.load_orders_table()
+
+        self.load_menu()
+
+    def load_menu(self):
+        """load products into scrollbar"""
+        # load menu's sidebar
+        self.load_menu_side_bar()
+
+    def load_menu_side_bar(self):
+        """get all the available cylinder sizes"""
+        # Remove existing labels
+        for label in self.labels:
+            self.menu_scrollArea_WidgetContents.removeWidget(label)
+            label.deleteLater()
+        self.labels.clear()
+
+        # Get or set a layout for the widget
+        layout = self.menu_scrollArea_WidgetContents.layout()
+        if layout is None:
+            layout = QVBoxLayout(self.menu_scrollArea_WidgetContents)
+            layout.setContentsMargins(0, 0, 0, 0)
+            self.menu_scrollArea_WidgetContents.setLayout(layout)
+
+        # Clear the layout by removing all items
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+
+        cylinder_sizes = self.connect_to_db('products_items').distinct('cylinder_size')
+        for size in cylinder_sizes:
+            button = QPushButton(f'{size}')
+            button.setFixedHeight(30)
+            button.setCursor(Qt.CursorShape.PointingHandCursor)
+            button.setStyleSheet("""
+            QPushButton{
+            background-color: #32CD32;
+            color: #fff;
+            font: 87 10pt "Noto Sans Black";
+            border-radius: 5px;
+            }
+            """)
+
+            layout.addWidget(button)
+
+        # Add a vertical spacer
+        spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        layout.addItem(spacer)
+
+            
 
 
     def load_orders_table(self, page=0, rows_per_page=10):

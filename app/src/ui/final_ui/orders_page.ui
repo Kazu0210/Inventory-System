@@ -124,9 +124,9 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-886</y>
         <width>1084</width>
-        <height>1072</height>
+        <height>1577</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1659,6 +1659,97 @@ border-radius: 5px;</string>
                  <height>500</height>
                 </size>
                </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">#frame{
+background-color: #fff;
+border-radius: 5px;
+}</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="topMargin">
+              <number>9</number>
+             </property>
+             <property name="rightMargin">
+              <number>9</number>
+             </property>
+             <property name="bottomMargin">
+              <number>9</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="menu_scrollArea">
+               <property name="maximumSize">
+                <size>
+                 <width>170</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="menu_scrollArea_WidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>170</width>
+                  <height>482</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </item>
+             <item>
+              <widget class="QScrollArea" name="products_scrollArea">
+               <property name="styleSheet">
+                <string notr="true">#products_scrollArea{
+background-color: 808080;
+border-radius: 5px;
+}</string>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="products_scrollArea_WidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>518</width>
+                  <height>482</height>
+                 </rect>
+                </property>
+               </widget>
               </widget>
              </item>
             </layout>

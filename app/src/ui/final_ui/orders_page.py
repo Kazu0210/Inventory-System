@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\orders_page.ui'
+# Form implementation generated from reading ui file 'orders_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -103,7 +103,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1084, 1072))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -886, 1084, 1577))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -637,6 +637,42 @@ class Ui_Form(object):
         self.orders_tableWidget.setRowCount(0)
         self.verticalLayout_3.addWidget(self.orders_tableWidget)
         self.verticalLayout_5.addWidget(self.orders_table_frame)
+        self.frame = QtWidgets.QFrame(parent=self.frame_2)
+        self.frame.setMinimumSize(QtCore.QSize(0, 500))
+        self.frame.setMaximumSize(QtCore.QSize(16777215, 500))
+        self.frame.setStyleSheet("#frame{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout.setContentsMargins(9, 9, 9, 9)
+        self.horizontalLayout.setSpacing(5)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.menu_scrollArea = QtWidgets.QScrollArea(parent=self.frame)
+        self.menu_scrollArea.setMaximumSize(QtCore.QSize(170, 16777215))
+        self.menu_scrollArea.setWidgetResizable(True)
+        self.menu_scrollArea.setObjectName("menu_scrollArea")
+        self.menu_scrollArea_WidgetContents = QtWidgets.QWidget()
+        self.menu_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 170, 482))
+        self.menu_scrollArea_WidgetContents.setObjectName("menu_scrollArea_WidgetContents")
+        self.menu_scrollArea.setWidget(self.menu_scrollArea_WidgetContents)
+        self.horizontalLayout.addWidget(self.menu_scrollArea)
+        self.products_scrollArea = QtWidgets.QScrollArea(parent=self.frame)
+        self.products_scrollArea.setStyleSheet("#products_scrollArea{\n"
+"background-color: 808080;\n"
+"border-radius: 5px;\n"
+"}")
+        self.products_scrollArea.setWidgetResizable(True)
+        self.products_scrollArea.setObjectName("products_scrollArea")
+        self.products_scrollArea_WidgetContents = QtWidgets.QWidget()
+        self.products_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 518, 482))
+        self.products_scrollArea_WidgetContents.setObjectName("products_scrollArea_WidgetContents")
+        self.products_scrollArea.setWidget(self.products_scrollArea_WidgetContents)
+        self.horizontalLayout.addWidget(self.products_scrollArea)
+        self.verticalLayout_5.addWidget(self.frame)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout_5.addItem(spacerItem1)
         self.horizontalLayout_17.addWidget(self.frame_2)

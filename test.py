@@ -162,11 +162,15 @@ def connect_to_db(collection_name):
 #     if size != 'Show All':
 #         print(f'Size: {size}')
 
-filter = {'product_id': "LPG152583"}
-projection = {'_id': 0}
-result = list(connect_to_db('products_items').find(filter, projection))
-print(F"DA PAKENING RESULT: {result}")
-if result:
-    for data in result:
-        quantity = data.get('quantity_in_stock', '')
-        print(f'QUantity: {quantity}')
+# filter = {'product_id': "LPG152583"}
+# projection = {'_id': 0}
+# result = list(connect_to_db('products_items').find(filter, projection))
+# print(F"DA PAKENING RESULT: {result}")
+# if result:
+#     for data in result:
+#         quantity = data.get('quantity_in_stock', '')
+#         print(f'QUantity: {quantity}')
+
+cylinder_size = list(connect_to_db('products_items').distinct('cylinder_size'))
+for size in cylinder_size:
+    print(f'Size: {size}')
