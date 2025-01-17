@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QApplication, QAbstractItemView, QFileDialog
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QCheckBox, QAbstractItemView, QFileDialog, QHBoxLayout
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
 
 from fpdf import FPDF
@@ -14,40 +14,31 @@ from src.custom_widgets.message_box import CustomMessageBox
 import pymongo, os, re, json, datetime
 
 class ItemsPage(QWidget, items_page):
+    table_loading_signal = pyqtSignal(str)
+
     def __init__(self, username, dashboard_mainWindow):
-        super().__init__()
+        super().__init__()  
         self.setupUi(self)
+        
         self.dashboard_mainWindow = dashboard_mainWindow
 
-        # new item button connection
-        self.setItems.clicked.connect(lambda: self.open_add_product_form())
-        self.print_btn.clicked.connect(lambda: self.print_btn_clicked())
+        self.is_updating_table = False  # Flag to track if the table is being updated
 
         self.collection = self.connect_to_db('products_items')
 
-        # self.tableWidget.itemSelectionChanged.connect(self.on_row_clicked)
-        # self.tableWidget.itemClicked.connect(self.on_item_clicked)
-        # self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        # self.tableWidget.setShowGrid(False)
-        # self.tableWidget.verticalHeader().setVisible(False)
-
-        # hide button
-        # self.HideButtons()
-
-        # Call function that load all the filters once
         self.load_filters()
 
-        # Initialize Inventory Monitor
-        self.products_monitor = InventoryMonitor("products_items")
-        self.products_monitor.start_listener_in_background()
-        self.products_monitor.data_changed_signal.connect(self.update_all)
+        self.load_monitors()
 
         # Call update_all function to populate table once
         self.update_all()
+        self.load_button_connections()
 
-        # ComboBox connections
-        self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
-        self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
+    def load_monitors(self):
+        """load collection monitors"""
+        self.products_monitor = InventoryMonitor("products_items")
+        self.products_monitor.start_listener_in_background()
+        self.products_monitor.data_changed_signal.connect(self.update_all)
 
     def print_btn_clicked(self):
         print(f"Print button clicked.")
@@ -220,16 +211,6 @@ class ItemsPage(QWidget, items_page):
 
         return low_stock_count
 
-    # def ShowButtons(self):
-    #     self.restock_pushButton.show()
-    #     self.editProduct_pushButton.show()
-    #     self.archive_pushButton.show()
-        
-    # def HideButtons(self):
-    #     self.restock_pushButton.hide()
-    #     self.editProduct_pushButton.hide()
-    #     self.archive_pushButton.hide()
-
     def UpdateInventoryTotalValue(self):
         # Define the projection to include only the 'total_value' field
         filter_query = {"total_value": 1, "_id": 0}  # Include total_value, exclude _id
@@ -374,65 +355,29 @@ class ItemsPage(QWidget, items_page):
             self.clearPreviewSection()
 
     def add_to_archive(self, product_id):
-        os.system('cls')
-
-        if not self.object_id:
-            print('Object ID is empty')
-            return
-        
-        print(f'Received account id: {product_id}')
+        print(f'Received product id: {product_id}')
         
         # products archive collection
         archive_collection = self.connect_to_db('product_archive')
 
-        data = list(self.collection.find({"product_id": product_id}, {"_id": 0}))
-        print(f'Data collected using the Account id: {product_id}: {data}')
-        
-        selected_rows = self.tableWidget.selectionModel().selectedRows()
+        data_from_products_collection = list(self.connect_to_db('products_items').find({"product_id": product_id}, {"_id": 0}))
+        print(f'Data collected using the Account id: {product_id}: {data_from_products_collection}')
 
-        reply = CustomMessageBox.show_message(
-            'question',
-            "Archive Confirmation",
-            "Are you certain you want to add this product to the archive?",
-        )
+        try:
+            # If data is a list, iterate over each dictionary
+            if isinstance(data_from_products_collection, list):
+                for item in data_from_products_collection:
+                    item['inventory_status'] = "Inactive"
+                    archive_collection.insert_one(item)
+            else:
+                # If data_from_products_collection is a single dictionary, update it directly
+                data_from_products_collection['inventory_status'] = "Inactive"
+                archive_collection.insert_one(data_from_products_collection)
+            self.update_table()
 
-        if reply == 1:
-            print('Clicked yes')
-
-            # Get the ObjectId of the account to be deleted
-            self.collection.delete_one({'_id': self.object_id})
-
-            # Remove the row from the table
-            row_index = selected_rows[0].row()
-            self.tableWidget.removeRow(row_index)
-
-            print(f"DATA NA KELANGAN KOOO: {data}")
-
-            print(f'BAGONG DATA: {data}')
-
-            try:
-                # If data is a list, iterate over each dictionary
-                if isinstance(data, list):
-                    for item in data:
-                        item['inventory_status'] = "Inactive"
-                        archive_collection.insert_one(item)
-                else:
-                    # If data is a single dictionary, update it directly
-                    data['inventory_status'] = "Inactive"
-                    archive_collection.insert_one(data)
-            except Exception as e:
-                print(f"Error adding to archive: {e}")
-
-            # Update the selected_row variable
-            self.selected_row = None
-
-            # Clear the account information section
-            # self.username_label.setText("")
-            # self.fname_label.setText("")
-            # self.lname_label.setText("")
-            # self.pass_label.setText("")
-            # self.job_label.setText("")
-            # self.usertype_label.setText("")
+            self.connect_to_db('products_items').delete_one({'product_id': product_id})
+        except Exception as e:
+            print(f'Error: {e}')
         
     def restockProduct(self, product_data):
         print(f'Restock button clicked.')
@@ -447,38 +392,6 @@ class ItemsPage(QWidget, items_page):
         self.editPage = EditProductInformation(product_data)
         self.editPage.show()
         self.editPage.save_signal.connect(self.handleSave)
-
-    def clearPreviewSection(self):
-        self.productID_label.clear()
-        self.productName_label.clear()
-        self.cylinderSize_label.clear()
-        self.quantity_label.clear()
-        self.price_label.clear()
-        self.supplier_label.clear()
-        self.restockedDate_label.clear()
-        self.description_label.clear()
-        self.totalValue_label.clear()
-        self.status_label.clear()
-        self.stock_level_label.clear()
-        self.low_stock_threshold_label.clear()
-
-    def updatePreviewSection(self, data_dict):
-        productID = data_dict.get('product_id')
-        print(f'RECEIVED PRODUCT ID: {productID}')
-        document = self.collection.find_one({'product_id': productID})
-        print(f'DOKYUMENT: {document}')
-
-        self.productID_label.setText(document['product_id'])
-        self.productName_label.setText(document['product_name'])
-        self.cylinderSize_label.setText(document['cylinder_size'])
-        self.quantity_label.setText(str(document['quantity_in_stock']))
-        self.price_label.setText(str(document['price_per_unit']))
-        self.supplier_label.setText(document['supplier'])
-        self.restockedDate_label.setText(document['last_restocked_date'])
-        self.description_label.setText(document['description'])
-        self.totalValue_label.setText(str(document['total_value']))
-        self.status_label.setText(document['inventory_status'])
-        self.low_stock_threshold_label.setText(str(document['minimum_stock_level']))
 
     def handleSave(self, data):
         print('Edit product saved')
@@ -502,71 +415,94 @@ class ItemsPage(QWidget, items_page):
         db = "LPGTrading_DB"
         return client[db][collection_name]
 
-    def update_table(self):
-        table = self.tableWidget
-        table.setSortingEnabled(True)
-        vertical_header = table.verticalHeader()
-        vertical_header.hide()
-        table.setRowCount(0)  # Clear the table
+    def get_products_data(self, filter):
+        """Get prices data for prices table"""
+        result = list(self.connect_to_db('products_items').find(filter).sort("_id", -1))
         
+        # Rename 'product_name' to 'brand' in each item in the result
+        for item in result:
+            if 'product_name' in item:
+                item['brand'] = item.pop('product_name')  # Rename the key
+
+            if 'price_per_unit' in item:
+                item['selling_price'] = item.pop('price_per_unit')
+        return result
+    
+    def update_table(self):
+        print('Loading inventory table')
+        table = self.tableWidget
+
+        # Set the flag to indicate the table is being updated
+        self.is_updating_table = True
+
+        # Temporarily block signals to prevent itemChanged from being emitted during table population
+        table.blockSignals(True) 
+
+        table.setRowCount(0)  # Clear the table
+        table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers)
+
+        table.verticalHeader().setDefaultSectionSize(50)
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setStyleSheet("""
-        QTableWidget{
-        border-radius: 5px;
-        background-color: #fff;
-        color: #000;
-        }
-        QHeaderView:Section{
-        background-color: #228B22;
-        color: #fff;               
-        font: bold 10pt "Noto Sans";
-        }
-        QTableWidget::item {
-            border: none;  /* Remove border from each item */
-            padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
-        }
-        QTableWidget::item:selected {
-            color: #000;  /* Change text color */
-            background-color: #E7E7E7;  /* Optional: Change background color */
-        }
-            QScrollBar:vertical {
-                border: none;
-                background: #0C959B;
-                width: 13px;
-                margin: 0px 0px 0px 0px;
+            QTableWidget{
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
             }
-            QScrollBar::handle:vertical {
-                background: #002E2C;
-                border-radius: 7px;
-                min-height: 30px;
+            QHeaderView:Section{
+            background-color: #228B22;
+            color: #fff;               
+            font: bold 10pt "Noto Sans";
             }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-                background: none;
+            QTableWidget::item {
+                border: none;  /* Remove border from each item */
+                padding: 5px;  /* Optional: Adjust padding to make the items look nicer */
             }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-                background: #0C959B;
+            QTableWidget::item:selected {
+                color: #000;  /* Change text color */
+                background-color: #E7E7E7;  /* Optional: Change background color */
             }
-            QScrollBar:horizontal {
-                border: none;
-                background: #f0f0f0;
-                height: 14px;
-                margin: 0px 0px 0px 0px;
-            }
-            QScrollBar::handle:horizontal {
-                background: #555;
-                border-radius: 7px;
-                min-width: 30px;
-            }
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                width: 0px;
-                background: none;
-            }
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: #f0f0f0;
-            }
+                QScrollBar:vertical {
+                    border: none;
+                    background: #0C959B;
+                    width: 13px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #002E2C;
+                    border-radius: 7px;
+                    min-height: 30px;
+                }
+                QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                    height: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: #0C959B;
+                }
+                QScrollBar:horizontal {
+                    border: none;
+                    background: #f0f0f0;
+                    height: 14px;
+                    margin: 0px 0px 0px 0px;
+                }
+                QScrollBar::handle:horizontal {
+                    background: #555;
+                    border-radius: 7px;
+                    min-width: 30px;
+                }
+                QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                    width: 0px;
+                    background: none;
+                }
+                QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                    background: #f0f0f0;
+                }
         """)
 
-        # header json directory
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
         header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
 
         with open(header_dir, 'r') as f:
@@ -578,65 +514,205 @@ class ItemsPage(QWidget, items_page):
         header = self.tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
-
-        # set width of all the columns
-        for column in range(table.columnCount()):
-            table.setColumnWidth(column, 150)
-
-        # Set uniform row height for all rows
-        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
-
         header.setFixedHeight(40)
-        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
-        # Clean the header labels
+        for column in range(table.columnCount()):
+            if column == 0:
+                table.setColumnWidth(column, 20)
+            else:
+                table.setColumnWidth(column, 150)
+
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
         cylinder_size = self.cylinderSize_comboBox.currentText()
         stock_level = self.stock_level_comboBox.currentText()
 
         filter = {}
-
         if cylinder_size != "Show All":
             filter['cylinder_size'] = cylinder_size
 
         if stock_level != "Show All":
             filter['stock_level'] = stock_level
 
-        data = list(self.collection.find(filter).sort("_id", -1))
-        
+        data = list(self.get_products_data(filter))
+
         for row, item in enumerate(data):
-            table.setRowCount(row + 1)  # Add a new row for each item
+            table.setRowCount(row + 1)
             for column, header in enumerate(self.header_labels):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
 
-                if value is not None:
-                    if header == 'priceperunit' or header == 'totalvalue':
-                        # Format value as price
+                if column == 0:  # Add checkbox to the first column
+                    check_box = QCheckBox()
+                    check_box.setChecked(False)  # Set initial checkbox state (unchecked)
+                    check_box.setStyleSheet("""
+                        QCheckBox {
+                            font-size: 16px;
+                            color: #2c3e50;
+                            spacing: 10px;
+                        }
+                        QCheckBox::indicator {
+                            width: 10px;
+                            height: 10px;
+                        }
+                        QCheckBox::indicator:checked {
+                            background-color: #27ae60;
+                            border: 2px solid #2ecc71;
+                        }
+                        QCheckBox::indicator:unchecked {
+                            background-color: #ecf0f1;
+                            border: 2px solid #bdc3c7;
+                        }
+                    """)
+
+                    # Create a layout to center the checkbox
+                    layout = QHBoxLayout()
+                    layout.addWidget(check_box)
+                    layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                    
+                    # Create a QWidget to hold the layout and set it as the cell widget
+                    widget = QWidget()
+                    widget.setLayout(layout)
+                    table.setCellWidget(row, column, widget)
+
+                elif value is not None:
+                    # For other columns, format the value (price, etc.)
+                    if header == 'sellingprice' or header == 'supplierprice' or header == 'totalvalue':
                         formatted_price = f"₱ {int(value):,.2f}" if value else ""
                         value = formatted_price
 
-                    # Check if the field is quantityinstock and get minimum_stock_level
-                    if header == 'quantityinstock':
-                        minimum_stock_level = item.get("minimum_stock_level")  # Assuming 'minimum_stock_level' exists in the document
-
-                        table_item = QTableWidgetItem(str(value))
-                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
-
-                        # Highlight if the quantity is below the minimum stock level
-                        if value < minimum_stock_level:
-                            table_item.setForeground(QColor(255, 0, 0))  # Set text color to red, adjust RGB values as needed
-
-                    else:
-                        # For other columns
-                        table_item = QTableWidgetItem(str(value))
-                        table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                    
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     table.setItem(row, column, table_item)
+
+        # table.hideColumn(0) # column for remove product
+        table.hideColumn(1) # column for product id
+
+        # Unblock signals after table is populated
+        table.blockSignals(False)
+        # Reset the flag once the table is updated
+        self.is_updating_table = False
+
+        # Now, connect the itemChanged signal to the handler function after loading is done
+        table.itemChanged.connect(self.price_table_item_changed)
+
+    def get_row_data(self):
+        """Get all the checked rows in the table."""
+        checked_rows = []
+        for row in range(self.tableWidget.rowCount()):
+            # Get the checkbox widget from the first column
+            checkbox_widget = self.tableWidget.cellWidget(row, 0)
+
+            if checkbox_widget:
+                # Extract the QCheckBox from the widget
+                check_box = checkbox_widget.layout().itemAt(0).widget()
+
+                # Check if the checkbox is checked
+                if check_box.isChecked():
+                    row_data = {}
+                    # Get quantity and price values
+                    quantity_widget = self.tableWidget.item(row, 1)  # Assuming quantity is in column 1
+                    price_widget = self.tableWidget.item(row, 2)     # Assuming price is in column 2
+
+                    # Retrieve the text (or data) from quantity and price cells
+                    row_data['Row'] = row
+                    row_data['product_id'] = quantity_widget.text() if quantity_widget else ''
+                    row_data['brand'] = price_widget.text() if price_widget else ''
+
+                    checked_rows.append(row_data)
+
+        return checked_rows
+
+    def remove_button_clicked(self):
+        """handle click event for the remove products button"""
+        checked_rows = self.get_row_data()
+        print(f'Checked Rows: {checked_rows}')
+
+        # extract all the product id
+        product_ids = []
+        for data in checked_rows:
+            print(data['product_id'])
+            product_ids.append(data['product_id'])
+
+        if product_ids:
+            result = CustomMessageBox.show_message('question', 'Archive', 'The selected products will be archived. Are you sure?')
+            if result == 1:
+                for id in product_ids:
+                    self.add_to_archive(id)
+
+
+
+    def price_table_item_changed(self, item):
+        """Handles the price table item changed event"""
+        try:
+            if self.is_updating_table:
+                # If the table is being updated, don't handle item changes
+                print('Table is being updated, ignoring item change.')
+                return
+
+            self.tableWidget.blockSignals(True)  # Temporarily block signals to avoid recursion
+
+            new_value = item.text()
+            column = item.column()
+            row = item.row()
+
+            print(f"Item changed: Row {row}, Column {column}, New Value: {new_value}")
+
+            product_id = self.tableWidget.item(row, 1).text()
+            header = self.tableWidget.horizontalHeaderItem(column)
+            cleaned_header = header.text().replace(' ', '_').lower()
+
+            print(f"Product ID: {product_id}, Header: {cleaned_header}")
+
+            if product_id:
+                if cleaned_header == 'quantity_in_stock':
+                    try:
+                        total_value = self.calculate_total_value_from_quantity(product_id, new_value)
+                        filter = {'product_id': product_id}
+                        update = {"$set": {cleaned_header: int(new_value), "total_value": total_value}}
+                        self.connect_to_db('products_items').update_one(filter, update)
+                    except Exception as e:
+                        print(f'Error: {e}')
+                elif cleaned_header == 'selling_price':
+                    try:
+                        total_value = self.calculate_total_value_from_selling_price(product_id, new_value)
+                        filter = {'product_id': product_id}
+                        update = {"$set": {"price_per_unit": float(new_value), "total_value": total_value}}
+                        self.connect_to_db('products_items').update_one(filter, update)
+                    except Exception as e:
+                        print(f'Error: {e}')
+                elif cleaned_header == 'supplier_price':
+                    try:
+                        filter = {'product_id': product_id}
+                        update = {"$set": {"supplier_price": float(new_value)}}
+                        self.connect_to_db('products_items').update_one(filter, update)
+                    except Exception as e:
+                        print(f'Error: {e}')
+        except Exception as e:
+            print(f'Error: {e}')
+        finally:
+            self.tableWidget.blockSignals(False)  # Re-enable signals after processing
+
+    def calculate_total_value_from_quantity(self, product_id, quantity):
+        """calculate the total value"""
+        filter = {'product_id': product_id}
+        projection = {'_id': 0}
+        result = list(self.connect_to_db('products_items').find(filter, projection))
+        if result:
+            for data in result:
+                price = data.get('price_per_unit', '')
+        return float(quantity) * float(price)
+
+    def calculate_total_value_from_selling_price(self, product_id, selling_price):
+        """calculate the total value"""
+        filter = {'product_id': product_id}
+        projection = {'_id': 0}
+        result = list(self.connect_to_db('products_items').find(filter, projection))
+        if result:
+            for data in result:
+                quantity = data.get('quantity_in_stock', '')
+        return float(quantity) * float(selling_price)
 
     def clean_key(self, key):
         return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
@@ -651,10 +727,6 @@ class ItemsPage(QWidget, items_page):
         self.addProduct.show()
         # self.addProduct.save_signal.connect(self.handleSave)
 
-    
-    # def switch_to_items_page(self):
-    #     self.dashboard_mainWindow.content_window_layout.setCurrentIndex(5)
-
     def onCreateAccountBtnClicked(self):
         self.dashboard_mainWindow.content_window_layout.setCurrentIndex(0)
 
@@ -663,12 +735,12 @@ class ItemsPage(QWidget, items_page):
             self.edit_product_page.close()
             self.edit_product_page = None
 
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    Form = QWidget()
-    ui = ItemsPage(None)  # Pass `None` if there's no `dashboard_mainWindow` for standalone testing
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())
+    def load_button_connections(self):
+        """load button, comboBox etc connections"""
+        # ComboBox connections
+        self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
+        self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
+        # new item button connection
+        self.setItems.clicked.connect(lambda: self.open_add_product_form())
+        self.print_btn.clicked.connect(lambda: self.print_btn_clicked())
+        self.remove_product_pushButton.clicked.connect(lambda: self.remove_button_clicked())

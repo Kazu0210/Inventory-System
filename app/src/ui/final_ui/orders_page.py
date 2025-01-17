@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\orders_page.ui'
+# Form implementation generated from reading ui file 'orders_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(904, 708)
+        Form.resize(1154, 655)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -103,7 +103,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1084, 1072))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1137, 1215))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -115,13 +115,14 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
         self.frame_2.setSizePolicy(sizePolicy)
+        self.frame_2.setStyleSheet("")
         self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_2)
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_5.setSpacing(5)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_2)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setSpacing(5)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.frame_21 = QtWidgets.QFrame(parent=self.frame_2)
         self.frame_21.setStyleSheet("#frame_21{\n"
 "background-color: #fff;\n"
@@ -177,26 +178,326 @@ class Ui_Form(object):
         self.total_orders_label.setObjectName("total_orders_label")
         self.verticalLayout.addWidget(self.total_orders_label)
         self.horizontalLayout_18.addWidget(self.frame_22, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.verticalLayout_5.addWidget(self.frame_21)
-        self.frame_18 = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame_18.setStyleSheet("")
-        self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_18.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_18.setObjectName("frame_18")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_18)
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_4.setSpacing(0)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.frame_10 = QtWidgets.QFrame(parent=self.frame_18)
-        self.frame_10.setStyleSheet("")
-        self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_10.setObjectName("frame_10")
-        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_10)
-        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_9.setSpacing(5)
-        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.frame_29 = QtWidgets.QFrame(parent=self.frame_10)
+        self.verticalLayout_4.addWidget(self.frame_21)
+        self.frame = QtWidgets.QFrame(parent=self.frame_2)
+        self.frame.setMinimumSize(QtCore.QSize(0, 500))
+        self.frame.setMaximumSize(QtCore.QSize(16777215, 500))
+        self.frame.setStyleSheet("#frame{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout.setContentsMargins(9, 9, 9, 9)
+        self.horizontalLayout.setSpacing(5)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.menu_scrollArea = QtWidgets.QScrollArea(parent=self.frame)
+        self.menu_scrollArea.setMaximumSize(QtCore.QSize(170, 16777215))
+        self.menu_scrollArea.setWidgetResizable(True)
+        self.menu_scrollArea.setObjectName("menu_scrollArea")
+        self.menu_scrollArea_WidgetContents = QtWidgets.QWidget()
+        self.menu_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 170, 482))
+        self.menu_scrollArea_WidgetContents.setObjectName("menu_scrollArea_WidgetContents")
+        self.menu_scrollArea.setWidget(self.menu_scrollArea_WidgetContents)
+        self.horizontalLayout.addWidget(self.menu_scrollArea)
+        self.products_scrollArea = QtWidgets.QScrollArea(parent=self.frame)
+        self.products_scrollArea.setMaximumSize(QtCore.QSize(555, 482))
+        self.products_scrollArea.setStyleSheet("#products_scrollArea{\n"
+"background-color: 808080;\n"
+"border-radius: 5px;\n"
+"}\n"
+"QFrame{\n"
+"background-color: blue;\n"
+"}")
+        self.products_scrollArea.setWidgetResizable(True)
+        self.products_scrollArea.setObjectName("products_scrollArea")
+        self.products_scrollArea_WidgetContents = QtWidgets.QWidget()
+        self.products_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 555, 482))
+        self.products_scrollArea_WidgetContents.setMaximumSize(QtCore.QSize(555, 482))
+        self.products_scrollArea_WidgetContents.setObjectName("products_scrollArea_WidgetContents")
+        self.products_scrollArea.setWidget(self.products_scrollArea_WidgetContents)
+        self.horizontalLayout.addWidget(self.products_scrollArea)
+        self.verticalLayout_4.addWidget(self.frame)
+        self.orders_table_frame = QtWidgets.QFrame(parent=self.frame_2)
+        self.orders_table_frame.setMinimumSize(QtCore.QSize(750, 0))
+        self.orders_table_frame.setMaximumSize(QtCore.QSize(550, 16777215))
+        self.orders_table_frame.setStyleSheet("#orders_table_frame{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.orders_table_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.orders_table_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.orders_table_frame.setObjectName("orders_table_frame")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.orders_table_frame)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.frame_37 = QtWidgets.QFrame(parent=self.orders_table_frame)
+        self.frame_37.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_37.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_37.setObjectName("frame_37")
+        self.horizontalLayout_26 = QtWidgets.QHBoxLayout(self.frame_37)
+        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_26.setSpacing(0)
+        self.horizontalLayout_26.setObjectName("horizontalLayout_26")
+        self.label_19 = QtWidgets.QLabel(parent=self.frame_37)
+        self.label_19.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;")
+        self.label_19.setObjectName("label_19")
+        self.horizontalLayout_26.addWidget(self.label_19)
+        self.verticalLayout_3.addWidget(self.frame_37)
+        self.frame_36 = QtWidgets.QFrame(parent=self.orders_table_frame)
+        self.frame_36.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_36.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_36.setObjectName("frame_36")
+        self.horizontalLayout_27 = QtWidgets.QHBoxLayout(self.frame_36)
+        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_27.setSpacing(5)
+        self.horizontalLayout_27.setObjectName("horizontalLayout_27")
+        self.label_22 = QtWidgets.QLabel(parent=self.frame_36)
+        self.label_22.setStyleSheet("font: 87 12pt \"Noto Sans Black\";\n"
+"color: #333333;")
+        self.label_22.setObjectName("label_22")
+        self.horizontalLayout_27.addWidget(self.label_22, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.backButton_frame = QtWidgets.QFrame(parent=self.frame_36)
+        self.backButton_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.backButton_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.backButton_frame.setObjectName("backButton_frame")
+        self.horizontalLayout_28 = QtWidgets.QHBoxLayout(self.backButton_frame)
+        self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_28.setSpacing(0)
+        self.horizontalLayout_28.setObjectName("horizontalLayout_28")
+        self.back_pushButton = QtWidgets.QPushButton(parent=self.backButton_frame)
+        self.back_pushButton.setMinimumSize(QtCore.QSize(150, 30))
+        self.back_pushButton.setMaximumSize(QtCore.QSize(150, 30))
+        self.back_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.back_pushButton.setStyleSheet("background-color: #fff;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #000;\n"
+"border: 1px solid #000;\n"
+"border-radius: 5px;")
+        self.back_pushButton.setObjectName("back_pushButton")
+        self.horizontalLayout_28.addWidget(self.back_pushButton)
+        self.horizontalLayout_27.addWidget(self.backButton_frame, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.verticalLayout_3.addWidget(self.frame_36)
+        self.orders_tableWidget = QtWidgets.QTableWidget(parent=self.orders_table_frame)
+        self.orders_tableWidget.setMinimumSize(QtCore.QSize(0, 500))
+        self.orders_tableWidget.setObjectName("orders_tableWidget")
+        self.orders_tableWidget.setColumnCount(0)
+        self.orders_tableWidget.setRowCount(0)
+        self.verticalLayout_3.addWidget(self.orders_tableWidget)
+        self.verticalLayout_4.addWidget(self.orders_table_frame)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem)
+        self.horizontalLayout_17.addWidget(self.frame_2)
+        self.frame_19 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
+        self.frame_19.setStyleSheet("")
+        self.frame_19.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_19.setObjectName("frame_19")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame_19)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(5)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.frame_23 = QtWidgets.QFrame(parent=self.frame_19)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_23.sizePolicy().hasHeightForWidth())
+        self.frame_23.setSizePolicy(sizePolicy)
+        self.frame_23.setMinimumSize(QtCore.QSize(0, 300))
+        self.frame_23.setMaximumSize(QtCore.QSize(16777215, 300))
+        self.frame_23.setStyleSheet("#frame_23{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame_23.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_23.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_23.setObjectName("frame_23")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_23)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.frame_25 = QtWidgets.QFrame(parent=self.frame_23)
+        self.frame_25.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_25.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_25.setObjectName("frame_25")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_25)
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_8.setSpacing(0)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.label_15 = QtWidgets.QLabel(parent=self.frame_25)
+        self.label_15.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_15.setObjectName("label_15")
+        self.verticalLayout_8.addWidget(self.label_15)
+        self.verticalLayout_7.addWidget(self.frame_25, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.recent_orders_scrollArea = QtWidgets.QScrollArea(parent=self.frame_23)
+        self.recent_orders_scrollArea.setStyleSheet("#recent_orders_scrollArea{\n"
+"background-color: #EAEAEA;\n"
+"border: none;\n"
+"border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #555;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
+        self.recent_orders_scrollArea.setWidgetResizable(True)
+        self.recent_orders_scrollArea.setObjectName("recent_orders_scrollArea")
+        self.recent_orders_scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 364, 252))
+        self.recent_orders_scrollAreaWidgetContents.setObjectName("recent_orders_scrollAreaWidgetContents")
+        self.recent_orders_scrollArea.setWidget(self.recent_orders_scrollAreaWidgetContents)
+        self.verticalLayout_7.addWidget(self.recent_orders_scrollArea)
+        self.recent_orders_scrollArea.raise_()
+        self.frame_25.raise_()
+        self.verticalLayout_6.addWidget(self.frame_23)
+        self.frame_27 = QtWidgets.QFrame(parent=self.frame_19)
+        self.frame_27.setStyleSheet("#frame_27{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}")
+        self.frame_27.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_27.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_27.setObjectName("frame_27")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_27)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.frame_28 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_28.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_28.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_28.setObjectName("frame_28")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_28)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setSpacing(5)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.label_18 = QtWidgets.QLabel(parent=self.frame_28)
+        self.label_18.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_18.setObjectName("label_18")
+        self.horizontalLayout_3.addWidget(self.label_18)
+        self.orders_quantity_label = QtWidgets.QLabel(parent=self.frame_28)
+        self.orders_quantity_label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.orders_quantity_label.setObjectName("orders_quantity_label")
+        self.horizontalLayout_3.addWidget(self.orders_quantity_label)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem1)
+        self.verticalLayout_10.addWidget(self.frame_28)
+        self.ordered_items_scrollArea = QtWidgets.QScrollArea(parent=self.frame_27)
+        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(350, 320))
+        self.ordered_items_scrollArea.setStyleSheet("#ordered_items_scrollArea{\n"
+"background-color: #EAEAEA;\n"
+"border: none;\n"
+"border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar:hover{\n"
+" cursor: pointer;\n"
+"}\n"
+"            QScrollBar:vertical {\n"
+"                border: none;\n"
+"                background: #F0F0F0;\n"
+"                width: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:vertical {\n"
+"                background: #90A4AE;\n"
+"                border-radius: 7px;\n"
+"                min-height: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"                height: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"                background: #F0F0F0;\n"
+"            }\n"
+"            QScrollBar:horizontal {\n"
+"                border: none;\n"
+"                background: #f0f0f0;\n"
+"                height: 14px;\n"
+"                margin: 0px 0px 0px 0px;\n"
+"            }\n"
+"            QScrollBar::handle:horizontal {\n"
+"                background: #555;\n"
+"                border-radius: 7px;\n"
+"                min-width: 30px;\n"
+"            }\n"
+"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"                width: 0px;\n"
+"                background: none;\n"
+"            }\n"
+"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"                background: #f0f0f0;\n"
+"            }")
+        self.ordered_items_scrollArea.setWidgetResizable(True)
+        self.ordered_items_scrollArea.setObjectName("ordered_items_scrollArea")
+        self.orders_scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 364, 320))
+        self.orders_scrollAreaWidgetContents.setObjectName("orders_scrollAreaWidgetContents")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.orders_scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.ordered_items_scrollArea.setWidget(self.orders_scrollAreaWidgetContents)
+        self.verticalLayout_10.addWidget(self.ordered_items_scrollArea, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.frame_9 = QtWidgets.QFrame(parent=self.frame_27)
+        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.horizontalLayout_23 = QtWidgets.QHBoxLayout(self.frame_9)
+        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_23.setSpacing(0)
+        self.horizontalLayout_23.setObjectName("horizontalLayout_23")
+        self.finalize_order_pushButton = QtWidgets.QPushButton(parent=self.frame_9)
+        self.finalize_order_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.finalize_order_pushButton.setMaximumSize(QtCore.QSize(125, 30))
+        self.finalize_order_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.finalize_order_pushButton.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;")
+        self.finalize_order_pushButton.setObjectName("finalize_order_pushButton")
+        self.horizontalLayout_23.addWidget(self.finalize_order_pushButton)
+        self.verticalLayout_10.addWidget(self.frame_9)
+        self.verticalLayout_6.addWidget(self.frame_27)
+        self.frame_29 = QtWidgets.QFrame(parent=self.frame_19)
         self.frame_29.setStyleSheet("#frame_29{\n"
 "background-color: #fff;\n"
 "border-radius: 5px;\n"
@@ -377,475 +678,9 @@ class Ui_Form(object):
         self.horizontalLayout_12.addWidget(self.note_input)
         self.verticalLayout_12.addWidget(self.frame_14)
         self.verticalLayout_11.addWidget(self.frame_31)
-        self.horizontalLayout_9.addWidget(self.frame_29)
-        self.frame_32 = QtWidgets.QFrame(parent=self.frame_10)
-        self.frame_32.setStyleSheet("#frame_32{\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_32.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_32.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_32.setObjectName("frame_32")
-        self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.frame_32)
-        self.verticalLayout_13.setContentsMargins(9, 9, 9, 9)
-        self.verticalLayout_13.setSpacing(5)
-        self.verticalLayout_13.setObjectName("verticalLayout_13")
-        self.frame_33 = QtWidgets.QFrame(parent=self.frame_32)
-        self.frame_33.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_33.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_33.setObjectName("frame_33")
-        self.horizontalLayout_22 = QtWidgets.QHBoxLayout(self.frame_33)
-        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_22.setSpacing(5)
-        self.horizontalLayout_22.setObjectName("horizontalLayout_22")
-        self.label_21 = QtWidgets.QLabel(parent=self.frame_33)
-        self.label_21.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.label_21.setObjectName("label_21")
-        self.horizontalLayout_22.addWidget(self.label_21)
-        self.verticalLayout_13.addWidget(self.frame_33, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.frame_34 = QtWidgets.QFrame(parent=self.frame_32)
-        self.frame_34.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_34.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_34.setObjectName("frame_34")
-        self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.frame_34)
-        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_14.setSpacing(5)
-        self.verticalLayout_14.setObjectName("verticalLayout_14")
-        self.frame_5 = QtWidgets.QFrame(parent=self.frame_34)
-        self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_5.setObjectName("frame_5")
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_5)
-        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_5.setSpacing(5)
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.label_4 = QtWidgets.QLabel(parent=self.frame_5)
-        self.label_4.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_4.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_4.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
-        self.label_4.setObjectName("label_4")
-        self.horizontalLayout_5.addWidget(self.label_4)
-        self.productName_comboBox = QtWidgets.QComboBox(parent=self.frame_5)
-        self.productName_comboBox.setMinimumSize(QtCore.QSize(200, 30))
-        self.productName_comboBox.setMaximumSize(QtCore.QSize(200, 30))
-        self.productName_comboBox.setObjectName("productName_comboBox")
-        self.horizontalLayout_5.addWidget(self.productName_comboBox)
-        self.verticalLayout_14.addWidget(self.frame_5)
-        self.frame_6 = QtWidgets.QFrame(parent=self.frame_34)
-        self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_6)
-        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_6.setSpacing(5)
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.label_5 = QtWidgets.QLabel(parent=self.frame_6)
-        self.label_5.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_5.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_5.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
-        self.label_5.setObjectName("label_5")
-        self.horizontalLayout_6.addWidget(self.label_5)
-        self.cylindersize_box = QtWidgets.QComboBox(parent=self.frame_6)
-        self.cylindersize_box.setMinimumSize(QtCore.QSize(200, 30))
-        self.cylindersize_box.setMaximumSize(QtCore.QSize(200, 30))
-        self.cylindersize_box.setObjectName("cylindersize_box")
-        self.horizontalLayout_6.addWidget(self.cylindersize_box)
-        self.verticalLayout_14.addWidget(self.frame_6)
-        self.frame_7 = QtWidgets.QFrame(parent=self.frame_34)
-        self.frame_7.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_7.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_7.setObjectName("frame_7")
-        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_7)
-        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_7.setSpacing(5)
-        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.label_6 = QtWidgets.QLabel(parent=self.frame_7)
-        self.label_6.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_6.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_6.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
-        self.label_6.setObjectName("label_6")
-        self.horizontalLayout_7.addWidget(self.label_6)
-        self.quantity_box = QtWidgets.QSpinBox(parent=self.frame_7)
-        self.quantity_box.setMinimumSize(QtCore.QSize(200, 30))
-        self.quantity_box.setMaximumSize(QtCore.QSize(200, 30))
-        self.quantity_box.setObjectName("quantity_box")
-        self.horizontalLayout_7.addWidget(self.quantity_box)
-        self.verticalLayout_14.addWidget(self.frame_7)
-        self.frame_35 = QtWidgets.QFrame(parent=self.frame_34)
-        self.frame_35.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_35.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_35.setObjectName("frame_35")
-        self.horizontalLayout_25 = QtWidgets.QHBoxLayout(self.frame_35)
-        self.horizontalLayout_25.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_25.setSpacing(5)
-        self.horizontalLayout_25.setObjectName("horizontalLayout_25")
-        self.label_13 = QtWidgets.QLabel(parent=self.frame_35)
-        self.label_13.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_13.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_13.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"color: #808080;")
-        self.label_13.setObjectName("label_13")
-        self.horizontalLayout_25.addWidget(self.label_13)
-        self.product_quantity_available_label = QtWidgets.QLabel(parent=self.frame_35)
-        self.product_quantity_available_label.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"color: #808080;")
-        self.product_quantity_available_label.setObjectName("product_quantity_available_label")
-        self.horizontalLayout_25.addWidget(self.product_quantity_available_label)
-        self.verticalLayout_14.addWidget(self.frame_35)
-        self.frame_13 = QtWidgets.QFrame(parent=self.frame_34)
-        self.frame_13.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_13.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_13.setObjectName("frame_13")
-        self.horizontalLayout_13 = QtWidgets.QHBoxLayout(self.frame_13)
-        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_13.setSpacing(5)
-        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
-        self.label_9 = QtWidgets.QLabel(parent=self.frame_13)
-        self.label_9.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_9.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_9.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
-        self.label_9.setObjectName("label_9")
-        self.horizontalLayout_13.addWidget(self.label_9)
-        self.price_input = QtWidgets.QLineEdit(parent=self.frame_13)
-        self.price_input.setMinimumSize(QtCore.QSize(200, 30))
-        self.price_input.setMaximumSize(QtCore.QSize(200, 30))
-        self.price_input.setObjectName("price_input")
-        self.horizontalLayout_13.addWidget(self.price_input)
-        self.verticalLayout_14.addWidget(self.frame_13)
-        self.frame_16 = QtWidgets.QFrame(parent=self.frame_34)
-        self.frame_16.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_16.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_16.setObjectName("frame_16")
-        self.horizontalLayout_14 = QtWidgets.QHBoxLayout(self.frame_16)
-        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_14.setSpacing(5)
-        self.horizontalLayout_14.setObjectName("horizontalLayout_14")
-        self.label_11 = QtWidgets.QLabel(parent=self.frame_16)
-        self.label_11.setMinimumSize(QtCore.QSize(130, 0))
-        self.label_11.setMaximumSize(QtCore.QSize(130, 16777215))
-        self.label_11.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
-        self.label_11.setObjectName("label_11")
-        self.horizontalLayout_14.addWidget(self.label_11)
-        self.amount_input = QtWidgets.QLineEdit(parent=self.frame_16)
-        self.amount_input.setMinimumSize(QtCore.QSize(200, 30))
-        self.amount_input.setMaximumSize(QtCore.QSize(200, 30))
-        self.amount_input.setObjectName("amount_input")
-        self.horizontalLayout_14.addWidget(self.amount_input)
-        self.verticalLayout_14.addWidget(self.frame_16)
-        self.verticalLayout_13.addWidget(self.frame_34)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_13.addItem(spacerItem)
-        self.frame_11 = QtWidgets.QFrame(parent=self.frame_32)
-        self.frame_11.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_11.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_11.setObjectName("frame_11")
-        self.horizontalLayout_24 = QtWidgets.QHBoxLayout(self.frame_11)
-        self.horizontalLayout_24.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_24.setSpacing(5)
-        self.horizontalLayout_24.setObjectName("horizontalLayout_24")
-        self.addItem_btn = QtWidgets.QPushButton(parent=self.frame_11)
-        self.addItem_btn.setMinimumSize(QtCore.QSize(125, 30))
-        self.addItem_btn.setMaximumSize(QtCore.QSize(125, 30))
-        self.addItem_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.addItem_btn.setStyleSheet("background-color: #32CD32;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #fff;\n"
-"border: none;\n"
-"border-radius: 5px;")
-        self.addItem_btn.setObjectName("addItem_btn")
-        self.horizontalLayout_24.addWidget(self.addItem_btn)
-        self.verticalLayout_13.addWidget(self.frame_11, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.horizontalLayout_9.addWidget(self.frame_32)
-        self.verticalLayout_4.addWidget(self.frame_10, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.frame_17 = QtWidgets.QFrame(parent=self.frame_18)
-        self.frame_17.setStyleSheet("background-color: transparent;")
-        self.frame_17.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_17.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_17.setObjectName("frame_17")
-        self.horizontalLayout_15 = QtWidgets.QHBoxLayout(self.frame_17)
-        self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_15.setSpacing(5)
-        self.horizontalLayout_15.setObjectName("horizontalLayout_15")
-        self.verticalLayout_4.addWidget(self.frame_17, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTop)
-        self.verticalLayout_5.addWidget(self.frame_18)
-        self.orders_table_frame = QtWidgets.QFrame(parent=self.frame_2)
-        self.orders_table_frame.setStyleSheet("#orders_table_frame{\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"}\n"
-"*{\n"
-"background-color: transparent;\n"
-"}")
-        self.orders_table_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.orders_table_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.orders_table_frame.setObjectName("orders_table_frame")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.orders_table_frame)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.frame_37 = QtWidgets.QFrame(parent=self.orders_table_frame)
-        self.frame_37.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_37.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_37.setObjectName("frame_37")
-        self.horizontalLayout_26 = QtWidgets.QHBoxLayout(self.frame_37)
-        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_26.setSpacing(0)
-        self.horizontalLayout_26.setObjectName("horizontalLayout_26")
-        self.label_19 = QtWidgets.QLabel(parent=self.frame_37)
-        self.label_19.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;")
-        self.label_19.setObjectName("label_19")
-        self.horizontalLayout_26.addWidget(self.label_19)
-        self.verticalLayout_3.addWidget(self.frame_37)
-        self.frame_36 = QtWidgets.QFrame(parent=self.orders_table_frame)
-        self.frame_36.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_36.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_36.setObjectName("frame_36")
-        self.horizontalLayout_27 = QtWidgets.QHBoxLayout(self.frame_36)
-        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_27.setSpacing(5)
-        self.horizontalLayout_27.setObjectName("horizontalLayout_27")
-        self.label_22 = QtWidgets.QLabel(parent=self.frame_36)
-        self.label_22.setStyleSheet("font: 87 12pt \"Noto Sans Black\";\n"
-"color: #333333;")
-        self.label_22.setObjectName("label_22")
-        self.horizontalLayout_27.addWidget(self.label_22, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.backButton_frame = QtWidgets.QFrame(parent=self.frame_36)
-        self.backButton_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.backButton_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.backButton_frame.setObjectName("backButton_frame")
-        self.horizontalLayout_28 = QtWidgets.QHBoxLayout(self.backButton_frame)
-        self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_28.setSpacing(0)
-        self.horizontalLayout_28.setObjectName("horizontalLayout_28")
-        self.back_pushButton = QtWidgets.QPushButton(parent=self.backButton_frame)
-        self.back_pushButton.setMinimumSize(QtCore.QSize(150, 30))
-        self.back_pushButton.setMaximumSize(QtCore.QSize(150, 30))
-        self.back_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.back_pushButton.setStyleSheet("background-color: #fff;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #000;\n"
-"border: 1px solid #000;\n"
-"border-radius: 5px;")
-        self.back_pushButton.setObjectName("back_pushButton")
-        self.horizontalLayout_28.addWidget(self.back_pushButton)
-        self.horizontalLayout_27.addWidget(self.backButton_frame, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_3.addWidget(self.frame_36)
-        self.orders_tableWidget = QtWidgets.QTableWidget(parent=self.orders_table_frame)
-        self.orders_tableWidget.setMinimumSize(QtCore.QSize(0, 500))
-        self.orders_tableWidget.setObjectName("orders_tableWidget")
-        self.orders_tableWidget.setColumnCount(0)
-        self.orders_tableWidget.setRowCount(0)
-        self.verticalLayout_3.addWidget(self.orders_tableWidget)
-        self.verticalLayout_5.addWidget(self.orders_table_frame)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_5.addItem(spacerItem1)
-        self.horizontalLayout_17.addWidget(self.frame_2)
-        self.frame_19 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
-        self.frame_19.setStyleSheet("")
-        self.frame_19.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_19.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_19.setObjectName("frame_19")
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame_19)
-        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_6.setSpacing(5)
-        self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.frame_23 = QtWidgets.QFrame(parent=self.frame_19)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.frame_23.sizePolicy().hasHeightForWidth())
-        self.frame_23.setSizePolicy(sizePolicy)
-        self.frame_23.setMinimumSize(QtCore.QSize(0, 300))
-        self.frame_23.setMaximumSize(QtCore.QSize(16777215, 300))
-        self.frame_23.setStyleSheet("#frame_23{\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_23.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_23.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_23.setObjectName("frame_23")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_23)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.frame_25 = QtWidgets.QFrame(parent=self.frame_23)
-        self.frame_25.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_25.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_25.setObjectName("frame_25")
-        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_25)
-        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_8.setSpacing(0)
-        self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.label_15 = QtWidgets.QLabel(parent=self.frame_25)
-        self.label_15.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.label_15.setObjectName("label_15")
-        self.verticalLayout_8.addWidget(self.label_15)
-        self.verticalLayout_7.addWidget(self.frame_25, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.recent_orders_scrollArea = QtWidgets.QScrollArea(parent=self.frame_23)
-        self.recent_orders_scrollArea.setStyleSheet("#recent_orders_scrollArea{\n"
-"background-color: #EAEAEA;\n"
-"border: none;\n"
-"border-radius: 5px;\n"
-"}\n"
-"\n"
-"QScrollBar:hover{\n"
-" cursor: pointer;\n"
-"}\n"
-"            QScrollBar:vertical {\n"
-"                border: none;\n"
-"                background: #F0F0F0;\n"
-"                width: 14px;\n"
-"                margin: 0px 0px 0px 0px;\n"
-"            }\n"
-"            QScrollBar::handle:vertical {\n"
-"                background: #90A4AE;\n"
-"                border-radius: 7px;\n"
-"                min-height: 30px;\n"
-"            }\n"
-"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"                height: 0px;\n"
-"                background: none;\n"
-"            }\n"
-"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
-"                background: #F0F0F0;\n"
-"            }\n"
-"            QScrollBar:horizontal {\n"
-"                border: none;\n"
-"                background: #f0f0f0;\n"
-"                height: 14px;\n"
-"                margin: 0px 0px 0px 0px;\n"
-"            }\n"
-"            QScrollBar::handle:horizontal {\n"
-"                background: #555;\n"
-"                border-radius: 7px;\n"
-"                min-width: 30px;\n"
-"            }\n"
-"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"                width: 0px;\n"
-"                background: none;\n"
-"            }\n"
-"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
-"                background: #f0f0f0;\n"
-"            }")
-        self.recent_orders_scrollArea.setWidgetResizable(True)
-        self.recent_orders_scrollArea.setObjectName("recent_orders_scrollArea")
-        self.recent_orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 252))
-        self.recent_orders_scrollAreaWidgetContents.setObjectName("recent_orders_scrollAreaWidgetContents")
-        self.recent_orders_scrollArea.setWidget(self.recent_orders_scrollAreaWidgetContents)
-        self.verticalLayout_7.addWidget(self.recent_orders_scrollArea)
-        self.recent_orders_scrollArea.raise_()
-        self.frame_25.raise_()
-        self.verticalLayout_6.addWidget(self.frame_23)
-        self.frame_27 = QtWidgets.QFrame(parent=self.frame_19)
-        self.frame_27.setStyleSheet("#frame_27{\n"
-"background-color: #fff;\n"
-"border-radius: 5px;\n"
-"}")
-        self.frame_27.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_27.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_27.setObjectName("frame_27")
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_27)
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
-        self.frame_28 = QtWidgets.QFrame(parent=self.frame_27)
-        self.frame_28.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_28.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_28.setObjectName("frame_28")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_28)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setSpacing(5)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.label_18 = QtWidgets.QLabel(parent=self.frame_28)
-        self.label_18.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.label_18.setObjectName("label_18")
-        self.horizontalLayout_3.addWidget(self.label_18)
-        self.orders_quantity_label = QtWidgets.QLabel(parent=self.frame_28)
-        self.orders_quantity_label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.orders_quantity_label.setObjectName("orders_quantity_label")
-        self.horizontalLayout_3.addWidget(self.orders_quantity_label)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem2)
-        self.verticalLayout_10.addWidget(self.frame_28)
-        self.ordered_items_scrollArea = QtWidgets.QScrollArea(parent=self.frame_27)
-        self.ordered_items_scrollArea.setMinimumSize(QtCore.QSize(350, 320))
-        self.ordered_items_scrollArea.setStyleSheet("#ordered_items_scrollArea{\n"
-"background-color: #EAEAEA;\n"
-"border: none;\n"
-"border-radius: 5px;\n"
-"}\n"
-"\n"
-"QScrollBar:hover{\n"
-" cursor: pointer;\n"
-"}\n"
-"            QScrollBar:vertical {\n"
-"                border: none;\n"
-"                background: #F0F0F0;\n"
-"                width: 14px;\n"
-"                margin: 0px 0px 0px 0px;\n"
-"            }\n"
-"            QScrollBar::handle:vertical {\n"
-"                background: #90A4AE;\n"
-"                border-radius: 7px;\n"
-"                min-height: 30px;\n"
-"            }\n"
-"            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"                height: 0px;\n"
-"                background: none;\n"
-"            }\n"
-"            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
-"                background: #F0F0F0;\n"
-"            }\n"
-"            QScrollBar:horizontal {\n"
-"                border: none;\n"
-"                background: #f0f0f0;\n"
-"                height: 14px;\n"
-"                margin: 0px 0px 0px 0px;\n"
-"            }\n"
-"            QScrollBar::handle:horizontal {\n"
-"                background: #555;\n"
-"                border-radius: 7px;\n"
-"                min-width: 30px;\n"
-"            }\n"
-"            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"                width: 0px;\n"
-"                background: none;\n"
-"            }\n"
-"            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
-"                background: #f0f0f0;\n"
-"            }")
-        self.ordered_items_scrollArea.setWidgetResizable(True)
-        self.ordered_items_scrollArea.setObjectName("ordered_items_scrollArea")
-        self.orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 320))
-        self.orders_scrollAreaWidgetContents.setObjectName("orders_scrollAreaWidgetContents")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.orders_scrollAreaWidgetContents)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.ordered_items_scrollArea.setWidget(self.orders_scrollAreaWidgetContents)
-        self.verticalLayout_10.addWidget(self.ordered_items_scrollArea, 0, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.frame_9 = QtWidgets.QFrame(parent=self.frame_27)
-        self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_9.setObjectName("frame_9")
-        self.horizontalLayout_23 = QtWidgets.QHBoxLayout(self.frame_9)
-        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_23.setSpacing(0)
-        self.horizontalLayout_23.setObjectName("horizontalLayout_23")
-        self.finalize_order_pushButton = QtWidgets.QPushButton(parent=self.frame_9)
-        self.finalize_order_pushButton.setMinimumSize(QtCore.QSize(125, 30))
-        self.finalize_order_pushButton.setMaximumSize(QtCore.QSize(125, 30))
-        self.finalize_order_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.finalize_order_pushButton.setStyleSheet("background-color: #32CD32;\n"
-"font: 87 10pt \"Noto Sans Black\";\n"
-"color: #fff;\n"
-"border: none;\n"
-"border-radius: 5px;")
-        self.finalize_order_pushButton.setObjectName("finalize_order_pushButton")
-        self.horizontalLayout_23.addWidget(self.finalize_order_pushButton)
-        self.verticalLayout_10.addWidget(self.frame_9)
-        self.verticalLayout_6.addWidget(self.frame_27)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem3)
+        self.verticalLayout_6.addWidget(self.frame_29)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem2)
         self.horizontalLayout_17.addWidget(self.frame_19)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_9.addWidget(self.scrollArea)
@@ -859,6 +694,13 @@ class Ui_Form(object):
         self.label_14.setText(_translate("Form", "Total Orders:"))
         self.label_16.setText(_translate("Form", "(Today)"))
         self.total_orders_label.setText(_translate("Form", "0"))
+        self.label_19.setText(_translate("Form", "Orders Table"))
+        self.label_22.setText(_translate("Form", "View Products"))
+        self.back_pushButton.setText(_translate("Form", "Back"))
+        self.label_15.setText(_translate("Form", "Recent Orders:"))
+        self.label_18.setText(_translate("Form", "Ordered Items:"))
+        self.orders_quantity_label.setText(_translate("Form", "0"))
+        self.finalize_order_pushButton.setText(_translate("Form", "Confirm Order"))
         self.label_20.setText(_translate("Form", "Order Information:"))
         self.label_2.setText(_translate("Form", "Customer Name:"))
         self.label_7.setText(_translate("Form", "Payment Status:"))
@@ -868,22 +710,6 @@ class Ui_Form(object):
         self.label_8.setText(_translate("Form", "Order Status:"))
         self.label_12.setText(_translate("Form", "Contact:"))
         self.label_10.setText(_translate("Form", "Remarks:"))
-        self.label_21.setText(_translate("Form", "Product:"))
-        self.label_4.setText(_translate("Form", "Product:"))
-        self.label_5.setText(_translate("Form", "Cylinder Size:"))
-        self.label_6.setText(_translate("Form", "Quantity:"))
-        self.label_13.setText(_translate("Form", "Available:"))
-        self.product_quantity_available_label.setText(_translate("Form", "0"))
-        self.label_9.setText(_translate("Form", "Price:"))
-        self.label_11.setText(_translate("Form", "Total Amount:"))
-        self.addItem_btn.setText(_translate("Form", "Add Item"))
-        self.label_19.setText(_translate("Form", "Orders Table"))
-        self.label_22.setText(_translate("Form", "View Products"))
-        self.back_pushButton.setText(_translate("Form", "Back"))
-        self.label_15.setText(_translate("Form", "Recent Orders:"))
-        self.label_18.setText(_translate("Form", "Ordered Items:"))
-        self.orders_quantity_label.setText(_translate("Form", "0"))
-        self.finalize_order_pushButton.setText(_translate("Form", "Confirm Order"))
 
 
 if __name__ == "__main__":

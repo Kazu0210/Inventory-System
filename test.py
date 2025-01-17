@@ -149,15 +149,28 @@ def connect_to_db(collection_name):
 # for data in result:
 #     print(f'data: {data}')
 
-filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
-with open(filters_dir, 'r') as f:
-    data = json.load(f)
+# filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+# with open(filters_dir, 'r') as f:
+#     data = json.load(f)
 
-cylinder_size = [list(size.values())[0] for size in data["cylinder_size"]]
+# cylinder_size = [list(size.values())[0] for size in data["cylinder_size"]]
 
-print(f'Cylinder Size: {cylinder_size}')
+# print(f'Cylinder Size: {cylinder_size}')
 
 
-for size in cylinder_size:
-    if size != 'Show All':
-        print(f'Size: {size}')
+# for size in cylinder_size:
+#     if size != 'Show All':
+#         print(f'Size: {size}')
+
+# filter = {'product_id': "LPG152583"}
+# projection = {'_id': 0}
+# result = list(connect_to_db('products_items').find(filter, projection))
+# print(F"DA PAKENING RESULT: {result}")
+# if result:
+#     for data in result:
+#         quantity = data.get('quantity_in_stock', '')
+#         print(f'QUantity: {quantity}')
+
+# cylinder_size = list(connect_to_db('products_items').distinct('cylinder_size'))
+# for size in cylinder_size:
+#     print(f'Size: {size}')

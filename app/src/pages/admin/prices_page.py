@@ -104,19 +104,6 @@ class PricesPage(QWidget, Ui_price_page):
         # Return the results
         return results
 
-    def show_price_history(self):
-        """Run when price history button is clicked"""
-        self.frame_11.show()
-        self.price_history_pushButton.setText("Hide Price History")
-
-        self.price_history_pushButton.clicked.connect(lambda: self.hide_price_history())
-
-    def hide_price_history(self):
-        """Run when hide price history button is clicked"""
-        self.frame_11.hide()
-        self.price_history_pushButton.setText("Show Price History")
-        self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
-
     def price_table_item_changed(self, item):
         """Handles the price table item changed event."""
         print(f"Item changed at Row: {item.row()}, Column: {item.column()}")
@@ -177,12 +164,10 @@ class PricesPage(QWidget, Ui_price_page):
 
         table = self.price_history_tableWidget
         table.setSortingEnabled(True)
-        # table.setEditTriggers(QAbstractItemView.EditTrigger.AllEditTriggers) # enable edit
         table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers) # disable edit
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
-        # table.itemChanged.connect(self.price_table_item_changed)
 
         table.setStyleSheet("""
             QTableWidget{
@@ -252,10 +237,7 @@ class PricesPage(QWidget, Ui_price_page):
         header = self.price_history_tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
-
-        # for column in range(table.columnCount()):
-        #     table.setColumnWidth(column, 145)
-
+        
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 100
 
