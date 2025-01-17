@@ -100,8 +100,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
         self.load_menu()
 
-        
-
     def load_menu(self):
         """load products into scrollbar"""
         # load menu's sidebar
@@ -1086,12 +1084,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     def record_sales(self, order_id):
         try:
             # Collect the input data
-            product_name = self.productName_comboBox.currentText()
-            quantity = self.quantity_box.value()
-            price = float(self.price_input.text().strip() or "0.0")
-            total_amount = float(self.amount_input.text() or "0.0")
             customer_name = self.customer_name_lineEdit.text().strip()
-            cylinder_size = self.cylindersize_box.currentText()
             payment_status = self.payment_box.currentText()
             self.order_id
             remarks = self.note_input.toPlainText()
@@ -1312,18 +1305,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             quantity = 1
             price = data['price_per_unit']
             size = data['cylinder_size']
-            # Collect the input data
-            # product_name = self.productName_comboBox.currentText()
-            # customer_name = self.customer_name_lineEdit.text().strip()
-            # quantity = self.quantity_box.value()
-            # price = float(self.price_input.text().strip() or "0.0")
-            # order_date = self.order_date_label.text()
-            # order_status = self.status_box.currentText()
-            # delivery_address = self.delivery_address_plainTextEdit.toPlainText()
-            # payment_status = self.payment_box.currentText()
-            # contact_info = self.contact_info.text().strip()
-            # order_note = self.note_input.toPlainText()
-            # total_amount = float(self.amount_input.text() or "0.0")
 
             order_data = {
                 "product_id": product_id,
