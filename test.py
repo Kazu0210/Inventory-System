@@ -174,3 +174,11 @@ def connect_to_db(collection_name):
 # cylinder_size = list(connect_to_db('products_items').distinct('cylinder_size'))
 # for size in cylinder_size:
 #     print(f'Size: {size}')
+
+# Get the current date
+today = datetime.today()
+
+# Format the date as 'YYYY-MM-DD'
+formatted_date = today.strftime('%Y-%m-%d')
+# Print the formatted date
+print(f'Today: {formatted_date}')

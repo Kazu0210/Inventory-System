@@ -1,5 +1,6 @@
 [
     "Product ID",
+    "Brand",
     "Price Before",
     "Price After",
     "Date Of Change"

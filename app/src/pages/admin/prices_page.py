@@ -141,6 +141,12 @@ class PricesPage(QWidget, Ui_price_page):
                         filter = {'product_id': product_id_value}
                         update = {'$set': {field: float(new_value)}}  # Update the price (as float)
 
+                        if header.text() == 'Selling Price':
+                            # if the header is Selling Price, save the data to price history
+                            
+                            # save to price history first
+                            self.save_to_price_history(product_id.text(), new_value)
+
                         # Perform the update in the database
                         self.connect_to_db('products_items').update_one(filter, update)
 
@@ -158,6 +164,32 @@ class PricesPage(QWidget, Ui_price_page):
 
                     except Exception as e:
                         print(f'Error updating data: {e}')
+
+    def save_to_price_history(self, product_id, new_price):
+        """save price before and after the change to price history collection"""        
+        today = datetime.datetime.today() # Get the current date
+        formatted_date = today.strftime('%Y-%m-%d') # Format the date as 'YYYY-MM-DD'
+
+        # get selling price before change
+        product_data = list(self.connect_to_db('products_items').find({'product_id': product_id}))
+        for data in product_data:
+            print(f'data: {data}')
+
+        old_price = data['price_per_unit']
+        brand = data['product_name']
+        
+        prices_history_data = {
+            'brand': brand,
+            'date_of_change': formatted_date,
+            'product_id': product_id,
+            'price_before': float(old_price),
+            'price_after': float(new_price)
+        }
+
+        try:
+            self.connect_to_db('price_history').insert_one(prices_history_data)
+        except Exception as e:
+            print(f'Error saving to price history: {e}')
             
     def load_price_history_table(self):
         """Loads price history table"""
@@ -249,6 +281,8 @@ class PricesPage(QWidget, Ui_price_page):
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
+    
+        table.setColumnHidden(0, True) # hide the 1nd column assuming that is the product id
 
         # Filters
         # filter_query = {}
@@ -279,18 +313,9 @@ class PricesPage(QWidget, Ui_price_page):
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
                 if value is not None:
-                    # if header == 'lastlogin':
-                    #     try:
-                    #         if value:
-                    #             date_time = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-
-                    #             if self.current_time_format == "12hr":
-                    #                 value = date_time.strftime("%Y-%m-%d %I:%M:%S %p")
-                    #             else:
-                    #                 value = date_time.strftime("%Y-%m-%d %H:%M:%S")
-                    #     except Exception as e:
-                    #         pass
-                    #         # print(f"Error formatting date: {e}")
+                    if header == 'pricebefore' or header == 'priceafter':
+                        formatted_value = f"₱ {float(value):,.2f}"
+                        value = formatted_value
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the text
                     # check if row index is even
@@ -531,6 +556,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         # hide the first column
         table.setColumnHidden(0, True)
+        table.setColumnHidden(1, True) # hide the 2nd column assuming that is the product id
         # Add navigation controls
         # self.update_navigation_controls(len(data), page, rows_per_page)
 
