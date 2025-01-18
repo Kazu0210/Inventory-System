@@ -134,7 +134,6 @@ class loginWindow(QMainWindow, login_mainWindow):
                 self.logs.login_attempt_success(username)
                 
                 if user_role == 'Admin':
-                    print('User is an admin')
                     # self.splash = SplashScreen(user_role, username)
                     # self.splash.show()
 
@@ -143,7 +142,6 @@ class loginWindow(QMainWindow, login_mainWindow):
                     self.close()
 
                 elif user_role == 'Employee':
-                    print('User is an employee')
                     self.employee_dashboard = employee_mainWindow(username)
                     self.employee_dashboard.show()
                     self.close()
@@ -152,8 +150,6 @@ class loginWindow(QMainWindow, login_mainWindow):
                 CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Invalid username or password. Please try again.")
 
     def default_admin_login(self, username, password):
-        print('logging in default admin account.')
-
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = client["LPGTrading_DB"]

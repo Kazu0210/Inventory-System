@@ -464,7 +464,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
     def handle_order_status(self, pending_status, row, text, order_id):
         """handle payment button clicked"""
         if text != pending_status:
-            print(f'Not the same')
 
             msg_box = CustomMessageBox.show_message(
                                     "question",
@@ -478,13 +477,10 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 self.connect_to_db('orders').update_one(filter, {'$set': {'order_status': text}})
 
                 CustomMessageBox.show_message('information', 'Success', 'Order status updated successfully')
-            else:
-                print('User selected no')
 
     def handle_payment(self, pending_status, row, text, order_id):
         """handle payment button clicked"""
         if text != pending_status:
-            print(f'Not the same')
 
             msg_box = CustomMessageBox.show_message(
                                     "question",
@@ -498,8 +494,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 self.connect_to_db('orders').update_one(filter, {'$set': {'payment_status': text}})
 
                 CustomMessageBox.show_message('information', 'Success', 'Payment status updated successfully')
-            else:
-                print('User selected no')
 
     def load_view_products_table(self, products, page=0, rows_per_page=10):
         """Load the view products table with the products sold"""

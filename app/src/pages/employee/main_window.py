@@ -80,8 +80,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.profile_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.profile_pushButton, 4))
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
-    # print(f'Current index: {self.get_current_index()}')
-
         self.get_current_index()
 
         # call function to hide button once
@@ -318,7 +316,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_active_frame_style(parent_widget)
         if index is not None:
             self.content_window_layout.setCurrentIndex(index)
-            print(f'Current Index: {self.get_current_index()}')
             # self.current_index_update()
         else:
             print(f"{button.objectName()} button clicked.")

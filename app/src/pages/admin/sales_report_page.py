@@ -429,11 +429,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             self.sales_trend_frame.layout().itemAt(0).widget().setChart(chart)
 
     def update_sales_trend_chart(self):
-        print(f'Updating sales trend chart')
-
         # Get sales data
         sales_data = self.get_sales_data()
-        print(f'sales data: {sales_data}')
         self.create_sale_trend_chart(sales_data)
 
         print('Sales trend chart updated.')
@@ -586,10 +583,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                                     value = value.strftime("%Y-%m-%d")
 
                             except Exception as e:
-                                print(f'Error: {e}')
-
-                        elif header == 'quantitysold':
-                            print(f'Quantity sold: {value}')                                
+                                print(f'Error: {e}')                           
 
                         elif header == 'productssold':
                             # Ensure value is a list

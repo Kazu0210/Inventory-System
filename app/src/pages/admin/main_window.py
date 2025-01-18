@@ -267,7 +267,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_active_frame_style(parent_widget)
         if index is not None:
             self.content_window_layout.setCurrentIndex(index)
-            print(f'Current Index: {self.get_current_index()}')
             self.set_current_page_name()
         else:
             print(f"{button.objectName()} button clicked.")

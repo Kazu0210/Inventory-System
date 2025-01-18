@@ -196,9 +196,7 @@ class Activity_Logs(QWidget, activityLogsPage):
                                 value = value.strftime("%Y-%m-%d")
                                 print(f"DATE ONLYYYY: {value}")  # Output: 2024-12-24
                         except Exception as e:
-                            print(f'Error: {e}')
-                    elif header == 'quantitysold':
-                        print(f'Quantity sold: {value}')                                
+                            print(f'Error: {e}')                            
                     elif header == 'productssold':
                         print(f'KLEPORD GWAPO')
                         print(f'value: {value}')
