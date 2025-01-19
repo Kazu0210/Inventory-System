@@ -4,8 +4,10 @@ from PyQt6.QtWidgets import *
 
 from src.pages.login_window import loginWindow
 from src.utils.Activity_logs import Activity_Logs
+from src.utils.Logs import Logs
 
 def on_about_to_quit():
+    logs = Logs()
     # Define the relative path to the file
     relative_path = Path("app/resources/data/temp_user_data.json")
 

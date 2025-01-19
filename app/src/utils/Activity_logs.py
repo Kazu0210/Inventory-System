@@ -99,7 +99,7 @@ class Activity_Logs:
         self.last_login(username, last_login)
 
 
-    def login_attempt_failed(self, username):
+    def login_attempt_fsailed(self, username):
         self.log_event(username, "Login attempt failed", "Failed", category="Failed Login Attempt")
 
     def logout(self, username):
