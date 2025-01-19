@@ -61,5 +61,13 @@
         {"In Stock": "In Stock"},
         {"Low Stock": "Low Stock"},
         {"Out Of Stock": "Out of Stock"}
+    ],
+    "time_period":[
+        {"Today": "Today"},
+        {"This Week": "This Week"},
+        {"This Month": "This Month"},
+        {"This Year": "This Year"},
+        {"Last Month": "Last Month"},
+        {"Custom": "Custom"}
     ]
 }

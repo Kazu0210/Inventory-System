@@ -146,7 +146,6 @@ class ItemsPage(QWidget, items_page):
         self.stock_level_comboBox.clear()
 
         for category in data['stock_level']:
-            # print(f"CATEGORY: {list(category.values())[0]}")
             self.stock_level_comboBox.addItem(list(category.values())[0])
 
     def add_cylinder_size_filter(self):

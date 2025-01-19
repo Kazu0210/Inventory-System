@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QAbstractItemView, QCheckBox, QFrame, QPushButton, QMessageBox, QFileDialog
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 
 from src.ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
@@ -67,6 +67,11 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         self.set_icons()
 
+        self.custom_time_period_frame.hide() # hide the frame the holds the inputs for custom time period filter
+
+        # call function that loads all the filters
+        self.load_filters()
+
         # search bar connection
         self.search_lineEdit.textChanged.connect(lambda: self.handle_search())
 
@@ -76,6 +81,37 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.prev_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page - 1, self.rows_per_page))
         self.next_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page + 1, self.rows_per_page))
         self.create_sales_report_pushButton.clicked.connect(lambda: self.create_sales_report())
+        self.time_period_comboBox.currentTextChanged.connect(lambda text: self.handle_time_period_comboBox(text))
+        self.confirm_date_pushButton.clicked.connect(lambda: self.handle_confirm_date_pushButton())
+
+    def handle_confirm_date_pushButton(self):
+        """handle confirm date pushButton click event"""
+        self.update_sales_table()
+
+    def handle_time_period_comboBox(self, current_text):
+        """handle the time period combobox text changed event"""
+        print(f'Current text: {current_text}')
+        if current_text == 'Custom':
+            self.custom_time_period_frame.show()
+        else:
+            self.custom_time_period_frame.hide()
+            self.update_sales_table()
+
+    def load_filters(self):
+        """load all the filters"""
+        self.load_time_period_filter()
+
+    def load_time_period_filter(self):
+        """load the time period filter"""
+        filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        with open(filters_dir, 'r') as f:
+            data = json.load(f)
+
+        # clear combo box
+        self.time_period_comboBox.clear()
+
+        for time in data['time_period']:
+            self.time_period_comboBox.addItem(list(time.values())[0])
 
     def create_sales_report(self):
         """Create sales report"""
@@ -441,6 +477,15 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def clean_header(self, header):
             return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
 
+    def get_sales_today(self):
+        pass
+
+    def get_time_period(self, time_period):
+        """get and return the selected time period from the comboBox"""
+        if time_period:
+            pass
+
+
     def update_sales_table(self, page=0, rows_per_page=10):
             """Load prices current price on the prices table with pagination."""
             self.current_page = page  # Keep track of the current page
@@ -542,6 +587,46 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 filter = {
                     "sale_id": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
                 }
+
+            today = datetime.now()
+            time_period = self.time_period_comboBox.currentText()
+            if time_period == "Today":
+                today_start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                today_end = today_start + timedelta(days=1)
+                filter = {"sale_date": {"$gte": today_start, "$lt": today_end}}
+            elif time_period == "This Week":
+                today = datetime.now()
+                week_start = today - timedelta(days=today.weekday())  # Monday of the current week
+                week_start = week_start.replace(hour=0, minute=0, second=0, microsecond=0)
+                week_end = week_start + timedelta(days=7)  # End of the current week (next Monday 0:00)
+                filter = {"sale_date": {"$gte": week_start, "$lt": week_end}}
+            elif time_period == "This Month":
+                month_start = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+                if today.month == 12:
+                    month_end = datetime(today.year + 1, 1, 1, 0, 0, 0)
+                else:
+                    month_end = datetime(today.year, today.month + 1, 1, 0, 0, 0)
+                filter = {"sale_date": {"$gte": month_start, "$lt": month_end}}
+            elif time_period == "This Year":
+                year_start = datetime(today.year, 1, 1, 0, 0, 0)
+                year_end = datetime(today.year + 1, 1, 1, 0, 0, 0)
+                filter = {"sale_date": {"$gte": year_start, "$lt": year_end}}
+            elif time_period == "Last Month":
+                if today.month == 1:
+                    last_month_start = datetime(today.year - 1, 12, 1, 0, 0, 0)
+                    last_month_end = datetime(today.year, 1, 1, 0, 0, 0)
+                else:
+                    last_month_start = datetime(today.year, today.month - 1, 1, 0, 0, 0)
+                    last_month_end = datetime(today.year, today.month, 1, 0, 0, 0)
+                filter = {"sale_date": {"$gte": last_month_start, "$lt": last_month_end}}
+            elif time_period == "Custom":
+                start_date_qdate = self.start_date_dateEdit.date()
+                end_date_qdate = self.end_date_dateEdit.date()
+                start_date = start_date_qdate.toPyDate()
+                end_date = end_date_qdate.toPyDate()
+                start_date = datetime.combine(start_date, datetime.min.time())
+                end_date = datetime.combine(end_date, datetime.max.time())
+                filter = {"sale_date": {"$gte": start_date, "$lt": end_date}}
 
             # Get data from MongoDB
             data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))

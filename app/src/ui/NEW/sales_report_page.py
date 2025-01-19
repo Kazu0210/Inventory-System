@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(709, 641)
+        Form.resize(898, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "border: none;\n"
@@ -71,12 +71,130 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1091, 1598))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-228, 0, 1109, 1741))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.frame_13 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
+        self.frame_13.setStyleSheet("#frame_13{\n"
+"background-color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_13.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_13.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_13.setObjectName("frame_13")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.frame_13)
+        self.verticalLayout_9.setContentsMargins(9, 9, 9, 9)
+        self.verticalLayout_9.setSpacing(5)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.label_6 = QtWidgets.QLabel(parent=self.frame_13)
+        self.label_6.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.label_6.setObjectName("label_6")
+        self.verticalLayout_9.addWidget(self.label_6)
+        self.frame_18 = QtWidgets.QFrame(parent=self.frame_13)
+        self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_18.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_18.setObjectName("frame_18")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_18)
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.frame_17 = QtWidgets.QFrame(parent=self.frame_18)
+        self.frame_17.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_17.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_17.setObjectName("frame_17")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_17)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7.setSpacing(5)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.label_7 = QtWidgets.QLabel(parent=self.frame_17)
+        self.label_7.setObjectName("label_7")
+        self.verticalLayout_7.addWidget(self.label_7)
+        self.time_period_comboBox = QtWidgets.QComboBox(parent=self.frame_17)
+        self.time_period_comboBox.setMinimumSize(QtCore.QSize(150, 30))
+        self.time_period_comboBox.setMaximumSize(QtCore.QSize(150, 30))
+        self.time_period_comboBox.setStyleSheet("#time_period_comboBox{\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;\n"
+"background-color: white;\n"
+"}")
+        self.time_period_comboBox.setObjectName("time_period_comboBox")
+        self.verticalLayout_7.addWidget(self.time_period_comboBox)
+        self.horizontalLayout_10.addWidget(self.frame_17)
+        self.custom_time_period_frame = QtWidgets.QFrame(parent=self.frame_18)
+        self.custom_time_period_frame.setMinimumSize(QtCore.QSize(0, 30))
+        self.custom_time_period_frame.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.custom_time_period_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.custom_time_period_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.custom_time_period_frame.setObjectName("custom_time_period_frame")
+        self.horizontalLayout_13 = QtWidgets.QHBoxLayout(self.custom_time_period_frame)
+        self.horizontalLayout_13.setContentsMargins(0, 0, 5, 0)
+        self.horizontalLayout_13.setSpacing(5)
+        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        self.frame_20 = QtWidgets.QFrame(parent=self.custom_time_period_frame)
+        self.frame_20.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.frame_20.setStyleSheet("#frame_20{\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_20.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_20.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_20.setObjectName("frame_20")
+        self.horizontalLayout_14 = QtWidgets.QHBoxLayout(self.frame_20)
+        self.horizontalLayout_14.setContentsMargins(-1, 0, -1, 0)
+        self.horizontalLayout_14.setObjectName("horizontalLayout_14")
+        self.label_9 = QtWidgets.QLabel(parent=self.frame_20)
+        self.label_9.setObjectName("label_9")
+        self.horizontalLayout_14.addWidget(self.label_9)
+        self.start_date_dateEdit = QtWidgets.QDateEdit(parent=self.frame_20)
+        self.start_date_dateEdit.setObjectName("start_date_dateEdit")
+        self.horizontalLayout_14.addWidget(self.start_date_dateEdit, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.horizontalLayout_13.addWidget(self.frame_20)
+        self.frame_21 = QtWidgets.QFrame(parent=self.custom_time_period_frame)
+        self.frame_21.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.frame_21.setStyleSheet("#frame_21{\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_21.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_21.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_21.setObjectName("frame_21")
+        self.horizontalLayout_15 = QtWidgets.QHBoxLayout(self.frame_21)
+        self.horizontalLayout_15.setContentsMargins(-1, 0, -1, 0)
+        self.horizontalLayout_15.setObjectName("horizontalLayout_15")
+        self.label_10 = QtWidgets.QLabel(parent=self.frame_21)
+        self.label_10.setObjectName("label_10")
+        self.horizontalLayout_15.addWidget(self.label_10)
+        self.end_date_dateEdit = QtWidgets.QDateEdit(parent=self.frame_21)
+        self.end_date_dateEdit.setObjectName("end_date_dateEdit")
+        self.horizontalLayout_15.addWidget(self.end_date_dateEdit)
+        self.horizontalLayout_13.addWidget(self.frame_21)
+        self.confirm_date_pushButton = QtWidgets.QPushButton(parent=self.custom_time_period_frame)
+        self.confirm_date_pushButton.setMinimumSize(QtCore.QSize(125, 30))
+        self.confirm_date_pushButton.setMaximumSize(QtCore.QSize(125, 30))
+        self.confirm_date_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.confirm_date_pushButton.setStyleSheet("background-color: #32CD32;\n"
+"font: 87 10pt \"Noto Sans Black\";\n"
+"color: #fff;\n"
+"border: none;\n"
+"border-radius: 5px;")
+        self.confirm_date_pushButton.setObjectName("confirm_date_pushButton")
+        self.horizontalLayout_13.addWidget(self.confirm_date_pushButton)
+        self.horizontalLayout_10.addWidget(self.custom_time_period_frame, 0, QtCore.Qt.AlignmentFlag.AlignBottom)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_10.addItem(spacerItem)
+        self.verticalLayout_9.addWidget(self.frame_18)
+        self.verticalLayout_3.addWidget(self.frame_13)
         self.frame_4 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_4.setStyleSheet("#frame_4{\n"
 "background-color: #fff;\n"
@@ -146,8 +264,8 @@ class Ui_Form(object):
         self.total_sales_label.setObjectName("total_sales_label")
         self.verticalLayout_12.addWidget(self.total_sales_label)
         self.horizontalLayout_3.addWidget(self.frame)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem1)
         self.verticalLayout_3.addWidget(self.frame_4)
         self.frame_6 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
         self.frame_6.setStyleSheet("#frame_6{\n"
@@ -352,8 +470,8 @@ class Ui_Form(object):
 "color: #333333;")
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_6.addWidget(self.label_3)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem2)
         self.verticalLayout_4.addWidget(self.frame_11)
         self.scrollArea_2 = QtWidgets.QScrollArea(parent=self.frame_8)
         self.scrollArea_2.setMinimumSize(QtCore.QSize(700, 0))
@@ -416,8 +534,8 @@ class Ui_Form(object):
 "")
         self.best_selling_label.setObjectName("best_selling_label")
         self.horizontalLayout_7.addWidget(self.best_selling_label)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem3)
         self.verticalLayout_5.addWidget(self.frame_12, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.best_selling_scrollArea = QtWidgets.QScrollArea(parent=self.frame_9)
         self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(350, 250))
@@ -486,6 +604,11 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.label_6.setText(_translate("Form", "Filters:"))
+        self.label_7.setText(_translate("Form", "Select Time Period:"))
+        self.label_9.setText(_translate("Form", "Start Date:"))
+        self.label_10.setText(_translate("Form", "End Date:"))
+        self.confirm_date_pushButton.setText(_translate("Form", "Confirm"))
         self.label_2.setText(_translate("Form", "Revenue This Month:"))
         self.revenue_month_label.setText(_translate("Form", "0"))
         self.label.setText(_translate("Form", "Total Sales Today:"))
