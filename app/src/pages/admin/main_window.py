@@ -52,7 +52,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_username_label()
 
     def load_pages(self, username):
-        """load pages for the dashboad"""
+        """load pages for the dashboard"""
         self.content_window_layout = QStackedLayout(self.content_widget)
 
         dashboard_section = Dashboard(username, self) # index 0

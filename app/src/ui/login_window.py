@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\login_window.ui'
+# Form implementation generated from reading ui file 'login_window.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -37,25 +37,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_2.setSpacing(5)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.frame_5 = QtWidgets.QFrame(parent=self.frame)
-        self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_5.setObjectName("frame_5")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_5)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.close_pushButton = QtWidgets.QPushButton(parent=self.frame_5)
-        self.close_pushButton.setMinimumSize(QtCore.QSize(25, 25))
-        self.close_pushButton.setMaximumSize(QtCore.QSize(25, 25))
-        self.close_pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.close_pushButton.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(".\\../../../resources/icons/black-theme/close.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.close_pushButton.setIcon(icon)
-        self.close_pushButton.setObjectName("close_pushButton")
-        self.horizontalLayout.addWidget(self.close_pushButton, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_2.addWidget(self.frame_5, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.logo = QtWidgets.QLabel(parent=self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -64,7 +45,7 @@ class Ui_MainWindow(object):
         self.logo.setSizePolicy(sizePolicy)
         self.logo.setMaximumSize(QtCore.QSize(180, 200))
         self.logo.setText("")
-        self.logo.setPixmap(QtGui.QPixmap(".\\../../../resources/icons/system-icon.png"))
+        self.logo.setPixmap(QtGui.QPixmap("../../../resources/icons/system-icon.png"))
         self.logo.setScaledContents(True)
         self.logo.setObjectName("logo")
         self.verticalLayout_2.addWidget(self.logo, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)

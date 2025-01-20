@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
 
-from src.ui.final_ui.login_window import Ui_MainWindow as login_mainWindow
+from src.ui.login_window import Ui_MainWindow as login_mainWindow
 
 from src.utils.Hashpassword import HashPassword
 from src.utils.Activity_logs import Activity_Logs
@@ -11,35 +11,22 @@ from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.create_default_admin import createDefaultAdmin
 from src.utils.dir import ConfigPaths
 
-from src.employee_account.dashboard import employee_dashboard
-
 from src.pages.admin.main_window import MainWindow
 from src.pages.splash_screen import SplashScreen
 
 from src.pages.employee.main_window import MainWindow as employee_mainWindow
 
-import pymongo, json
+import pymongo
 
 class loginWindow(QMainWindow, login_mainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logs = Logs()
-
-        # initialize config paths
-        self.dirs = ConfigPaths()
-
-        # button connections
+        self.logs = Logs() # activity logs
+        self.dirs = ConfigPaths() # initialize config paths
         self.login_pushButton.clicked.connect(self.LoginBtn_clicked)
-        self.close_pushButton.clicked.connect(lambda: self.close_system())
-
-        # hide title bar
-        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-
-        self.defaultAdmin = createDefaultAdmin()  
-
+        self.defaultAdmin = createDefaultAdmin() # create default admin account
         self.set_system_logo()
-        self.set_button_icon(self.close_pushButton, self.dirs.get_path('close_icon'))
 
     def set_button_icon(self, button, icon_path):
         icon = QPixmap(icon_path)
@@ -48,23 +35,12 @@ class loginWindow(QMainWindow, login_mainWindow):
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
         logo = QPixmap(self.dirs.get_path('system_icon'))
-        
         min_height = 180  # Minimum height
         max_height = 200  # Maximum height
-
-        # Calculate the height of the QLabel
         current_height = self.logo.height()
-
-        # Ensure the height stays within the defined range
         height_to_use = max(min_height, min(max_height, current_height))
-
-        # Scale the pixmap to the computed height while maintaining aspect ratio
         scaled_logo = logo.scaledToHeight(height_to_use, Qt.TransformationMode.SmoothTransformation)
-
-        # Set the scaled pixmap to the QLabel
         self.logo.setPixmap(scaled_logo)
-
-        # Ensure the QLabel does not distort the pixmap
         self.logo.setScaledContents(True)
 
     def LoginBtn_clicked(self):
@@ -97,10 +73,8 @@ class loginWindow(QMainWindow, login_mainWindow):
             print(f"An error occurred: {e}")
 
     def is_account_blocked(self):
-        # check if the account is inactive
         username = self.username_lineEdit.text().strip()
         data = self.connect_to_db('accounts').find_one({"username": username})
-
         try:
             if data['status'] == 'Blocked':
                 return True
@@ -112,29 +86,19 @@ class loginWindow(QMainWindow, login_mainWindow):
     def login_attempt(self):
         username = self.username_lineEdit.text().strip()
         password = self.password_lineEdit.text().strip()
-
         if self.is_account_inactive():
-            # self.logs.login_attempt_failed(f"Login failed: {username} account is inactive")
-            self.logs.record_log(username=username ,event="account_inactive")
-
-            CustomMessageBox.show_message('warning',
-                                        'Login Attempt Failed',
-                                        "Your account is inactive. Please contact the admin to reactivate your account.",
-                              )
+            self.logs.record_log(username=username,event="account_inactive")
+            CustomMessageBox.show_message('warning','Login Attempt Failed',"Your account is inactive. Please contact the admin to reactivate your account.")
         elif self.is_account_pending():
-            self.logs.record_log(username=username, event="account_pending")
-            CustomMessageBox.show_message('warning',
-                                          'Login Attempt Failed',
-                                          "Your account is pending. Please contact the admin to activate your account."
-                                          )
+            self.logs.record_log(username=username,event="account_pending")
+            CustomMessageBox.show_message('warning','Login Attempt Failed',"Your account is pending. Please contact the admin to activate your account.")
         elif self.is_account_blocked():
-            self.logs.record_log(username=username, event="account_blocked")
-            CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Your account is blocked. Please contact the admin to unblock your account.")
+            self.logs.record_log(username=username,event="account_blocked")
+            CustomMessageBox.show_message('warning','Login Attempt Failed',"Your account is blocked. Please contact the admin to unblock your account.")
         else:
-            user_role = self.validate_credentials(username, password)
+            user_role = self.validate_credentials(username,password)
             if user_role:
-                self.logs.record_log(username=username, event="user_login_success")
-                
+                self.logs.record_log(username=username,event="user_login_success")
                 if user_role == 'Admin':
                     self.admin_dashboard = MainWindow(username)
                     self.admin_dashboard.show()
@@ -144,8 +108,8 @@ class loginWindow(QMainWindow, login_mainWindow):
                     self.employee_dashboard.show()
                     self.close()
             else:
-                self.logs.record_log(username=username, event='login_failed')
-                CustomMessageBox.show_message('warning', 'Login Attemp Failed', "Invalid username or password. Please try again.")
+                self.logs.record_log(username=username,event='login_failed')
+                CustomMessageBox.show_message('warning','Login Attempt Failed',"Invalid username or password. Please try again.")   
 
     def default_admin_login(self, username, password):
         document = self.connect_to_db('default_account').find_one({"username": username})
@@ -161,54 +125,33 @@ class loginWindow(QMainWindow, login_mainWindow):
                 admin_dialog.setWindowTitle("Default Admin")
                 admin_dialog.setModal(True)
 
-                admin_label = QLabel("Wrong password", admin_dialog)
-
-    def validate_credentials(self, username, password):
+    def validate_credentials(self,username,password):
         if not username or not password:
             return False
-        
-        if username == "admin":
-            self.default_admin_login(username, password)
+
+        if username=="admin":
+            self.default_admin_login(username,password)
             return True
 
-        collection = self.connect_to_db('accounts')
-
-        document = collection.find_one({"username": username})
+        collection=self.connect_to_db('accounts')
+        document=collection.find_one({"username":username})
 
         if document:
-            hashed_password = HashPassword(password)
+            hashed_password=HashPassword(password)
             if hashed_password.verify_password(document['password']):
-                # self.save_user_id(document['_id'])
-
-                user_type = document.get('user_type')
-                if user_type == "Admin":
+                user_type=document.get('user_type')
+                if user_type=="Admin":
                     return 'Admin'
-                elif user_type == "Employee":
+                elif user_type=="Employee":
                     return 'Employee'
             else:
                 print("Incorrect password")
         else:
             print("User not found in the database")
         return False
-
-    def save_user_id(self, user_id):
-        temp_data_dir = "/resources/data/temp_user_data.json"
-        data = {"_id": str(user_id)}
-
-        try:
-            with open(temp_data_dir, 'w') as file:
-                json.dump(data, file, indent=4)
-            print('_id saved successfully')
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Error saving user ID: {e}")
-            
-    def connect_to_db(self, collection_name):
-        connection_string = "mongodb://localhost:27017/"
-        client = pymongo.MongoClient(connection_string)
-        db = client["LPGTrading_DB"]
-
+                
+    def connect_to_db(self,collection_name):
+        connection_string="mongodb://localhost:27017/"
+        client=pymongo.MongoClient(connection_string)
+        db=client["LPGTrading_DB"]
         return db[collection_name]
-
-    def close_system(self):
-        """Closes the system"""
-        self.close()
