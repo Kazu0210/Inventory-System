@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QWidget, QApplication
 from PyQt6.QtCore import Qt
 from src.ui.NEW.edit_account_page import Ui_Form as edit_account_page_Ui
 from src.utils.Hashpassword import HashPassword
+from src.utils.dir import ConfigPaths
 import sys, pymongo, json
 
 class editAccountPage(QWidget, edit_account_page_Ui):
@@ -9,6 +10,9 @@ class editAccountPage(QWidget, edit_account_page_Ui):
         super().__init__()
         self.setupUi(self)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+        # initialize config patt
+        self.directory = ConfigPaths()
 
         self.cancel_btn.clicked.connect(lambda: self.cancel_btn_clicked())
         self.save_btn.clicked.connect(lambda: self.save_btn_clicked())
@@ -19,7 +23,7 @@ class editAccountPage(QWidget, edit_account_page_Ui):
         self.collection = self.connect_to_db()
 
         self.set_text_on_form() # call function to set text on every field
-        self.settings_dir = "app/resources/config/filters.json" # settings.json directory
+        self.settings_dir = self.directory.get_path('filters') # settings.json directory
 
         filter_filename = "filters.json" # directory file name
         self.update_combo_box(filter_filename)

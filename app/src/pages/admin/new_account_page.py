@@ -9,6 +9,7 @@ from src.pages.admin.emali_requirement_section import EmailAccountRequirementPag
 from src.utils.Hashpassword import HashPassword
 from src.utils.Activity_logs import Activity_Logs
 from src.custom_widgets.message_box import CustomMessageBox
+from src.utils.dir import ConfigPaths
 
 import json, time, random, pymongo
 
@@ -17,6 +18,9 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         super().__init__()
         self.setupUi(self)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+        # initialize config path
+        self.directory = ConfigPaths()
 
         if username != None:
             self.account_username = username # logged in account's username
@@ -32,7 +36,7 @@ class NewAccountPage(QWidget, Ui_new_account_page):
         self.update_combo_box(filter_filename)
   
         # settings directory
-        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+        self.settings_dir = self.directory.get_path('settings')
         with open(self.settings_dir, 'r') as f:
             setting = json.load(f)
 

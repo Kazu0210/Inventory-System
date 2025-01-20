@@ -87,6 +87,8 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.setSched_pushButton.clicked.connect(lambda: self.setSched_pushButton_clicked())
         self.restore_pushButton.clicked.connect(lambda: self.restore_pushButton_clicked())
 
+        # initializa ConfigPaths
+        self.directory = ConfigPaths
         # run all function
         self.loadAll()
 
@@ -260,7 +262,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.createBackup()
 
     def fillFormatComboBox(self):
-        filter_dir = ConfigPaths.get_path('filters')
+        filter_dir = self.directory.get_path('filters')
 
         with open(filter_dir, 'r') as f:
             data =  json.load(f)

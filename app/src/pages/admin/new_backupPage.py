@@ -7,6 +7,8 @@ from src.ui.NEW.new_backupSched_page import Ui_Form
 from src.pages.admin.weekly_backup_page import WeeklyBackup
 from src.pages.admin.monthly_backup_page import MonthlyBackup
 
+from src.utils.dir import ConfigPaths
+
 import json, os, pymongo, random
 
 class NewBackupPage(QWidget, Ui_Form):
@@ -21,6 +23,9 @@ class NewBackupPage(QWidget, Ui_Form):
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         self.loadAll()
+
+        # initialize config paths
+        self.directory = ConfigPaths()
 
         # buttons and comboBox
         self.frequency_comboBox.currentTextChanged.connect(lambda: self.changedForm())
@@ -40,7 +45,7 @@ class NewBackupPage(QWidget, Ui_Form):
         self.scrollArea_layout.addWidget(self.monthlyBackupPage)
 
         # settings.json directory for saving backups
-        self.settings_dir = "app/resources/config/settings.json"
+        self.settings_dir = self.directory.get_path('settings')
 
         # connect to db
         self.collection = self.connect_to_db()
@@ -232,7 +237,7 @@ class NewBackupPage(QWidget, Ui_Form):
         self.fillFrequencyComboBox()
 
     def fillFrequencyComboBox(self):
-        settings_dir = "app/resources/config/settings.json"
+        settings_dir = self.directory.get_path('settings')
 
         with open(settings_dir, 'r') as f:
             frequency = json.load(f)

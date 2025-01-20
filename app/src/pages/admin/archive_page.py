@@ -24,6 +24,9 @@ class ArchivePage(QWidget, Ui_archive):
         self.setupUi(self)
         self.parent_window = parent_window
 
+        # initialie ConfigPaths
+        self.directory = ConfigPaths()
+
         # initialize activity logs
         self.logs = Logs()
 
@@ -366,10 +369,10 @@ class ArchivePage(QWidget, Ui_archive):
             """)
 
             # Header JSON directory
-            header_dir = ConfigPaths.get_path('product_header')
+            header_dir = self.directory.get_path('product_header')
 
             # Settings directory
-            settings_dir = ConfigPaths.get_path('settings')
+            settings_dir = self.directory.get_path('settings')
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)
@@ -509,9 +512,9 @@ class ArchivePage(QWidget, Ui_archive):
             """)
 
             # Header JSON directory
-            header_dir = ConfigPaths.get_path('accounts_header')
+            header_dir = self.directory.get_path('accounts_header')
             # Settings directory
-            settings_dir = ConfigPaths.get_path('settings')
+            settings_dir = self.directory.get_path('settings')
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)

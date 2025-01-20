@@ -11,6 +11,7 @@ from src.pages.admin.restock_page import RestockProduct
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
+from src.utils.dir import ConfigPaths
 
 import pymongo, os, re, json, datetime
 
@@ -22,6 +23,9 @@ class ItemsPage(QWidget, items_page):
         self.setupUi(self)
         
         self.dashboard_mainWindow = dashboard_mainWindow
+
+        # initialize config paths
+        self.directory = ConfigPaths()
 
         self.is_updating_table = False  # Flag to track if the table is being updated
 
@@ -145,7 +149,7 @@ class ItemsPage(QWidget, items_page):
     
     def load_stock_level_filter(self):
         """Add stock level filter to the dropdown"""
-        filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        filter_dir = self.directory.get_path('filters')
         with open(filter_dir, 'r') as f:
             data = json.load(f)
 
@@ -157,7 +161,7 @@ class ItemsPage(QWidget, items_page):
 
     def add_cylinder_size_filter(self):
         """Add cylinder size filter to the dropdown"""
-        filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        filter_dir = self.directory.get_path('filters')
         with open(filter_dir, 'r') as f:
             data = json.load(f)
 
@@ -257,7 +261,7 @@ class ItemsPage(QWidget, items_page):
                 else:
                     row_data.append("")
 
-            product_header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
+            product_header_dir = self.directory.get_path('item_header')
 
             with open(product_header_dir, 'r') as f:
                 data = json.load(f)
@@ -510,7 +514,7 @@ class ItemsPage(QWidget, items_page):
 
         vertical_header = table.verticalHeader()
         vertical_header.hide()
-        header_dir = "D:/Inventory-System/app/resources/config/table/items_tableHeader.json"
+        header_dir = self.directory.get_path('item_header')
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)

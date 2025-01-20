@@ -7,7 +7,7 @@ from src.ui.new_brand_page import Ui_Form as Ui_addItemPage
 from src.utils.Activity_logs import Activity_Logs as activity_logs_util
 from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
-
+from src.utils.dir import ConfigPaths
 
 import datetime, pymongo, sys, json, datetime, random
 
@@ -17,13 +17,13 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.setupUi(self)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
-        # logged in account's username
-
         # activity logs class
         self.logs = Logs()
 
+        # initializ config paths
+        self.directory = ConfigPaths()
 
-        self.settings_dir = "D:/Inventory-System/app/resources/config/filters.json" # settings.json directory
+        self.settings_dir = self.directory.get_path('settings')
 
         # self.fill_form()
 
@@ -123,7 +123,7 @@ class newItem_page(QWidget, Ui_addItemPage):
 
     def load_status_comboBox(self):
         """load the status comboBox"""
-        filter_dir = 'D:/Inventory-System/app/resources/config/filters.json'
+        filter_dir = self.directory.get_path('filters')
         try:
             with open(filter_dir, 'r') as f:
                 data = json.load(f)

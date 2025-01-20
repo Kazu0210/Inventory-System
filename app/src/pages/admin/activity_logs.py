@@ -15,6 +15,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.mainWindow = mainWindow
 
         # initialize dir
+        self.directory = ConfigPaths()
 
         self.category_filter() # call category filter
         self.status_filter() # call status filter
@@ -25,7 +26,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.logs_monitor.data_changed_signal.connect(lambda: self.update_table())
 
         # settings json file directory
-        self.settings_dir = ConfigPaths.get_path('settings')
+        self.settings_dir = self.directory.get_path('settings')
 
         self.update_all() # call update table once
 
@@ -40,7 +41,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         self.update_table() # update the activity logs table
 
     def category_filter(self):
-        categories_dir = ConfigPaths.get_path('logs')
+        categories_dir = self.directory.get_path('logs')
         with open(categories_dir, 'r') as f:
             data = json.load(f)
 
@@ -52,7 +53,7 @@ class Activity_Logs(QWidget, activityLogsPage):
             self.categories_combobox.addItem(list(category.values())[0])
 
     def status_filter(self):
-        status_dir = ConfigPaths.get_path('logs')
+        status_dir = self.directory.get_path('logs')
         with open(status_dir, 'r') as f:
             data = json.load(f)
 
@@ -132,9 +133,9 @@ class Activity_Logs(QWidget, activityLogsPage):
             }
         """)
         # Header JSON directory
-        header_dir = ConfigPaths.get_path('activity_logs_header')
+        header_dir = self.directory.get_path('activity_logs_header')
         # Settings directory
-        settings_dir = ConfigPaths.get_path('settings')
+        settings_dir = self.directory.get_path('settings')
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))
