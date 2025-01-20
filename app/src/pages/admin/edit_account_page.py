@@ -23,7 +23,7 @@ class editAccountPage(QWidget, edit_account_page_Ui):
         self.collection = self.connect_to_db()
 
         self.set_text_on_form() # call function to set text on every field
-        self.settings_dir = self.directory.get_path('filters') # settings.json directory
+        self.settings_dir = self.directory.get_path('filters')
 
         filter_filename = "filters.json" # directory file name
         self.update_combo_box(filter_filename)

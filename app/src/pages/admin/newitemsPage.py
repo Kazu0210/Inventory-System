@@ -204,7 +204,8 @@ class newItem_page(QWidget, Ui_addItemPage):
         """)
 
         # Load header JSON
-        header_dir = "D:/Inventory-System/app/resources/config/table/product_selection_tableHeader.json"
+        # header_dir = "D:/Inventory-System/app/resources/config/table/product_selection_tableHeader.json"
+        header_dir = self.directory.get_path('product_selection_header')
         try:
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)
