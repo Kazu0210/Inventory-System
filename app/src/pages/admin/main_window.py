@@ -9,8 +9,6 @@ from src.pages.admin.accountsPage import AccountsPage
 from src.pages.admin.dashboard_page import Dashboard
 from src.pages.admin.itemsPage import ItemsPage
 from src.pages.admin.newitemsPage import newItem_page as NewItem
-from src.utils.Activity_logs import Activity_Logs as activity_logs
-from src.utils.Graphics import AddGraphics
 from src.pages.admin.settings_page import settingsPage
 from src.pages.admin.new_account_page import NewAccountPage
 from src.pages.admin.order_page import OrderPage
@@ -19,6 +17,9 @@ from src.pages.admin.archive_page import ArchivePage
 from src.pages.admin.sales_report_page import SalesReportPage
 from src.pages.admin.prices_page import PricesPage
 from src.pages.admin.profile_page import ProfilePage
+from src.utils.Activity_logs import Activity_Logs as activity_logs
+from src.utils.Graphics import AddGraphics
+from src.utils.Logs import Logs
 
 from pymongo import MongoClient
 import re, json, os
@@ -230,30 +231,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             button.hide()
 
     def logout_btn_clicked(self):
-        print("Application is closed")
         try:
-            temp_data_dir = "resources/data/temp_user_data.json"
-            if os.path.exists(temp_data_dir):
-                with open(temp_data_dir, 'r') as file:
-                    data = json.load(file)
-                key = list(data.keys())[0]
-                _id = data[key]
-
-                print(f'Key: {key}, _id: {_id}')
-                self.logs.logout(self.account_username)
-                self.account_username = None
-
-                data = {"_id": str("")}
-                with open(temp_data_dir, 'w') as file:
-                    json.dump(data, file, indent=4)
-
-                self.close()
-            else:
-                QMessageBox.warning(self, "Error", "File not found")
-        except FileNotFoundError:
-            print("File not found")
-        except json.JSONDecodeError:
-            print("Invalid JSON in file")
+            logs = Logs()
+            logs.record_log(usersname=self.account_username, event='user_logout_success')
+            self.close()
+        except Exception as e:
+            print(f'An error occured: {e}')
 
     def get_current_index(self):
         return self.content_window_layout.currentIndex()

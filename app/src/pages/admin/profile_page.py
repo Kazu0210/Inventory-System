@@ -4,6 +4,7 @@ from PyQt6.QtCore import QStringConverter, Qt, pyqtSignal
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Hashpassword import HashPassword
 from src.utils.Validation import Validator
+from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
 from src.ui.employee.profilePage import Ui_Form as profile_page
 from src.ui.employee.update_password import Ui_Form as update_pass_page
@@ -169,6 +170,9 @@ class UpdatePassword(QWidget, update_pass_page):
 
         print(f'received username: {username}')
 
+        # initialize activity logs
+        self.logs = Logs()
+
         # button connections
         self.update_pushButton.clicked.connect(lambda: self.save_new_password(username))
         self.cancel_pushButton.clicked.connect(lambda: self.close())
@@ -185,38 +189,48 @@ class UpdatePassword(QWidget, update_pass_page):
         # check if password field is empty
         if not self.isPasswordEmpty():
             print(f'password field is not empty')
-            raw_password = self.new_pass_lineEdit.text().strip()
-            print(f"New password: {raw_password}")
 
-            hasher = HashPassword(raw_password)
-            hashed_password = hasher.hash_password()
+            # get stored password
+            data = self.connect_to_db('accounts').find_one({'username': username})
+            current_password = self.current_pass_lineEdit.text().strip()
+            hashed_current_password = HashPassword(current_password)
 
-            current_document = self.connect_to_db('accounts').find_one({'username': username})
-            if not current_document:
-                CustomMessageBox.show_message('warning', 'User Not Found', 'The current user does not exist in the database.')
-                return
-            
-            try:
-                # Fetch the current user document for comparison
+            if hashed_current_password.verify_password(data['password']):
+                raw_password = self.new_pass_lineEdit.text().strip()
+                print(f"New password: {raw_password}")
+
+                hasher = HashPassword(raw_password)
+                hashed_password = hasher.hash_password()
+
                 current_document = self.connect_to_db('accounts').find_one({'username': username})
                 if not current_document:
                     CustomMessageBox.show_message('warning', 'User Not Found', 'The current user does not exist in the database.')
                     return
+                
+                try:
+                    # Fetch the current user document for comparison
+                    current_document = self.connect_to_db('accounts').find_one({'username': username})
+                    if not current_document:
+                        CustomMessageBox.show_message('warning', 'User Not Found', 'The current user does not exist in the database.')
+                        return
 
-                # Update the current user's document in the collection using the stored username
-                result = self.connect_to_db('accounts').update_one({'username': username}, {'$set': {'password': hashed_password}})
+                    # Update the current user's document in the collection using the stored username
+                    result = self.connect_to_db('accounts').update_one({'username': username}, {'$set': {'password': hashed_password}})
+                    self.logs.record_log(username=username, event="password_change_success") # record the password change event in the logs
 
-                if result.modified_count > 0:
-                    CustomMessageBox.show_message('information', 'Password Updated', 'Password updated successfully.')
-    
-                    self.new_pass_lineEdit.clear() # clear password field
-                    self.close() # hide form
-                else:
-                    CustomMessageBox.show_message('warning', 'Password Not Updated', 'Password update failed.')
-            except Exception as e:
-                print(f"Error updating document: {e}")
-                CustomMessageBox.show_message('critical', 'Error', f"Error updating document: {e}")
-
+                    if result.modified_count > 0:
+                        CustomMessageBox.show_message('information', 'Password Updated', 'Password updated successfully.')
+        
+                        self.new_pass_lineEdit.clear() # clear password field
+                        self.close() # hide form
+                    else:
+                        CustomMessageBox.show_message('warning', 'Password Not Updated', 'Password update failed.')
+                except Exception as e:
+                    print(f"Error updating document: {e}")
+                    CustomMessageBox.show_message('critical', 'Error', f"Error updating document: {e}")
+            else:
+                CustomMessageBox.show_message('warning', 'Invalid Password', 'Current password is invalid.')
+                self.logs.record_log(username=username, event='password_change_failed')
         else:
             CustomMessageBox.show_message('warning', 'Password Field Empty', 'Password field is empty')
 

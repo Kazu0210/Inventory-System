@@ -5,6 +5,7 @@ from PyQt6.QtGui import QIntValidator
 # from src.ui.final_ui.add_product import Ui_Form as Ui_addItemPage
 from src.ui.new_brand_page import Ui_Form as Ui_addItemPage
 from src.utils.Activity_logs import Activity_Logs as activity_logs_util
+from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
 
 
@@ -19,7 +20,8 @@ class newItem_page(QWidget, Ui_addItemPage):
         # logged in account's username
 
         # activity logs class
-        self.logs = activity_logs_util()
+        self.logs = Logs()
+
 
         self.settings_dir = "D:/Inventory-System/app/resources/config/filters.json" # settings.json directory
 
@@ -112,7 +114,7 @@ class newItem_page(QWidget, Ui_addItemPage):
                 }
 
                 self.connect_to_db('products_items').insert_one(data)
-
+                self.logs.record_log(product_name=brand, event='product_added') # record to activity logs
         CustomMessageBox.show_message('information', 'Product saved', 'Product saved successfully')
         self.close()
 

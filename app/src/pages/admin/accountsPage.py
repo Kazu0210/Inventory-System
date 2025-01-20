@@ -13,6 +13,7 @@ from src.utils.Activity_logs import Activity_Logs
 from src.custom_widgets.message_box import CustomMessageBox
 
 from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Logs import Logs
 from datetime import datetime
 
 import re, json, os
@@ -22,6 +23,9 @@ class AccountsPage(QWidget, accounts_page):
         super().__init__()
         self.setupUi(self)
         self.dashboard_mainWindow = dashboard_mainWindow
+
+        # initialize activity logs
+        self.logs = Logs()
 
         # initialize inventory monitor for change in database
         self.inventory_monitor = InventoryMonitor("accounts")
@@ -225,13 +229,8 @@ class AccountsPage(QWidget, accounts_page):
             self.timer.start()
 
     def add_to_archive(self, account_id):
-        os.system('cls')
-
         if not self.object_id:
-            print('Object ID is empty')
             return
-        
-        print(f'Received account id: {account_id}')
 
         data = list(self.collection.find({"account_id": account_id}, {"_id": 0}))
         print(f'Data collected using the Account id: {account_id}: {data}')
@@ -254,12 +253,6 @@ class AccountsPage(QWidget, accounts_page):
             # Remove the row from the table
             row_index = selected_rows[0].row()
             self.tableWidget.removeRow(row_index)
-
-            print(f"DATA NA KELANGAN KOOO: {data}")
-            # data.pop('_id')
-
-            print(f'BAGONG DATA: {data}')
-
             try:
                 # If data is a list, iterate over each dictionary
                 if isinstance(data, list):
@@ -272,6 +265,8 @@ class AccountsPage(QWidget, accounts_page):
                     self.archive_collection.insert_one(data)
             except Exception as e:
                 print(f"Error adding to archive: {e}")
+
+            self.logs.record_log(event='account_archived', account_id=account_id)
 
             # Update the selected_row variable
             self.selected_row = None

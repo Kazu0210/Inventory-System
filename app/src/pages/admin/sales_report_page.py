@@ -6,6 +6,7 @@ from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 from src.ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
 from src.ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
 from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
 
 from datetime import datetime, timedelta
@@ -43,6 +44,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
+
+        # initialize activity logs
+        self.logs = Logs()
 
         self.load_inventory_monitor()
 
@@ -192,7 +196,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 filename = f"{folder}/sales_report_{formatted_date.replace(' ', '_').replace('.', '')}.pdf"
                 pdf.output(filename)
                 CustomMessageBox.show_message('information', 'Success', f"Sales report generated successfully! Filename: {filename}")
-
+                self.logs.record_log(event='sales_report')
             else:
                 print("No folder selected.")
                 CustomMessageBox.show_message('warning', 'Error', "No folder selected. Please select a folder to save the report.")

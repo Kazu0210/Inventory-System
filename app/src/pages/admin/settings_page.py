@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QWidget, QFileDialog, QCheckBox, QVBoxLayout
 from PyQt6.QtCore import QThread, pyqtSignal
 from src.ui.final_ui.settings import Ui_Form as Ui_settings_page
 from src.custom_widgets.message_box import CustomMessageBox
+from src.utils.Logs import Logs
 
 import json, pymongo, os, datetime
 
@@ -109,6 +110,9 @@ class settingsPage(QWidget, Ui_settings_page):
         super().__init__()
         self.setupUi(self)
         self.main_window = main_window
+
+        # initialize activity logs
+        self.logs = Logs()
 
         # setting json file directory
         self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
@@ -278,6 +282,7 @@ class settingsPage(QWidget, Ui_settings_page):
                 self.worker.progress_signal.connect(self.update_progress_bar)
                 self.worker.backup_done_signal.connect(self.show_done_signal)
                 self.worker.start()
+                self.logs.record_log(event='entire_system_backup')
             else:
                 CustomMessageBox.show_message('critical', 'Backup Cancelled', 'Backup cancelled')
             

@@ -7,6 +7,7 @@ from src.custom_widgets.message_box import CustomMessageBox
 from src.ui.NEW.archive_page import Ui_Form as Ui_archive
 from src.ui.final_ui.archive_account_information import Ui_Frame as Ui_archive_account_info
 from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Logs import Logs
 
 import json, os, pymongo, re, threading
 
@@ -21,6 +22,9 @@ class ArchivePage(QWidget, Ui_archive):
         super().__init__()
         self.setupUi(self)
         self.parent_window = parent_window
+
+        # initialize activity logs
+        self.logs = Logs()
 
         # hide the preview frames
         self.hide_preview_frames()
@@ -103,6 +107,7 @@ class ArchivePage(QWidget, Ui_archive):
             self.connect_to_db("accounts").insert_one(data)
             self.connect_to_db(self.current_collection).delete_one(filter)
             CustomMessageBox.show_message('information', 'Success', 'Account restored successfully')
+            self.logs.record_log(event='archived_account_restored', account_id=account_id)
 
         elif self.current_collection == 'product_archive':
             product_id = data['product_id'] # get account id 
@@ -112,6 +117,8 @@ class ArchivePage(QWidget, Ui_archive):
             self.connect_to_db("products_items").insert_one(data)
             self.connect_to_db(self.current_collection).delete_one(filter)
             CustomMessageBox.show_message('information', 'Success', 'Product restored successfully')
+            self.logs.record_log(event='archived_product_restored', product_id=product_id)
+
 
     def on_item_clicked(self, item):
         row = self.tableWidget.row(item)

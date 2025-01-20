@@ -12,6 +12,7 @@ from src.ui.ui_item_frame import Ui_Frame as Ui_item_frame
 
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.custom_widgets.message_box import CustomMessageBox
+from src.utils.Logs import Logs
 
 import pymongo, json, re
 from pymongo import DESCENDING
@@ -69,6 +70,9 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.update_total_orders()
 
         self.hide_back_button()
+
+        # initialize activity logs
+        self.logs = Logs()
 
         # Initialize the form with the provided order_id
         self.order_id = self.generate_order_id()
@@ -475,7 +479,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                     'order_id': order_id
                 }
                 self.connect_to_db('orders').update_one(filter, {'$set': {'order_status': text}})
-
+                self.logs.record_log(event='order_status_updated', order_id=order_id)
                 CustomMessageBox.show_message('information', 'Success', 'Order status updated successfully')
 
     def handle_payment(self, pending_status, row, text, order_id):
@@ -493,6 +497,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 }
                 self.connect_to_db('orders').update_one(filter, {'$set': {'payment_status': text}})
 
+                self.logs.record_log(event='payment_status_updated', order_id=order_id)
                 CustomMessageBox.show_message('information', 'Success', 'Payment status updated successfully')
 
     def load_view_products_table(self, products, page=0, rows_per_page=10):
@@ -759,6 +764,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             
             # Clear the cart after processing the order
             self.connect_to_db('cart').delete_many({})
+
+            self.logs.record_log(event='order_placed') # record order placed event
 
             CustomMessageBox.show_message('information', 'Order Confirmation', 'Order has been successfully placed.')
         except Exception as e:

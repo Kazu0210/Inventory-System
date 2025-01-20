@@ -9,6 +9,7 @@ from src.ui.NEW.inventory_page import Ui_Form as items_page
 from src.pages.admin.edit_product_page import EditProductInformation
 from src.pages.admin.restock_page import RestockProduct
 from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
 
 import pymongo, os, re, json, datetime
@@ -29,6 +30,9 @@ class ItemsPage(QWidget, items_page):
         self.load_filters()
 
         self.load_monitors()
+
+        # initialize activity logs
+        self.logs = Logs()
 
         # Call update_all function to populate table once
         self.update_all()
@@ -110,6 +114,9 @@ class ItemsPage(QWidget, items_page):
                 filename = f"{folder}/inventory_report_{formatted_date.replace(' ', '_').replace('.', '')}_{formatted_time}.pdf"
                 pdf.output(filename)
                 print(f"Report generated successfully! Filename: {filename}")
+
+                # record to activity logs
+                self.logs.record_log(event='inventory_report')
                 CustomMessageBox.show_message(
                     'information',
                     'Inventory Report',
@@ -375,6 +382,7 @@ class ItemsPage(QWidget, items_page):
             self.update_table()
 
             self.connect_to_db('products_items').delete_one({'product_id': product_id})
+            self.logs.record_log(event='product_archived', product_id=product_id)
         except Exception as e:
             print(f'Error: {e}')
         
@@ -640,8 +648,6 @@ class ItemsPage(QWidget, items_page):
                 for id in product_ids:
                     self.add_to_archive(id)
 
-
-
     def price_table_item_changed(self, item):
         """Handles the price table item changed event"""
         try:
@@ -671,6 +677,7 @@ class ItemsPage(QWidget, items_page):
                         filter = {'product_id': product_id}
                         update = {"$set": {cleaned_header: int(new_value), "total_value": total_value}}
                         self.connect_to_db('products_items').update_one(filter, update)
+                        self.logs.record_log(event='product_updated', product_id=product_id)
                     except Exception as e:
                         print(f'Error: {e}')
                 elif cleaned_header == 'selling_price':
@@ -679,6 +686,7 @@ class ItemsPage(QWidget, items_page):
                         filter = {'product_id': product_id}
                         update = {"$set": {"price_per_unit": float(new_value), "total_value": total_value}}
                         self.connect_to_db('products_items').update_one(filter, update)
+                        self.logs.record_log(event='product_updated', product_id=product_id)
                     except Exception as e:
                         print(f'Error: {e}')
                 elif cleaned_header == 'supplier_price':
@@ -686,6 +694,7 @@ class ItemsPage(QWidget, items_page):
                         filter = {'product_id': product_id}
                         update = {"$set": {"supplier_price": float(new_value)}}
                         self.connect_to_db('products_items').update_one(filter, update)
+                        self.logs.record_log(event='product_updated', product_id=product_id)
                     except Exception as e:
                         print(f'Error: {e}')
         except Exception as e:

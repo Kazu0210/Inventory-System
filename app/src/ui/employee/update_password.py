@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\update_password.ui'
+# Form implementation generated from reading ui file 'update_password.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -13,9 +13,9 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.setEnabled(True)
-        Form.resize(365, 170)
-        Form.setMinimumSize(QtCore.QSize(365, 170))
-        Form.setMaximumSize(QtCore.QSize(365, 170))
+        Form.resize(365, 200)
+        Form.setMinimumSize(QtCore.QSize(365, 200))
+        Form.setMaximumSize(QtCore.QSize(365, 200))
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "color: #1E1E1E;\n"
@@ -83,6 +83,26 @@ class Ui_Form(object):
         self.verticalLayout.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout.setSpacing(5)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.frame_5 = QtWidgets.QFrame(parent=self.frame_3)
+        self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_5)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.label_3 = QtWidgets.QLabel(parent=self.frame_5)
+        self.label_3.setMinimumSize(QtCore.QSize(125, 0))
+        self.label_3.setMaximumSize(QtCore.QSize(125, 16777215))
+        self.label_3.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";")
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout_4.addWidget(self.label_3)
+        self.current_pass_lineEdit = QtWidgets.QLineEdit(parent=self.frame_5)
+        self.current_pass_lineEdit.setMinimumSize(QtCore.QSize(200, 30))
+        self.current_pass_lineEdit.setMaximumSize(QtCore.QSize(200, 30))
+        self.current_pass_lineEdit.setObjectName("current_pass_lineEdit")
+        self.horizontalLayout_4.addWidget(self.current_pass_lineEdit)
+        self.verticalLayout.addWidget(self.frame_5)
         self.frame_2 = QtWidgets.QFrame(parent=self.frame_3)
         self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -153,6 +173,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "Update Password:"))
+        self.label_3.setText(_translate("Form", "Current Password:"))
         self.label_2.setText(_translate("Form", "New Password:"))
         self.update_pushButton.setText(_translate("Form", "Update"))
         self.cancel_pushButton.setText(_translate("Form", "Cancel"))

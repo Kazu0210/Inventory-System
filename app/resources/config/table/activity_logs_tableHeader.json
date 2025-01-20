@@ -1,10 +1,7 @@
 [
-    "Date/Time",
-    "User",
-    "Activity Type",
-    "Job",
-    "Item/Entity",
-    "Category",
-    "Details",
-    "Status"
+    "Log ID",
+    "Timestamp",
+    "Username",
+    "Event Type",
+    "Description"
 ]

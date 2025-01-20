@@ -78,7 +78,6 @@ class Activity_Logs:
             
             # INVENTORY
             "New Item Category Added": f"User {username} added a new product category"
-            # Add more event types and messages as needed
         }
 
         # Read logs categories from json file
@@ -98,12 +97,14 @@ class Activity_Logs:
         self.log_event(username, "Login attempt success", "Success", category="Login Activity")
         self.last_login(username, last_login)
 
-
     def login_attempt_fsailed(self, username):
         self.log_event(username, "Login attempt failed", "Failed", category="Failed Login Attempt")
 
     def logout(self, username):
         self.log_event(username, "Logout", "Success", category="Logout Activity")
+
+    def exit_application(self):
+        self.log_event(username="Null", event_type="Exit Application", status="Success", category="System Activity")
     
     def quit(self, _id):
         print(_id)
