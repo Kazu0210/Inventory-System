@@ -412,6 +412,63 @@ border-radius: 5px;
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
+           <widget class="QFrame" name="frame_19">
+            <property name="minimumSize">
+             <size>
+              <width>225</width>
+              <height>90</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>225</width>
+              <height>90</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">#frame_19{
+background-color: #fff;
+border: 1px solid #228B22;
+border-radius: 5px;
+}
+*{
+background-color: transparent;
+}</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <widget class="QLabel" name="revenue_title_label">
+               <property name="styleSheet">
+                <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+               </property>
+               <property name="text">
+                <string>Revenue:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="revenue_label">
+               <property name="styleSheet">
+                <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
+color: #333333;
+</string>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
            <widget class="QFrame" name="frame_2">
             <property name="minimumSize">
              <size>

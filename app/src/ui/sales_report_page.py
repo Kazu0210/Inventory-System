@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'sales_report_page.ui'
+# Form implementation generated from reading ui file '.\sales_report_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -205,6 +205,34 @@ class Ui_Form(object):
         self.frame_4.setObjectName("frame_4")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_4)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.frame_19 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_19.setMinimumSize(QtCore.QSize(225, 90))
+        self.frame_19.setMaximumSize(QtCore.QSize(225, 90))
+        self.frame_19.setStyleSheet("#frame_19{\n"
+"background-color: #fff;\n"
+"border: 1px solid #228B22;\n"
+"border-radius: 5px;\n"
+"}\n"
+"*{\n"
+"background-color: transparent;\n"
+"}")
+        self.frame_19.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_19.setObjectName("frame_19")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_19)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.revenue_title_label = QtWidgets.QLabel(parent=self.frame_19)
+        self.revenue_title_label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+"color: #333333;")
+        self.revenue_title_label.setObjectName("revenue_title_label")
+        self.verticalLayout_10.addWidget(self.revenue_title_label)
+        self.revenue_label = QtWidgets.QLabel(parent=self.frame_19)
+        self.revenue_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+"color: #333333;\n"
+"")
+        self.revenue_label.setObjectName("revenue_label")
+        self.verticalLayout_10.addWidget(self.revenue_label)
+        self.horizontalLayout_3.addWidget(self.frame_19)
         self.frame_2 = QtWidgets.QFrame(parent=self.frame_4)
         self.frame_2.setMinimumSize(QtCore.QSize(225, 90))
         self.frame_2.setMaximumSize(QtCore.QSize(225, 16777215))
@@ -357,7 +385,7 @@ class Ui_Form(object):
 "background-color: #fff;")
         self.search_pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap(".\\../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.search_pushButton.setIcon(icon)
         self.search_pushButton.setObjectName("search_pushButton")
         self.horizontalLayout_8.addWidget(self.search_pushButton)
@@ -609,6 +637,8 @@ class Ui_Form(object):
         self.label_9.setText(_translate("Form", "Start Date:"))
         self.label_10.setText(_translate("Form", "End Date:"))
         self.confirm_date_pushButton.setText(_translate("Form", "Confirm"))
+        self.revenue_title_label.setText(_translate("Form", "Revenue:"))
+        self.revenue_label.setText(_translate("Form", "0"))
         self.label_2.setText(_translate("Form", "Revenue This Month:"))
         self.revenue_month_label.setText(_translate("Form", "0"))
         self.label.setText(_translate("Form", "Total Sales Today:"))

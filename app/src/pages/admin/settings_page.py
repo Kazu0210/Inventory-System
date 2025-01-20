@@ -179,6 +179,7 @@ class settingsPage(QWidget, Ui_settings_page):
     
     def clean_selected_collections(self, collections):
         """cleaned that selected collections to match the name of the collections in the database"""
+        print(f'Recevied collection: {collections}')
         if collections:
             cleaned_collections = []
             collection_names = [
@@ -192,6 +193,13 @@ class settingsPage(QWidget, Ui_settings_page):
                 'orders',
                 'prices',
             ]
+            for collection in collections:
+                print(f'Pakening collection: {collection}')
+                collection = sorted(collection.replace(' ', '_').lower())
+                print(f'Cleaned pakening collection na: {collection}')
+
+            
+        return cleaned_collections
 
     def get_directory_backup_entire(self):
         """get the directory for the entire backup option. handles the browse file buttonj click event"""
@@ -297,7 +305,7 @@ class settingsPage(QWidget, Ui_settings_page):
 
             checked_collections = self.get_checked_collections()
             print(f'checked collections: {checked_collections}')
-            self.clean_selected_collections(checked_collections)
+            print(f"Cleaned collection names: {self.clean_selected_collections(checked_collections)}")
         else:
             CustomMessageBox.show_message('critical', 'Error', 'Please select a backup option')
 

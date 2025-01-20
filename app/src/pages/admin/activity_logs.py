@@ -77,6 +77,7 @@ class Activity_Logs(QWidget, activityLogsPage):
         table = self.tableWidget
         table.setSortingEnabled(True)
         table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        table.setSelectionMode(table.SelectionMode.NoSelection)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
         table.setRowCount(0)  # Clear the table
@@ -143,11 +144,12 @@ class Activity_Logs(QWidget, activityLogsPage):
         header = self.tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
-        for column in range(table.columnCount()):
-            table.setColumnWidth(column, 145)
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        # for column in range(table.columnCount()):
+        #     table.setColumnWidth(column, 145)
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
-        header.setFixedHeight(50)
+        header.setFixedHeight(40)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         # Clean the header labels

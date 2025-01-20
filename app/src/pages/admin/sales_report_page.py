@@ -45,46 +45,170 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
         super().__init__()
         self.setupUi(self)
-
-        # initialize activity logs
-        self.logs = Logs()
-
-        self.dirs = ConfigPaths()
+        self.logs = Logs() # initialize activity logs
+        self.dirs = ConfigPaths() # initialize config paths
 
         self.load_inventory_monitor()
-
-        sales_monitor = InventoryMonitor("sales")
-        sales_monitor.start_listener_in_background()
-        sales_monitor.data_changed_signal.connect(lambda: self.update_sales_table())
-
         self.filter_query = {}
-
-        # Set layout for the product name filter
-        self.productNameLayout = QVBoxLayout()
-
-        # Make sure the frame exists and is defined in the UI file
-        if hasattr(self, 'productName_frame'):
-            self.productName_frame.setLayout(self.productNameLayout)
-        else:
-            print("Error: 'productName_frame' does not exist in the UI.")
-
-        # Call function that sets the text label of today's sales and this month's revenue once
+        self.load_filters() # call function that loads all the filters
         self.update_labels()
         self.hide_back_button()
-
         self.set_icons()
-
         self.custom_time_period_frame.hide() # hide the frame the holds the inputs for custom time period filter
-
-        # call function that loads all the filters
-        self.load_filters()
-
-        # search bar connection
-        self.search_lineEdit.textChanged.connect(lambda: self.handle_search())
-
-        # button connections
         self.load_button_connections()
 
+    def update_revenue_label(self, **kwargs):
+        """update the dynamic revenue labels"""
+        time_period = kwargs.get('time_period', '')
+        if time_period: # update revenue title label
+            self.revenue_title_label.setText(f'Revenue for {time_period}')
+        if time_period == 'Today':
+            formatted_revenue = f"₱ {self.get_total_revenue_today():,.2f}"
+            self.revenue_label.setText(str(formatted_revenue))
+        elif time_period == 'This Week':
+            formatted_revenue = f"₱ {self.get_total_revenue_this_week():,.2f}"
+            self.revenue_label.setText(str(formatted_revenue))
+        elif time_period == 'This Month':
+            formatted_revenue = f"₱ {self.get_total_revenue_this_month():,.2f}"
+            self.revenue_label.setText(str(formatted_revenue))
+        elif time_period == 'This Year':
+            formatted_revenue = f"₱ {self.get_total_revenue_this_year():,.2f}"
+            self.revenue_label.setText(str(formatted_revenue))
+        elif time_period == 'Last Month':
+            formatted_revenue = f"₱ {self.get_total_revenue_last_month():,.2f}"
+            self.revenue_label.setText(str(formatted_revenue))
+
+    def get_total_revenue_today(self):
+        # Get today's date (midnight to midnight)
+        today_start = datetime.combine(datetime.today(), datetime.min.time())
+        today_end = today_start.replace(hour=23, minute=59, second=59)
+
+        # Query for sales made today
+        query = {
+            'sale_date': {'$gte': today_start, '$lte': today_end}
+        }
+
+        # Aggregate the total revenue by summing the 'total_value' field of all sales made today
+        total_revenue = self.connect_to_db('sales').aggregate([
+            {'$match': query},
+            {'$group': {'_id': None, 'totalRevenue': {'$sum': '$total_value'}}}
+        ])
+
+        # Extract the total revenue value
+        total_revenue_value = 0
+        for result in total_revenue:
+            total_revenue_value = result['totalRevenue']
+
+        return total_revenue_value
+
+    def get_total_revenue_this_week(self):
+        # Get today's date
+        today = datetime.today()
+
+        # Find the start of this week (Sunday or Monday)
+        start_of_week = today - timedelta(days=today.weekday())  # Monday as the start of the week
+        if today.weekday() == 0:
+            start_of_week -= timedelta(days=7)  # If today is Monday, make it Sunday of the previous week
+
+        # Query for sales made this week
+        query = {
+            'sale_date': {'$gte': start_of_week, '$lt': today}
+        }
+
+        # Aggregate the total revenue by summing the 'total_value' field of all sales made this week
+        total_revenue = self.connect_to_db('sales').aggregate([
+            {'$match': query},
+            {'$group': {'_id': None, 'totalRevenue': {'$sum': '$total_value'}}}
+        ])
+
+        # Extract the total revenue value
+        total_revenue_value = 0
+        for result in total_revenue:
+            total_revenue_value = result['totalRevenue']
+
+        return total_revenue_value
+
+    def get_total_revenue_this_month(self):
+        # Get the current year and month
+        now = datetime.now()
+        month_start = datetime(now.year, now.month, 1)  # Start of the current month
+        next_month_start = datetime(now.year, now.month + 1, 1) if now.month != 12 else datetime(now.year + 1, 1, 1)
+
+        # Query for sales made this month
+        query = {
+            'sale_date': {'$gte': month_start, '$lt': next_month_start}
+        }
+
+        # Aggregate the total revenue by summing the 'total_value' field of all sales made this month
+        total_revenue = self.connect_to_db('sales').aggregate([
+            {'$match': query},
+            {'$group': {'_id': None, 'totalRevenue': {'$sum': '$total_value'}}}
+        ])
+
+        # Extract the total revenue value
+        total_revenue_value = 0
+        for result in total_revenue:
+            total_revenue_value = result['totalRevenue']
+
+        return total_revenue_value
+
+    def get_total_revenue_this_year(self):
+        # Get the start of the current year
+        now = datetime.now()
+        year_start = datetime(now.year, 1, 1)
+
+        # Query for sales made this year
+        query = {
+            'sale_date': {'$gte': year_start}
+        }
+
+        # Aggregate the total revenue by summing the 'total_value' field of all sales made this year
+        total_revenue = self.connect_to_db('sales').aggregate([
+            {'$match': query},
+            {'$group': {'_id': None, 'totalRevenue': {'$sum': '$total_value'}}}
+        ])
+
+        # Extract the total revenue value
+        total_revenue_value = 0
+        for result in total_revenue:
+            total_revenue_value = result['totalRevenue']
+
+        return total_revenue_value
+
+    def get_total_revenue_last_month(self):
+        # Get the current date
+        now = datetime.now()
+
+        # Calculate the first day of the previous month
+        if now.month == 1:
+            last_month_start = datetime(now.year - 1, 12, 1)
+        else:
+            last_month_start = datetime(now.year, now.month - 1, 1)
+
+        # Calculate the last day of the previous month
+        if now.month == 1:
+            last_month_end = datetime(now.year, 1, 1) - timedelta(days=1)
+        else:
+            last_month_end = datetime(now.year, now.month, 1) - timedelta(days=1)
+
+        # Query for sales made last month
+        query = {
+            'sale_date': {'$gte': last_month_start, '$lt': last_month_end}
+        }
+
+        # Aggregate the total revenue by summing the 'total_value' field of all sales made last month
+        total_revenue = self.connect_to_db('sales').aggregate([
+            {'$match': query},
+            {'$group': {'_id': None, 'totalRevenue': {'$sum': '$total_value'}}}
+        ])
+
+        # Extract the total revenue value
+        total_revenue_value = 0
+        for result in total_revenue:
+            total_revenue_value = result['totalRevenue']
+
+        return total_revenue_value
+    
     def load_button_connections(self):
         """load all the button connections"""
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
@@ -94,6 +218,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.create_sales_report_pushButton.clicked.connect(lambda: self.create_sales_report())
         self.time_period_comboBox.currentTextChanged.connect(lambda text: self.handle_time_period_comboBox(text))
         self.confirm_date_pushButton.clicked.connect(lambda: self.handle_confirm_date_pushButton())
+        self.search_lineEdit.textChanged.connect(lambda: self.handle_search())
 
     def handle_confirm_date_pushButton(self):
         """handle confirm date pushButton click event"""
@@ -106,6 +231,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             self.custom_time_period_frame.show()
         else:
             self.custom_time_period_frame.hide()
+            self.update_revenue_label(time_period=current_text)
             self.update_sales_table()
 
     def load_filters(self):
@@ -224,7 +350,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
     def set_icons(self):
         """Set icons to buttons"""
-        self.search_pushButton.setIcon(QIcon("resources/icons/black-theme/search.png"))
+        self.search_pushButton.setIcon(QIcon(self.dirs.get_path('search_icon')))
 
     def load_product_category_filter(self):
         """Load product categories (cylinder sizes) from the database and populate the product category frame"""
@@ -238,55 +364,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         available_cylinder_sizes = [size.get("cylinder_size") for size in cylinder_sizes]
         return available_cylinder_sizes 
 
-    def load_product_name_filter(self):
-        # Clear the layout by deleting all child widgets
-        while self.productNameLayout.count():
-            child = self.productNameLayout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-
-        # Aggregate product data from the database
-        pipeline = [
-            {"$group": {
-                "_id": "$product_name"
-            }}
-        ]
-        product_data = list(self.connect_to_db('sales').aggregate(pipeline))
-
-        # Add new checkboxes for each product name to the layout
-        for product in product_data:
-            product_name = product.get("_id")
-            if product_name:
-                product_filter_checkBox = QCheckBox(f"{product_name}")
-                # Capture the current checkbox using a default argument in the lambda
-                product_filter_checkBox.stateChanged.connect(lambda state, cb=product_filter_checkBox: self.handle_product_name_checkBox(cb))
-                self.productNameLayout.addWidget(product_filter_checkBox)
-
-    def handle_product_name_checkBox(self, checkbox):
-        """Handle checkbox toggle signal to update the filter query."""
-        checked_prod_name = []
-        for i in range(self.productNameLayout.count()):
-            item = self.productNameLayout.itemAt(i)
-            widget = item.widget()
-
-            # Ensure the widget is a QCheckBox and is checked
-            if isinstance(widget, QCheckBox) and widget.isChecked():
-                print(f"Checkbox '{widget.text()}' is checked.")
-                checked_prod_name.append(widget.text())
-
-        # Update the filter query with the checked product names
-        if checked_prod_name:
-            self.filter_query['product_name'] = checked_prod_name
-        elif 'product_name' in self.filter_query:
-            # Remove the 'product_name' key if no checkboxes are checked
-            del self.filter_query['product_name']
-
-        # Store the checked names in the instance attribute
-        self.checked_prod_name = checked_prod_name
-
-        print(f"Checked product names: {self.checked_prod_name}")
-        self.update_sales_table()
-
     def update_top_product(self):
         data = self.get_top_10_best_selling_products()
 
@@ -299,7 +376,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         layout = self.best_selling_prod_scrollAreaWidgetContents.layout()
         if layout is None:
             layout = QVBoxLayout() # Create new layout if no layout
-            print(f'No layout, creating a new one')
         else:
             print(f'Layout exists')
 
@@ -375,8 +451,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_sales_trend_chart()
         self.update_best_selling_chart()
         self.update_top_product()
-
-        # self.load_product_name_filter()
+        self.update_revenue_label()
         
     def get_last_7_days_sales(self):
         pipeline = [
@@ -488,15 +563,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
     def clean_header(self, header):
             return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
 
-    def get_sales_today(self):
-        pass
-
-    def get_time_period(self, time_period):
-        """get and return the selected time period from the comboBox"""
-        if time_period:
-            pass
-
-
     def update_sales_table(self, page=0, rows_per_page=10):
             """Load prices current price on the prices table with pagination."""
             self.current_page = page  # Keep track of the current page
@@ -602,15 +668,16 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             today = datetime.now()
             time_period = self.time_period_comboBox.currentText()
             if time_period == "Today":
-                today_start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                today_start = today.replace(hour=0, minute=0, second=0, microsecond=0)
                 today_end = today_start + timedelta(days=1)
                 filter = {"sale_date": {"$gte": today_start, "$lt": today_end}}
+
             elif time_period == "This Week":
-                today = datetime.now()
                 week_start = today - timedelta(days=today.weekday())  # Monday of the current week
                 week_start = week_start.replace(hour=0, minute=0, second=0, microsecond=0)
                 week_end = week_start + timedelta(days=7)  # End of the current week (next Monday 0:00)
                 filter = {"sale_date": {"$gte": week_start, "$lt": week_end}}
+
             elif time_period == "This Month":
                 month_start = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
                 if today.month == 12:
@@ -618,10 +685,12 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 else:
                     month_end = datetime(today.year, today.month + 1, 1, 0, 0, 0)
                 filter = {"sale_date": {"$gte": month_start, "$lt": month_end}}
+
             elif time_period == "This Year":
                 year_start = datetime(today.year, 1, 1, 0, 0, 0)
                 year_end = datetime(today.year + 1, 1, 1, 0, 0, 0)
                 filter = {"sale_date": {"$gte": year_start, "$lt": year_end}}
+
             elif time_period == "Last Month":
                 if today.month == 1:
                     last_month_start = datetime(today.year - 1, 12, 1, 0, 0, 0)
@@ -848,10 +917,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         """Handle the 'View Products' button click event"""
         self.clear_sales_table()
         self.show_back_button()
-
-        print(f"Button clicked for row: {row}")
-        print(f"Products: {products}")
-
         self.load_view_products_table(products)
 
     def handle_back_button(self):
