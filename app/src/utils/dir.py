@@ -37,8 +37,7 @@ class ConfigPaths:
             "settings_icon": ["resources", "icons", "black-theme", "settings.png"],
             "archive_icon": ["resources", "icons", "black-theme", "archive.png"],
             "logout_icon": ["resources", "icons", "black-theme", "logout.png"],
-            "close_icon": ["resources", "icons", "black-theme", "close.png"],
-            "white_sys"
+            "close_icon": ["resources", "icons", "black-theme", "close.png"]
         }
 
     def get_path(self, key):
