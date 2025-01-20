@@ -18,7 +18,6 @@ class PricesPage(QWidget, Ui_price_page):
         self.load_all()
 
         # Initialize config paths
-        self.directory = ConfigPaths()
 
         # Initialize Inventory Monitor for prices table
         self.prices_monitor = InventoryMonitor("prices")
@@ -47,6 +46,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         self.add_graphics()
 
+        self.directory = ConfigPaths()
     def search_button_clicked(self):
         """handles the click event for the search button"""
         # Disconnect the signal from the slot
