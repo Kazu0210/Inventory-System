@@ -204,7 +204,6 @@ class newItem_page(QWidget, Ui_addItemPage):
         """)
 
         # Load header JSON
-        # header_dir = "D:/Inventory-System/app/resources/config/table/product_selection_tableHeader.json"
         header_dir = self.directory.get_path('product_selection_header')
         try:
             with open(header_dir, 'r') as f:
@@ -240,7 +239,7 @@ class newItem_page(QWidget, Ui_addItemPage):
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Load filter JSON
-        filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        filters_dir = self.directory.get_path('filters')
         try:
             with open(filters_dir, 'r') as f:
                 data = json.load(f)

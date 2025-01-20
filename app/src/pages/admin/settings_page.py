@@ -3,6 +3,7 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from src.ui.final_ui.settings import Ui_Form as Ui_settings_page
 from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.Logs import Logs
+from src.utils.dir import ConfigPaths
 
 import json, pymongo, os, datetime
 
@@ -114,9 +115,11 @@ class settingsPage(QWidget, Ui_settings_page):
         # initialize activity logs
         self.logs = Logs()
 
+        self.dirs = ConfigPaths()
+
         # setting json file directory
-        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
-        self.filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        self.settings_dir = self.dirs.get_path('settings')
+        self.filters_dir = self.dirs.get_path('filters')
 
         self.hide_widgets()
         self.load_btn_connections()

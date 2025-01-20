@@ -2,6 +2,7 @@ import datetime, json
 from bson.objectid import ObjectId
 
 from src.utils.DB_checker import db_checker
+from src.utils.dir import ConfigPaths
 
 class Activity_Logs:
     def __init__(self):

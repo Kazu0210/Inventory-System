@@ -5,6 +5,7 @@ from src.ui.final_ui.prices_page import Ui_Form as Ui_price_page
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Graphics import AddGraphics
 from src.custom_widgets.message_box import CustomMessageBox
+from src.utils.dir import ConfigPaths
 
 import json, pymongo, datetime, re, os
 
@@ -15,6 +16,9 @@ class PricesPage(QWidget, Ui_price_page):
         self.parent_window = parent_window
 
         self.load_all()
+
+        # Initialize config paths
+        self.directory = ConfigPaths()
 
         # Initialize Inventory Monitor for prices table
         self.prices_monitor = InventoryMonitor("prices")
@@ -255,10 +259,10 @@ class PricesPage(QWidget, Ui_price_page):
             """)
 
         # header json directory
-        header_dir = "D:/Inventory-System/app/resources/config/table/priceHistory_tableHeader.json"
+        header_dir = self.directory.get_path('price_history_header')
 
         # settings directory
-        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+        settings_dir = self.directory.get_path('settings')
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
@@ -473,10 +477,10 @@ class PricesPage(QWidget, Ui_price_page):
             """)
 
         # Header JSON directory
-        header_dir = "D:/Inventory-System/app/resources/config/table/prices_tableHeader.json"
+        header_dir = self.directory.get_path('price_header')
 
         # Settings directory
-        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+        settings_dir = self.directory.get_path('settings')
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)

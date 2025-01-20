@@ -7,6 +7,7 @@ from src.ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
 from src.ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Logs import Logs
+from src.utils.dir import ConfigPaths
 from src.custom_widgets.message_box import CustomMessageBox
 
 from datetime import datetime, timedelta
@@ -47,6 +48,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         # initialize activity logs
         self.logs = Logs()
+
+        self.dirs = ConfigPaths()
 
         self.load_inventory_monitor()
 
@@ -111,7 +114,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
     def load_time_period_filter(self):
         """load the time period filter"""
-        filters_dir = "D:/Inventory-System/app/resources/config/filters.json"
+        filters_dir = self.dirs.get_path('filters')
         with open(filters_dir, 'r') as f:
             data = json.load(f)
 
@@ -559,10 +562,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             """)
 
             # Header JSON directory
-            header_dir = "D:/Inventory-System/app/resources/config/table/sales_tableHeader.json"
+            header_dir = self.dirs.get_path('sales_header')
 
             # Settings directory
-            settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+            settings_dir = self.dirs.get_path('settings')
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)
@@ -768,9 +771,9 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             }
         """)
         # Header JSON directory
-        header_dir = "D:/Inventory-System/app/resources/config/table/view_products_tableHeader.json"
+        header_dir = self.dirs.get_path('view_products_header')
         # Settings directory
-        settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+        settings_dir = self.dirs.get_path('settings')
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
         table.setColumnCount(len(header_labels))

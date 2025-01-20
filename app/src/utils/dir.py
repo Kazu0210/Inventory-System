@@ -19,6 +19,7 @@ class ConfigPaths:
             "sales_header": ["resources", "config", "table", "sales_tableHeader.json"],
             "sales_today_header": ["resources", "config", "table", "sales_today_tableHeader.json"],
             "view_products_header": ["resources", "config", "table", "view_products_tableHeader.json"],
+            "product_selection_header": ["resources", "config", "table", "product_selection_tableHeader.json"],
             "settings": ["resources", "config", "settings.json"],
             "filters_box": ["resources", "config", "filters_box.json"],
             "filters": ["resources", "config", "filters.json"],

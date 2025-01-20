@@ -1,10 +1,14 @@
 from pymongo import MongoClient
+from src.utils.dir import ConfigPaths
 import json
 
 class createDefaultAdmin:
     def __init__(self):
-        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
-        with open(self.settings_dir, 'r') as f: # open settings.json
+
+        self.dirs = ConfigPaths()
+
+        self.settings_dir = self.dirs.get_path('settings')
+        with open(self.settings_dir, 'r') as f:
             self.data = json.load(f)
 
         self.client = MongoClient(self.data['db'][1]['db_url'])

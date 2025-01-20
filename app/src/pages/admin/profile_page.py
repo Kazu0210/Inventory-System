@@ -10,6 +10,8 @@ from src.ui.employee.profilePage import Ui_Form as profile_page
 from src.ui.employee.update_password import Ui_Form as update_pass_page
 from src.ui.employee.update_profile import Ui_Form as update_profile_page
 
+from src.utils.dir import ConfigPaths
+
 import pymongo, json
 
 class UpdateProfile(QWidget, update_profile_page):
@@ -19,6 +21,9 @@ class UpdateProfile(QWidget, update_profile_page):
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.username = username
         self.load_data()
+
+        # initialize config paths
+        self.directory = ConfigPaths()
 
         # button connections
         self.update_pushButton.clicked.connect(lambda: self.update_btn_clicked())    
@@ -70,7 +75,7 @@ class UpdateProfile(QWidget, update_profile_page):
             print(f'Error: {e}')
 
     def load_job_filter(self, current_job):
-        job_dir = "app/resources/config/filters.json"
+        job_dir = self.directory.get_path('filters')
 
         # Open and load the JSON file
         with open(job_dir, 'r') as f:
@@ -99,7 +104,7 @@ class UpdateProfile(QWidget, update_profile_page):
             self.job_comboBox.insertItem(0, current_job)
 
     def load_role_filter(self, current_role):
-        job_dir = "app/resources/config/filters.json"
+        job_dir = self.directory.get_path('filters')
 
         # Open and load the JSON file
         with open(job_dir, 'r') as f:

@@ -3,10 +3,13 @@ import json
 import pymongo
 from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtCore import QRegularExpression
+from src.utils.dir import ConfigPaths
 
 class Validator:
     def __init__(self):
-        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+        self.dirs = ConfigPaths()
+
+        self.settings_dir = self.dirs.get_path('settings')
         with open(self.settings_dir, 'r') as f:
             setting = json.load(f)
         
