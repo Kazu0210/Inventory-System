@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\sales_report_page.ui'
+# Form implementation generated from reading ui file 'sales_report_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -71,10 +71,10 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-228, 0, 1109, 1741))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1091, 1723))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_3.setContentsMargins(9, 9, 9, 9)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frame_13 = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents)
@@ -357,7 +357,7 @@ class Ui_Form(object):
 "background-color: #fff;")
         self.search_pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(".\\../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.search_pushButton.setIcon(icon)
         self.search_pushButton.setObjectName("search_pushButton")
         self.horizontalLayout_8.addWidget(self.search_pushButton)

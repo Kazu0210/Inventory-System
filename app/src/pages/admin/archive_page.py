@@ -8,6 +8,7 @@ from src.ui.NEW.archive_page import Ui_Form as Ui_archive
 from src.ui.final_ui.archive_account_information import Ui_Frame as Ui_archive_account_info
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Logs import Logs
+from src.utils.dir import ConfigPaths
 
 import json, os, pymongo, re, threading
 
@@ -365,10 +366,10 @@ class ArchivePage(QWidget, Ui_archive):
             """)
 
             # Header JSON directory
-            header_dir = "D:/Inventory-System/app/resources/config/table/product_tableHeader.json"
+            header_dir = ConfigPaths.get_path('product_header')
 
             # Settings directory
-            settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+            settings_dir = ConfigPaths.get_path('settings')
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)
@@ -508,10 +509,9 @@ class ArchivePage(QWidget, Ui_archive):
             """)
 
             # Header JSON directory
-            header_dir = "D:/Inventory-System/app/resources/config/table/accounts_tableHeader.json"
-
+            header_dir = ConfigPaths.get_path('accounts_header')
             # Settings directory
-            settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+            settings_dir = ConfigPaths.get_path('settings')
 
             with open(header_dir, 'r') as f:
                 header_labels = json.load(f)

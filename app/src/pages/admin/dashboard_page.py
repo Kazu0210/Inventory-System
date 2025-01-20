@@ -8,6 +8,7 @@ from src.ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockI
 
 from src.utils.DB_checker import db_checker
 from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.dir import ConfigPaths
 
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -31,12 +32,13 @@ class Dashboard(QWidget, Ui_dashboard_page):
         super().__init__()
         self.setupUi(self)
         self.main_window = main_window
+        
+        self.directory = ConfigPaths()
 
         self.load_collection_monitors()
 
         self.update_sales_widgets()
         self.load_sales_today_table()
-        # self.set_icons()
 
         # Set up the layout for the QScrollArea
         cylinderContainerWidget = self.cylinderContainerLayout
@@ -47,26 +49,10 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         self.update_stock_widgets()
 
-        # # Call the function to update the cylinder list
+        # Call the function to update the cylinder list
         self.update_cylinder_list()
         self.create_cylinder_sizes_tab()
-        # self.update_total_products()
-        # # Call funcion that display order summary once
-        # self.display_total_orders()
-        # self.update_total_orders()
 
-        # self.show_completed_order()
-        # self.show_pending_order()
-        # self.show_cancelled_order()
-
-        # self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        # self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        # self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-
-        # # call funcion that load the stock level chart once
-        # self.load_stock_level_chart()
-        
-        # print('dashboard page done loading')
 
     def get_today_total_orders(self):
         """
@@ -223,7 +209,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         table.setSelectionMode(table.SelectionMode.NoSelection)
 
         # header json directory
-        header_dir = "D:/Inventory-System/app/resources/config/table/sales_today_tableHeader.json"
+        header_dir = self.directory.get_path('sales_today_header')
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
 

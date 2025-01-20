@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from datetime import datetime
 
 from src.ui.NEW.new_backupSched_page import Ui_Form
-from src.pages.admin.daily_backup_page import DailyBackup
+# from src.pages.admin.daily_backup_page import DailyBackup
 from src.pages.admin.weekly_backup_page import WeeklyBackup
 from src.pages.admin.monthly_backup_page import MonthlyBackup
 
@@ -30,7 +30,7 @@ class NewBackupPage(QWidget, Ui_Form):
         # create layout
         self.scrollArea_layout = QStackedLayout(self.scrollArea)
 
-        self.dailyBackupPage = DailyBackup(self) # index 0
+        # self.dailyBackupPage = DailyBackup(self) # index 0
         self.scrollArea_layout.addWidget(self.dailyBackupPage)
 
         self.weeklyBackupPage = WeeklyBackup(self) # index 1

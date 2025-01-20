@@ -80,6 +80,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.search_lineEdit.textChanged.connect(lambda: self.handle_search())
 
         # button connections
+        self.load_button_connections()
+
+    def load_button_connections(self):
+        """load all the button connections"""
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
         self.back_pushButton.clicked.connect(lambda: self.handle_back_button())
         self.prev_pushButton.clicked.connect(lambda: self.update_sales_table(self.current_page - 1, self.rows_per_page))

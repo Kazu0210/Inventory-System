@@ -4,9 +4,10 @@ from PyQt6.QtCore import Qt, QThread, QObject, pyqtSignal
 
 from src.ui.NEW.backupRestore_page import Ui_Form as Ui_backupRestore
 from src.utils.Inventory_Monitor import InventoryMonitor
-from src.pages.admin.daily_backup_page import DailyBackup
+# from src.pages.admin.daily_backup_page import DailyBackup
 from src.pages.admin.new_backupPage import NewBackupPage
 from src.pages.admin.dragDrop_frame import DragDropFrame
+from src.utils.dir import ConfigPaths
 
 import os, json, pymongo, plyer
 from datetime import datetime
@@ -259,7 +260,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
         self.createBackup()
 
     def fillFormatComboBox(self):
-        filter_dir = "app/resources/config/filters.json"
+        filter_dir = ConfigPaths.get_path('filters')
 
         with open(filter_dir, 'r') as f:
             data =  json.load(f)

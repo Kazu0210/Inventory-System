@@ -91,10 +91,10 @@ QScrollBar:hover{
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
-        <x>-228</x>
+        <x>0</x>
         <y>0</y>
-        <width>1109</width>
-        <height>1741</height>
+        <width>1091</width>
+        <height>1723</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -102,16 +102,16 @@ QScrollBar:hover{
         <number>5</number>
        </property>
        <property name="leftMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <property name="topMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <item>
         <widget class="QFrame" name="frame_13">

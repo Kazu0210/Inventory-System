@@ -14,6 +14,7 @@ from src.custom_widgets.message_box import CustomMessageBox
 
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Logs import Logs
+from src.utils.dir import ConfigPaths
 from datetime import datetime
 
 import re, json, os
@@ -26,6 +27,7 @@ class AccountsPage(QWidget, accounts_page):
 
         # initialize activity logs
         self.logs = Logs()
+        self.directory = ConfigPaths()
 
         # initialize inventory monitor for change in database
         self.inventory_monitor = InventoryMonitor("accounts")
@@ -63,11 +65,11 @@ class AccountsPage(QWidget, accounts_page):
         self.hide_buttons()
 
         self.current_logged_in()
-
-        self.filter_dir = "D:/Inventory-System/app/resources/config/filters.json"
-        self.accounts_table_header = "D:/Inventory-System/app/resources/config/table/accounts_tableHeader.json"
-        self.job_titles_dir = "D:/Inventory-System/app/resources/data/job_titles.json"
-        self.settings_dir = "D:/Inventory-System/app/resources/config/settings.json"
+        
+        self.filter_dir = self.directory.get_path('filters')
+        self.accounts_table_header = self.directory.get_path('accounts_header')
+        self.job_titles_dir = self.directory.get_path('job_title')
+        self.settings_dir = self.directory.get_path('settings')
 
         # update all the filter only once
         self.update_filters()

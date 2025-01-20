@@ -157,28 +157,7 @@ def connect_to_db(collection_name):
 
 # print(f'Cylinder Size: {cylinder_size}')
 
-
-# for size in cylinder_size:
-#     if size != 'Show All':
-#         print(f'Size: {size}')
-
-# filter = {'product_id': "LPG152583"}
-# projection = {'_id': 0}
-# result = list(connect_to_db('products_items').find(filter, projection))
-# print(F"DA PAKENING RESULT: {result}")
-# if result:
-#     for data in result:
-#         quantity = data.get('quantity_in_stock', '')
-#         print(f'QUantity: {quantity}')
-
-# cylinder_size = list(connect_to_db('products_items').distinct('cylinder_size'))
-# for size in cylinder_size:
-#     print(f'Size: {size}')
-
-# Get the current date
-today = datetime.today()
-
-# Format the date as 'YYYY-MM-DD'
-formatted_date = today.strftime('%Y-%m-%d')
-# Print the formatted date
-print(f'Today: {formatted_date}')
+import os
+current_dir = os.getcwd()
+print(f'Current Directory: {current_dir}')
+D:\Inventory-System\test.py
