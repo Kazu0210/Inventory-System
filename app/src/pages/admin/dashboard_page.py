@@ -1,12 +1,10 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, Qt
-# from ui.dashboard_page import Ui_Form as Ui_dashboard_page
 
 from src.ui.ui_dashboard import Ui_Form as Ui_dashboard_page
 from src.ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
 from src.ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockInfo
 
-from src.utils.DB_checker import db_checker
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.dir import ConfigPaths
 
@@ -717,24 +715,3 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
     def clean_header(self, header):
             return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
-    
-class UpdateThread(QThread):
-    updated = pyqtSignal(int)
-
-    def __init__(self, collection):
-        super().__init__()
-        self.collection = collection
-        self.running = True
-
-    def run(self):
-        while self.running:
-            try:
-                total_stock = self.collection.count_documents({})
-                self.updated.emit(total_stock)
-            except Exception as e:
-                print(f"Error updating total stock: {e}")
-            QThread.msleep(1000)  # Update every second
-
-    def stop(self):
-        self.running = False
-

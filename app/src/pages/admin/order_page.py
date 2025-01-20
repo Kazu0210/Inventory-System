@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QSizePolicy
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIntValidator, QIcon, QBrush, QColor, QMouseEvent
 
-from src.ui.final_ui.orders_page import Ui_Form as Ui_orderPage_Form
+from src.ui.orders_page import Ui_Form as Ui_orderPage_Form
 from src.ui.final_ui.recent_order_item import Ui_Frame as Ui_recentOrderItem
 from src.ui.final_ui.cart_item import Ui_Frame as Ui_cart_item
 from src.ui.final_ui.ordered_products_item import Ui_Frame as Ui_ordered_products_item

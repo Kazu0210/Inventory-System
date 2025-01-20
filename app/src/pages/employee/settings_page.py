@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QFileDialog
-from src.ui.final_ui.settings import Ui_Form as Ui_settings_page
+from src.ui.settings import Ui_Form as Ui_settings_page
 from src.custom_widgets.message_box import CustomMessageBox
 
 import json

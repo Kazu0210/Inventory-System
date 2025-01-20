@@ -1,18 +1,14 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import QTimer, Qt, QSize
+from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QPixmap, QIcon
 
-# from ui.main_window import Ui_MainWindow
-from src.ui.final_ui.main_window import Ui_MainWindow
+from src.ui.main_window import Ui_MainWindow
 from src.pages.admin.activity_logs import Activity_Logs
 from src.pages.admin.accountsPage import AccountsPage
 from src.pages.admin.dashboard_page import Dashboard
 from src.pages.admin.itemsPage import ItemsPage
-from src.pages.admin.newitemsPage import newItem_page as NewItem
 from src.pages.admin.settings_page import settingsPage
-from src.pages.admin.new_account_page import NewAccountPage
 from src.pages.admin.order_page import OrderPage
-from src.pages.admin.backp_restore import BackupRestorePage
 from src.pages.admin.archive_page import ArchivePage
 from src.pages.admin.sales_report_page import SalesReportPage
 from src.pages.admin.prices_page import PricesPage
@@ -22,29 +18,26 @@ from src.utils.Graphics import AddGraphics
 from src.utils.Logs import Logs
 from src.utils.dir import ConfigPaths
 
-from pymongo import MongoClient
-import re, json, os
+import os
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, username):
-        super(MainWindow, self).__init__()
-        self.setupUi(self)
+        super(MainWindow, self).__init__()  # Initialize the main window
+        self.setupUi(self)  # Set up the user interface
 
-        # logged in account username
+        # Store logged-in account's username
         self.account_username = username
 
-        self.dir = ConfigPaths()
+        self.dir = ConfigPaths()  # Initialize configuration paths
 
-        # activity logs
+        # Initialize activity logs
         self.logs = activity_logs()
 
-        client = MongoClient('mongodb://localhost:27017/')
-        db = client['LPGTrading_DB']
-        self.collection = db['accounts']
-
+        # Load pages and connect buttons
         self.load_pages(username)
         self.load_btn_connections()
 
+        # Additional UI and setup methods
         self.get_current_index()
         self.hide_buttons()
         self.add_graphics()
@@ -185,25 +178,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         graphics.shadow_effect(self.profile_pushButton, blur=4, x=0, y=0, alpha=50)
 
     def set_system_logo(self):
-        """Set System Logo in the main window with minimum and maximum height"""
         logo = QPixmap(self.dir.get_path('system_icon'))
-        
-        min_height = 150  # Minimum height
-        max_height = 180  # Maximum height
-
-        # Calculate the height of the QLabel
+        min_height = 150
+        max_height = 180
         current_height = self.logo.height()
-
-        # Ensure the height stays within the defined range
         height_to_use = max(min_height, min(max_height, current_height))
-
-        # Scale the pixmap to the computed height while maintaining aspect ratio
         scaled_logo = logo.scaledToHeight(height_to_use, Qt.TransformationMode.SmoothTransformation)
-
-        # Set the scaled pixmap to the QLabel
         self.logo.setPixmap(scaled_logo)
-
-        # Ensure the QLabel does not distort the pixmap
         self.logo.setScaledContents(True)
 
     def show_reports_and_logs_btn(self):

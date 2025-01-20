@@ -3,7 +3,7 @@ from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, 
 from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 
-from src.ui.NEW.sales_report_page import Ui_Form as sales_report_UiForm
+from src.ui.sales_report_page import Ui_Form as sales_report_UiForm
 from src.ui.NEW.best_selling_product_template import Ui_Frame as best_selling_UiForm
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Logs import Logs

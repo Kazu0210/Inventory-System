@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QFrame, QVBoxLayout, QAbs
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor, QIcon
 
-from src.ui.final_ui.prices_page import Ui_Form as Ui_price_page
+from src.ui.prices_page import Ui_Form as Ui_price_page
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Graphics import AddGraphics
 

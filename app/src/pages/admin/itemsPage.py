@@ -5,7 +5,7 @@ from PyQt6.QtGui import QColor
 from fpdf import FPDF
 
 from src.pages.admin.newitemsPage import newItem_page
-from src.ui.NEW.inventory_page import Ui_Form as items_page
+from src.ui.inventory_page import Ui_Form as items_page
 from src.pages.admin.edit_product_page import EditProductInformation
 from src.pages.admin.restock_page import RestockProduct
 from src.utils.Inventory_Monitor import InventoryMonitor

@@ -4,7 +4,7 @@ from PyQt6.QtGui import QBrush, QColor
 from datetime import datetime
 
 from src.custom_widgets.message_box import CustomMessageBox
-from src.ui.NEW.archive_page import Ui_Form as Ui_archive
+from src.ui.archive_page import Ui_Form as Ui_archive
 from src.ui.final_ui.archive_account_information import Ui_Frame as Ui_archive_account_info
 from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Logs import Logs

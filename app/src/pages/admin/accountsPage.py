@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QThread, pyqtSignal, Qt, QWaitCondition, QMutex, QTimer
 from PyQt6.QtGui import QBrush, QColor
 
-from src.ui.NEW.accounts_page import Ui_Form as accounts_page
+from src.ui.accounts_page import Ui_Form as accounts_page
 from src.pages.admin.edit_account_page import editAccountPage
 from src.pages.admin.new_account_page import NewAccountPage
 
