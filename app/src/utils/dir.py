@@ -24,7 +24,21 @@ class ConfigPaths:
             "filters_box": ["resources", "config", "filters_box.json"],
             "filters": ["resources", "config", "filters.json"],
             "logs": ["resources", "data", "logs.json"],
-            "job_title": ["resources", "data", "job_titles.json"]
+            "job_title": ["resources", "data", "job_titles.json"],
+            "user_icon": ["resources", "icons", "black-theme", "user.png"],
+            "system_icon": ["resources", "icons", "system-icon.png"],
+            "dashboard_icon": ["resources", "icons", "black-theme", "dashboard.png"],
+            "price_icon": ["resources", "icons", "black-theme", "price-tag.png"],
+            "inventory_icon": ["resources", "icons", "black-theme", "inventory.png"],
+            "orders_icon": ["resources", "icons", "black-theme", "booking.png"],
+            "file_icon": ["resources", "icons", "black-theme", "file.png"],
+            "sales_icon": ["resources", "icons", "black-theme", "sales.png"],
+            "restore_icon": ["resources", "icons", "black-theme", "restore.png"],
+            "settings_icon": ["resources", "icons", "black-theme", "settings.png"],
+            "archive_icon": ["resources", "icons", "black-theme", "archive.png"],
+            "logout_icon": ["resources", "icons", "black-theme", "logout.png"],
+            "close_icon": ["resources", "icons", "black-theme", "close.png"],
+            "white_sys"
         }
 
     def get_path(self, key):

@@ -14,11 +14,10 @@ class PricesPage(QWidget, Ui_price_page):
         super().__init__()
         self.setupUi(self)
         self.parent_window = parent_window
+        # Initialize config paths
+        self.directory = ConfigPaths()
 
         self.load_all()
-
-        # Initialize config paths
-
         # Initialize Inventory Monitor for prices table
         self.prices_monitor = InventoryMonitor("prices")
         self.prices_monitor.start_listener_in_background()
@@ -29,10 +28,6 @@ class PricesPage(QWidget, Ui_price_page):
         self.prices_monitor.start_listener_in_background()
         self.prices_monitor.data_changed_signal.connect(lambda: self.load_price_history_table())
 
-        # button connections
-        # self.price_history_pushButton.clicked.connect(lambda: self.show_price_history())
-        # self.prev_pushButton.clicked.connect(lambda: self.load_prices(self.current_page - 1, self.rows_per_page))
-        # self.next_pushButton.clicked.connect(lambda: self.load_prices(self.current_page + 1, self.rows_per_page))
         self.search_pushButton.clicked.connect(lambda: self.search_button_clicked())
 
         # search bar connection
@@ -46,7 +41,6 @@ class PricesPage(QWidget, Ui_price_page):
 
         self.add_graphics()
 
-        self.directory = ConfigPaths()
     def search_button_clicked(self):
         """handles the click event for the search button"""
         # Disconnect the signal from the slot

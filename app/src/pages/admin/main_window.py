@@ -20,6 +20,7 @@ from src.pages.admin.profile_page import ProfilePage
 from src.utils.Activity_logs import Activity_Logs as activity_logs
 from src.utils.Graphics import AddGraphics
 from src.utils.Logs import Logs
+from src.utils.dir import ConfigPaths
 
 from pymongo import MongoClient
 import re, json, os
@@ -31,6 +32,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # logged in account username
         self.account_username = username
+
+        self.dir = ConfigPaths()
 
         # activity logs
         self.logs = activity_logs()
@@ -165,7 +168,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_profile_icon(self):
         """Add icon to profile button"""
-        self.profile_pushButton.setIcon(QIcon("D:/Inventory-System/app/resources/icons/black-theme/user.png"))
+        self.profile_pushButton.setIcon(QIcon(self.dir.get_path('user_icon')))
         self.profile_pushButton.setIconSize(QSize(17, 17))
 
     def add_graphics(self):
@@ -183,7 +186,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
+        logo = QPixmap(self.dir.get_path('system_icon'))
         
         min_height = 150  # Minimum height
         max_height = 180  # Maximum height
@@ -282,8 +285,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_active_icon(self, icon_widget):
         file_name = icon_widget.file_name
-
-        file_path = f"D:/Inventory-System/app/resources/icons/{file_name}"
+        base_dir = os.path.abspath(os.getcwd())
+        file_path = f"{base_dir}/resources/icons/{file_name}"
         icon = QPixmap(file_path)
         icon_widget.file_name = os.path.basename(file_path)
         icon_widget.setPixmap(icon)
@@ -307,57 +310,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
     def set_btn_icons(self):
         """Set icons for the buttons"""
-        dashboard_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
+        dashboard_icon = QPixmap(self.dir.get_path('dashboard_icon'))
+        self.dashboard_logo.file_name = os.path.basename(self.dir.get_path('dashboard_icon'))
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
 
-        prices_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
+        prices_icon = QPixmap()
+        self.prices_logo.file_name = os.path.basename(self.dir.get_path('price_icon'))
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
 
-        inventory_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/inventory.png")
-        self.inventory_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/inventory.png")
+        inventory_icon = QPixmap(self.dir.get_path('inventory_icon'))
+        self.inventory_logo.file_name = os.path.basename(self.dir.get_path('inventory_icon'))
         self.inventory_logo.setPixmap(inventory_icon)
         self.inventory_logo.setScaledContents(True)
 
-        orders_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
-        self.orders_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
+        orders_icon = QPixmap(self.dir.get_path('orders_icon'))
+        self.orders_logo.file_name = os.path.basename(self.dir.get_path('orders_icon'))
         self.orders_logo.setPixmap(orders_icon)
         self.orders_logo.setScaledContents(True)
 
-        reportsLogs_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/file.png")
-        self.reports_logs_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/file.png")
+        reportsLogs_icon = QPixmap(self.dir.get_path('file_icon'))
+        self.reports_logs_logo.file_name = os.path.basename(self.dir.get_path('file_icon'))
         self.reports_logs_logo.setPixmap(reportsLogs_icon)
         self.reports_logs_logo.setScaledContents(True)
         
-        sales_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/sales.png")
-        self.sales_report_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/sales.png")
+        sales_icon = QPixmap(self.dir.get_path('sales_icon'))
+        self.sales_report_logo.file_name = os.path.basename(self.dir.get_path('sales_icon'))
         self.sales_report_logo.setPixmap(sales_icon)
         self.sales_report_logo.setScaledContents(True)
         
-        act_logs_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/restore.png")
-        self.activity_logs_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/restore.png")
+        act_logs_icon = QPixmap(self.dir.get_path('restore_icon'))
+        self.activity_logs_logo.file_name = os.path.basename(self.dir.get_path('restore_icon'))
         self.activity_logs_logo.setPixmap(act_logs_icon)
         self.activity_logs_logo.setScaledContents(True)
         
-        setting_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
-        self.settings_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
+        setting_icon = QPixmap(self.dir.get_path('settings_icon'))
+        self.settings_logo.file_name = os.path.basename(self.dir.get_path('settings_icon'))
         self.settings_logo.setPixmap(setting_icon)
         self.settings_logo.setScaledContents(True)
         
-        archive_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/archive.png")
-        self.archive_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/archive.png")
+        archive_icon = QPixmap(self.dir.get_path('archive_icon'))
+        self.archive_logo.file_name = os.path.basename(self.dir.get_path('archive_icon'))
         self.archive_logo.setPixmap(archive_icon)
         self.archive_logo.setScaledContents(True)
 
-        accounts_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/user.png")
-        self.accounts_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/user.png")
+        accounts_icon = QPixmap(self.dir.get_path('user_icon'))
+        self.accounts_logo.file_name = os.path.basename(self.dir.get_path('user_icon'))
         self.accounts_logo.setPixmap(accounts_icon)
         self.accounts_logo.setScaledContents(True)
         
-        logout_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
-        self.logout_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
+        logout_icon = QPixmap(self.dir.get_path('logout_icon'))
+        self.logout_logo.file_name = os.path.basename(self.dir.get_path('logout_icon'))
         self.logout_logo.setPixmap(logout_icon)
         self.logout_logo.setScaledContents(True)

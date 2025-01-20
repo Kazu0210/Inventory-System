@@ -9,6 +9,7 @@ from src.utils.Activity_logs import Activity_Logs
 from src.utils.Logs import Logs
 from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.create_default_admin import createDefaultAdmin
+from src.utils.dir import ConfigPaths
 
 from src.employee_account.dashboard import employee_dashboard
 
@@ -25,6 +26,8 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.setupUi(self)
         self.logs = Logs()
 
+        # initialize config paths
+        self.dirs = ConfigPaths()
 
         # button connections
         self.login_pushButton.clicked.connect(self.LoginBtn_clicked)
@@ -36,7 +39,7 @@ class loginWindow(QMainWindow, login_mainWindow):
         self.defaultAdmin = createDefaultAdmin()  
 
         self.set_system_logo()
-        self.set_button_icon(self.close_pushButton, "resources\icons\black_theme\close.png")
+        self.set_button_icon(self.close_pushButton, self.dirs.get_path('close_icon'))
 
     def set_button_icon(self, button, icon_path):
         icon = QPixmap(icon_path)
@@ -44,7 +47,7 @@ class loginWindow(QMainWindow, login_mainWindow):
 
     def set_system_logo(self):
         """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
+        logo = QPixmap(self.dirs.get_path('system_icon'))
         
         min_height = 180  # Minimum height
         max_height = 200  # Maximum height
