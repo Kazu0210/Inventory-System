@@ -147,7 +147,7 @@ border-radius: 5px;
        <widget class="QLineEdit" name="brand_lineEdit">
         <property name="minimumSize">
          <size>
-          <width>200</width>
+          <width>400</width>
           <height>30</height>
          </size>
         </property>
@@ -161,38 +161,6 @@ border-radius: 5px;
          <string>Brand</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="supplier_lineEdit">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="placeholderText">
-         <string>Supplier</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>
@@ -309,7 +277,7 @@ color: #333333;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>100</height>
+             <height>80</height>
             </size>
            </property>
            <property name="plainText">
@@ -377,6 +345,12 @@ color: #333333;</string>
              <width>200</width>
              <height>30</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#status_comboBox{
+	background-color:white;
+	color:black;
+}</string>
            </property>
           </widget>
          </item>

@@ -33,12 +33,12 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.load_product_selection_table()
         self.load_status_comboBox()
 
-        self.load_validations()
+        # self.load_validations()
 
-    def load_validations(self):
-        """load validations for qlineedits"""
-        self.brand_lineEdit.setMaxLength(30)
-        self.supplier_lineEdit.setMaxLength(20)
+    # def load_validations(self):
+    #     """load validations for qlineedits"""
+    #     self.brand_lineEdit.setMaxLength(30)
+    #     self.supplier_lineEdit.setMaxLength(20)
 
     def confirm_button_clicked(self):
         """handles the confirm button click event"""
@@ -72,20 +72,20 @@ class newItem_page(QWidget, Ui_addItemPage):
 
         # Validate other fields
         brand = self.brand_lineEdit.text().strip()
-        supplier = self.supplier_lineEdit.text().strip()
+        # supplier = self.supplier_lineEdit.text().strip()
         description = self.description_plainTextEdit.toPlainText().strip()
         status = self.status_comboBox.currentText().strip()
         low_stock_threshold = self.low_stock_threshold_spinBox.value()
 
         # Check if any required field is empty (except description)
-        if not brand or not supplier:
-            self.show_error_message("Brand, Supplier, and Status are required fields.")
-            return
+        # if not brand or not supplier:
+        #     self.show_error_message("Brand, Supplier, and Status are required fields.")
+        #     return
 
-        # If everything is valid, proceed to save the data
-        print("All fields are valid. Proceeding to save.")
+        # # If everything is valid, proceed to save the data
+        # print("All fields are valid. Proceeding to save.")
 
-        print(f'Count: {len(checked_rows)}')
+        # print(f'Count: {len(checked_rows)}')
 
         for data in checked_rows:
             size = data['Size']
@@ -94,8 +94,8 @@ class newItem_page(QWidget, Ui_addItemPage):
             product_id = self.generate_id()
             total_value = float(quantity) * float(price)
 
-            if self.is_productExist(brand, size, supplier):
-                self.show_error_message(f"Product {brand} {size} {supplier} already exists.")
+            if self.is_productExist(brand, size):
+                self.show_error_message(f"Product {brand} {size} already exists.")
             else:
                 data = {
                     'product_id': product_id,
@@ -103,7 +103,6 @@ class newItem_page(QWidget, Ui_addItemPage):
                     'cylinder_size': size,
                     'quantity_in_stock': quantity,
                     'price_per_unit': price,
-                    'supplier': supplier,
                     'last_restocked_date': "",
                     'description': description,
                     'total_value': total_value,
@@ -165,6 +164,20 @@ class newItem_page(QWidget, Ui_addItemPage):
             color: #000;  /* Change text color */
             background-color: #E7E7E7;  /* Optional: Change background color */
         }
+        QCheckBox{
+            background:white;                    
+        }
+            QCheckBox::indicator {
+                width: 15px;
+                height: 15px;
+                border: 1px solid gray;
+                background: white;
+            }
+
+            QCheckBox::indicator:checked {
+                background: lightgray;
+                border: 1px solid black;
+            }
             QScrollBar:vertical {
                 border: none;
                 background: #0C959B;
@@ -373,12 +386,11 @@ class newItem_page(QWidget, Ui_addItemPage):
 
     #         return price_id
 
-    def is_productExist(self, product_name, size, supplier):
+    def is_productExist(self, product_name, size):
 
         query = {
             "product_name": product_name,
-            "cylinder_size": size,
-            "supplier": supplier
+            "cylinder_size": size
         }
 
         # check if all in the query is present in the database
