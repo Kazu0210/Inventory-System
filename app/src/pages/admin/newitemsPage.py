@@ -33,13 +33,6 @@ class newItem_page(QWidget, Ui_addItemPage):
         self.load_product_selection_table()
         self.load_status_comboBox()
 
-        # self.load_validations()
-
-    # def load_validations(self):
-    #     """load validations for qlineedits"""
-    #     self.brand_lineEdit.setMaxLength(30)
-    #     self.supplier_lineEdit.setMaxLength(20)
-
     def confirm_button_clicked(self):
         """handles the confirm button click event"""
         self.save_table_data()
@@ -72,20 +65,9 @@ class newItem_page(QWidget, Ui_addItemPage):
 
         # Validate other fields
         brand = self.brand_lineEdit.text().strip()
-        # supplier = self.supplier_lineEdit.text().strip()
-        description = self.description_plainTextEdit.toPlainText().strip()
         status = self.status_comboBox.currentText().strip()
         low_stock_threshold = self.low_stock_threshold_spinBox.value()
 
-        # Check if any required field is empty (except description)
-        # if not brand or not supplier:
-        #     self.show_error_message("Brand, Supplier, and Status are required fields.")
-        #     return
-
-        # # If everything is valid, proceed to save the data
-        # print("All fields are valid. Proceeding to save.")
-
-        # print(f'Count: {len(checked_rows)}')
 
         for data in checked_rows:
             size = data['Size']
@@ -104,7 +86,6 @@ class newItem_page(QWidget, Ui_addItemPage):
                     'quantity_in_stock': quantity,
                     'price_per_unit': price,
                     'last_restocked_date': "",
-                    'description': description,
                     'total_value': total_value,
                     'inventory_status': status,
                     'minimum_stock_level': low_stock_threshold,
@@ -277,6 +258,25 @@ class newItem_page(QWidget, Ui_addItemPage):
                 # Create and add a checkbox
                 checkbox = QCheckBox(f"{size}")
                 checkbox.setChecked(False)
+                checkbox.setStyleSheet("""
+                        QCheckBox {
+                            font-size: 16px;
+                            color: #2c3e50;
+                            spacing: 10px;
+                        }
+                        QCheckBox::indicator {
+                            width: 10px;
+                            height: 10px;
+                        }
+                        QCheckBox::indicator:checked {
+                            background-color: #27ae60;
+                            border: 2px solid #2ecc71;
+                        }
+                        QCheckBox::indicator:unchecked {
+                            background-color: #ecf0f1;
+                            border: 2px solid #bdc3c7;
+                        }
+                    """)
                 table.setCellWidget(row, 0, checkbox)
 
                 # Add a placeholder item for proper row height

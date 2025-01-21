@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QCheckBox, QAbstractItemView, QFileDialog, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QCheckBox, QAbstractItemView, QFileDialog, QHBoxLayout, QHeaderView
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
 
@@ -363,14 +363,10 @@ class ItemsPage(QWidget, items_page):
             self.clearPreviewSection()
 
     def add_to_archive(self, product_id):
-        print(f'Received product id: {product_id}')
-        
         # products archive collection
         archive_collection = self.connect_to_db('product_archive')
 
         data_from_products_collection = list(self.connect_to_db('products_items').find({"product_id": product_id}, {"_id": 0}))
-        print(f'Data collected using the Account id: {product_id}: {data_from_products_collection}')
-
         try:
             # If data is a list, iterate over each dictionary
             if isinstance(data_from_products_collection, list):
@@ -530,6 +526,7 @@ class ItemsPage(QWidget, items_page):
                 table.setColumnWidth(column, 20)
             else:
                 table.setColumnWidth(column, 150)
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
@@ -594,6 +591,11 @@ class ItemsPage(QWidget, items_page):
                     table_item = QTableWidgetItem(str(value))
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     table.setItem(row, column, table_item)
+                    
+                    # Make 'Brand' and 'Cylinder Size' columns non-selectable
+                    if header in [' ', 'brand', 'cylindersize']:
+                        # table_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # Non-selectable
+                        table_item.setFlags(Qt.ItemFlag.NoItemFlags)  # No Interaction
 
         # table.hideColumn(0) # column for remove product
         table.hideColumn(1) # column for product id
@@ -635,20 +637,25 @@ class ItemsPage(QWidget, items_page):
 
     def remove_button_clicked(self):
         """handle click event for the remove products button"""
-        checked_rows = self.get_row_data()
+        checked_rows = self.get_row_data()  # Get the selected rows
         print(f'Checked Rows: {checked_rows}')
 
-        # extract all the product id
-        product_ids = []
-        for data in checked_rows:
-            print(data['product_id'])
-            product_ids.append(data['product_id'])
-
-        if product_ids:
-            result = CustomMessageBox.show_message('question', 'Archive', 'The selected products will be archived. Are you sure?')
-            if result == 1:
-                for id in product_ids:
-                    self.add_to_archive(id)
+        # Ensure `checked_rows` is a non-empty list
+        if checked_rows:
+            # Extract all product IDs from the checked rows
+            product_ids = [data['product_id'] for data in checked_rows if 'product_id' in data]
+            
+            if product_ids:
+                result = CustomMessageBox.show_message('question', 'Archive', 'The selected products will be archived. Are you sure?')
+                if result == 1:
+                    for product_id in product_ids:
+                        self.add_to_archive(product_id)
+                    
+                    CustomMessageBox.show_message('information', 'Archived Success', 'Products successfully added to archive.')
+            else:
+                CustomMessageBox.show_message('critical', 'Error', 'No valid product IDs found in the selected rows.')
+        else:
+            CustomMessageBox.show_message('critical', 'Error', 'No products selected.')
 
     def price_table_item_changed(self, item):
         """Handles the price table item changed event"""
@@ -750,7 +757,6 @@ class ItemsPage(QWidget, items_page):
         # ComboBox connections
         self.cylinderSize_comboBox.currentTextChanged.connect(self.update_table)
         self.stock_level_comboBox.currentTextChanged.connect(self.update_table)
-        # new item button connection
         self.setItems.clicked.connect(lambda: self.open_add_product_form())
         self.print_btn.clicked.connect(lambda: self.print_btn_clicked())
         self.remove_product_pushButton.clicked.connect(lambda: self.remove_button_clicked())

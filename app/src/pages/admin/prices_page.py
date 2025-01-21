@@ -319,7 +319,8 @@ class PricesPage(QWidget, Ui_price_page):
                     # check if row index is even
                     if row % 2 == 0:
                         table_item.setBackground(QBrush(QColor("#F6F6F6"))) # change item's background color to #F6F6F6 when row index is even
-                            
+                    
+                    table_item.setFlags(Qt.ItemFlag.NoItemFlags)  # No Interaction
                     table.setItem(row, column, table_item)
 
     def hide_widgets(self):
@@ -470,11 +471,8 @@ class PricesPage(QWidget, Ui_price_page):
                 }
             """)
 
-        # Header JSON directory
-        header_dir = self.directory.get_path('price_header')
-
-        # Settings directory
-        settings_dir = self.directory.get_path('settings')
+        header_dir = self.directory.get_path('price_header') # Header JSON directory
+        settings_dir = self.directory.get_path('settings') # Settings directory
 
         with open(header_dir, 'r') as f:
             header_labels = json.load(f)
@@ -486,20 +484,12 @@ class PricesPage(QWidget, Ui_price_page):
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
         header.setStretchLastSection(True)
-
-        # for column in range(table.columnCount()):
-        #     table.setColumnWidth(column, 145)
-
-        # Set uniform row height for all rows
+        
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
-
         header.setFixedHeight(40)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-
-        # Clean the header labels
-        self.header_labels = [self.clean_header(header) for header in header_labels]
-        
+        self.header_labels = [self.clean_header(header) for header in header_labels] # Clean the header labels
         # query filter
         filter = {}
 
@@ -510,7 +500,6 @@ class PricesPage(QWidget, Ui_price_page):
             ]}
 
         data = self.get_prices_data(filter)
-
         if not data:
             return  # Exit if the collection is empty
 
@@ -530,7 +519,7 @@ class PricesPage(QWidget, Ui_price_page):
                 original_keys = [k for k in item.keys() if self.clean_key(k) == header]
                 original_key = original_keys[0] if original_keys else None
                 value = item.get(original_key)
-                
+
                 if value is not None:
                     if header in ['sellingprice', 'supplierprice']: 
                         value = f"₱ {value:,.2f}"
@@ -543,20 +532,21 @@ class PricesPage(QWidget, Ui_price_page):
                         table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
 
                     # Make only 'sellingprice' and 'supplierprice' columns editable
-                    if header == 'sellingprice' or header == 'supplierprice':  # Modify this check as needed
+                    if header == 'sellingprice' or header == 'supplierprice':
                         table_item.setFlags(table_item.flags() | Qt.ItemFlag.ItemIsEditable)  # Make editable
                     else:
                         table_item.setFlags(table_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Make non-editable
+                    
+                    # Make 'Brand' and 'Cylinder Size' columns non-selectable
+                    if header in ['brand', 'cylindersize']:
+                        # table_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # Non-selectable
+                        table_item.setFlags(Qt.ItemFlag.NoItemFlags)  # No Interaction
 
                     table.setItem(row, column, table_item)
 
         table.itemChanged.connect(self.price_table_item_changed)
-
-        # hide the first column
-        table.setColumnHidden(0, True)
+        table.setColumnHidden(0, True) # hide the first column
         table.setColumnHidden(1, True) # hide the 2nd column assuming that is the product id
-        # Add navigation controls
-        # self.update_navigation_controls(len(data), page, rows_per_page)
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
