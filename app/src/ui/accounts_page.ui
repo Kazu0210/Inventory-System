@@ -357,7 +357,8 @@ font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #333333;</string>
+                      <string notr="true">background-color: #fff;
+color: #000;</string>
                      </property>
                     </widget>
                    </item>
@@ -426,7 +427,8 @@ font: 63 10pt &quot;Noto Sans SemiBold&quot;;</string>
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: #333333;</string>
+                      <string notr="true">background-color: #fff;
+color: #000;</string>
                      </property>
                     </widget>
                    </item>

@@ -55,9 +55,9 @@ border: none;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-151</y>
+        <y>0</y>
         <width>736</width>
-        <height>827</height>
+        <height>825</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -188,39 +188,23 @@ color: #333333;</string>
                <property name="minimumSize">
                 <size>
                  <width>150</width>
-                 <height>0</height>
+                 <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>150</width>
-                 <height>16777215</height>
+                 <height>30</height>
                 </size>
                </property>
                <property name="cursor">
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
-                <string notr="true">QComboBox{
-font: 10pt &quot;Inter&quot;;
-background-color: #fff;
-border: 2px solid #228B22;
-border-radius: 5px;
-padding: 5px
-}
-QComboBox::drop-down{
-border: none;
-background: white;
-}
-QComboBox::down-arrow {
-image: none;               
-border: none;              
-width: 0; height: 0;       
-border-left: 5px solid none; 
-border-right: 5px solid none;
-border-top: 7px solid #228B22; 
-margin: 0;
-}</string>
+                <string notr="true">background-color: #fff;
+color: #000;
+border: 1px solid black;
+border-radius: 5px;</string>
                </property>
               </widget>
              </item>
@@ -542,26 +526,10 @@ color: #333333;</string>
                          </size>
                         </property>
                         <property name="styleSheet">
-                         <string notr="true">QComboBox{
-font: 10pt &quot;Inter&quot;;
-background-color: #fff;
-border: 2px solid #228B22;
-border-radius: 5px;
-padding: 5px
-}
-QComboBox::drop-down{
-border: none;
-background: white;
-}
-QComboBox::down-arrow {
-image: none;               
-border: none;              
-width: 0; height: 0;       
-border-left: 5px solid none; 
-border-right: 5px solid none;
-border-top: 7px solid #228B22; 
-margin: 0;
-}</string>
+                         <string notr="true">background-color: #fff;
+color: #000;
+border: 1px solid black;
+border-radius: 5px;</string>
                         </property>
                        </widget>
                       </item>
@@ -795,26 +763,10 @@ color: #333333;</string>
                          </size>
                         </property>
                         <property name="styleSheet">
-                         <string notr="true">QComboBox{
-font: 10pt &quot;Inter&quot;;
-background-color: #fff;
-border: 2px solid #228B22;
-border-radius: 5px;
-padding: 5px
-}
-QComboBox::drop-down{
-border: none;
-background: white;
-}
-QComboBox::down-arrow {
-image: none;               
-border: none;              
-width: 0; height: 0;       
-border-left: 5px solid none; 
-border-right: 5px solid none;
-border-top: 7px solid #228B22; 
-margin: 0;
-}</string>
+                         <string notr="true">background-color: #fff;
+color: #000;
+border: 1px solid black;
+border-radius: 5px;</string>
                         </property>
                        </widget>
                       </item>

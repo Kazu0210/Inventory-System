@@ -68,7 +68,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 777, 643))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 774, 643))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -126,7 +126,8 @@ class Ui_Form(object):
         self.categories_combobox = QtWidgets.QComboBox(parent=self.frame_3)
         self.categories_combobox.setMinimumSize(QtCore.QSize(140, 30))
         self.categories_combobox.setMaximumSize(QtCore.QSize(140, 30))
-        self.categories_combobox.setStyleSheet("color: #333333;")
+        self.categories_combobox.setStyleSheet("background-color: white;\n"
+"color: black;")
         self.categories_combobox.setObjectName("categories_combobox")
         self.horizontalLayout_3.addWidget(self.categories_combobox)
         self.horizontalLayout.addWidget(self.frame_3, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
@@ -148,7 +149,8 @@ class Ui_Form(object):
         self.status_combobox = QtWidgets.QComboBox(parent=self.frame_4)
         self.status_combobox.setMinimumSize(QtCore.QSize(140, 30))
         self.status_combobox.setMaximumSize(QtCore.QSize(140, 30))
-        self.status_combobox.setStyleSheet("color: #333333;")
+        self.status_combobox.setStyleSheet("background-color: white;\n"
+"color: black;")
         self.status_combobox.setObjectName("status_combobox")
         self.horizontalLayout_4.addWidget(self.status_combobox)
         self.horizontalLayout.addWidget(self.frame_4, 0, QtCore.Qt.AlignmentFlag.AlignLeft)

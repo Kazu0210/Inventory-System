@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'new_brand_page.ui'
+# Form implementation generated from reading ui file '.\new_brand_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -167,10 +167,8 @@ class Ui_Form(object):
         self.status_comboBox = QtWidgets.QComboBox(parent=self.frame_19)
         self.status_comboBox.setMinimumSize(QtCore.QSize(200, 30))
         self.status_comboBox.setMaximumSize(QtCore.QSize(200, 30))
-        self.status_comboBox.setStyleSheet("#status_comboBox{\n"
-"    background-color:white;\n"
-"    color:black;\n"
-"}")
+        self.status_comboBox.setStyleSheet("background-color: white;\n"
+"color: black;")
         self.status_comboBox.setObjectName("status_comboBox")
         self.horizontalLayout_9.addWidget(self.status_comboBox)
         self.verticalLayout_10.addWidget(self.frame_19)

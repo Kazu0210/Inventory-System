@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'sales_report_page.ui'
+# Form implementation generated from reading ui file '.\sales_report_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -71,7 +71,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -1068, 1062, 1723))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1062, 1723))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -117,11 +117,9 @@ class Ui_Form(object):
         self.time_period_comboBox = QtWidgets.QComboBox(parent=self.frame_17)
         self.time_period_comboBox.setMinimumSize(QtCore.QSize(150, 30))
         self.time_period_comboBox.setMaximumSize(QtCore.QSize(150, 30))
-        self.time_period_comboBox.setStyleSheet("#time_period_comboBox{\n"
-"border: 1px solid black;\n"
+        self.time_period_comboBox.setStyleSheet("border: 1px solid black;\n"
 "border-radius: 5px;\n"
-"background-color: white;\n"
-"}")
+"background-color: white;")
         self.time_period_comboBox.setObjectName("time_period_comboBox")
         self.verticalLayout_7.addWidget(self.time_period_comboBox)
         self.horizontalLayout_10.addWidget(self.frame_17)
@@ -385,7 +383,7 @@ class Ui_Form(object):
 "background-color: #fff;")
         self.search_pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap(".\\../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.search_pushButton.setIcon(icon)
         self.search_pushButton.setObjectName("search_pushButton")
         self.horizontalLayout_8.addWidget(self.search_pushButton)
@@ -509,7 +507,7 @@ class Ui_Form(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 700, 645))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 600, 645))
         self.scrollAreaWidgetContents_2.setStyleSheet("border: none;")
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
@@ -616,7 +614,7 @@ class Ui_Form(object):
         self.best_selling_scrollArea.setWidgetResizable(True)
         self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
         self.best_selling_prod_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 321, 626))
+        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 421, 626))
         self.best_selling_prod_scrollAreaWidgetContents.setObjectName("best_selling_prod_scrollAreaWidgetContents")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.best_selling_prod_scrollAreaWidgetContents)
         self.verticalLayout_8.setObjectName("verticalLayout_8")

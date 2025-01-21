@@ -160,6 +160,9 @@ border-radius: 5px;
                <property name="styleSheet">
                 <string notr="true">#frame_2{
 color: #fff;
+}
+*{
+border: none;
 }</string>
                </property>
                <property name="frameShape">
@@ -300,6 +303,9 @@ border-radius: 5px;
                <property name="styleSheet">
                 <string notr="true">#frame_2{
 color: #fff;
+}
+*{
+border: none;
 }</string>
                </property>
                <property name="frameShape">
@@ -482,6 +488,11 @@ background-color: transparent;
              </property>
              <item alignment="Qt::AlignTop">
               <widget class="QFrame" name="frame_6">
+               <property name="styleSheet">
+                <string notr="true">*{
+border: none;
+}</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -707,6 +718,11 @@ background-color: transparent;
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item alignment="Qt::AlignTop">
               <widget class="QFrame" name="frame_3">
+               <property name="styleSheet">
+                <string notr="true">*{
+border: none;
+}</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -875,7 +891,9 @@ border-radius: 10px;
 }
 *{
 background-color: transparent;
-}</string>
+border: none;
+}
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>

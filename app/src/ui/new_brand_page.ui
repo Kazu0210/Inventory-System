@@ -316,10 +316,8 @@ color: #333333;</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">#status_comboBox{
-	background-color:white;
-	color:black;
-}</string>
+            <string notr="true">background-color: white;
+color: black;</string>
            </property>
           </widget>
          </item>

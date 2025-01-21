@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'settings.ui'
+# Form implementation generated from reading ui file '.\settings.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -34,7 +34,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -151, 736, 827))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 736, 825))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -84,29 +84,13 @@ class Ui_Form(object):
         self.current_time_format_label.setObjectName("current_time_format_label")
         self.horizontalLayout_2.addWidget(self.current_time_format_label)
         self.timeFormat_comboBox = QtWidgets.QComboBox(parent=self.frame_3)
-        self.timeFormat_comboBox.setMinimumSize(QtCore.QSize(150, 0))
-        self.timeFormat_comboBox.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.timeFormat_comboBox.setMinimumSize(QtCore.QSize(150, 30))
+        self.timeFormat_comboBox.setMaximumSize(QtCore.QSize(150, 30))
         self.timeFormat_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.timeFormat_comboBox.setStyleSheet("QComboBox{\n"
-"font: 10pt \"Inter\";\n"
-"background-color: #fff;\n"
-"border: 2px solid #228B22;\n"
-"border-radius: 5px;\n"
-"padding: 5px\n"
-"}\n"
-"QComboBox::drop-down{\n"
-"border: none;\n"
-"background: white;\n"
-"}\n"
-"QComboBox::down-arrow {\n"
-"image: none;               \n"
-"border: none;              \n"
-"width: 0; height: 0;       \n"
-"border-left: 5px solid none; \n"
-"border-right: 5px solid none;\n"
-"border-top: 7px solid #228B22; \n"
-"margin: 0;\n"
-"}")
+        self.timeFormat_comboBox.setStyleSheet("background-color: #fff;\n"
+"color: #000;\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;")
         self.timeFormat_comboBox.setObjectName("timeFormat_comboBox")
         self.horizontalLayout_2.addWidget(self.timeFormat_comboBox)
         self.update_format_pushButton = QtWidgets.QPushButton(parent=self.frame_3)
@@ -237,26 +221,10 @@ class Ui_Form(object):
         self.EntireBackupFormat_comboBox = QtWidgets.QComboBox(parent=self.frame_10)
         self.EntireBackupFormat_comboBox.setMinimumSize(QtCore.QSize(150, 30))
         self.EntireBackupFormat_comboBox.setMaximumSize(QtCore.QSize(150, 30))
-        self.EntireBackupFormat_comboBox.setStyleSheet("QComboBox{\n"
-"font: 10pt \"Inter\";\n"
-"background-color: #fff;\n"
-"border: 2px solid #228B22;\n"
-"border-radius: 5px;\n"
-"padding: 5px\n"
-"}\n"
-"QComboBox::drop-down{\n"
-"border: none;\n"
-"background: white;\n"
-"}\n"
-"QComboBox::down-arrow {\n"
-"image: none;               \n"
-"border: none;              \n"
-"width: 0; height: 0;       \n"
-"border-left: 5px solid none; \n"
-"border-right: 5px solid none;\n"
-"border-top: 7px solid #228B22; \n"
-"margin: 0;\n"
-"}")
+        self.EntireBackupFormat_comboBox.setStyleSheet("background-color: #fff;\n"
+"color: #000;\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;")
         self.EntireBackupFormat_comboBox.setObjectName("EntireBackupFormat_comboBox")
         self.verticalLayout_10.addWidget(self.EntireBackupFormat_comboBox)
         self.verticalLayout_9.addWidget(self.frame_10)
@@ -342,26 +310,10 @@ class Ui_Form(object):
         self.CollectionBackupFormat_comboBox = QtWidgets.QComboBox(parent=self.frame_14)
         self.CollectionBackupFormat_comboBox.setMinimumSize(QtCore.QSize(150, 30))
         self.CollectionBackupFormat_comboBox.setMaximumSize(QtCore.QSize(150, 30))
-        self.CollectionBackupFormat_comboBox.setStyleSheet("QComboBox{\n"
-"font: 10pt \"Inter\";\n"
-"background-color: #fff;\n"
-"border: 2px solid #228B22;\n"
-"border-radius: 5px;\n"
-"padding: 5px\n"
-"}\n"
-"QComboBox::drop-down{\n"
-"border: none;\n"
-"background: white;\n"
-"}\n"
-"QComboBox::down-arrow {\n"
-"image: none;               \n"
-"border: none;              \n"
-"width: 0; height: 0;       \n"
-"border-left: 5px solid none; \n"
-"border-right: 5px solid none;\n"
-"border-top: 7px solid #228B22; \n"
-"margin: 0;\n"
-"}")
+        self.CollectionBackupFormat_comboBox.setStyleSheet("background-color: #fff;\n"
+"color: #000;\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;")
         self.CollectionBackupFormat_comboBox.setObjectName("CollectionBackupFormat_comboBox")
         self.verticalLayout_14.addWidget(self.CollectionBackupFormat_comboBox)
         self.verticalLayout_12.addWidget(self.frame_14)

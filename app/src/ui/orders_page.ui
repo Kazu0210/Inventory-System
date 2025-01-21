@@ -124,7 +124,7 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-300</y>
+        <y>-560</y>
         <width>1044</width>
         <height>1215</height>
        </rect>
@@ -1189,6 +1189,9 @@ color: #333333;</string>
                        <height>30</height>
                       </size>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: white</string>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -1388,6 +1391,9 @@ color: #333333;</string>
                        <width>200</width>
                        <height>30</height>
                       </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: white</string>
                      </property>
                     </widget>
                    </item>

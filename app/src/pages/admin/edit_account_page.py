@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt
 from src.ui.NEW.edit_account_page import Ui_Form as edit_account_page_Ui
 from src.utils.Hashpassword import HashPassword
 from src.utils.dir import ConfigPaths
-import sys, pymongo, json
+import sys, pymongo, json, os
 
 class editAccountPage(QWidget, edit_account_page_Ui):
     def __init__(self, account_id=None):
@@ -70,7 +70,8 @@ class editAccountPage(QWidget, edit_account_page_Ui):
         self.add_comboBox_options(filter_filename, self.status_comboBox, "account_status")
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
-        filter_dir = f"D:/Inventory-System/app/resources/config/{directory_name}"
+        base_dir = os.path.abspath(os.getcwd())
+        filter_dir = f"{base_dir}/resources/config/{directory_name}"
 
         with open(filter_dir, 'r') as f:
             options = json.load(f)

@@ -92,7 +92,7 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-1068</y>
+        <y>0</y>
         <width>1062</width>
         <height>1723</height>
        </rect>
@@ -212,11 +212,9 @@ color: #333333;</string>
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#time_period_comboBox{
-border: 1px solid black;
+                   <string notr="true">border: 1px solid black;
 border-radius: 5px;
-background-color: white;
-}</string>
+background-color: white;</string>
                   </property>
                  </widget>
                 </item>
@@ -1147,7 +1145,7 @@ border: none;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>700</width>
+                  <width>600</width>
                   <height>645</height>
                  </rect>
                 </property>
@@ -1343,7 +1341,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>321</width>
+                  <width>421</width>
                   <height>626</height>
                  </rect>
                 </property>

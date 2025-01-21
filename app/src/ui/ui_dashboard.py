@@ -102,6 +102,9 @@ class Ui_Form(object):
         self.frame_2 = QtWidgets.QFrame(parent=self.frame)
         self.frame_2.setStyleSheet("#frame_2{\n"
 "color: #fff;\n"
+"}\n"
+"*{\n"
+"border: none;\n"
 "}")
         self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -159,6 +162,9 @@ class Ui_Form(object):
         self.frame_15 = QtWidgets.QFrame(parent=self.frame_13)
         self.frame_15.setStyleSheet("#frame_2{\n"
 "color: #fff;\n"
+"}\n"
+"*{\n"
+"border: none;\n"
 "}")
         self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -221,6 +227,9 @@ class Ui_Form(object):
         self.verticalLayout_5.setSpacing(5)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.frame_6 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_6.setStyleSheet("*{\n"
+"border: none;\n"
+"}")
         self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_6.setObjectName("frame_6")
@@ -325,6 +334,9 @@ class Ui_Form(object):
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_5)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.frame_3 = QtWidgets.QFrame(parent=self.frame_5)
+        self.frame_3.setStyleSheet("*{\n"
+"border: none;\n"
+"}")
         self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
@@ -415,7 +427,9 @@ class Ui_Form(object):
 "}\n"
 "*{\n"
 "background-color: transparent;\n"
-"}")
+"border: none;\n"
+"}\n"
+"")
         self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_10.setObjectName("frame_10")

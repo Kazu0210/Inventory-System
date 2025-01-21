@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'orders_page.ui'
+# Form implementation generated from reading ui file '.\orders_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -103,7 +103,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -300, 1044, 1215))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -560, 1044, 1215))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -570,6 +570,7 @@ class Ui_Form(object):
         self.payment_box = QtWidgets.QComboBox(parent=self.frame_8)
         self.payment_box.setMinimumSize(QtCore.QSize(200, 30))
         self.payment_box.setMaximumSize(QtCore.QSize(200, 30))
+        self.payment_box.setStyleSheet("background-color: white")
         self.payment_box.setObjectName("payment_box")
         self.horizontalLayout_8.addWidget(self.payment_box)
         self.payment_box.raise_()
@@ -632,6 +633,7 @@ class Ui_Form(object):
         self.status_box = QtWidgets.QComboBox(parent=self.frame_12)
         self.status_box.setMinimumSize(QtCore.QSize(200, 30))
         self.status_box.setMaximumSize(QtCore.QSize(200, 30))
+        self.status_box.setStyleSheet("background-color: white")
         self.status_box.setObjectName("status_box")
         self.horizontalLayout_10.addWidget(self.status_box)
         self.verticalLayout_12.addWidget(self.frame_12)

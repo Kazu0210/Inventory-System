@@ -487,6 +487,9 @@ margin: 0;
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: white;</string>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -603,6 +606,9 @@ color: #333333;</string>
                     <width>140</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: white;</string>
                   </property>
                  </widget>
                 </item>
