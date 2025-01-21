@@ -93,7 +93,7 @@ QScrollBar:hover{
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1062</width>
+        <width>1065</width>
         <height>1723</height>
        </rect>
       </property>
@@ -467,7 +467,7 @@ color: #333333;
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="frame_2">
+           <widget class="QFrame" name="frame_22">
             <property name="minimumSize">
              <size>
               <width>225</width>
@@ -477,11 +477,11 @@ color: #333333;
             <property name="maximumSize">
              <size>
               <width>225</width>
-              <height>16777215</height>
+              <height>90</height>
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">#frame_2{
+             <string notr="true">#frame_22{
 background-color: #fff;
 border: 1px solid #228B22;
 border-radius: 5px;
@@ -496,95 +496,20 @@ background-color: transparent;
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <property name="spacing">
-              <number>5</number>
-             </property>
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>9</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>9</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="profit_title_label">
                <property name="styleSheet">
                 <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
 color: #333333;</string>
                </property>
                <property name="text">
-                <string>Revenue This Month:</string>
+                <string>Estimated Profit:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="revenue_month_label">
-               <property name="styleSheet">
-                <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
-color: #333333;
-</string>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QFrame" name="frame">
-            <property name="minimumSize">
-             <size>
-              <width>225</width>
-              <height>90</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>225</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#frame{
-background-color: #fff;
-border: 1px solid #228B22;
-border-radius: 5px;
-}
-*{
-background-color: transparent;
-}</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_12">
-             <property name="spacing">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="styleSheet">
-                <string notr="true">font: 63 12pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-               </property>
-               <property name="text">
-                <string>Total Sales Today:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="total_sales_label">
+              <widget class="QLabel" name="estimated_profit_label">
                <property name="styleSheet">
                 <string notr="true">font: 87 16pt &quot;Noto Sans Black&quot;;
 color: #333333;
@@ -1341,7 +1266,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>421</width>
+                  <width>424</width>
                   <height>626</height>
                  </rect>
                 </property>

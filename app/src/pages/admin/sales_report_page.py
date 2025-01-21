@@ -57,6 +57,120 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.custom_time_period_frame.hide() # hide the frame the holds the inputs for custom time period filter
         self.load_button_connections()
 
+        self.load_default_key_metrics()
+
+    def load_default_key_metrics(self):
+        """load revenue and estimated profit for today which is the default"""
+        formatted_revenue = f"₱ {self.get_total_revenue_today():,.2f}"
+        self.revenue_label.setText(str(formatted_revenue))
+
+        formatted_profit = f"₱ {self.get_estimated_profit_today():,.2f}"
+        self.estimated_profit_label.setText(str(formatted_profit))
+
+    def get_estimated_profit_today(self):
+        # Get today's date in YYYY-MM-DD format
+        today_date = datetime.now().strftime("%Y-%m-%d")
+        total_profit = 0
+
+        # Query the sales data for today
+        orders = list(self.connect_to_db('sales').find({}))
+        
+        for order in orders:
+            try:
+                # Parse the sale_date to get the date part only
+                sale_date = datetime.strptime(order["sale_date"], "%Y-%m-%d %H:%M:%S").date()
+            except (KeyError, ValueError):
+                continue  # Skip sales with invalid or missing sale_date
+
+            # Check if the sale's date is today
+            if sale_date.strftime("%Y-%m-%d") == today_date:
+                # Loop through each product sold in the order
+                for product in order["products_sold"]:
+                    if "price" in product and "supplier_price" in product and "quantity" in product:
+                        # Calculate profit per unit
+                        profit_per_unit = product["price"] - product["supplier_price"]
+                        total_profit += profit_per_unit * product["quantity"]
+
+        return total_profit
+        
+    def get_estimated_profit_for_period(self, start_date, end_date):
+        """
+        Calculate the estimated profit for a given date range.
+        """
+        # Ensure start_date and end_date are datetime.date objects if they are strings
+        if isinstance(start_date, str):
+            start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S").date()
+        if isinstance(end_date, str):
+            end_date = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S").date()
+
+        # Convert start_date and end_date to string format (YYYY-MM-DD) for MongoDB query
+        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
+        end_date_str = end_date.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Query sales in the specified date range
+        sales = self.connect_to_db('sales').find({
+            'sale_date': {'$gte': start_date_str, '$lte': end_date_str}
+        })
+
+        total_profit = 0
+
+        # Loop through sales to calculate total profit
+        for sale in sales:
+            # Ensure sale_date is valid and in the correct format
+            try:
+                sale_date = datetime.strptime(sale["sale_date"], "%Y-%m-%d %H:%M:%S").date()  # Convert to date
+            except (KeyError, ValueError):
+                continue  # Skip sales with invalid or missing sale_date
+
+            # Only calculate profit for sales within the date range
+            if start_date <= sale_date <= end_date:
+                # Loop through products sold in this sale
+                for product in sale.get("products_sold", []):
+                    # Calculate profit for each product in the sale
+                    if all(key in product for key in ["price", "supplier_price", "quantity"]):
+                        profit_per_unit = product["price"] - product["supplier_price"]
+                        total_profit += profit_per_unit * product["quantity"]
+
+        return total_profit
+
+    def update_profit_label(self, **kwargs):
+        """Update the dynamic profit labels based on the selected time period."""
+        time_period = kwargs.get('time_period', '')
+        if time_period:  # Update profit title label
+            self.profit_title_label.setText(f'Profit for {time_period}')
+        
+        today_string = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        today = datetime.strptime(today_string, "%Y-%m-%d %H:%M:%S")
+        # Determine start and end dates based on time period
+        if time_period == 'Today':
+            start_date = end_date = today.replace(hour=0, minute=0, second=0, microsecond=0)  # Start of today
+        elif time_period == 'This Week':
+            start_date = today - timedelta(days=today.weekday())  # Start of the week (Monday)
+            end_date = start_date + timedelta(days=6)  # End of the week (Sunday)
+        elif time_period == 'This Month':
+            start_date = today.replace(day=1)  # First day of the current month
+            end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)  # Last day of the month
+        elif time_period == 'This Year':
+            start_date = today.replace(month=1, day=1)  # First day of the current year
+            end_date = today.replace(month=12, day=31)  # Last day of the current year
+        elif time_period == 'Last Month':
+            first_of_this_month = today.replace(day=1)  # First day of this month
+            end_date = first_of_this_month - timedelta(days=1)  # Last day of the last month
+            start_date = end_date.replace(day=1)  # First day of the last month
+        else:
+            self.estimated_profit_label.setText("₱ 0.00")
+            return
+
+        # Ensure both start and end dates are in the correct format
+        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
+        end_date_str = end_date.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Get profit for the specified period
+        profit = self.get_estimated_profit_for_period(start_date_str, end_date_str)
+        formatted_profit = f"₱ {profit:,.2f}"
+        self.estimated_profit_label.setText(str(formatted_profit))
+
+
     def update_revenue_label(self, **kwargs):
         """update the dynamic revenue labels"""
         time_period = kwargs.get('time_period', '')
@@ -80,12 +194,16 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
     def get_total_revenue_today(self):
         # Get today's date (midnight to midnight)
-        today_start = datetime.combine(datetime.today(), datetime.min.time())
-        today_end = today_start.replace(hour=23, minute=59, second=59)
+        today_start = datetime.combine(datetime.today(), datetime.min.time())  # Midnight today
+        today_end = today_start.replace(hour=23, minute=59, second=59, microsecond=999999)  # Last moment of today
+
+        # Convert start and end to string format (YYYY-MM-DD HH:MM:SS) for comparison with sale_date
+        today_start_str = today_start.strftime("%Y-%m-%d %H:%M:%S")
+        today_end_str = today_end.strftime("%Y-%m-%d %H:%M:%S")
 
         # Query for sales made today
         query = {
-            'sale_date': {'$gte': today_start, '$lte': today_end}
+            'sale_date': {'$gte': today_start_str, '$lte': today_end_str}
         }
 
         # Aggregate the total revenue by summing the 'total_value' field of all sales made today
@@ -105,14 +223,18 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         # Get today's date
         today = datetime.today()
 
-        # Find the start of this week (Sunday or Monday)
+        # Find the start of this week (Monday as the start of the week)
         start_of_week = today - timedelta(days=today.weekday())  # Monday as the start of the week
         if today.weekday() == 0:
             start_of_week -= timedelta(days=7)  # If today is Monday, make it Sunday of the previous week
 
+        # Convert both start_of_week and today to string format (YYYY-MM-DD 00:00:00) for comparison with sale_date
+        start_of_week_str = start_of_week.strftime("%Y-%m-%d 00:00:00")  # Start of the week at midnight
+        today_str = today.strftime("%Y-%m-%d 23:59:59")  # End of today at 23:59:59 to include all sales of the current day
+
         # Query for sales made this week
         query = {
-            'sale_date': {'$gte': start_of_week, '$lt': today}
+            'sale_date': {'$gte': start_of_week_str, '$lt': today_str}
         }
 
         # Aggregate the total revenue by summing the 'total_value' field of all sales made this week
@@ -129,14 +251,25 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         return total_revenue_value
 
     def get_total_revenue_this_month(self):
-        # Get the current year and month
+        # Get the current date
         now = datetime.now()
-        month_start = datetime(now.year, now.month, 1)  # Start of the current month
-        next_month_start = datetime(now.year, now.month + 1, 1) if now.month != 12 else datetime(now.year + 1, 1, 1)
+
+        # Calculate the start of the current month
+        month_start = datetime(now.year, now.month, 1)
+
+        # Calculate the start of the next month
+        if now.month == 12:
+            next_month_start = datetime(now.year + 1, 1, 1)
+        else:
+            next_month_start = datetime(now.year, now.month + 1, 1)
+
+        # Convert both to string format (YYYY-MM-DD 00:00:00) for comparison with sale_date
+        month_start_str = month_start.strftime("%Y-%m-%d 00:00:00")  # Start of the month at midnight
+        next_month_start_str = next_month_start.strftime("%Y-%m-%d 00:00:00")  # Start of next month at midnight
 
         # Query for sales made this month
         query = {
-            'sale_date': {'$gte': month_start, '$lt': next_month_start}
+            'sale_date': {'$gte': month_start_str, '$lt': next_month_start_str}
         }
 
         # Aggregate the total revenue by summing the 'total_value' field of all sales made this month
@@ -151,15 +284,20 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             total_revenue_value = result['totalRevenue']
 
         return total_revenue_value
-
+    
     def get_total_revenue_this_year(self):
-        # Get the start of the current year
+        # Get the current date
         now = datetime.now()
+
+        # Calculate the start of the current year (January 1st)
         year_start = datetime(now.year, 1, 1)
+
+        # Convert year_start to string format (YYYY-MM-DD 00:00:00) for comparison with sale_date
+        year_start_str = year_start.strftime("%Y-%m-%d 00:00:00")  # Start of the year at midnight
 
         # Query for sales made this year
         query = {
-            'sale_date': {'$gte': year_start}
+            'sale_date': {'$gte': year_start_str}
         }
 
         # Aggregate the total revenue by summing the 'total_value' field of all sales made this year
@@ -174,7 +312,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             total_revenue_value = result['totalRevenue']
 
         return total_revenue_value
-
+    
     def get_total_revenue_last_month(self):
         # Get the current date
         now = datetime.now()
@@ -191,9 +329,13 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         else:
             last_month_end = datetime(now.year, now.month, 1) - timedelta(days=1)
 
+        # Convert both to string format (YYYY-MM-DD HH:MM:SS) for comparison with sale_date
+        last_month_start_str = last_month_start.strftime("%Y-%m-%d 00:00:00")  # Start of the month at midnight
+        last_month_end_str = last_month_end.strftime("%Y-%m-%d 23:59:59")  # End of the month just before midnight
+
         # Query for sales made last month
         query = {
-            'sale_date': {'$gte': last_month_start, '$lt': last_month_end}
+            'sale_date': {'$gte': last_month_start_str, '$lt': last_month_end_str}
         }
 
         # Aggregate the total revenue by summing the 'total_value' field of all sales made last month
@@ -231,6 +373,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             self.custom_time_period_frame.show()
         else:
             self.custom_time_period_frame.hide()
+            self.update_profit_label(time_period=current_text)
             self.update_revenue_label(time_period=current_text)
             self.update_sales_table()
 
@@ -445,8 +588,8 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.sales_monitor.data_changed_signal.connect(lambda: self.update_labels())
 
     def update_labels(self):
-        self.update_today_sales()
-        self.update_revenue_this_month()
+        # self.update_today_sales()
+        # self.update_revenue_this_month()
         self.update_sales_table()
         self.update_sales_trend_chart()
         self.update_best_selling_chart()
@@ -668,16 +811,27 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
             today = datetime.now()
             time_period = self.time_period_comboBox.currentText()
+
             if time_period == "Today":
                 today_start = today.replace(hour=0, minute=0, second=0, microsecond=0)
                 today_end = today_start + timedelta(days=1)
-                filter = {"sale_date": {"$gte": today_start, "$lt": today_end}}
+                filter = {
+                    "sale_date": {
+                        "$gte": today_start.strftime('%Y-%m-%d %H:%M:%S'),
+                        "$lt": today_end.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
 
             elif time_period == "This Week":
                 week_start = today - timedelta(days=today.weekday())  # Monday of the current week
                 week_start = week_start.replace(hour=0, minute=0, second=0, microsecond=0)
                 week_end = week_start + timedelta(days=7)  # End of the current week (next Monday 0:00)
-                filter = {"sale_date": {"$gte": week_start, "$lt": week_end}}
+                filter = {
+                    "sale_date": {
+                        "$gte": week_start.strftime('%Y-%m-%d %H:%M:%S'),
+                        "$lt": week_end.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
 
             elif time_period == "This Month":
                 month_start = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -685,12 +839,22 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                     month_end = datetime(today.year + 1, 1, 1, 0, 0, 0)
                 else:
                     month_end = datetime(today.year, today.month + 1, 1, 0, 0, 0)
-                filter = {"sale_date": {"$gte": month_start, "$lt": month_end}}
+                filter = {
+                    "sale_date": {
+                        "$gte": month_start.strftime('%Y-%m-%d %H:%M:%S'),
+                        "$lt": month_end.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
 
             elif time_period == "This Year":
                 year_start = datetime(today.year, 1, 1, 0, 0, 0)
                 year_end = datetime(today.year + 1, 1, 1, 0, 0, 0)
-                filter = {"sale_date": {"$gte": year_start, "$lt": year_end}}
+                filter = {
+                    "sale_date": {
+                        "$gte": year_start.strftime('%Y-%m-%d %H:%M:%S'),
+                        "$lt": year_end.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
 
             elif time_period == "Last Month":
                 if today.month == 1:
@@ -699,7 +863,13 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 else:
                     last_month_start = datetime(today.year, today.month - 1, 1, 0, 0, 0)
                     last_month_end = datetime(today.year, today.month, 1, 0, 0, 0)
-                filter = {"sale_date": {"$gte": last_month_start, "$lt": last_month_end}}
+                filter = {
+                    "sale_date": {
+                        "$gte": last_month_start.strftime('%Y-%m-%d %H:%M:%S'),
+                        "$lt": last_month_end.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
+
             elif time_period == "Custom":
                 start_date_qdate = self.start_date_dateEdit.date()
                 end_date_qdate = self.end_date_dateEdit.date()
@@ -707,7 +877,12 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 end_date = end_date_qdate.toPyDate()
                 start_date = datetime.combine(start_date, datetime.min.time())
                 end_date = datetime.combine(end_date, datetime.max.time())
-                filter = {"sale_date": {"$gte": start_date, "$lt": end_date}}
+                filter = {
+                    "sale_date": {
+                        "$gte": start_date.strftime('%Y-%m-%d %H:%M:%S'),
+                        "$lt": end_date.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
 
             # Get data from MongoDB
             data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
@@ -940,10 +1115,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         table.setRowCount(0)
         table.setColumnCount(0)
 
-    def update_revenue_this_month(self):
-        revenue = self.get_revenue_this_month()
-        formatted = f"₱ {revenue:,.2f}"
-        self.revenue_month_label.setText(formatted)
+    # def update_revenue_this_month(self):
+    #     revenue = self.get_revenue_this_month()
+    #     formatted = f"₱ {revenue:,.2f}"
+    #     self.revenue_month_label.setText(formatted)
 
     def get_revenue_this_month(self):
         # Get the first day of the current month
@@ -982,12 +1157,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             return result[0]["total_revenue"]
         else:
             return 0
-
-    def update_today_sales(self):
-        """Update the total sales today label"""
-        sales = self.get_total_sales_today()
-        formatted = f"₱ {sales:,.2f}"
-        self.total_sales_label.setText(formatted)
 
     def get_total_sales_today(self):
         # Define the start of the day (midnight) for today

@@ -71,7 +71,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1062, 1723))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1065, 1723))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -231,10 +231,10 @@ class Ui_Form(object):
         self.revenue_label.setObjectName("revenue_label")
         self.verticalLayout_10.addWidget(self.revenue_label)
         self.horizontalLayout_3.addWidget(self.frame_19)
-        self.frame_2 = QtWidgets.QFrame(parent=self.frame_4)
-        self.frame_2.setMinimumSize(QtCore.QSize(225, 90))
-        self.frame_2.setMaximumSize(QtCore.QSize(225, 16777215))
-        self.frame_2.setStyleSheet("#frame_2{\n"
+        self.frame_22 = QtWidgets.QFrame(parent=self.frame_4)
+        self.frame_22.setMinimumSize(QtCore.QSize(225, 90))
+        self.frame_22.setMaximumSize(QtCore.QSize(225, 90))
+        self.frame_22.setStyleSheet("#frame_22{\n"
 "background-color: #fff;\n"
 "border: 1px solid #228B22;\n"
 "border-radius: 5px;\n"
@@ -242,54 +242,23 @@ class Ui_Form(object):
 "*{\n"
 "background-color: transparent;\n"
 "}")
-        self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame_2)
-        self.verticalLayout_2.setContentsMargins(9, 9, 9, 9)
-        self.verticalLayout_2.setSpacing(5)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label_2 = QtWidgets.QLabel(parent=self.frame_2)
-        self.label_2.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
+        self.frame_22.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_22.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_22.setObjectName("frame_22")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_22)
+        self.verticalLayout_11.setObjectName("verticalLayout_11")
+        self.profit_title_label = QtWidgets.QLabel(parent=self.frame_22)
+        self.profit_title_label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
 "color: #333333;")
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout_2.addWidget(self.label_2)
-        self.revenue_month_label = QtWidgets.QLabel(parent=self.frame_2)
-        self.revenue_month_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
+        self.profit_title_label.setObjectName("profit_title_label")
+        self.verticalLayout_11.addWidget(self.profit_title_label)
+        self.estimated_profit_label = QtWidgets.QLabel(parent=self.frame_22)
+        self.estimated_profit_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
 "color: #333333;\n"
 "")
-        self.revenue_month_label.setObjectName("revenue_month_label")
-        self.verticalLayout_2.addWidget(self.revenue_month_label)
-        self.horizontalLayout_3.addWidget(self.frame_2)
-        self.frame = QtWidgets.QFrame(parent=self.frame_4)
-        self.frame.setMinimumSize(QtCore.QSize(225, 90))
-        self.frame.setMaximumSize(QtCore.QSize(225, 16777215))
-        self.frame.setStyleSheet("#frame{\n"
-"background-color: #fff;\n"
-"border: 1px solid #228B22;\n"
-"border-radius: 5px;\n"
-"}\n"
-"*{\n"
-"background-color: transparent;\n"
-"}")
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.frame)
-        self.verticalLayout_12.setSpacing(5)
-        self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.label = QtWidgets.QLabel(parent=self.frame)
-        self.label.setStyleSheet("font: 63 12pt \"Noto Sans SemiBold\";\n"
-"color: #333333;")
-        self.label.setObjectName("label")
-        self.verticalLayout_12.addWidget(self.label)
-        self.total_sales_label = QtWidgets.QLabel(parent=self.frame)
-        self.total_sales_label.setStyleSheet("font: 87 16pt \"Noto Sans Black\";\n"
-"color: #333333;\n"
-"")
-        self.total_sales_label.setObjectName("total_sales_label")
-        self.verticalLayout_12.addWidget(self.total_sales_label)
-        self.horizontalLayout_3.addWidget(self.frame)
+        self.estimated_profit_label.setObjectName("estimated_profit_label")
+        self.verticalLayout_11.addWidget(self.estimated_profit_label)
+        self.horizontalLayout_3.addWidget(self.frame_22)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.verticalLayout_3.addWidget(self.frame_4)
@@ -614,7 +583,7 @@ class Ui_Form(object):
         self.best_selling_scrollArea.setWidgetResizable(True)
         self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
         self.best_selling_prod_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 421, 626))
+        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 424, 626))
         self.best_selling_prod_scrollAreaWidgetContents.setObjectName("best_selling_prod_scrollAreaWidgetContents")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.best_selling_prod_scrollAreaWidgetContents)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
@@ -638,10 +607,8 @@ class Ui_Form(object):
         self.confirm_date_pushButton.setText(_translate("Form", "Confirm"))
         self.revenue_title_label.setText(_translate("Form", "Revenue:"))
         self.revenue_label.setText(_translate("Form", "0"))
-        self.label_2.setText(_translate("Form", "Revenue This Month:"))
-        self.revenue_month_label.setText(_translate("Form", "0"))
-        self.label.setText(_translate("Form", "Total Sales Today:"))
-        self.total_sales_label.setText(_translate("Form", "0"))
+        self.profit_title_label.setText(_translate("Form", "Estimated Profit:"))
+        self.estimated_profit_label.setText(_translate("Form", "0"))
         self.create_sales_report_pushButton.setText(_translate("Form", "Create Sales Report"))
         self.label_8.setText(_translate("Form", "Sales Table"))
         self.search_lineEdit.setPlaceholderText(_translate("Form", "Search Sale ID"))

@@ -1099,29 +1099,9 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             # Get the date string from QDate
             # date_string = self.order_input.selectedDate().toString("yyyy-MM-dd")
 
-            date_string = datetime.now().strftime("%Y-%m-%d")
-
-            # Convert the string to a datetime object (if you need a full datetime with time)
-            date_obj = datetime.strptime(date_string, "%Y-%m-%d")  # Parse the date string to datetime
-
-            # If you need a time component (defaulting to midnight), you can use:
-            date_obj = datetime.combine(date_obj, datetime.now().time())
-
-            # Prepare data for saving
-            # sales_data = {
-            #     "sales_id": self.generate_sales_id(),
-            #     "date": date_obj,
-            #     "customer_name": customer_name,
-            #     "product_id": self.product_id,
-            #     "product_name": product_name,
-            #     "cylinder_size": cylinder_size,
-            #     "quantity": quantity,
-            #     "payment_status": payment_status,
-            #     "price": price,
-            #     "total_amount": total_amount,
-            #     "order_id": self.order_id,
-            #     "remarks": remarks
-            # }
+            current_datetime = datetime.now()
+            # Get current date as string in 'YYYY-MM-DD' format
+            current_date_string = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
             products_sold = list(self.connect_to_db('cart').find({}, {"_id": 0}))
 
@@ -1164,7 +1144,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             sales_data = {
                 'sale_id': self.generate_sales_id(),
                 'customer_name': customer_name,
-                'sale_date': date_obj,
+                'sale_date': current_date_string,
                 'products_sold': products_sold,
                 'quantity_sold': total_quantity,
                 'total_value': total_value,
@@ -1312,6 +1292,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             product_name = data['product_name']
             quantity = 1
             price = data['price_per_unit']
+            supplier_price = data['supplier_price']
             size = data['cylinder_size']
 
             order_data = {
@@ -1319,7 +1300,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 "product_name": product_name,
                 "cylinder_size": size,
                 "quantity": quantity,
-                "price": price, 
+                "price": price,
+                "supplier_price": supplier_price,
                 "total_amount": int(quantity) * int(price)
             }
 
