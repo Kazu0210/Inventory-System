@@ -592,7 +592,7 @@ class ItemsPage(QWidget, items_page):
                     table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     table.setItem(row, column, table_item)
                     
-                    # Make 'Brand' and 'Cylinder Size' columns non-selectable
+                    # Make columns non-selectable
                     if header in [' ', 'brand', 'cylindersize']:
                         # table_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # Non-selectable
                         table_item.setFlags(Qt.ItemFlag.NoItemFlags)  # No Interaction

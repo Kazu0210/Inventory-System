@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1154</width>
+    <width>1061</width>
     <height>655</height>
    </rect>
   </property>
@@ -124,8 +124,8 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>1137</width>
+        <y>-300</y>
+        <width>1044</width>
         <height>1215</height>
        </rect>
       </property>
@@ -303,13 +303,13 @@ color: #333333;
            <widget class="QFrame" name="frame">
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>670</width>
               <height>500</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
+              <width>670</width>
               <height>500</height>
              </size>
             </property>
@@ -345,7 +345,7 @@ border-radius: 5px;
               <widget class="QScrollArea" name="menu_scrollArea">
                <property name="maximumSize">
                 <size>
-                 <width>170</width>
+                 <width>150</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -357,7 +357,7 @@ border-radius: 5px;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>170</width>
+                  <width>150</width>
                   <height>482</height>
                  </rect>
                 </property>
@@ -368,8 +368,8 @@ border-radius: 5px;
               <widget class="QScrollArea" name="products_scrollArea">
                <property name="maximumSize">
                 <size>
-                 <width>555</width>
-                 <height>482</height>
+                 <width>500</width>
+                 <height>480</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -389,14 +389,14 @@ background-color: blue;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>555</width>
-                  <height>482</height>
+                  <width>497</width>
+                  <height>480</height>
                  </rect>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>555</width>
-                  <height>482</height>
+                  <width>500</width>
+                  <height>480</height>
                  </size>
                 </property>
                </widget>
@@ -409,13 +409,13 @@ background-color: blue;
            <widget class="QFrame" name="orders_table_frame">
             <property name="minimumSize">
              <size>
-              <width>750</width>
+              <width>670</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>550</width>
+              <width>670</width>
               <height>16777215</height>
              </size>
             </property>
@@ -751,7 +751,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>364</width>
+                  <width>351</width>
                   <height>252</height>
                  </rect>
                 </property>
@@ -903,7 +903,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>364</width>
+                  <width>351</width>
                   <height>320</height>
                  </rect>
                 </property>

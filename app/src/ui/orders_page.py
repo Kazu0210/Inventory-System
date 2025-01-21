@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1154, 655)
+        Form.resize(1061, 655)
         Form.setStyleSheet("*{\n"
 "color: #333333;\n"
 "font: 10pt \"Noto Sans\";\n"
@@ -103,7 +103,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1137, 1215))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -300, 1044, 1215))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -180,8 +180,8 @@ class Ui_Form(object):
         self.horizontalLayout_18.addWidget(self.frame_22, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.verticalLayout_4.addWidget(self.frame_21)
         self.frame = QtWidgets.QFrame(parent=self.frame_2)
-        self.frame.setMinimumSize(QtCore.QSize(0, 500))
-        self.frame.setMaximumSize(QtCore.QSize(16777215, 500))
+        self.frame.setMinimumSize(QtCore.QSize(670, 500))
+        self.frame.setMaximumSize(QtCore.QSize(670, 500))
         self.frame.setStyleSheet("#frame{\n"
 "background-color: #fff;\n"
 "border-radius: 5px;\n"
@@ -194,16 +194,16 @@ class Ui_Form(object):
         self.horizontalLayout.setSpacing(5)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.menu_scrollArea = QtWidgets.QScrollArea(parent=self.frame)
-        self.menu_scrollArea.setMaximumSize(QtCore.QSize(170, 16777215))
+        self.menu_scrollArea.setMaximumSize(QtCore.QSize(150, 16777215))
         self.menu_scrollArea.setWidgetResizable(True)
         self.menu_scrollArea.setObjectName("menu_scrollArea")
         self.menu_scrollArea_WidgetContents = QtWidgets.QWidget()
-        self.menu_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 170, 482))
+        self.menu_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 150, 482))
         self.menu_scrollArea_WidgetContents.setObjectName("menu_scrollArea_WidgetContents")
         self.menu_scrollArea.setWidget(self.menu_scrollArea_WidgetContents)
         self.horizontalLayout.addWidget(self.menu_scrollArea)
         self.products_scrollArea = QtWidgets.QScrollArea(parent=self.frame)
-        self.products_scrollArea.setMaximumSize(QtCore.QSize(555, 482))
+        self.products_scrollArea.setMaximumSize(QtCore.QSize(500, 480))
         self.products_scrollArea.setStyleSheet("#products_scrollArea{\n"
 "background-color: 808080;\n"
 "border-radius: 5px;\n"
@@ -214,15 +214,15 @@ class Ui_Form(object):
         self.products_scrollArea.setWidgetResizable(True)
         self.products_scrollArea.setObjectName("products_scrollArea")
         self.products_scrollArea_WidgetContents = QtWidgets.QWidget()
-        self.products_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 555, 482))
-        self.products_scrollArea_WidgetContents.setMaximumSize(QtCore.QSize(555, 482))
+        self.products_scrollArea_WidgetContents.setGeometry(QtCore.QRect(0, 0, 497, 480))
+        self.products_scrollArea_WidgetContents.setMaximumSize(QtCore.QSize(500, 480))
         self.products_scrollArea_WidgetContents.setObjectName("products_scrollArea_WidgetContents")
         self.products_scrollArea.setWidget(self.products_scrollArea_WidgetContents)
         self.horizontalLayout.addWidget(self.products_scrollArea)
         self.verticalLayout_4.addWidget(self.frame)
         self.orders_table_frame = QtWidgets.QFrame(parent=self.frame_2)
-        self.orders_table_frame.setMinimumSize(QtCore.QSize(750, 0))
-        self.orders_table_frame.setMaximumSize(QtCore.QSize(550, 16777215))
+        self.orders_table_frame.setMinimumSize(QtCore.QSize(670, 0))
+        self.orders_table_frame.setMaximumSize(QtCore.QSize(670, 16777215))
         self.orders_table_frame.setStyleSheet("#orders_table_frame{\n"
 "background-color: #fff;\n"
 "border-radius: 5px;\n"
@@ -382,7 +382,7 @@ class Ui_Form(object):
         self.recent_orders_scrollArea.setWidgetResizable(True)
         self.recent_orders_scrollArea.setObjectName("recent_orders_scrollArea")
         self.recent_orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 364, 252))
+        self.recent_orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 351, 252))
         self.recent_orders_scrollAreaWidgetContents.setObjectName("recent_orders_scrollAreaWidgetContents")
         self.recent_orders_scrollArea.setWidget(self.recent_orders_scrollAreaWidgetContents)
         self.verticalLayout_7.addWidget(self.recent_orders_scrollArea)
@@ -470,7 +470,7 @@ class Ui_Form(object):
         self.ordered_items_scrollArea.setWidgetResizable(True)
         self.ordered_items_scrollArea.setObjectName("ordered_items_scrollArea")
         self.orders_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 364, 320))
+        self.orders_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 351, 320))
         self.orders_scrollAreaWidgetContents.setObjectName("orders_scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.orders_scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")

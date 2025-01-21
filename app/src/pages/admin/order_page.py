@@ -191,7 +191,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
             # Create a new clickable frame
             item_frame = ClickableFrame(product_id)
-            item_frame.setFixedSize(165, 75)
+            item_frame.setFixedSize(150, 75)
             item_frame.brand_label.setText(brand)
             item_frame.size_label.setText(str(cylinder_size))
             item_frame.add_to_cart_signal.connect(lambda boolean, data: self.save_form(data))
@@ -293,22 +293,13 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
-        header.setFixedHeight(50)
+        header.setFixedHeight(40)
         table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
-        
-        # query filter
-        # filter = {}
-
-        # if self.searchBar_lineEdit != "":
-        #     filter = {"$or": [
-        #         {"product_name": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}},  # Case-insensitive match
-        #         {"product_id": {"$regex": self.searchBar_lineEdit.text(), "$options": "i"}}
-        #     ]}
 
         # Get data from MongoDB
         data = list(self.connect_to_db('orders').find({}).sort("_id", -1))
@@ -466,6 +457,16 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                         table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
                     table.setItem(row, column, table_item)
 
+                    non_selectable_headers = [
+                        'orderid', 'orderdate', 'time', 'customername', 'deliveryaddress', 'totalvalue', 'remarks',
+                        'productname', 'cylindersize', 'quantity','price','totalamount'
+                    ]
+
+                    # Make columns non-selectable
+                    if header in non_selectable_headers:
+                        # table_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # Non-selectable
+                        table_item.setFlags(Qt.ItemFlag.NoItemFlags)  # No Interaction
+
         # Add navigation controls
         # self.update_navigation_controls(len(data), page, rows_per_page)
 
@@ -589,13 +590,6 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]
 
-        # if self.search_lineEdit.text().strip():  # Check if the input is not empty and strip any whitespace
-        #     filter = {
-        #         "product_name": {"$regex": self.search_lineEdit.text(), "$options": "i"}  # Case-insensitive match
-        #     }
-
-        # Get data from MongoDB
-        # data = list(self.connect_to_db('sales').find(filter).sort("_id", -1))
         data = list(products)
         if not data:
             return  # Exit if the collection is empty
@@ -637,6 +631,15 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                         table_item.setBackground(QBrush(QColor("#F6F6F6")))  # Change item's background color
                     
                     table.setItem(row, column, table_item)
+
+                    non_selectable_headers = [
+                        'productname', 'cylindersize', 'quantity','price','totalamount'
+                    ]
+
+                    # Make columns non-selectable
+                    if header in non_selectable_headers:
+                        # table_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # Non-selectable
+                        table_item.setFlags(Qt.ItemFlag.NoItemFlags)  # No Interaction
 
     def handle_view_products_button(self, products, row):
         """Handle the 'View Products' button click event"""
