@@ -1,1 +1,1 @@
-
+            today_date = datetime.now().strftime('%Y-%m-%d')

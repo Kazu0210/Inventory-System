@@ -68,31 +68,137 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.estimated_profit_label.setText(str(formatted_profit))
 
     def get_estimated_profit_today(self):
-        # Get today's date in YYYY-MM-DD format
-        today_date = datetime.now().strftime("%Y-%m-%d")
-        total_profit = 0
-
-        # Query the sales data for today
-        orders = list(self.connect_to_db('sales').find({}))
+        """
+        Calculate the estimated profit for today's sales.
         
-        for order in orders:
-            try:
-                # Parse the sale_date to get the date part only
-                sale_date = datetime.strptime(order["sale_date"], "%Y-%m-%d %H:%M:%S").date()
-            except (KeyError, ValueError):
-                continue  # Skip sales with invalid or missing sale_date
-
-            # Check if the sale's date is today
-            if sale_date.strftime("%Y-%m-%d") == today_date:
-                # Loop through each product sold in the order
-                for product in order["products_sold"]:
-                    if "price" in product and "supplier_price" in product and "quantity" in product:
-                        # Calculate profit per unit
-                        profit_per_unit = product["price"] - product["supplier_price"]
-                        total_profit += profit_per_unit * product["quantity"]
-
-        return total_profit
+        Returns:
+            float: Total profit for today's sales.
+        """
+        try:
+            
+            # Get the current date in YYYY-MM-DD format
+            today_date = datetime.now().strftime('%Y-%m-%d')
+            
+            # Query to fetch today's sales
+            filter = {
+                "sale_date": {
+                    "$regex": f"^{today_date}"
+                }
+            }
+            today_sales = list(self.connect_to_db('sales').find(filter))
+            print(f'Result from getting today sales: {list(today_sales)}')
+            
+            # Calculate total profit
+            total_profit = 0
+            for sale in today_sales:
+                for product in sale.get('products_sold', []):
+                    # Calculate profit per product
+                    selling_price = product.get('price', 0)
+                    supplier_price = product.get('supplier_price', 0)
+                    quantity_sold = product.get('quantity', 0)
+                    
+                    profit = (selling_price - supplier_price) * quantity_sold
+                    total_profit += profit
+                    
+            print(f'Total profit: {total_profit}')
+            return total_profit
         
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return 0.0
+
+    def get_estimated_profit_this_week(self):
+        """
+        Calculate the estimated profit for this week's sales.
+
+        Returns:
+            float: Total profit for this week's sales.
+        """
+        try:
+            # Get the current date and determine the start and end of the week
+            today = datetime.now()
+            start_of_week = today - timedelta(days=today.weekday())  # Monday of the current week
+            end_of_week = start_of_week + timedelta(days=6)  # Sunday of the current week
+
+            # Format dates in YYYY-MM-DD for filtering
+            start_of_week_str = start_of_week.strftime('%Y-%m-%d')
+            end_of_week_str = end_of_week.strftime('%Y-%m-%d')
+
+            # Query to fetch this week's sales
+            filter = {
+                "sale_date": {
+                    "$gte": start_of_week_str,
+                    "$lte": end_of_week_str
+                }
+            }
+            this_week_sales = list(self.connect_to_db('sales').find(filter))
+            print(f'Result from getting this week sales: {list(this_week_sales)}')
+
+            # Calculate total profit
+            total_profit = 0
+            for sale in this_week_sales:
+                for product in sale.get('products_sold', []):
+                    # Calculate profit per product
+                    selling_price = product.get('price', 0)
+                    supplier_price = product.get('supplier_price', 0)
+                    quantity_sold = product.get('quantity', 0)
+
+                    profit = (selling_price - supplier_price) * quantity_sold
+                    total_profit += profit
+
+            print(f'Total profit for this week: {total_profit}')
+            return total_profit
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return 0.0
+        
+    def get_estimated_profit_this_month(self):
+        """
+        Calculate the estimated profit for this month's sales.
+
+        Returns:
+            float: Total profit for this month's sales.
+        """
+        try:
+            # Get the current date and determine the start and end of the month
+            today = datetime.now()
+            start_of_month = today.replace(day=1)  # First day of the month
+            end_of_month = (today.replace(month=today.month % 12 + 1, day=1) - timedelta(days=1)) if today.month < 12 else today.replace(month=12, day=31)
+
+            # Format dates in YYYY-MM-DD for filtering
+            start_of_month_str = start_of_month.strftime('%Y-%m-%d')
+            end_of_month_str = end_of_month.strftime('%Y-%m-%d')
+
+            # Query to fetch this month's sales
+            filter = {
+                "sale_date": {
+                    "$gte": start_of_month_str,
+                    "$lte": end_of_month_str
+                }
+            }
+            this_month_sales = list(self.connect_to_db('sales').find(filter))
+            print(f'Result from getting this month sales: {list(this_month_sales)}')
+
+            # Calculate total profit
+            total_profit = 0
+            for sale in this_month_sales:
+                for product in sale.get('products_sold', []):
+                    # Calculate profit per product
+                    selling_price = product.get('price', 0)
+                    supplier_price = product.get('supplier_price', 0)
+                    quantity_sold = product.get('quantity', 0)
+
+                    profit = (selling_price - supplier_price) * quantity_sold
+                    total_profit += profit
+
+            print(f'Total profit for this month: {total_profit}')
+            return total_profit
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return 0.0
+    
     def get_estimated_profit_for_period(self, start_date, end_date):
         """
         Calculate the estimated profit for a given date range.
@@ -133,43 +239,112 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         return total_profit
 
+    def get_estimated_profit_this_year(self):
+        """
+        Calculate the estimated profit for this year's sales.
+        
+        Returns:
+            float: Total profit for this year's sales.
+        """
+        try:
+            # Get the current year
+            current_year = datetime.now().year
+            
+            # Query to fetch this year's sales
+            filter = {
+                "sale_date": {
+                    "$regex": f"^{current_year}-"
+                }
+            }
+            this_year_sales = list(self.connect_to_db('sales').find(filter))
+            print(f'Result from getting this year\'s sales: {this_year_sales}')
+            
+            # Calculate total profit for this year
+            total_profit = 0
+            for sale in this_year_sales:
+                for product in sale.get('products_sold', []):
+                    # Calculate profit per product
+                    selling_price = product.get('price', 0)
+                    supplier_price = product.get('supplier_price', 0)
+                    quantity_sold = product.get('quantity', 0)
+                    
+                    profit = (selling_price - supplier_price) * quantity_sold
+                    total_profit += profit
+            
+            print(f'Total profit for this year: {total_profit}')
+            return total_profit
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return 0.0
+
+    def get_estimated_profit_last_month(self):
+        """
+        Calculate the estimated profit for last month's sales.
+        
+        Returns:
+            float: Total profit for last month's sales.
+        """
+        try:
+            # Get the current date and last month
+            today = datetime.now()
+            first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+            last_month = first_day_last_month.month
+            year_last_month = first_day_last_month.year
+            
+            # Query to fetch last month's sales
+            filter = {
+                "sale_date": {
+                    "$regex": f"^{year_last_month}-{last_month:02d}-"
+                }
+            }
+            last_month_sales = list(self.connect_to_db('sales').find(filter))
+            print(f'Result from getting last month\'s sales: {last_month_sales}')
+            
+            # Calculate total profit for last month
+            total_profit = 0
+            for sale in last_month_sales:
+                for product in sale.get('products_sold', []):
+                    # Calculate profit per product
+                    selling_price = product.get('price', 0)
+                    supplier_price = product.get('supplier_price', 0)
+                    quantity_sold = product.get('quantity', 0)
+                    
+                    profit = (selling_price - supplier_price) * quantity_sold
+                    total_profit += profit
+            
+            print(f'Total profit for last month: {total_profit}')
+            return total_profit
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return 0.0
+
+
     def update_profit_label(self, **kwargs):
         """Update the dynamic profit labels based on the selected time period."""
         time_period = kwargs.get('time_period', '')
         if time_period:  # Update profit title label
             self.profit_title_label.setText(f'Profit for {time_period}')
-        
-        today_string = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        today = datetime.strptime(today_string, "%Y-%m-%d %H:%M:%S")
-        # Determine start and end dates based on time period
         if time_period == 'Today':
-            start_date = end_date = today.replace(hour=0, minute=0, second=0, microsecond=0)  # Start of today
+            # start_date = end_date = today.replace(hour=0, minute=0, second=0, microsecond=0)  # Start of today
+            formatted_profit = f"₱ {self.get_estimated_profit_today():,.2f}"
+            self.estimated_profit_label.setText(str(formatted_profit))
         elif time_period == 'This Week':
-            start_date = today - timedelta(days=today.weekday())  # Start of the week (Monday)
-            end_date = start_date + timedelta(days=6)  # End of the week (Sunday)
+            formatted_profit = f"₱ {self.get_estimated_profit_this_week():,.2f}"
+            self.estimated_profit_label.setText(str(formatted_profit))
         elif time_period == 'This Month':
-            start_date = today.replace(day=1)  # First day of the current month
-            end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)  # Last day of the month
+            formatted_profit = f"₱ {self.get_estimated_profit_this_month():,.2f}"
+            self.estimated_profit_label.setText(str(formatted_profit))
         elif time_period == 'This Year':
-            start_date = today.replace(month=1, day=1)  # First day of the current year
-            end_date = today.replace(month=12, day=31)  # Last day of the current year
+            formatted_profit = f"₱ {self.get_estimated_profit_this_year():,.2f}"
+            self.estimated_profit_label.setText(str(formatted_profit))
         elif time_period == 'Last Month':
-            first_of_this_month = today.replace(day=1)  # First day of this month
-            end_date = first_of_this_month - timedelta(days=1)  # Last day of the last month
-            start_date = end_date.replace(day=1)  # First day of the last month
+            formatted_profit = f"₱ {self.get_estimated_profit_last_month():,.2f}"
+            self.estimated_profit_label.setText(str(formatted_profit))
         else:
             self.estimated_profit_label.setText("₱ 0.00")
             return
-
-        # Ensure both start and end dates are in the correct format
-        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
-        end_date_str = end_date.strftime("%Y-%m-%d %H:%M:%S")
-
-        # Get profit for the specified period
-        profit = self.get_estimated_profit_for_period(start_date_str, end_date_str)
-        formatted_profit = f"₱ {profit:,.2f}"
-        self.estimated_profit_label.setText(str(formatted_profit))
-
 
     def update_revenue_label(self, **kwargs):
         """update the dynamic revenue labels"""
@@ -924,7 +1099,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                                     value = value.strftime("%Y-%m-%d")
 
                             except Exception as e:
-                                print(f'Error: {e}')                           
+                                print(f'May Error: {e}')                           
 
                         elif header == 'productssold':
                             # Ensure value is a list
