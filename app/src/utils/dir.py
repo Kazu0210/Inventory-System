@@ -25,10 +25,11 @@ class ConfigPaths:
             "filters": ["resources", "config", "filters.json"],
             "logs": ["resources", "data", "logs.json"],
             "job_title": ["resources", "data", "job_titles.json"],
+            
             "user_icon": ["resources", "icons", "black-theme", "user.png"],
             "system_icon": ["resources", "icons", "system-icon.png"],
             "dashboard_icon": ["resources", "icons", "black-theme", "dashboard.png"],
-            "price_icon": ["resources", "icons", "black-theme", "price-tag.png"],
+            "price_icon": ["resources", "icons", "black-theme", "price.png"],
             "inventory_icon": ["resources", "icons", "black-theme", "inventory.png"],
             "orders_icon": ["resources", "icons", "black-theme", "booking.png"],
             "file_icon": ["resources", "icons", "black-theme", "file.png"],

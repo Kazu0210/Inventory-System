@@ -455,7 +455,7 @@ background-color: #228B22;
                        <string/>
                       </property>
                       <property name="pixmap">
-                       <pixmap>../../../resources/icons/price-tag.png</pixmap>
+                       <pixmap>../../resources/icons/black-theme/price.png</pixmap>
                       </property>
                       <property name="scaledContents">
                        <bool>true</bool>

@@ -217,7 +217,7 @@ class Ui_MainWindow(object):
         self.prices_logo.setMinimumSize(QtCore.QSize(20, 20))
         self.prices_logo.setMaximumSize(QtCore.QSize(20, 20))
         self.prices_logo.setText("")
-        self.prices_logo.setPixmap(QtGui.QPixmap("../../../resources/icons/price-tag.png"))
+        self.prices_logo.setPixmap(QtGui.QPixmap("../../resources/icons/black-theme/price.png"))
         self.prices_logo.setScaledContents(True)
         self.prices_logo.setObjectName("prices_logo")
         self.horizontalLayout_16.addWidget(self.prices_logo)

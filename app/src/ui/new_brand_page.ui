@@ -7,23 +7,23 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>691</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>450</width>
-    <height>500</height>
+    <height>560</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>450</width>
-    <height>16777215</height>
+    <height>560</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Add New Brand</string>
   </property>
   <property name="styleSheet">
    <string notr="true">*{
@@ -144,10 +144,39 @@ border-radius: 5px;
        <number>9</number>
       </property>
       <item>
-       <widget class="QLineEdit" name="brand_lineEdit">
+       <widget class="QLabel" name="label_2">
         <property name="minimumSize">
          <size>
-          <width>400</width>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
+color: #333333;</string>
+        </property>
+        <property name="text">
+         <string>Brand Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignLeft">
+       <widget class="QLineEdit" name="brand_lineEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
           <height>30</height>
          </size>
         </property>
@@ -231,66 +260,6 @@ border-radius: 5px;
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_10">
-      <item>
-       <widget class="QFrame" name="frame_18">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_11">
-         <property name="spacing">
-          <number>5</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="maximumSize">
-            <size>
-             <width>200</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font: 63 10pt &quot;Noto Sans SemiBold&quot;;
-color: #333333;</string>
-           </property>
-           <property name="text">
-            <string>DESCRIPTION</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPlainTextEdit" name="description_plainTextEdit">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>80</height>
-            </size>
-           </property>
-           <property name="plainText">
-            <string/>
-           </property>
-           <property name="placeholderText">
-            <string>Description</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
       <item>
        <widget class="QFrame" name="frame_19">
         <property name="frameShape">

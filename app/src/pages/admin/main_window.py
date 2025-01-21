@@ -29,6 +29,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.account_username = username
 
         self.dir = ConfigPaths()  # Initialize configuration paths
+        self.add_graphics()
 
         # Initialize activity logs
         self.logs = activity_logs()
@@ -40,7 +41,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Additional UI and setup methods
         self.get_current_index()
         self.hide_buttons()
-        self.add_graphics()
         self.set_current_page_name()
         self.set_username_label()
 
@@ -266,6 +266,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def set_active_icon(self, icon_widget):
         file_name = icon_widget.file_name
+        print(f'Pakening file name: {file_name}')
         base_dir = os.path.abspath(os.getcwd())
         file_path = f"{base_dir}/resources/icons/{file_name}"
         icon = QPixmap(file_path)
@@ -296,7 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dashboard_logo.setPixmap(dashboard_icon)
         self.dashboard_logo.setScaledContents(True)
 
-        prices_icon = QPixmap()
+        prices_icon = QPixmap(self.dir.get_path('price_icon'))
         self.prices_logo.file_name = os.path.basename(self.dir.get_path('price_icon'))
         self.prices_logo.setPixmap(prices_icon)
         self.prices_logo.setScaledContents(True)
