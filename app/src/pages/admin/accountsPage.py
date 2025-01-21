@@ -535,8 +535,7 @@ class AccountsPage(QWidget, accounts_page):
 
         # Set uniform row height for all rows
         table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
-
-        header.setFixedHeight(50)
+        header.setFixedHeight(40)
 
         # Clean the header labels
         self.header_labels = [self.clean_header(header) for header in header_labels]

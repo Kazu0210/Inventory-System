@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\sales_report_page.ui'
+# Form implementation generated from reading ui file 'sales_report_page.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(898, 641)
+        Form.resize(1079, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "border: none;\n"
@@ -71,7 +71,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1091, 1723))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -1068, 1062, 1723))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -385,7 +385,7 @@ class Ui_Form(object):
 "background-color: #fff;")
         self.search_pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(".\\../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../resources/icons/black-theme/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.search_pushButton.setIcon(icon)
         self.search_pushButton.setObjectName("search_pushButton")
         self.horizontalLayout_8.addWidget(self.search_pushButton)
@@ -502,7 +502,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.addItem(spacerItem2)
         self.verticalLayout_4.addWidget(self.frame_11)
         self.scrollArea_2 = QtWidgets.QScrollArea(parent=self.frame_8)
-        self.scrollArea_2.setMinimumSize(QtCore.QSize(700, 0))
+        self.scrollArea_2.setMinimumSize(QtCore.QSize(600, 0))
         self.scrollArea_2.setStyleSheet("#scrollArea_2{\n"
 "border: none;\n"
 "}")
@@ -517,7 +517,8 @@ class Ui_Form(object):
         self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.sales_trend_frame = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents_2)
-        self.sales_trend_frame.setMinimumSize(QtCore.QSize(700, 400))
+        self.sales_trend_frame.setMinimumSize(QtCore.QSize(600, 400))
+        self.sales_trend_frame.setMaximumSize(QtCore.QSize(700, 16777215))
         self.sales_trend_frame.setStyleSheet("background-color: white;")
         self.sales_trend_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.sales_trend_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -566,7 +567,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.addItem(spacerItem3)
         self.verticalLayout_5.addWidget(self.frame_12, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.best_selling_scrollArea = QtWidgets.QScrollArea(parent=self.frame_9)
-        self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(350, 250))
+        self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(320, 250))
         self.best_selling_scrollArea.setStyleSheet("#best_selling_scrollArea{\n"
 "background-color: #EAEAEA;\n"
 "border: none;\n"
@@ -615,7 +616,7 @@ class Ui_Form(object):
         self.best_selling_scrollArea.setWidgetResizable(True)
         self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
         self.best_selling_prod_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 350, 626))
+        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 321, 626))
         self.best_selling_prod_scrollAreaWidgetContents.setObjectName("best_selling_prod_scrollAreaWidgetContents")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.best_selling_prod_scrollAreaWidgetContents)
         self.verticalLayout_8.setObjectName("verticalLayout_8")

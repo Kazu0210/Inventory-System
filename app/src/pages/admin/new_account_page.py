@@ -11,7 +11,7 @@ from src.utils.Activity_logs import Activity_Logs
 from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.dir import ConfigPaths
 
-import json, time, random, pymongo
+import json, time, random, pymongo, os
 
 class NewAccountPage(QWidget, Ui_new_account_page):
     def __init__(self, username):
@@ -310,7 +310,8 @@ class NewAccountPage(QWidget, Ui_new_account_page):
             self.password_field.clear()
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
-        filter_dir = f"D:/Inventory-System/app/resources/config/{directory_name}"
+        base_dir = os.path.abspath(os.getcwd())
+        filter_dir = f"{base_dir}/resources/config/{directory_name}"
 
         with open(filter_dir, 'r') as f:
             options = json.load(f)

@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QAbstractItemView, QCheckBox, QFrame, QPushButton, QMessageBox, QFileDialog
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QVBoxLayout, QAbstractItemView, QPushButton, QFileDialog, QHeaderView, QFrame
 from PyQt6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
-from PyQt6.QtCore import Qt, QDate
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QBrush, QColor, QIcon
 
 from src.ui.sales_report_page import Ui_Form as sales_report_UiForm
@@ -642,6 +642,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             header = self.sales_tableWidget.horizontalHeader()
             header.setSectionsMovable(True)
             header.setDragEnabled(True)
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for column in range(table.columnCount()):
                 table.setColumnWidth(column, 145)
@@ -649,7 +650,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             # Set uniform row height for all rows
             table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
-            header.setFixedHeight(50)
+            header.setFixedHeight(40)
             table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
             table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)

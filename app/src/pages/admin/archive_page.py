@@ -72,27 +72,31 @@ class ArchivePage(QWidget, Ui_archive):
 
     def deleteButtonClicked(self):
         """Handle clicked event of delete button"""
-        data = self.current_document
-        print(f'Retrieved data when button clicked: {data}')
+        item_type = 'Account' if self.current_collection == 'account_archive' else 'Product'
+        confirmation = CustomMessageBox.show_message('question', 'Delete Archive', f'Are you sure you want to delete this {item_type}?')
 
-        if '_id' in data:
-            del data['_id']
+        if confirmation == 1:
+            data = self.current_document
+            print(f'Retrieved data when button clicked: {data}')
 
-        if self.current_collection == 'account_archive':
-            account_id = data['account_id'] # get account id 
-            filter = {
-                'account_id': account_id
-            }
-            self.connect_to_db(self.current_collection).delete_one(filter)
-            CustomMessageBox.show_message('information', 'Success', 'Account deleted successfully')
+            if '_id' in data:
+                del data['_id']
 
-        elif self.current_collection == 'product_archive':
-            product_id = data['product_id'] # get account id 
-            filter = {
-                'product_id': product_id
-            }
-            self.connect_to_db(self.current_collection).delete_one(filter)
-            CustomMessageBox.show_message('information', 'Success', 'Product deleted successfully')
+            if self.current_collection == 'account_archive':
+                account_id = data['account_id'] # get account id 
+                filter = {
+                    'account_id': account_id
+                }
+                self.connect_to_db(self.current_collection).delete_one(filter)
+                CustomMessageBox.show_message('information', 'Success', 'Account deleted successfully')
+
+            elif self.current_collection == 'product_archive':
+                product_id = data['product_id'] # get account id 
+                filter = {
+                    'product_id': product_id
+                }
+                self.connect_to_db(self.current_collection).delete_one(filter)
+                CustomMessageBox.show_message('information', 'Success', 'Product deleted successfully')
 
     def restoreButtonClicked(self):
         """Handle clicked event of restore button"""
@@ -390,7 +394,7 @@ class ArchivePage(QWidget, Ui_archive):
             # Set uniform row height for all rows
             table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
-            header.setFixedHeight(50)
+            header.setFixedHeight(40)
             table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
             table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
@@ -532,7 +536,7 @@ class ArchivePage(QWidget, Ui_archive):
             # Set uniform row height for all rows
             table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
 
-            header.setFixedHeight(50)
+            header.setFixedHeight(40)
             table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
             table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)

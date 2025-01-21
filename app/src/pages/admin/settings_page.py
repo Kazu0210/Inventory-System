@@ -7,6 +7,94 @@ from src.utils.dir import ConfigPaths
 
 import json, pymongo, os, datetime
 
+class BackupCollectionsWorkerThread(QThread):
+    update_signal = pyqtSignal(str)
+    progress_signal = pyqtSignal(int)
+    backup_done_signal = pyqtSignal(str, str)
+
+    def __init__(self, **kwargs):
+        super().__init__()
+
+        self.selected_dir = kwargs.get('directory')
+        self.collection_names = kwargs.get('collection_names', '')
+
+    def run(self):
+
+        try:
+            self.update_signal.emit("Starting backup...")
+            date_today = datetime.datetime.today().strftime('%Y-%m-%d')  # Get date today
+            folder_name = f'Collections_InventoryBackup_{date_today}'
+            folder_dir = os.path.join(self.selected_dir, folder_name)
+            
+            # Create the folder if it doesn't exist
+            if not os.path.exists(folder_dir):
+                self.update_signal.emit('Creating folder for backup files')
+                os.makedirs(folder_dir)  # Create folder in the specified directory
+                print(f"Folder '{folder_name}' created successfully!")
+                self.update_signal.emit(f'Folder ({folder_name}) created successfully!')
+            else:
+                print(f"Folder '{folder_name}' already exists.")
+                self.update_signal.emit(f'Folder ({folder_name}) for backup files already exist.')
+
+            # loop throught the collection name list
+            for collection in self.collection_names:
+                self.update_signal.emit(f'Creating {collection} collection backup.')
+                total_document = self.connect_to_db(collection).count_documents({}) # get total document
+                self.update_signal.emit(f'Total document: {total_document}')
+                processed = 0
+                self.update_signal.emit(f'Processed: {processed}')
+
+                backup_data = [] # Initialize an empty list to hold all documents
+
+                # Assuming you're iterating over the collection and processing documents
+                save_dir_filename = f'{folder_dir}/{collection}_backup.json'
+
+                with open(save_dir_filename, 'w') as backup_file:
+                    # Iterate over documents in the collection
+                    for doc in self.connect_to_db(collection).find({}).batch_size(100):
+                        try:
+                            # Check if '_id' is an ObjectId and convert it to a string
+                            if isinstance(doc['_id'], dict) and '$oid' in doc['_id']:
+                                doc['_id'] = str(doc['_id']['$oid'])
+                            elif isinstance(doc['_id'], object):  # If it's an ObjectId directly
+                                doc['_id'] = str(doc['_id'])
+
+                            # Check for datetime fields and convert them
+                            for key, value in doc.items():
+                                if isinstance(value, datetime.datetime):
+                                    doc[key] = value.isoformat()
+
+                            # Append the document to the backup_data list
+                            backup_data.append(doc)
+
+                        except Exception as e:
+                            print(f"Error processing document with _id {doc.get('_id', 'N/A')}: {e}")
+                            continue
+                        
+                        # Update progress
+                        processed += 1
+                        progress = int((processed / total_document) * 100)
+                        self.progress_signal.emit(progress)
+                    
+                    # Write all documents as a JSON array to the file
+                    try:
+                        json.dump(backup_data, backup_file, indent=4)
+                    except Exception as e:
+                        print(f"Error saving backup file: {e}")
+                        CustomMessageBox.show_message('critical', 'Failed', f'Error saving backup file: {e}')
+
+                    self.update_signal.emit(f'Backup for {collection} collection, created successfully!')
+            
+            self.backup_done_signal.emit('The system backup has been successfully created and stored.', f'{save_dir_filename}')
+        except Exception as e:
+            print(f'Error: {e}')
+
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        return client[db][collection_name]
+
 class BackupEntireBDWorkerThread(QThread):
     update_signal = pyqtSignal(str)
     progress_signal = pyqtSignal(int)
@@ -140,15 +228,18 @@ class settingsPage(QWidget, Ui_settings_page):
             if isinstance(widget, QCheckBox) and widget.isChecked():  # Check if it's a QCheckBox and if it's checked
                 checked_collections.append(widget.text())  # Add the text to the list
 
+        if not checked_collections:
+            print(f'No checked collection')
+
         return checked_collections
 
     def load_collection_names(self):
         """show all the collection names in the database for collections backup option"""
         collection_names = [
             'Accounts',
-            'Archived Accounts',
+            'Archive Account',
             'Products',
-            'Archived Products',
+            'Archive Product',
             'Sales',
             'Price History',
             'Logs',
@@ -179,7 +270,6 @@ class settingsPage(QWidget, Ui_settings_page):
     
     def clean_selected_collections(self, collections):
         """cleaned that selected collections to match the name of the collections in the database"""
-        print(f'Recevied collection: {collections}')
         if collections:
             cleaned_collections = []
             collection_names = [
@@ -193,13 +283,25 @@ class settingsPage(QWidget, Ui_settings_page):
                 'orders',
                 'prices',
             ]
-            for collection in collections:
-                print(f'Pakening collection: {collection}')
-                collection = sorted(collection.replace(' ', '_').lower())
-                print(f'Cleaned pakening collection na: {collection}')
-
             
-        return cleaned_collections
+            for collection in collections:
+                # Sort and clean the input collection
+                cleaned_collection = sorted(collection.replace(' ', '').lower())
+                print(f'Cleaned pakening collection na: {cleaned_collection}')
+                
+                for name in collection_names:
+                    # Sort and clean the name from collection_names
+                    cleaned_name = sorted(name.replace('_', '').lower())
+                    
+                    if cleaned_collection == cleaned_name:
+                        # Add the original (not sorted) name to cleaned_collections
+                        cleaned_collections.append(name)
+                        break  # Exit inner loop once a match is found
+
+            if len(cleaned_collections) == 0:
+                CustomMessageBox.show_message('critical', 'Error', 'Please select at least one collection to backup')
+            else:
+                return cleaned_collections
 
     def get_directory_backup_entire(self):
         """get the directory for the entire backup option. handles the browse file buttonj click event"""
@@ -304,8 +406,34 @@ class settingsPage(QWidget, Ui_settings_page):
             print(f'Format: {format}, directory: {dir}')
 
             checked_collections = self.get_checked_collections()
-            print(f'checked collections: {checked_collections}')
-            print(f"Cleaned collection names: {self.clean_selected_collections(checked_collections)}")
+            if not checked_collections:
+                CustomMessageBox.show_message('critical', 'Error', 'Please select at least one collection to backup')
+                return
+
+            checked_collections = self.clean_selected_collections(self.get_checked_collections())
+            
+            try:
+                # get data from entire db backup form
+                format = self.CollectionBackupFormat_comboBox.currentText()
+                dir = self.location2_lineEdit.text()
+                if dir == '':
+                    CustomMessageBox.show_message('information', 'Select Directory', 'Please select a directory to save the backup file')
+                    return
+            except Exception as e:
+                CustomMessageBox.show_message('critical', 'Error', f'Error: {e}')
+
+            question = CustomMessageBox.show_message('question', 'Confirm Backup', f'Are you sure you want to backup in {format} to {dir}?')
+
+            if question == 1:
+                CustomMessageBox.show_message('information', 'Backup started', 'Backup started')
+                self.worker = BackupCollectionsWorkerThread(directory=dir, collection_names=checked_collections)
+                self.worker.update_signal.connect(self.update_progress_label)
+                self.worker.progress_signal.connect(self.update_progress_bar)
+                self.worker.backup_done_signal.connect(self.show_done_signal)
+                self.worker.start()
+                self.logs.record_log(event='entire_system_backup')
+            else:
+                CustomMessageBox.show_message('critical', 'Backup Cancelled', 'Backup cancelled')
         else:
             CustomMessageBox.show_message('critical', 'Error', 'Please select a backup option')
 

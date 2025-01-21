@@ -13,6 +13,7 @@ from src.pages.admin.archive_page import ArchivePage
 from src.pages.admin.sales_report_page import SalesReportPage
 from src.pages.admin.prices_page import PricesPage
 from src.pages.admin.profile_page import ProfilePage
+from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.Activity_logs import Activity_Logs as activity_logs
 from src.utils.Graphics import AddGraphics
 from src.utils.Logs import Logs
@@ -40,7 +41,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Additional UI and setup methods
         self.get_current_index()
-        self.hide_buttons()
         self.set_current_page_name()
         self.set_username_label()
 
@@ -116,8 +116,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.profile_pushButton.clicked.connect(lambda: self.profile_btn_clicked())
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
-        self.reportsLogs_pushButton.clicked.connect(lambda: self.show_reports_and_logs_btn())
-
     def profile_btn_clicked(self):
         """handle click event for profile button"""
         self.content_window_layout.setCurrentIndex(9)
@@ -187,38 +185,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logo.setPixmap(scaled_logo)
         self.logo.setScaledContents(True)
 
-    def show_reports_and_logs_btn(self):
-        def show_buttons():
-            print('showing reports and logs buttons')
-            self.frame_9.show()
-            self.frame_10.show()
-
-        def hide_buttons():
-            print('hiding reports and logs buttons')
-            self.frame_9.hide()
-            self.frame_10.hide()
-
-        def check_buttons_visibility():
-            if not self.frame_9.isVisible() or not self.frame_10.isVisible():
-                show_buttons()  # Show the buttons if either is not visible
-            else:
-                hide_buttons()  # Hide the buttons if both are already visible
-
-        check_buttons_visibility()
-
-    def hide_buttons(self):
-        buttons = [
-            self.frame_9, # sales report button frame
-            self.frame_10, # activity logs button frame
-        ]
-        for button in buttons:
-            button.hide()
-
     def logout_btn_clicked(self):
         try:
-            logs = Logs()
-            logs.record_log(usersname=self.account_username, event='user_logout_success')
-            self.close()
+            confirmation = CustomMessageBox.show_message('question', 'Logout', 'Are you sure you want to logout')
+            if confirmation == 1:
+                logs = Logs()
+                logs.record_log(usersname=self.account_username, event='user_logout_success')
+                self.close()
         except Exception as e:
             print(f'An error occured: {e}')
 
@@ -311,11 +284,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.orders_logo.file_name = os.path.basename(self.dir.get_path('orders_icon'))
         self.orders_logo.setPixmap(orders_icon)
         self.orders_logo.setScaledContents(True)
-
-        reportsLogs_icon = QPixmap(self.dir.get_path('file_icon'))
-        self.reports_logs_logo.file_name = os.path.basename(self.dir.get_path('file_icon'))
-        self.reports_logs_logo.setPixmap(reportsLogs_icon)
-        self.reports_logs_logo.setScaledContents(True)
         
         sales_icon = QPixmap(self.dir.get_path('sales_icon'))
         self.sales_report_logo.file_name = os.path.basename(self.dir.get_path('sales_icon'))
