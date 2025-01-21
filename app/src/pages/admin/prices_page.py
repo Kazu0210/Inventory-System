@@ -6,6 +6,7 @@ from src.utils.Inventory_Monitor import InventoryMonitor
 from src.utils.Graphics import AddGraphics
 from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.dir import ConfigPaths
+from src.utils.Logs import Logs
 
 import json, pymongo, datetime, re, os
 
@@ -17,9 +18,13 @@ class PricesPage(QWidget, Ui_price_page):
         # Initialize config paths
         self.directory = ConfigPaths()
 
+        self.is_updating_table = False  # Flag to track if the table is being updated
+
+        self.logs = Logs
+
         self.load_all()
         # Initialize Inventory Monitor for prices table
-        self.prices_monitor = InventoryMonitor("prices")
+        self.prices_monitor = InventoryMonitor("products_items")
         self.prices_monitor.start_listener_in_background()
         self.prices_monitor.data_changed_signal.connect(lambda: self.load_prices())
 
@@ -47,7 +52,6 @@ class PricesPage(QWidget, Ui_price_page):
         self.prices_tableWidget.itemChanged.disconnect(self.price_table_item_changed)
         self.load_prices()
 
-    
     def set_search_icon(self):
         """Add icon to search button"""
         self.search_pushButton.setIcon(QIcon("D:/Inventory-System/app/resources/icons/black-theme/search.png"))
@@ -103,91 +107,100 @@ class PricesPage(QWidget, Ui_price_page):
         return results
 
     def price_table_item_changed(self, item):
-        """Handles the price table item changed event."""
-        print(f"Item changed at Row: {item.row()}, Column: {item.column()}")
-        print(f"New Value: {item.text()}")
-
+        """Handles the price table item changed event"""
         try:
-            new_value = item.text()  # Try converting to float, can be int or float
-            column = item.column()
-            row = item.row()
-            print(f'Column: {column}')
-        except ValueError:
-            # If the conversion fails, show an error and exit
-            CustomMessageBox.show_message('critical', 'Error', 'Invalid price value')
-            print(f'Error: Invalid value for price: {item.text()}')
-            return  # Exit early if the value is not a valid number
+            if self.is_updating_table:
+                print('Table is being updated, ignoring item change.')
+                return
 
-        # Get product id and header
-        product_id = self.prices_tableWidget.item(row, 1)  # Get the product ID (assumes it's in column 1)
-        header = self.prices_tableWidget.horizontalHeaderItem(column)
+            self.prices_tableWidget.blockSignals(True)  # Temporarily block signals
 
-        if product_id:  # Check if product id exists
-            product_id_value = product_id.text()
+            # Retrieve new value, column, and row
+            new_value, column, row = item.text(), item.column(), item.row()
+            product_id_item = self.prices_tableWidget.item(row, 1)
+            header = self.prices_tableWidget.horizontalHeaderItem(column)
 
-            # Update the price if the header matches
-            if header and header.text() in ['Selling Price', 'Supplier Price']:
-                # Confirm with the user before updating
-                question = CustomMessageBox.show_message('question', f'Update {header.text()} value', 
-                                                        f'Are you sure you want to update the {header.text()} value for product {product_id_value} to {new_value}?')
-                if question == 1:  # User confirmed the update
-                    try:
-                        # Choose the field based on the header
-                        field = 'price_per_unit' if header.text() == 'Selling Price' else 'supplier_price'
-                        
-                        # Prepare filter and update query
-                        filter = {'product_id': product_id_value}
-                        update = {'$set': {field: float(new_value)}}  # Update the price (as float)
+            if not product_id_item or not header:
+                print("Product ID or header is missing.")
+                return
 
-                        if header.text() == 'Selling Price':
-                            # if the header is Selling Price, save the data to price history
-                            
-                            # save to price history first
-                            self.save_to_price_history(product_id.text(), new_value)
+            product_id, cleaned_header = product_id_item.text(), header.text().replace(' ', '_').lower()
+            db = self.connect_to_db('products_items')
+            original_value = db.find_one({'product_id': product_id}, {cleaned_header: 1}).get(cleaned_header)
 
-                        # Perform the update in the database
-                        self.connect_to_db('products_items').update_one(filter, update)
+            # Skip if no change
+            if str(original_value) == new_value:
+                print("No changes detected, skipping update.")
+                return
 
-                        # Show success message
-                        CustomMessageBox.show_message('information', 'Price Update', f'{header.text()} Updated Successfully!')
+            # Define update and log logic
+            update_fields = {
+                'selling_price': {'field': 'price_per_unit', 'log_event': 'product_updated'},
+                'supplier_price': {'field': 'supplier_price', 'log_event': 'product_updated'}
+            }
 
-                        # Temporarily disconnect the signal to prevent re-triggering the function during reload
-                        self.prices_tableWidget.itemChanged.disconnect(self.price_table_item_changed)
+            if cleaned_header in update_fields:
+                field = update_fields[cleaned_header]['field']
+                try:
+                    db.update_one({'product_id': product_id}, {'$set': {field: float(new_value)}})
+                    if cleaned_header == 'selling_price':
+                        self.save_to_price_history(product_id, new_value)
+                    self.logs.record_log(event=update_fields[cleaned_header]['log_event'], product_id=product_id)
+                except Exception as e:
+                    print(f"Error updating {cleaned_header}: {e}")
 
-                        # Reload the table (refresh the data)
-                        self.load_prices()
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            self.prices_tableWidget.blockSignals(False)  # Re-enable signals
 
-                        # Reconnect the signal after the reload
-                        self.prices_tableWidget.itemChanged.connect(self.price_table_item_changed)
-
-                    except Exception as e:
-                        print(f'Error updating data: {e}')
 
     def save_to_price_history(self, product_id, new_price):
-        """save price before and after the change to price history collection"""        
-        today = datetime.datetime.today() # Get the current date
-        formatted_date = today.strftime('%Y-%m-%d') # Format the date as 'YYYY-MM-DD'
-
-        # get selling price before change
-        product_data = list(self.connect_to_db('products_items').find({'product_id': product_id}))
-        for data in product_data:
-            print(f'data: {data}')
-
-        old_price = data['price_per_unit']
-        brand = data['product_name']
-        
-        prices_history_data = {
-            'brand': brand,
-            'date_of_change': formatted_date,
-            'product_id': product_id,
-            'price_before': float(old_price),
-            'price_after': float(new_price)
-        }
-
+        """Save price before and after the change to the price history collection."""        
         try:
-            self.connect_to_db('price_history').insert_one(prices_history_data)
+            # Get the current date in 'YYYY-MM-DD' format
+            today = datetime.datetime.today()
+            formatted_date = today.strftime('%Y-%m-%d')
+
+            # Retrieve product data (assuming only one record per product_id)
+            product_data = self.connect_to_db('products_items').find_one({'product_id': product_id})
+
+            if not product_data:
+                print(f"Product with ID {product_id} not found.")
+                return
+
+            old_price = product_data.get('price_per_unit')
+            brand = product_data.get('product_name', 'Unknown')
+
+            # Avoid saving duplicate entries
+            price_history_collection = self.connect_to_db('price_history')
+            existing_entry = price_history_collection.find_one({
+                'product_id': product_id,
+                'price_before': float(old_price),
+                'price_after': float(new_price),
+                'date_of_change': formatted_date
+            })
+
+            if existing_entry:
+                print(f"Duplicate entry detected in price history: Product ID {product_id}")
+                return
+
+            # Prepare the price history data
+            prices_history_data = {
+                'brand': brand,
+                'date_of_change': formatted_date,
+                'product_id': product_id,
+                'price_before': float(old_price),
+                'price_after': float(new_price)
+            }
+
+            # Insert the new entry
+            price_history_collection.insert_one(prices_history_data)
+            print(f"Price history updated for Product ID {product_id}: {prices_history_data}")
+        
         except Exception as e:
-            print(f'Error saving to price history: {e}')
+            print(f"Error saving to price history: {e}")
+
             
     def load_price_history_table(self):
         """Loads price history table"""
@@ -411,6 +424,15 @@ class PricesPage(QWidget, Ui_price_page):
         self.rows_per_page = rows_per_page  # Number of rows per page
 
         table = self.prices_tableWidget
+
+        # Set the flag to indicate the table is being updated
+        self.is_updating_table = True
+
+        # Temporarily block signals to prevent itemChanged from being emitted during table population
+        table.blockSignals(True) 
+
+        self.is_updating_table = True
+        table.blockSignals(True) 
         table.setSortingEnabled(True)
         vertical_header = table.verticalHeader()
         vertical_header.hide()
@@ -544,9 +566,14 @@ class PricesPage(QWidget, Ui_price_page):
 
                     table.setItem(row, column, table_item)
 
-        table.itemChanged.connect(self.price_table_item_changed)
         table.setColumnHidden(0, True) # hide the first column
         table.setColumnHidden(1, True) # hide the 2nd column assuming that is the product id
+        # Unblock signals after table is populated
+        table.blockSignals(False)
+        # Reset the flag once the table is updated
+        self.is_updating_table = False
+
+        table.itemChanged.connect(self.price_table_item_changed)
 
     def connect_to_db(self, collection_name):
         connection_string = "mongodb://localhost:27017/"
