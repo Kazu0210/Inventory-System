@@ -1,91 +1,110 @@
 from PyQt6.QtWidgets import *
-from pymongo import MongoClient
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtGui import QPixmap, QIcon
 
-from src.utils.Graphics import AddGraphics
-from src.ui.employee.employee_main_window import Ui_MainWindow
-from src.pages.employee.dashboard_page import Dashboard
-from src.pages.employee.orders_page import OrderPage
-from src.pages.employee.prices_page import PricesPage
-from src.pages.employee.settings_page import settingsPage
-from src.pages.employee.profile_page import ProfilePage
-from src.pages.employee.order_page import OrderPage
+from src.ui.employee.main_window import Ui_MainWindow
+from src.pages.admin.activity_logs import Activity_Logs
+from src.pages.admin.accountsPage import AccountsPage
+from src.pages.admin.dashboard_page import Dashboard
+from src.pages.admin.itemsPage import ItemsPage
+from src.pages.admin.settings_page import settingsPage
+from src.pages.admin.order_page import OrderPage
+from src.pages.admin.archive_page import ArchivePage
+from src.pages.admin.sales_report_page import SalesReportPage
+from src.pages.admin.prices_page import PricesPage
+from src.pages.admin.profile_page import ProfilePage
+from src.custom_widgets.message_box import CustomMessageBox
 from src.utils.Activity_logs import Activity_Logs as activity_logs
+from src.utils.Graphics import AddGraphics
+from src.utils.Logs import Logs
+from src.utils.dir import ConfigPaths
 
-import os, json, re
+import os
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, username):
-        super(MainWindow, self).__init__()
-        self.setupUi(self)
-        
-        self.logs = activity_logs()
+        super(MainWindow, self).__init__()  # Initialize the main window
+        self.setupUi(self)  # Set up the user interface
 
-        # logged in account username
+        # Store logged-in account's username
         self.account_username = username
 
-        client = MongoClient('mongodb://localhost:27017/')
-        db = client['LPGTrading_DB']
-        self.collection = db['accounts']  
+        self.dir = ConfigPaths()  # Initialize configuration paths
+        self.add_graphics()
 
-        try:
-            if username:
-                self.username.setText(username) # set username in the dashboard
-            else:
-                self.username.setText("Unknown User") # set username in the dashboard
-        except Exception as e:
-            print(e)
+        # Initialize activity logs
+        self.logs = activity_logs()
 
-        # layout
+        # Load pages and connect buttons
+        self.load_pages(username)
+        self.load_btn_connections()
+
+        # Additional UI and setup methods
+        self.get_current_index()
+        self.set_current_page_name()
+        self.set_username_label()
+
+    def load_pages(self, username):
+        """load pages for the dashboard"""
         self.content_window_layout = QStackedLayout(self.content_widget)
 
         dashboard_section = Dashboard(username, self) # index 0
         self.content_window_layout.addWidget(dashboard_section)
 
-        price_section = PricesPage(self) # index 1
-        self.content_window_layout.addWidget(price_section)
-
-        order_section = OrderPage(self) # index 2
+        order_section = OrderPage(self) # index 1
         self.content_window_layout.addWidget(order_section)
 
-        settings_section = settingsPage(self) # index 3
-        self.content_window_layout.addWidget(settings_section)
+        self.profile_page = ProfilePage(username, self) # index 2
+        self.content_window_layout.addWidget(self.profile_page)
 
-        # self.order_section = OrderPage(self) # index 4
-        # self.content_window_layout.addWidget(self.order_section)
-
-        self.profile_section = ProfilePage(username, self)
-        self.content_window_layout.addWidget(self.profile_section) # index 4
-
+    def load_btn_connections(self):
+        """load connection of buttons"""
         self.buttons = [
             self.dashboard_pushButton,
-            self.prices_pushButton,
-            self.settings_pushButton,
+            self.logout_pushButton,
             self.orders_pushButton,
-            self.profile_pushButton,
-            self.logout_pushButton
         ]
+
         self.parent_widgets = [
-            self.frame_4, 
-            self.frame_15,
-            self.frame_12,
+            self.frame_4,
             self.frame_7,
-            self.frame_5
         ]
         self.dashboard_pushButton.clicked.connect(lambda: self.button_clicked(self.dashboard_logo, self.frame_4, self.dashboard_pushButton, 0))
-        self.prices_pushButton.clicked.connect(lambda: self.button_clicked(self.prices_logo, self.frame_5, self.prices_pushButton, 1))
-        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 2))
-        self.settings_pushButton.clicked.connect(lambda: self.button_clicked(self.settings_logo, self.frame_12, self.settings_pushButton, 3))
-        self.profile_pushButton.clicked.connect(lambda: self.button_clicked(self.accounts_logo, self.frame_15, self.profile_pushButton, 4))
+        self.orders_pushButton.clicked.connect(lambda: self.button_clicked(self.orders_logo, self.frame_7, self.orders_pushButton, 1))
+        self.profile_pushButton.clicked.connect(lambda: self.profile_btn_clicked())
         self.logout_pushButton.clicked.connect(self.logout_btn_clicked)
 
-        self.get_current_index()
+    def profile_btn_clicked(self):
+        """handle click event for profile button"""
+        self.content_window_layout.setCurrentIndex(2)
+        print(f'Current index when profile button is clicked: {self.get_current_index()}')
+        self.set_current_page_name()
 
-        # call function to hide button once
-        # self.hide_buttons()
+    def set_username_label(self):
+        """set label to current account's username"""
+        try:
+            if self.account_username:
+                self.username_label.setText(self.account_username) # set username in the dashboard
+            else:
+                self.username_label.setText("Unknown User") # set username in the dashboard
+        except Exception as e:
+            print(e)
+            
+    def set_current_page_name(self):
+        """Set label to current page"""
+        current_index = self.get_current_index()
+        match current_index:
+            case 0:
+                self.current_page_label.setText("DASHBOARD")
+            case 1:
+                self.current_page_label.setText("ORDERS")
+            case 2:
+                self.current_page_label.setText("PROFILE")
 
-        self.add_graphics()
+    def set_profile_icon(self):
+        """Add icon to profile button"""
+        self.profile_pushButton.setIcon(QIcon(self.dir.get_path('user_icon')))
+        self.profile_pushButton.setIconSize(QSize(17, 17))
 
     def add_graphics(self):
         """Add graphics to widgets (shadows, icons, others effects etc.)"""
@@ -94,218 +113,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.set_system_logo()
 
+        self.set_profile_icon()
+
         graphics = AddGraphics()
         graphics.shadow_effect(self.frame, blur=10, x=-4, y=4, alpha=50)
+        graphics.shadow_effect(self.profile_pushButton, blur=4, x=0, y=0, alpha=50)
 
     def set_system_logo(self):
-        """Set System Logo in the main window with minimum and maximum height"""
-        logo = QPixmap("D:/Inventory-System/app/resources/icons/system-icon.png")
-        
-        min_height = 150  # Minimum height
-        max_height = 180  # Maximum height
-
-        # Calculate the height of the QLabel
+        logo = QPixmap(self.dir.get_path('system_icon'))
+        min_height = 150
+        max_height = 180
         current_height = self.logo.height()
-
-        # Ensure the height stays within the defined range
         height_to_use = max(min_height, min(max_height, current_height))
-
-        # Scale the pixmap to the computed height while maintaining aspect ratio
         scaled_logo = logo.scaledToHeight(height_to_use, Qt.TransformationMode.SmoothTransformation)
-
-        # Set the scaled pixmap to the QLabel
         self.logo.setPixmap(scaled_logo)
-
-        # Ensure the QLabel does not distort the pixmap
         self.logo.setScaledContents(True)
 
-    def set_btn_icons(self):
-        """Set icons for the buttons"""
-        dashboard_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/dashboard.png")
-        self.dashboard_logo.setPixmap(dashboard_icon)
-        self.dashboard_logo.setScaledContents(True)
-
-        prices_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/price-tag.png")
-        self.prices_logo.setPixmap(prices_icon)
-        self.prices_logo.setScaledContents(True)
-
-        orders_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
-        self.orders_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/booking.png")
-        self.orders_logo.setPixmap(orders_icon)
-        self.orders_logo.setScaledContents(True)
-        
-        setting_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
-        self.settings_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/settings.png")
-        self.settings_logo.setPixmap(setting_icon)
-        self.settings_logo.setScaledContents(True)
-
-        accounts_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/user.png")
-        self.accounts_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/user.png")
-        self.accounts_logo.setPixmap(accounts_icon)
-        self.accounts_logo.setScaledContents(True)
-        
-        logout_icon = QPixmap("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
-        self.logout_logo.file_name = os.path.basename("D:/Inventory-System/app/resources/icons/black-theme/logout.png")
-        self.logout_logo.setScaledContents(True)
-
-    # def show_system_settings_btn(self):
-    #     def show_buttons():
-    #         self.frame_12.show() # settings button frame
-    #         self.frame_13.show() # backup and restore button frame
-
-    #     def hide_buttons():
-    #         self.frame_12.hide()
-    #         self.frame_13.hide()
-
-    #     def check_buttons_visibility():
-    #         if not self.frame_12.isVisible() or not self.frame_13.isVisible():
-    #             show_buttons()  # Show the buttons if either is not visible
-    #         else:
-    #             hide_buttons()  # Hide the buttons if both are already visible
-
-    #     check_buttons_visibility()
-
-    # def show_reports_and_logs_btn(self):
-    #     def show_buttons():
-    #         print('showing reports and logs buttons')
-    #         self.frame_9.show()
-    #         self.frame_10.show()
-
-    #     def hide_buttons():
-    #         print('hiding reports and logs buttons')
-    #         self.frame_9.hide()
-    #         self.frame_10.hide()
-
-    #     def check_buttons_visibility():
-    #         if not self.frame_9.isVisible() or not self.frame_10.isVisible():
-    #             show_buttons()  # Show the buttons if either is not visible
-    #         else:
-    #             hide_buttons()  # Hide the buttons if both are already visible
-
-    #     check_buttons_visibility()
-
-    # def hide_buttons(self):
-    #     buttons = [
-    #         self.frame_19, # sales report button frame
-    #         self.frame_10, # activity logs button frame
-    #         self.frame_12, # settings button frame
-    #         self.frame_13 # backup restore button frame
-    #     ]
-    #     for button in buttons:
-    #         button.hide()
-
     def logout_btn_clicked(self):
-        print("Application is closed")
         try:
-            temp_data_dir = "app/resources/data/temp_user_data.json"
-            if os.path.exists(temp_data_dir):
-                with open(temp_data_dir, 'r') as file:
-                    data = json.load(file)
-                key = list(data.keys())[0]
-                _id = data[key]
-
-                print(f'Key: {key}, _id: {_id}')
-                self.logs.logout(self.account_username)
-                self.account_username = None
-
-                data = {"_id": str("")}
-                with open(temp_data_dir, 'w') as file:
-                    json.dump(data, file, indent=4)
-
+            confirmation = CustomMessageBox.show_message('question', 'Logout', 'Are you sure you want to logout')
+            if confirmation == 1:
+                logs = Logs()
+                logs.record_log(usersname=self.account_username, event='user_logout_success')
                 self.close()
-            else:
-                QMessageBox.warning(self, "Error", "File not found")
-        except FileNotFoundError:
-            print("File not found")
-        except json.JSONDecodeError:
-            print("Invalid JSON in file")
+        except Exception as e:
+            print(f'An error occured: {e}')
 
     def get_current_index(self):
         return self.content_window_layout.currentIndex()
-    
-    def current_index_update(self):
-        if self.get_current_index() == 1:
-            self.frame_7.hide()
-            self.comboBox.hide()
-        if self.get_current_index() == 2:
-            self.comboBox.hide()
-
-            search_bar = self.searchbar
-            search_bar.setPlaceholderText("Search username here")
-            
-            search_bar.textChanged.connect(self.search_bar_text_changed)
-            
-        else:
-            self.frame_7.show()
-            self.comboBox.show()
-            self.searchbar.setPlaceholderText("Type here...")
-
-    def search_bar_text_changed(self, text):
-        print(f"Search bar text changed to: {text}")
-        # pause thread update
-        if text:  # if search text is not empty
-            self.profile_section.timer.timeout.connect(self.profile_section.update_all)
-            self.profile_section.timer.stop()
-            # clear table
-            self.profile_section.tableWidget.setRowCount(0)
-
-            search_results = self.collection.find({
-                "$or": [
-                    {"username": {"$regex": "^" + text, "$options": "i"}}
-                    # {"first_name": {"$regex": "^" + text, "$options": "i"}},
-                    # {"last_name": {"$regex": "^" + text, "$options": "i"}}
-                ]
-            })
-
-            if search_results:
-                # convert the search results to a list
-                results_list = list(search_results)
-
-                # automatically print the result when the text is changed
-                for result in results_list:
-                    print(f"Username: {result['username']}, First Name: {result['first_name']}, Last Name: {result['last_name']}, Job: {result['job']}, User Type: {result['user_type']}, account status: {result['status']}")
-
-                table = self.profile_section.tableWidget
-                column_count = table.columnCount()
-
-                header_labels = []
-                for i in range(column_count):
-                    item = table.horizontalHeaderItem(i)
-                    if item is not None:
-                        header_labels.append(item.text())
-                header_labels = [self.clean_key(label) for label in header_labels]
-
-                keys = set()
-                for item in results_list:
-                    keys.update(self.clean_key(key) for key in item.keys())
-
-                # Find the maximum number of keys across all documents
-                max_column_count = max(len(item.keys()) for item in results_list) if results_list else 0
-
-                # Set table dimensions
-                table.setRowCount(len(results_list))
-                table.setColumnCount(max_column_count)
-
-                # Populate table with data
-                for row, item in enumerate(results_list):
-                    for column, key in enumerate(header_labels):
-                        original_keys = [k for k in item.keys() if self.clean_key(k) == key]
-                        original_key = original_keys[0] if original_keys else None
-                        value = item.get(original_key)
-                        table.setItem(row, column, QTableWidgetItem(str(value)))
-            else:
-                # If no results, keep the table headers and clear the rows
-                table = self.profile_section.tableWidget
-                table.setRowCount(0)
-        else:  # if search text is empty, populate table with original data
-            self.profile_section.timer.timeout.connect(self.profile_section.update_all)
-            self.profile_section.timer.start()
-            self.profile_section.update_table()
-            
-    def clean_key(self, key):
-        return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
 
     def button_clicked(self, icon_widget, parent_widget, button, index):
         self.reset_button_styles()
@@ -316,7 +151,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_active_frame_style(parent_widget)
         if index is not None:
             self.content_window_layout.setCurrentIndex(index)
-            # self.current_index_update()
+            self.set_current_page_name()
         else:
             print(f"{button.objectName()} button clicked.")
 
@@ -347,10 +182,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_btn_icons()
 
     def set_active_icon(self, icon_widget):
-        # print(f"Icon widget's file name: {icon_widget.file_name}")
         file_name = icon_widget.file_name
-
-        file_path = f"app/resources/icons/{file_name}"
+        print(f'Pakening file name: {file_name}')
+        base_dir = os.path.abspath(os.getcwd())
+        file_path = f"{base_dir}/resources/icons/{file_name}"
         icon = QPixmap(file_path)
         icon_widget.file_name = os.path.basename(file_path)
         icon_widget.setPixmap(icon)
@@ -371,3 +206,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 background-color: #228B22;
             }
         """)
+        
+    def set_btn_icons(self):
+        """Set icons for the buttons"""
+        dashboard_icon = QPixmap(self.dir.get_path('dashboard_icon'))
+        self.dashboard_logo.file_name = os.path.basename(self.dir.get_path('dashboard_icon'))
+        self.dashboard_logo.setPixmap(dashboard_icon)
+        self.dashboard_logo.setScaledContents(True)
+
+        orders_icon = QPixmap(self.dir.get_path('orders_icon'))
+        self.orders_logo.file_name = os.path.basename(self.dir.get_path('orders_icon'))
+        self.orders_logo.setPixmap(orders_icon)
+        self.orders_logo.setScaledContents(True)
+        
+        logout_icon = QPixmap(self.dir.get_path('logout_icon'))
+        self.logout_logo.file_name = os.path.basename(self.dir.get_path('logout_icon'))
+        self.logout_logo.setPixmap(logout_icon)
+        self.logout_logo.setScaledContents(True)

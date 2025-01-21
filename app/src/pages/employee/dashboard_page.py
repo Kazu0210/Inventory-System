@@ -1,16 +1,19 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCharts import QChart, QChartView, QPieSeries, QPieSlice
-from PyQt6.QtGui import QColor, QLinearGradient, QBrush, QIcon
+from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, Qt
 
-from src.ui.final_ui.dashboard import Ui_Form as Ui_dashboard_page
+from src.ui.employee.ui_dashboard import Ui_Form as Ui_dashboard_page
 from src.ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
 from src.ui.final_ui.product_in_stock_info import Ui_frame_info as Ui_prodStockInfo
-from src.utils.DB_checker import db_checker
-from src.utils.Inventory_Monitor import InventoryMonitor
 
-from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, QEasingCurve
+from src.utils.Inventory_Monitor import InventoryMonitor
+from src.utils.dir import ConfigPaths
+
 from datetime import datetime, timedelta
-import pymongo, random
+from collections import defaultdict
+import pymongo, json, re
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.pyplot as plt
 
 class ProductInStockItem(QFrame, Ui_prodStockItem):
     def __init__(self):
@@ -27,19 +30,14 @@ class Dashboard(QWidget, Ui_dashboard_page):
         super().__init__()
         self.setupUi(self)
         self.main_window = main_window
-
-        # self.expand_total_prod_pushButton.clicked.connect(lambda: self.expand_total_prods())
-
-        self.set_icons()
-
-        # Database connection
-        self.collection_name = self.connect_to_db("products_items")
-
-        # Create and start the update thread for total stock
-        self.update_thread = UpdateThread(self.collection_name)
-        self.update_thread.updated.connect(self.update_total_stock_label)
-        self.update_thread.start()
         
+        self.directory = ConfigPaths()
+
+        self.load_collection_monitors()
+
+        self.update_sales_widgets()
+        self.load_sales_today_table()
+
         # Set up the layout for the QScrollArea
         cylinderContainerWidget = self.cylinderContainerLayout
         self.cylinderContainerLayout = QVBoxLayout(cylinderContainerWidget)
@@ -47,65 +45,292 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         self.labels = []
 
+        self.update_stock_widgets()
+
+        # Call the function to update the cylinder list
+        self.update_cylinder_list()
+        self.create_cylinder_sizes_tab()
+
+
+    def get_today_total_orders(self):
+        """
+        Get the total number of orders placed today and display it in the label.
+        
+        Returns:
+            int: Total number of orders placed today.
+        """
+        try:
+            # Get today's date in the format 'YYYY-MM-DD'
+            today_date = datetime.now().strftime('%Y-%m-%d')
+
+            # Query the collection for orders with today's date
+            total_orders = self.connect_to_db('orders').count_documents({"order_date": today_date})
+
+            # update the label
+            self.total_orders_label.setText(str(total_orders))
+        except Exception as e:
+            print(f"Error: {e}")
+            return 0
+
+    def create_cylinder_sizes_tab(self):
+        """ Get all the cylinder sizes and create a tab for each cylinder size """
+        try:
+            # Get distinct cylinder sizes
+            cylinder_sizes = self.connect_to_db('products_items').distinct('cylinder_size')
+
+            # Sort the cylinder sizes in descending order
+            cylinder_sizes.sort(reverse=True)
+
+            # initialize tab widget
+            self.tab_widget = self.sizes_tabWidget
+            self.tab_widget.clear()
+            
+            # Add a tab for each cylinder size
+            for size in cylinder_sizes:
+                # Create the tab widget for this size
+                tab_widget = QWidget()
+
+                # Create the Matplotlib figure and canvas
+                self.figure, self.ax = plt.subplots(figsize=(5, 5))
+                self.canvas = FigureCanvas(self.figure)
+
+                # initialize layout for tab widget
+                tab_widget_layout = QVBoxLayout()
+                tab_widget_layout.addWidget(self.canvas) # insert pie chart canvas to the layout
+                
+                tab_widget.setLayout(tab_widget_layout) # add the layout to the tab widget
+
+                # get data for the chart
+                product_data = list(self.get_cylinder_brands(size))
+                print(f'recevied product data {product_data}')
+
+                brand = []
+                quantity = []
+                for data in product_data:
+                    brand.append(data['product_name'])
+                    quantity.append(data['quantity_in_stock'])
+
+                print(f'pakening quantity: {quantity}')
+
+                self.create_pie_chart(brand, quantity) # create pie chart
+
+                # Add the tab to the tab widget
+                self.tab_widget.addTab(tab_widget, f"{size}")
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def create_pie_chart(self, brand, quantity):
+        """
+        Create a pie chart for each cylinder size.
+        
+        Args:
+            brand (list): Labels for the pie chart (e.g., cylinder sizes).
+            quantity (list): Corresponding quantities for the pie chart.
+        """
+        # Check for data consistency
+        if len(brand) != len(quantity):
+            raise ValueError("The length of brand and quantity must be the same.")
+        
+        print(f"Received quantity: {quantity}, type: {type(quantity)}")
+
+        # Convert quantities to numbers if needed
+        quantity = [int(q) if isinstance(q, str) else q for q in quantity]
+
+        # Define colors for the chart (expand or reuse if more data points exist)
+        colors = ['gold', 'lightblue', 'lightgreen', 'coral', 'pink', 'gray']
+
+        # Plot the pie chart
+        self.ax.clear()  # Clear the plot if it was used before
+        self.ax.pie(
+            quantity,
+            labels=brand,
+            colors=colors[:len(brand)],  # Match colors to data length
+            autopct=lambda pct: f"{int(pct * sum(quantity) / 100)}",
+            startangle=140,
+            textprops=dict(color="black"),  # Text styling
+        )
+        self.ax.axis('equal')  # Equal aspect ratio ensures the pie is drawn as a circle
+
+        # Refresh the canvas
+        self.canvas.draw()
+
+    def get_cylinder_brands(self, cylinder_size):
+        """ Get all the cylinder brands for a given cylinder size and get their quantity """
+        query = {'cylinder_size': cylinder_size}
+        projection = {'product_name': 1, 'cylinder_size': 1, 'quantity_in_stock': 1, '_id': 0}
+        result = list(self.connect_to_db('products_items').find(query, projection))
+        
+        return result
+
+    def update_sales_widgets(self):
+        """update all the widgets that uses sales data"""
+        self.load_sales_today_table()
+        self.udpate_sales_today_label()
+        self.update_total_sales_in_table()
+
+    def load_collection_monitors(self):
+        """initialize the monitors for the collections"""
+        self.sales_monitor = InventoryMonitor('sales')
+        self.sales_monitor.start_listener_in_background()
+        self.sales_monitor.data_changed_signal.connect(self.update_sales_widgets)
+
         # Initialize the products monitor to listen for changes
         self.products_monitor = InventoryMonitor('products_items')
         self.products_monitor.start_listener_in_background()
         self.products_monitor.data_changed_signal.connect(self.update_stock_widgets)
 
-        # Initialize orders monitor
-        self.order_monitor = InventoryMonitor('orders')
-        self.order_monitor.start_listener_in_background()
-        self.order_monitor.data_changed_signal.connect(self.orders_coll_change)
+        # # Initialize orders monitor
+        # self.order_monitor = InventoryMonitor('orders')
+        # self.order_monitor.start_listener_in_background()
+        # self.order_monitor.data_changed_signal.connect(self.orders_coll_change)
 
-        # Initialize monitor to update stock level chart
-        self.stock_level_monitor = InventoryMonitor('products')
+    def update_total_sales_in_table(self):
+        """Update the total sales in the table"""
+        # Get the data for today's sales
+        data = self.get_products_sold_today()
+
+        # Format the total sales amount as currency
+        total_sale_amount = f"₱ {data['total_sales_amount']:,.2f}"
+        print(f'total sale amount: {total_sale_amount}')
+
+        # Update the label with the formatted total sales amount
+        self.total_sale_table_label.setText(total_sale_amount)
+
+    def load_sales_today_table(self):
+        """load the sales today table"""
+        table = self.sales_today_tableWidget
+        table.setSortingEnabled(True)
+        vertical_header = table.verticalHeader()
+        vertical_header.hide()
+        table.setRowCount(0)  # Clear the table
+        table.setSelectionMode(table.SelectionMode.NoSelection)
+
+        # header json directory
+        header_dir = self.directory.get_path('sales_today_header')
+        with open(header_dir, 'r') as f:
+            header_labels = json.load(f)
+
+        table.setColumnCount(len(header_labels))
+        table.setHorizontalHeaderLabels(header_labels)
+
+        header = self.sales_today_tableWidget.horizontalHeader()
+        header.setSectionsMovable(True)
+        header.setDragEnabled(True)
+        header.setStretchLastSection(True)
+
+        # # set width of all the columns
+        # for column in range(table.columnCount()):
+        #     table.setColumnWidth(column, 150)
+
+        table.verticalHeader().setDefaultSectionSize(50)  # Set all rows to a height of 50
+        # Set uniform row height for all rows
+        header.setFixedHeight(40)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+
+        # Clean the header labels
+        self.header_labels = [self.clean_header(header) for header in header_labels]
+        print(f'header labels: {self.header_labels}')
+
+        data = self.get_products_sold_today() # get data for the table
+        products = data['products']
+
+        if products:
+            self.no_sales_frame.hide()
+            self.sales_today_tableWidget.show()
+        else:
+            self.no_sales_frame.show()
+            self.sales_today_tableWidget.hide()
         
-        # Initialize monitor to update total sales label
-        self.sales_monitor = InventoryMonitor('sales')
-        self.sales_monitor.start_listener_in_background()
-        self.sales_monitor.data_changed_signal.connect(self.update_today_sales)
+        for row, item in enumerate(products):
+            table.setRowCount(row + 1)  # Add a new row for each item
+            for column, header in enumerate(self.header_labels):
+                # Clean and match the keys
+                original_keys = [k for k in item.keys() if self.clean_key(k) == header]
+                original_key = original_keys[0] if original_keys else None
+                value = item.get(original_key)
 
-        # Call the function to update the cylinder list
-        self.update_cylinder_list()
-        self.update_total_products()
-        # Call funcion that display order summary once
-        self.display_total_orders()
-        self.update_today_sales()
-        self.update_total_orders()
-        self.update_low_stock_label()
+                if value is not None:
+                    # Check if the header is 'price'
+                    if header == 'price':
+                        
+                        # Ensure the value is a float before formatting
+                        if isinstance(value, (int, float)):
+                            formatted_price = f"₱ {value:,.2f}"  # Format value as price with two decimals
+                            print(f'Formatted price: {formatted_price}')
+                            value = formatted_price
+                        else:
+                            print('Value is not a valid number')
+                        
+                    # For other columns
+                    table_item = QTableWidgetItem(str(value))
+                    table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                    table.setItem(row, column, table_item)
 
-        self.show_completed_order()
-        self.show_pending_order()
-        self.show_cancelled_order()
+    def get_products_sold_today(self):
+        # Connect to the MongoDB instance
+        # Get today's date
+        today = datetime.now()
+        start_of_day = datetime(today.year, today.month, today.day)
+        end_of_day = start_of_day + timedelta(days=1)
 
-        self.completed_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        self.pending_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
-        self.cancelled_order_listWidget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        # Query to find all sales from today
+        sales_today = self.connect_to_db('sales').find({
+            "sale_date": {"$gte": start_of_day, "$lt": end_of_day}
+        })
 
-        # call funcion that load the stock level chart once
-        self.load_stock_level_chart()
+        # Dictionary to store product data, combining same product ids
+        products = defaultdict(lambda: {
+            "product_name": "",
+            "cylinder_size": "",
+            "quantity": 0,
+            "total_amount": 0
+        })
 
-    def update_low_stock_label(self):
-        """Updates the low stock label"""
-        self.low_stock_label.setText(str(self.count_low_stock_products()))
+        # Variable to track total sales amount
+        total_sales_amount = 0
 
-    def count_low_stock_products(self):
-        """
-        Counts all products that have stock levels below their respective low stock threshold.
+        # Process each sale
+        for sale in sales_today:
+            for product in sale.get("products_sold", []):
+                product_id = product["product_id"]
+                products[product_id]["product_name"] = product["product_name"]
+                products[product_id]["cylinder_size"] = product["cylinder_size"]
+                products[product_id]["quantity"] += product["quantity"]
+                products[product_id]["total_amount"] += product["total_amount"]
+                
+                # Add the product's total amount to the overall total sales amount
+                total_sales_amount += product["total_amount"]
 
-        :param inventory: The inventory data (a list of dictionaries).
-        :return: The count of products with stock below their individual low stock threshold.
-        """
-        inventory = self.connect_to_db('products_items').find({})
-        low_stock_count = 0
-        
-        # Iterate through each product in the inventory
-        for product in inventory:
-            # Check if the product's stock is below its low stock threshold
-            if product['quantity_in_stock'] < product['minimum_stock_level']:
-                low_stock_count += 1
+        # Sort products by cylinder size (extract numeric value for sorting)
+        def extract_size(cylinder_size):
+            # Assuming the cylinder_size is a string like '5kg', '10kg', etc.
+            # Extract numeric part (e.g., '5' from '5kg')
+            return int(''.join(filter(str.isdigit, cylinder_size)))
 
-        return low_stock_count
+        sorted_products = sorted(products.values(), key=lambda x: extract_size(x["cylinder_size"]))
+
+        # Return the processed product data as a list along with the total sales amount
+        return {
+            "products": [
+                {
+                    "brand": data["product_name"],
+                    "size": data["cylinder_size"],
+                    "quantity": data["quantity"],
+                    "price": data["total_amount"]
+                }
+                for data in sorted_products
+            ],
+            "total_sales_amount": total_sales_amount
+        }
+
+    def udpate_sales_today_label(self):
+        """update sales today label"""
+        sales = self.get_today_sales()
+        formatted = f"{sales:,.2f}"
+        self.total_sales_label.setText(formatted)
 
     def orders_coll_change(self):
         """Update all the widgets with orders data related"""
@@ -124,14 +349,8 @@ class Dashboard(QWidget, Ui_dashboard_page):
         except Exception as e:
             print(f"Error getting total orders: {e}")
 
-    def update_today_sales(self):
-        """Update the total sales today label"""
-        sales = self.update_total_sales()
-        formatted = f"{sales:,.2f}"
-        self.total_sales_label.setText(formatted)
-
-    def update_total_sales(self):
-        """Update total sales label (current sales today)"""
+    def get_today_sales(self):
+        """get data for today's sale (current sales today)"""
         # Define the start of the day (midnight) for today
         today_start = datetime.combine(datetime.now().date(), datetime.min.time())
         pipeline = [
@@ -229,80 +448,8 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
     def update_stock_widgets(self):
         self.update_cylinder_list()
-        self.load_stock_level_chart()
-        self.update_total_products()
-        self.update_low_stock_label()
-
-    def create_pie_chart(self, processed_data):
-        series = QPieSeries()
-
-        for data in processed_data:
-            cylinder_size = data['cylinder_size']
-            total_quantity = data['total_quantity']
-            series.append(f'{cylinder_size}kg', total_quantity)
-            print(f'Series Slices: {series.slices()}')
-
-            # Check if there are slices in the series
-            if series.slices():
-                # Iterate through slices and update them based on the data
-                for idx, slice in enumerate(series.slices()):
-                    # Match the slice to the current data by its index
-                    if idx == len(series.slices()) - 1:  # last slice
-                        print(f'Last Slice: {slice}')
-
-                        # Hide the label on top
-                        slice.setLabelVisible(False)
-
-                        # Apply conditions to the last slice
-                        if total_quantity <= 5:
-                            slice.setLabel(f"Low stock: {total_quantity} units left")
-                            slice.setLabelVisible(True)
-                            # slice.setBrush(QColor("red"))  # Mark low stock with red color
-                            if int(cylinder_size) == 5:
-                                slice.setBrush(QColor("#2ecc71"))  # Green
-                            elif int(cylinder_size) == 10:
-                                slice.setBrush(QColor("#f39c12"))  # Yellow
-                            elif int(cylinder_size) == 11:
-                                slice.setBrush(QColor("#9b59b6"))  # Purple
-                            elif int(cylinder_size) == 15:
-                                slice.setBrush(QColor("#1abc9c"))  # Teal
-                            elif int(cylinder_size) == 22:
-                                slice.setBrush(QColor("#f1c40f"))  # Gold
-                            elif int(cylinder_size) == 50:
-                                slice.setBrush(QColor("#34495e"))  # Dark gray
-                        else:
-                            # Update brush color for non-low-stock slices
-                            if int(cylinder_size) == 5:
-                                slice.setBrush(QColor("#2ecc71"))  # Green
-                            elif int(cylinder_size) == 10:
-                                slice.setBrush(QColor("#f39c12"))  # Yellow
-                            elif int(cylinder_size) == 11:
-                                slice.setBrush(QColor("#9b59b6"))  # Purple
-                            elif int(cylinder_size) == 15:
-                                slice.setBrush(QColor("#1abc9c"))  # Teal
-                            elif int(cylinder_size) == 22:
-                                slice.setBrush(QColor("#f1c40f"))  # Gold
-                            elif int(cylinder_size) == 50:
-                                slice.setBrush(QColor("#34495e"))  # Dark gray
-
-
-        chart = QChart()
-        chart.addSeries(series)
-        chart.setTitle("Stock Levels")
-
-        chart_view = QChartView(chart)
-
-        # frame to hold the chart
-        self.chart_frame = self.stockChart_frame
-        # self.chart_frame.setStyleSheet("border: 2px solid black;")
-                # Clear existing layout if present
-        if self.chart_frame.layout():
-            # Remove the old layout before setting a new one
-            QWidget().setLayout(self.chart_frame.layout())  # Removes the layout
-
-        layout = QVBoxLayout()
-        layout.addWidget(chart_view)
-        self.chart_frame.setLayout(layout)
+        self.create_cylinder_sizes_tab()
+        self.get_today_total_orders()
 
     def load_stock_level_chart(self):
         print(f'showing stock level chart')
@@ -313,81 +460,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
         # for data in processed_data:
         #     cylinder_size = data['cylinder_size']
         #     total_quantity = data['total_quantity']
-
-        self.create_pie_chart(processed_data)
-
-    def show_cancelled_order(self):
-        orders = self.get_cancelled_orders()
-        for order in orders:
-            orderID = order.get('order_id', '')
-            customer_name = order.get('customer_name')
-            order_date = order.get('order_date')
-            order_status = order.get('order_status')
-
-            order_id_label = QLabel(
-                f"Order ID: {orderID}\n"
-                f"Customer Name: {customer_name}\n"
-                f"Order Date: {order_date}\n"
-                f"Order Status: {order_status}"
-            )
-
-            item = QListWidgetItem(self.cancelled_order_listWidget)
-            item.setSizeHint(QSize(200, 100))
-            self.cancelled_order_listWidget.setItemWidget(item, order_id_label)
-
-    def show_pending_order(self):
-        orders = self.get_processing_orders()
-        for order in orders:
-            orderID = order.get('order_id', '')
-            customer_name = order.get('customer_name')
-            order_date = order.get('order_date')
-            order_status = order.get('order_status')
-
-            order_id_label = QLabel(
-                f"Order ID: {orderID}\n"
-                f"Customer Name: {customer_name}\n"
-                f"Order Date: {order_date}\n"
-                f"Order Status: {order_status}"
-            )
-
-            item = QListWidgetItem(self.pending_order_listWidget)
-            item.setSizeHint(QSize(200, 100))
-            self.pending_order_listWidget.setItemWidget(item, order_id_label)
-
-    def show_completed_order(self):
-        orders = self.get_completed_orders()
-        for order in orders:
-            orderID = order.get('order_id', '')
-            customer_name = order.get('customer_name')
-            order_date = order.get('order_date')
-            order_status = order.get('order_status')
-
-            order_id_label = QLabel(
-                f"Order ID: {orderID}\n"
-                f"Customer Name: {customer_name}\n"
-                f"Order Date: {order_date}\n"
-                f"Order Status: {order_status}"
-            )
-
-            item = QListWidgetItem(self.completed_order_listWidget)
-            item.setSizeHint(QSize(200, 100))
-            self.completed_order_listWidget.setItemWidget(item, order_id_label)
-    def get_cancelled_orders(self):
-        try:
-            orders_collection = self.connect_to_db('orders')
-            completed_orders = orders_collection.find({"order_status": "Cancelled"})
-            return completed_orders
-        except Exception as e:
-            print(f"Error getting completed orders: {e}")
-            return []
-    def get_processing_orders(self):
-        try:
-            orders_collection = self.connect_to_db('orders')
-            completed_orders = orders_collection.find({"order_status": "Processing"}).sort("order_id", pymongo.DESCENDING)
-            return completed_orders
-        except Exception as e:
-            print(f"Error getting completed orders: {e}")
-            return []
 
     def get_completed_orders(self):
         try:
@@ -469,27 +541,6 @@ class Dashboard(QWidget, Ui_dashboard_page):
 
         return str(order_count)
     
-    def get_daily_order_count_shyet(self):
-        try:
-            pipeline = [
-                {
-                    "$group": {
-                        "_id": "$order_date",  # Group by date
-                        "total_orders": {"$sum": 1}  # Count the orders
-                    }
-                }
-            ]
-            result = self.connect_to_db("orders").aggregate(pipeline)
-            daily_orders = {}
-            for item in result:
-                date = item['_id']
-                total_orders = item['total_orders']
-                daily_orders[date] = total_orders
-            return daily_orders
-        except Exception as e:
-            print(f"Error getting daily order count: {e}")
-            return {}
-        
     def get_products_in_stock(self):
         """
         Retrieves total stock of each product size and provides a breakdown by product name, including quantities.
@@ -659,22 +710,8 @@ class Dashboard(QWidget, Ui_dashboard_page):
         db = "LPGTrading_DB"
         return client[db][collection_name]
     
-class UpdateThread(QThread):
-    updated = pyqtSignal(int)
+    def clean_key(self, key):
+        return re.sub(r'[^a-z0-9]', '', key.lower().replace(' ', '').replace('_', ''))
 
-    def __init__(self, collection):
-        super().__init__()
-        self.collection = collection
-        self.running = True
-
-    def run(self):
-        while self.running:
-            try:
-                total_stock = self.collection.count_documents({})
-                self.updated.emit(total_stock)
-            except Exception as e:
-                print(f"Error updating total stock: {e}")
-            QThread.msleep(1000)  # Update every second
-
-    def stop(self):
-        self.running = False
+    def clean_header(self, header):
+            return re.sub(r'[^a-z0-9]', '', header.lower().replace(' ', '').replace('_', ''))
