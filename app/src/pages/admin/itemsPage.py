@@ -287,7 +287,6 @@ class ItemsPage(QWidget, items_page):
                 self.cylinderSize = document['cylinder_size']
                 self.quantity = document['quantity_in_stock']
                 self.price = document['price_per_unit']
-                self.supplier = document['supplier']
                 self.restockDate = document['last_restocked_date']
                 self.description = document['description']
                 self.totalValue = document['total_value']
@@ -310,9 +309,9 @@ class ItemsPage(QWidget, items_page):
             formated_price = f'₱ {int(self.price):,.2f}'
             self.price_label.setText(str(formated_price))
 
-            self.supplier_label.setText(self.supplier)
-            self.restockedDate_label.setText(self.restockDate)
-            self.description_label.setText(self.description)
+            # self.supplier_label.setText(self.supplier)
+            # self.restockedDate_label.setText(self.restockDate)
+            # self.description_label.setText(self.description)
 
             formated_total_val = f'₱ {int(self.totalValue):,.2f}'
             self.totalValue_label.setText(str(formated_total_val))
@@ -330,7 +329,6 @@ class ItemsPage(QWidget, items_page):
                     'cylinder_size': self.cylinderSize,
                     'quantity': self.quantity,
                     'price': self.price,
-                    'supplier': self.supplier,
                     'restockDate': self.restockDate,
                     'description': self.description,
                     'total_value': self.totalValue,
