@@ -928,7 +928,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
         # Prepare sales data for the last 7 days
         sales_data = []
-        print(f'pakening sales data: {sale_date}')
         
         # Loop over the last 7 days
         for i in range(7):
