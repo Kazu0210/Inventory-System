@@ -724,6 +724,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
             CustomMessageBox.show_message('critical', 'Error', f"An error occurred while creating the sales report: {e}")
 
 
+
     def handle_search(self):
         """Handle the search functionality of the search bar"""
         if self.search_lineEdit.text() == "":
