@@ -184,6 +184,8 @@ class PricesPage(QWidget, Ui_price_page):
             if existing_entry:
                 print(f"Duplicate entry detected in price history: Product ID {product_id}")
                 return
+            
+            created_at = datetime.datetime.now()
 
             # Prepare the price history data
             prices_history_data = {
@@ -191,7 +193,8 @@ class PricesPage(QWidget, Ui_price_page):
                 'date_of_change': formatted_date,
                 'product_id': product_id,
                 'price_before': float(old_price),
-                'price_after': float(new_price)
+                'price_after': float(new_price),
+                'created_at': created_at
             }
 
             # Insert the new entry

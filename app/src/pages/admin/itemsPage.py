@@ -367,20 +367,30 @@ class ItemsPage(QWidget, items_page):
         archive_collection = self.connect_to_db('product_archive')
 
         data_from_products_collection = list(self.connect_to_db('products_items').find({"product_id": product_id}, {"_id": 0}))
+        
         try:
-            # If data is a list, iterate over each dictionary
-            if isinstance(data_from_products_collection, list):
+            # Check if data_from_products_collection is a list
+            if isinstance(data_from_products_collection, list) and len(data_from_products_collection) > 0:
                 for item in data_from_products_collection:
                     item['inventory_status'] = "Inactive"
+                    item['created_at'] = datetime.datetime.now()  # Add created_at field
                     archive_collection.insert_one(item)
-            else:
+            elif isinstance(data_from_products_collection, dict):
+                created_at = datetime.datetime.now()
                 # If data_from_products_collection is a single dictionary, update it directly
                 data_from_products_collection['inventory_status'] = "Inactive"
+                data_from_products_collection['created_at'] = created_at  # Add created_at field
                 archive_collection.insert_one(data_from_products_collection)
+            
+            # Update the table
             self.update_table()
 
+            # Remove the product from the products_items collection
             self.connect_to_db('products_items').delete_one({'product_id': product_id})
+
+            # Log the archiving action
             self.logs.record_log(event='product_archived', product_id=product_id)
+
         except Exception as e:
             print(f'Error: {e}')
         

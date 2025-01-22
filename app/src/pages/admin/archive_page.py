@@ -105,6 +105,8 @@ class ArchivePage(QWidget, Ui_archive):
 
         if '_id' in data:
             del data['_id']
+        if 'created_at' in data:
+            del data['created_at']
 
 
         if self.current_collection == 'account_archive':

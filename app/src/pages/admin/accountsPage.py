@@ -88,7 +88,7 @@ class AccountsPage(QWidget, accounts_page):
 
     def get_account_total(self):
         # get total number of account and set text label
-        self.total_accounts = str(self.collection.count_documents({}))
+        self.total_accounts = str(self.collection.count_documents({"username": {"$ne": "admin"}})) # except the username of admin
         self.total_account_label.setText(self.total_accounts)
 
     def update_filters(self):
@@ -579,7 +579,9 @@ class AccountsPage(QWidget, accounts_page):
                                     value = date_time.strftime("%Y-%m-%d %H:%M:")
                         except Exception as e:
                             pass
-                            # print(f"Error formatting date: {e}")
+
+                    if header == 'username' and value == 'admin':
+                        table.setRowHidden(row, True)
 
                     if value == self.current_logged_in():
                         name = value

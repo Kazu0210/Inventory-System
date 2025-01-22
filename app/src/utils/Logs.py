@@ -66,6 +66,8 @@ class Logs:
                                        product_id=product_id,
                                        account_id=account_id
                                        )
+        
+        created_at = datetime.datetime.now()
 
         try:
             document = {
@@ -75,6 +77,7 @@ class Logs:
                 'username': username,
                 'event_type': event_details['event'],
                 'description': event_details['description'],
+                'created_at': created_at
             }
             result = self.connect_to_db('logs').insert_one(document)
 

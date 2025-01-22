@@ -111,27 +111,27 @@ class loginWindow(QMainWindow, login_mainWindow):
                 self.logs.record_log(username=username,event='login_failed')
                 CustomMessageBox.show_message('warning','Login Attempt Failed',"Invalid username or password. Please try again.")   
 
-    def default_admin_login(self, username, password):
-        document = self.connect_to_db('default_account').find_one({"username": username})
-        if document:
-            if document["password"] == password:
-                self.logs.record_log(username=username, event='default_admin_login_success')
-                self.main_window = MainWindow(username)
-                self.main_window.show()
-                self.close()
-            else:
-                self.logs.record_log(username=username, event="default_admin_login_failed")
-                admin_dialog = QDialog(self)
-                admin_dialog.setWindowTitle("Default Admin")
-                admin_dialog.setModal(True)
+    # def default_admin_login(self, username, password):
+    #     document = self.connect_to_db('default_account').find_one({"username": username})
+    #     if document:
+    #         if document["password"] == password:
+    #             self.logs.record_log(username=username, event='default_admin_login_success')
+    #             self.main_window = MainWindow(username)
+    #             self.main_window.show()
+    #             self.close()
+    #         else:
+    #             self.logs.record_log(username=username, event="default_admin_login_failed")
+    #             admin_dialog = QDialog(self)
+    #             admin_dialog.setWindowTitle("Default Admin")
+    #             admin_dialog.setModal(True)
 
     def validate_credentials(self,username,password):
         if not username or not password:
             return False
 
-        if username=="admin":
-            self.default_admin_login(username,password)
-            return True
+        # if username=="admin":
+        #     self.default_admin_login(username,password)
+        #     return
 
         collection=self.connect_to_db('accounts')
         document=collection.find_one({"username":username})

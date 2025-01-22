@@ -1140,7 +1140,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             else:
                 print("No data found.")
 
-
+            created_at = datetime.now()
             sales_data = {
                 'sale_id': self.generate_sales_id(),
                 'customer_name': customer_name,
@@ -1148,7 +1148,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
                 'products_sold': products_sold,
                 'quantity_sold': total_quantity,
                 'total_value': total_value,
-                'order_id': order_id
+                'order_id': order_id,
+                'created_at': created_at
             }
 
             # Insert or update the sales data in the database
