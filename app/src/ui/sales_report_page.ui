@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1079</width>
+    <width>897</width>
     <height>641</height>
    </rect>
   </property>
@@ -92,8 +92,8 @@ QScrollBar:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>1065</width>
+        <y>-743</y>
+        <width>881</width>
         <height>1723</height>
        </rect>
       </property>
@@ -1103,7 +1103,7 @@ border: none;
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>700</width>
+                     <width>650</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -1207,7 +1207,7 @@ color: #333333;
               <widget class="QScrollArea" name="best_selling_scrollArea">
                <property name="minimumSize">
                 <size>
-                 <width>320</width>
+                 <width>240</width>
                  <height>250</height>
                 </size>
                </property>
@@ -1266,7 +1266,7 @@ QScrollBar:hover{
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>424</width>
+                  <width>240</width>
                   <height>626</height>
                  </rect>
                 </property>

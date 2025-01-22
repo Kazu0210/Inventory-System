@@ -13,6 +13,8 @@ from src.custom_widgets.message_box import CustomMessageBox
 from datetime import datetime, timedelta
 from fpdf import FPDF
 import pymongo, re, json
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
 class BestSellingListItem(QFrame, best_selling_UiForm):
     def __init__(self, list_of_data):
@@ -41,6 +43,42 @@ class BestSellingListItem(QFrame, best_selling_UiForm):
             print(f"Error: {e}")
             CustomMessageBox.show_message('warning', 'Error', 'An unexpected error occurred while updating the labels. Please try again if the issue persists.')
 
+class BarChartFrame(QWidget):
+    def __init__(self, categories, values, title="Bar Chart", xlabel="Categories", ylabel="Values", color='skyblue'):
+        super().__init__()
+
+        # Create the matplotlib figure and canvas
+        self.figure = plt.Figure(figsize=(10, 6), dpi=100)
+        self.canvas = FigureCanvas(self.figure)
+
+        # Set up layout
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.canvas)
+
+        # Create the initial bar chart
+        self.create_bar_chart(categories, values, title, xlabel, ylabel, color)
+
+    def create_bar_chart(self, categories, values, title, xlabel, ylabel, color):
+        # Create a subplot
+        self.ax = self.figure.add_subplot(111)
+
+        # Create a bar chart
+        self.ax.bar(categories, values, color=color)
+
+        # Set labels and title
+        self.ax.set_xlabel(xlabel)
+        self.ax.set_ylabel(ylabel)
+        self.ax.set_title(title)
+
+        # Refresh the canvas to display the plot
+        self.canvas.draw()
+
+    def reload_chart(self):
+        print('clearing chart')
+        self.figure.clf()  # Clear the entire figure
+        self.ax = self.figure.add_subplot(111)  # Recreate the axes
+        self.canvas.draw()  # Update the canvas to reflect the changes
+
 class SalesReportPage(QWidget, sales_report_UiForm):
     def __init__(self, parent_window=None):
         super().__init__()
@@ -48,7 +86,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.logs = Logs() # initialize activity logs
         self.dirs = ConfigPaths() # initialize config paths
 
-        self.load_inventory_monitor()
         self.filter_query = {}
         self.load_filters() # call function that loads all the filters
         self.update_labels()
@@ -57,15 +94,43 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.custom_time_period_frame.hide() # hide the frame the holds the inputs for custom time period filter
         self.load_button_connections()
 
+        # self.load_inventory_monitor()
+        self.sales_monitor = InventoryMonitor("sales")
+        self.sales_monitor.start_listener_in_background()
+        self.sales_monitor.data_changed_signal.connect(lambda: self.update_labels())
         self.load_default_key_metrics()
 
     def load_default_key_metrics(self):
-        """load revenue and estimated profit for today which is the default"""
+        """load revenue and estimated profit for today etc. which is the default"""
         formatted_revenue = f"₱ {self.get_total_revenue_today():,.2f}"
         self.revenue_label.setText(str(formatted_revenue))
 
         formatted_profit = f"₱ {self.get_estimated_profit_today():,.2f}"
         self.estimated_profit_label.setText(str(formatted_profit))
+
+    # def load_bar_chart(self):
+    #     """Load sales trend chart"""
+    #     # remove margin
+    #     # Get sales data for the last 7 days
+    #     sales_data = self.get_sales_data()
+    #     print(f'Sales data: {sales_data}')
+        
+    #     # Extract the categories (dates) and values (sales amounts)
+    #     categories = [data[0] for data in sales_data]  # Get dates (e.g., "2025-01-16")
+    #     values = [data[1] for data in sales_data]  # Get sales amounts (e.g., 0, 3000, 9000)
+
+    #     # Create the chart frame with the actual data
+    #     self.chart_frame = BarChartFrame(categories, values, title="Sales In the Last 7 Days", xlabel="Date", ylabel="Sales")
+
+    #     # Check if the layout already exists
+    #     if not self.sales_trend_frame.layout():
+    #         layout = QVBoxLayout()
+    #         layout.addWidget(self.chart_frame)
+    #         self.sales_trend_frame.setLayout(layout)
+    #         self.sales_trend_frame.setContentsMargins(0,0,0,0)
+    #     else:
+    #         print('Chart already have a layout')
+    #         self.chart_frame.reload_chart()
 
     def get_estimated_profit_today(self):
         """
@@ -319,7 +384,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         except Exception as e:
             print(f"An error occurred: {e}")
             return 0.0
-
 
     def update_profit_label(self, **kwargs):
         """Update the dynamic profit labels based on the selected time period."""
@@ -770,6 +834,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         self.update_best_selling_chart()
         self.update_top_product()
         self.update_revenue_label()
+        # self.load_bar_chart()
         
     def get_last_7_days_sales(self):
         pipeline = [
@@ -797,30 +862,86 @@ class SalesReportPage(QWidget, sales_report_UiForm):
 
     def get_sales_data(self):
         """
-        Fetches or simulates sales data for the last 7 days.
+        Fetches sales data for the last 7 days.
         Returns a list of tuples (date, sales_amount).
         """
-        # Fetch sales data for the last 7 days
-        last7daysresult = self.get_last_7_days_sales()
+        # Get the current date and calculate 7 days ago
+        today = datetime.now()
+        seven_days_ago = today - timedelta(days=7)
+
+        # Convert the dates to ISO format strings to match the database format
+        today_str = today.strftime("%Y-%m-%d %H:%M:%S")
+        seven_days_ago_str = seven_days_ago.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Query the database directly for sales within the last 7 days
+        pipeline = [
+            {
+                "$match": {
+                    "sale_date": {
+                        "$gte": seven_days_ago_str,
+                        "$lte": today_str
+                    }
+                }
+            },
+            {
+                "$project": {
+                    "sale_date": {
+                        "$toDate": "$sale_date"  # Convert sale_date string to date object
+                    },
+                    "total_value": 1  # Include total_value in the output for summing up
+                }
+            },
+            {
+                "$group": {
+                    "_id": {"$dateToString": {"format": "%Y-%m-%d", "date": "$sale_date"}},  # Group by date only
+                    "sales": {"$sum": "$total_value"}  # Sum the total_value for the day
+                }
+            },
+            {
+                "$sort": {
+                    "_id": 1  # Sort by date in ascending order
+                }
+            }
+        ]
+
+        # Execute the aggregation pipeline directly on the database
+        sales_data_from_db = list(self.connect_to_db("sales").aggregate(pipeline))
 
         # Initialize a dictionary to store sales summed by date
         sales_by_date = {}
-        for data in last7daysresult:
-            datetime_obj = data['_id']  # Assuming '_id' contains the date
-            date = datetime_obj.strftime('%Y-%m-%d')
+
+        # Process the sales data
+        for data in sales_data_from_db:
+            # Assuming '_id' is a string representing the date
+            date_str = data['_id']  # '_id' contains the date (e.g., "2025-01-13")
+            print(f'date string: {date_str}')
+            
+            # Parse the string to a datetime object
+            sale_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            print(f'Date datetime: {sale_date}')
+            
+            # Use the date as key, and sum the sales
             sales = data['sales']  # Sales for the given date
-            sales_by_date[date] = sales_by_date.get(date, 0) + sales
+            print(f'Testing ng sales: {sales}')
+            sales_by_date[sale_date] = sales_by_date.get(sale_date, 0) + sales
+            print(f'sales by date: {sales_by_date}')
 
         # Prepare sales data for the last 7 days
         sales_data = []
-        today = datetime.now()
+        print(f'pakening sales data: {sale_date}')
+        
+        # Loop over the last 7 days
         for i in range(7):
-            current_date = (today - timedelta(days=i)).strftime("%Y-%m-%d")
-            # Fetch sales or use 0 if no sales data exists
+            current_date = (today - timedelta(days=i)).date()  # Get date without time
+            print(f'current date: {current_date}')
+            # Fetch sales for this date, or use 0 if no sales data exists
             sales = sales_by_date.get(current_date, 0)
-            sales_data.append((current_date, sales))
+            sales_data.append((current_date.strftime("%Y-%m-%d"), sales))
 
-        return sales_data[::-1]  # Reverse to have the oldest date first
+        sales_data.sort(key=lambda x: datetime.strptime(x[0], "%Y-%m-%d"))
+
+        print(f'Testing sales data: {sales_data}')
+        return sales_data  # Reverse to have the oldest date first
 
     def create_sale_trend_chart(self, sales_data):
         chart = QChart()
@@ -1290,11 +1411,6 @@ class SalesReportPage(QWidget, sales_report_UiForm):
         table.clearContents()
         table.setRowCount(0)
         table.setColumnCount(0)
-
-    # def update_revenue_this_month(self):
-    #     revenue = self.get_revenue_this_month()
-    #     formatted = f"₱ {revenue:,.2f}"
-    #     self.revenue_month_label.setText(formatted)
 
     def get_revenue_this_month(self):
         # Get the first day of the current month

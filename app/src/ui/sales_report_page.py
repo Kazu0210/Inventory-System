@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1079, 641)
+        Form.resize(897, 641)
         Form.setStyleSheet("*{\n"
 "font: 10pt \"Noto Sans\";\n"
 "border: none;\n"
@@ -71,7 +71,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1065, 1723))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -743, 881, 1723))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -485,7 +485,7 @@ class Ui_Form(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.sales_trend_frame = QtWidgets.QFrame(parent=self.scrollAreaWidgetContents_2)
         self.sales_trend_frame.setMinimumSize(QtCore.QSize(600, 400))
-        self.sales_trend_frame.setMaximumSize(QtCore.QSize(700, 16777215))
+        self.sales_trend_frame.setMaximumSize(QtCore.QSize(650, 16777215))
         self.sales_trend_frame.setStyleSheet("background-color: white;")
         self.sales_trend_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.sales_trend_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -534,7 +534,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.addItem(spacerItem3)
         self.verticalLayout_5.addWidget(self.frame_12, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.best_selling_scrollArea = QtWidgets.QScrollArea(parent=self.frame_9)
-        self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(320, 250))
+        self.best_selling_scrollArea.setMinimumSize(QtCore.QSize(240, 250))
         self.best_selling_scrollArea.setStyleSheet("#best_selling_scrollArea{\n"
 "background-color: #EAEAEA;\n"
 "border: none;\n"
@@ -583,7 +583,7 @@ class Ui_Form(object):
         self.best_selling_scrollArea.setWidgetResizable(True)
         self.best_selling_scrollArea.setObjectName("best_selling_scrollArea")
         self.best_selling_prod_scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 424, 626))
+        self.best_selling_prod_scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 240, 626))
         self.best_selling_prod_scrollAreaWidgetContents.setObjectName("best_selling_prod_scrollAreaWidgetContents")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.best_selling_prod_scrollAreaWidgetContents)
         self.verticalLayout_8.setObjectName("verticalLayout_8")

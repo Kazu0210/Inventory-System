@@ -454,6 +454,9 @@ class Ui_Form(object):
         self.sizes_tabWidget.setStyleSheet("font: 63 10pt \"Noto Sans SemiBold\";\n"
 "color: #333333;")
         self.sizes_tabWidget.setObjectName("sizes_tabWidget")
+        self.tab = QtWidgets.QWidget()
+        self.tab.setObjectName("tab")
+        self.sizes_tabWidget.addTab(self.tab, "")
         self.verticalLayout_9.addWidget(self.sizes_tabWidget)
         self.horizontalLayout_5.addWidget(self.frame_10, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -463,7 +466,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.scrollArea)
 
         self.retranslateUi(Form)
-        self.sizes_tabWidget.setCurrentIndex(-1)
+        self.sizes_tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -480,6 +483,7 @@ class Ui_Form(object):
         self.total_sale_table_label.setText(_translate("Form", "0"))
         self.label_6.setText(_translate("Form", "Products In Stock"))
         self.label_7.setText(_translate("Form", "Stock Level"))
+        self.sizes_tabWidget.setTabText(self.sizes_tabWidget.indexOf(self.tab), _translate("Form", "Page"))
 
 
 if __name__ == "__main__":
