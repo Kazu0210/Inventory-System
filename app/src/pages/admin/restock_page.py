@@ -149,7 +149,7 @@ class RestockProduct(QWidget, Ui_restock_form):
         connection_string = "mongodb://localhost:27017/"
         client = pymongo.MongoClient(connection_string)
         db = "LPGTrading_DB"
-        collection_name = "products_items"
+        collection_name = "products"
         return client[db][collection_name]
     
     def cancelBtnClicked(self):

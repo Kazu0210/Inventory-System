@@ -93,7 +93,7 @@ class newItem_page(QWidget, Ui_addItemPage):
                     'supplier_price': 0
                 }
 
-                self.connect_to_db('products_items').insert_one(data)
+                self.connect_to_db('products').insert_one(data)
                 self.logs.record_log(product_name=brand, event='product_added') # record to activity logs
         CustomMessageBox.show_message('information', 'Product saved', 'Product saved successfully')
         self.close()
@@ -344,7 +344,7 @@ class newItem_page(QWidget, Ui_addItemPage):
     #     }
 
     #     try:
-    #         self.connect_to_db('products_items').insert_one(new_data)  # Save new data to collection of products
+    #         self.connect_to_db('products').insert_one(new_data)  # Save new data to collection of products
     #         self.save_to_prices_db(new_data) # save new product to collection of prices
     #         self.close()
     #         #  zself.itempage.content_window_layout.setCurrentIndex(4)
@@ -395,7 +395,7 @@ class newItem_page(QWidget, Ui_addItemPage):
 
         # check if all in the query is present in the database
 
-        if self.connect_to_db("products_items").find_one(query):
+        if self.connect_to_db("products").find_one(query):
             return True
         else:
             return False
@@ -529,8 +529,8 @@ class newItem_page(QWidget, Ui_addItemPage):
         # filter = {
         #     "product_id": item_id
         # }
-        # data = self.connect_to_db('products_items').find_one(filter)
-        # if not self.connect_to_db('products_items').find_one(data):
+        # data = self.connect_to_db('products').find_one(filter)
+        # if not self.connect_to_db('products').find_one(data):
         #     return True
         # else:
         #     return False

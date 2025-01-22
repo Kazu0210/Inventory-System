@@ -34,7 +34,7 @@ class EditProductInformation(QWidget, editProductPage):
     def saveNewData(self, data):
         try:
             self.save_to_price_history() # add new record to price history if not changed
-            self.connect_to_db("products_items").update_one({"product_id": self.productID}, {"$set": data})
+            self.connect_to_db("products").update_one({"product_id": self.productID}, {"$set": data})
             
             CustomMessageBox.show_message('information', 'Success', 'Product Information Updated Successfully')
             self.save_signal.emit(data)
@@ -62,7 +62,7 @@ class EditProductInformation(QWidget, editProductPage):
             new_price = data['price_per_unit']
 
             # get price from the database
-            data_db = self.connect_to_db('products_items').find_one({'product_id': product_id})
+            data_db = self.connect_to_db('products').find_one({'product_id': product_id})
             print(f'data from db: {data_db}')
             db_price = data_db.get('price_per_unit')
             print(f'database price: {db_price}')

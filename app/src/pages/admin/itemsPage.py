@@ -29,7 +29,7 @@ class ItemsPage(QWidget, items_page):
 
         self.is_updating_table = False  # Flag to track if the table is being updated
 
-        self.collection = self.connect_to_db('products_items')
+        self.collection = self.connect_to_db('products')
 
         self.load_filters()
 
@@ -44,7 +44,7 @@ class ItemsPage(QWidget, items_page):
 
     def load_monitors(self):
         """load collection monitors"""
-        self.products_monitor = InventoryMonitor("products_items")
+        self.products_monitor = InventoryMonitor("products")
         self.products_monitor.start_listener_in_background()
         self.products_monitor.data_changed_signal.connect(self.update_all)
 
@@ -56,7 +56,7 @@ class ItemsPage(QWidget, items_page):
         """create inventory report"""
         try:
             # Fetch inventory data
-            inventory_data = self.connect_to_db("products_items").find()
+            inventory_data = self.connect_to_db("products").find()
 
             # Initialize PDF
             pdf = FPDF()
@@ -178,7 +178,7 @@ class ItemsPage(QWidget, items_page):
         """
         try:
             # Aggregate to calculate total quantity
-            total_quantity = self.connect_to_db("products_items").aggregate([
+            total_quantity = self.connect_to_db("products").aggregate([
                 {"$group": {"_id": None, "total_stock": {"$sum": "$quantity_in_stock"}}}
             ])
 
@@ -210,7 +210,7 @@ class ItemsPage(QWidget, items_page):
         :param inventory: The inventory data (a list of dictionaries).
         :return: The count of products with stock below their individual low stock threshold.
         """
-        inventory = self.connect_to_db('products_items').find({})
+        inventory = self.connect_to_db('products').find({})
         low_stock_count = 0
         
         # Iterate through each product in the inventory
@@ -366,7 +366,7 @@ class ItemsPage(QWidget, items_page):
         # products archive collection
         archive_collection = self.connect_to_db('product_archive')
 
-        data_from_products_collection = list(self.connect_to_db('products_items').find({"product_id": product_id}, {"_id": 0}))
+        data_from_products_collection = list(self.connect_to_db('products').find({"product_id": product_id}, {"_id": 0}))
         
         try:
             # Check if data_from_products_collection is a list
@@ -385,8 +385,8 @@ class ItemsPage(QWidget, items_page):
             # Update the table
             self.update_table()
 
-            # Remove the product from the products_items collection
-            self.connect_to_db('products_items').delete_one({'product_id': product_id})
+            # Remove the product from the products collection
+            self.connect_to_db('products').delete_one({'product_id': product_id})
 
             # Log the archiving action
             self.logs.record_log(event='product_archived', product_id=product_id)
@@ -432,7 +432,7 @@ class ItemsPage(QWidget, items_page):
 
     def get_products_data(self, filter):
         """Get prices data for prices table"""
-        result = list(self.connect_to_db('products_items').find(filter).sort("_id", -1))
+        result = list(self.connect_to_db('products').find(filter).sort("_id", -1))
         
         # Rename 'product_name' to 'brand' in each item in the result
         for item in result:
@@ -695,7 +695,7 @@ class ItemsPage(QWidget, items_page):
                         total_value = self.calculate_total_value_from_quantity(product_id, new_value)
                         filter = {'product_id': product_id}
                         update = {"$set": {cleaned_header: int(new_value), "total_value": total_value}}
-                        self.connect_to_db('products_items').update_one(filter, update)
+                        self.connect_to_db('products').update_one(filter, update)
                         self.logs.record_log(event='product_updated', product_id=product_id)
                     except Exception as e:
                         print(f'Error: {e}')
@@ -704,7 +704,7 @@ class ItemsPage(QWidget, items_page):
                         total_value = self.calculate_total_value_from_selling_price(product_id, new_value)
                         filter = {'product_id': product_id}
                         update = {"$set": {"price_per_unit": float(new_value), "total_value": total_value}}
-                        self.connect_to_db('products_items').update_one(filter, update)
+                        self.connect_to_db('products').update_one(filter, update)
                         self.logs.record_log(event='product_updated', product_id=product_id)
                     except Exception as e:
                         print(f'Error: {e}')
@@ -712,7 +712,7 @@ class ItemsPage(QWidget, items_page):
                     try:
                         filter = {'product_id': product_id}
                         update = {"$set": {"supplier_price": float(new_value)}}
-                        self.connect_to_db('products_items').update_one(filter, update)
+                        self.connect_to_db('products').update_one(filter, update)
                         self.logs.record_log(event='product_updated', product_id=product_id)
                     except Exception as e:
                         print(f'Error: {e}')
@@ -725,7 +725,7 @@ class ItemsPage(QWidget, items_page):
         """calculate the total value"""
         filter = {'product_id': product_id}
         projection = {'_id': 0}
-        result = list(self.connect_to_db('products_items').find(filter, projection))
+        result = list(self.connect_to_db('products').find(filter, projection))
         if result:
             for data in result:
                 price = data.get('price_per_unit', '')
@@ -735,7 +735,7 @@ class ItemsPage(QWidget, items_page):
         """calculate the total value"""
         filter = {'product_id': product_id}
         projection = {'_id': 0}
-        result = list(self.connect_to_db('products_items').find(filter, projection))
+        result = list(self.connect_to_db('products').find(filter, projection))
         if result:
             for data in result:
                 quantity = data.get('quantity_in_stock', '')

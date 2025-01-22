@@ -114,8 +114,26 @@
     #         ],
     #         "total_sales_amount": total_sales_amount
     #     }
-from datetime import datetime
+# from datetime import datetime
 
-# Current date and time
-current_datetime = datetime.now()
-print(current_datetime)
+# # Current date and time
+# current_datetime = datetime.now()
+# print(current_datetime)
+
+dir = r"C:\Users\dmfls\Downloads\InventoryBackup_2025-01-22\sales_backup.json"
+collection_name = [
+    'account_archive',
+    'accounts',
+    'logs',
+    'order_archive',
+    'orders',
+    'price_history',
+    'product_archive',
+    'products',
+    'sales',
+]
+for name in collection_name:
+    if name in dir:
+        print('meron', f'collection name: {name}')
+    else:
+        print('wala')

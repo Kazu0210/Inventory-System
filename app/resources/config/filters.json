@@ -40,9 +40,7 @@
         {"On Hold":"On Hold"}
     ],
     "backup_file_format": [
-        {"Default": ".json"},
-        {"Sql": ".sql"},
-        {"Csv": ".csv"}
+        {"Default": ".json"}
     ],
     "order_status":[
         {"Default": "Show All"},

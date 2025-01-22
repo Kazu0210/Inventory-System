@@ -124,7 +124,7 @@ class ArchivePage(QWidget, Ui_archive):
             filter = {
                 'product_id': product_id
             }
-            self.connect_to_db("products_items").insert_one(data)
+            self.connect_to_db("products").insert_one(data)
             self.connect_to_db(self.current_collection).delete_one(filter)
             CustomMessageBox.show_message('information', 'Success', 'Product restored successfully')
             self.logs.record_log(event='archived_product_restored', product_id=product_id)

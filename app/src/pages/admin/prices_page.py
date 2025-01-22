@@ -24,7 +24,7 @@ class PricesPage(QWidget, Ui_price_page):
 
         self.load_all()
         # Initialize Inventory Monitor for prices table
-        self.prices_monitor = InventoryMonitor("products_items")
+        self.prices_monitor = InventoryMonitor("products")
         self.prices_monitor.start_listener_in_background()
         self.prices_monitor.data_changed_signal.connect(lambda: self.load_prices())
 
@@ -125,7 +125,7 @@ class PricesPage(QWidget, Ui_price_page):
                 return
 
             product_id, cleaned_header = product_id_item.text(), header.text().replace(' ', '_').lower()
-            db = self.connect_to_db('products_items')
+            db = self.connect_to_db('products')
             original_value = db.find_one({'product_id': product_id}, {cleaned_header: 1}).get(cleaned_header)
 
             # Skip if no change
@@ -163,7 +163,7 @@ class PricesPage(QWidget, Ui_price_page):
             formatted_date = today.strftime('%Y-%m-%d')
 
             # Retrieve product data (assuming only one record per product_id)
-            product_data = self.connect_to_db('products_items').find_one({'product_id': product_id})
+            product_data = self.connect_to_db('products').find_one({'product_id': product_id})
 
             if not product_data:
                 print(f"Product with ID {product_id} not found.")
@@ -410,7 +410,7 @@ class PricesPage(QWidget, Ui_price_page):
 
     def get_prices_data(self, filter):
         """Get prices data for prices table"""
-        result = list(self.connect_to_db('products_items').find(filter).sort("_id", -1))
+        result = list(self.connect_to_db('products').find(filter).sort("_id", -1))
         
         # Rename 'product_name' to 'brand' in each item in the result
         for item in result:

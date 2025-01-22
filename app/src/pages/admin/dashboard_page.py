@@ -76,7 +76,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         """ Get all the cylinder sizes and create a tab for each cylinder size """
         try:
             # Get distinct cylinder sizes
-            cylinder_sizes = self.connect_to_db('products_items').distinct('cylinder_size')
+            cylinder_sizes = self.connect_to_db('products').distinct('cylinder_size')
 
             # Sort the cylinder sizes in descending order
             cylinder_sizes.sort(reverse=True)
@@ -159,7 +159,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         """ Get all the cylinder brands for a given cylinder size and get their quantity """
         query = {'cylinder_size': cylinder_size}
         projection = {'product_name': 1, 'cylinder_size': 1, 'quantity_in_stock': 1, '_id': 0}
-        result = list(self.connect_to_db('products_items').find(query, projection))
+        result = list(self.connect_to_db('products').find(query, projection))
         
         return result
 
@@ -176,7 +176,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
         self.sales_monitor.data_changed_signal.connect(self.update_sales_widgets)
 
         # Initialize the products monitor to listen for changes
-        self.products_monitor = InventoryMonitor('products_items')
+        self.products_monitor = InventoryMonitor('products')
         self.products_monitor.start_listener_in_background()
         self.products_monitor.data_changed_signal.connect(self.update_stock_widgets)
 
@@ -451,7 +451,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
                     }
                 }
             ]
-            result = self.connect_to_db("products_items").aggregate(pipeline)
+            result = self.connect_to_db("products").aggregate(pipeline)
             product_data = []
             for item in result:
                 product_name = item['_id']['product_name']
@@ -602,7 +602,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
             }
         ]
 
-        results = self.connect_to_db("products_items").aggregate(pipeline)
+        results = self.connect_to_db("products").aggregate(pipeline)
         products_in_stock = {}
 
         for item in results:
@@ -683,8 +683,8 @@ class Dashboard(QWidget, Ui_dashboard_page):
                     }
                 }
             ]
-            # Run the aggregation pipeline on the "products_items" collection
-            result = self.connect_to_db("products_items").aggregate(pipeline)
+            # Run the aggregation pipeline on the "products" collection
+            result = self.connect_to_db("products").aggregate(pipeline)
 
             processed_data = []
             # Process the results
@@ -726,7 +726,7 @@ class Dashboard(QWidget, Ui_dashboard_page):
                     }
                 }
             ]
-            result = self.connect_to_db("products_items").aggregate(pipeline)
+            result = self.connect_to_db("products").aggregate(pipeline)
             total_quantity = next(result, {}).get('total_quantity', 0)  # Get the total or default to 0
             print(f'Total quantity in stock: {total_quantity}')
             return total_quantity

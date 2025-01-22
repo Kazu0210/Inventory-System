@@ -203,7 +203,7 @@ class BackupRestorePage(QWidget, Ui_backupRestore):
     
     def getProducts(self):
         print('Getting data from products collection')
-        data = list(self.connect_to_db("products_items").find({}))
+        data = list(self.connect_to_db("products").find({}))
 
         return data
 

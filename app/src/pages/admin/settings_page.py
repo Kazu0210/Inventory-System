@@ -6,6 +6,8 @@ from src.utils.Logs import Logs
 from src.utils.dir import ConfigPaths
 
 import json, pymongo, os, datetime
+from bson import ObjectId
+from bson.errors import InvalidId
 
 class BackupCollectionsWorkerThread(QThread):
     update_signal = pyqtSignal(str)
@@ -115,6 +117,7 @@ class BackupEntireBDWorkerThread(QThread):
             'orders',
             'price_history',
             'prices',
+            'products',
             'product_archive',
             'sales'
         ]
@@ -194,6 +197,80 @@ class BackupEntireBDWorkerThread(QThread):
         db = "LPGTrading_DB"
         return client[db][collection_name]
 
+class RestoreWorkerThread(QThread):
+    update_signal = pyqtSignal(str)
+    progress_signal = pyqtSignal(int)
+    backup_done_signal = pyqtSignal(str, str)
+
+    def __init__(self, **kwargs):
+        super().__init__()
+
+        self.file_dir = kwargs.get('file_dir')
+        print(F'Pakening file dir: {self.file_dir}')
+
+    def run(self):
+        collection_names = [
+            'account_archive',
+            'accounts',
+            'cart',
+            'logs',
+            'order_archive',
+            'orders',
+            'price_history',
+            'prices',
+            'products',
+            'product_archive',
+            'sales'
+        ]
+
+        try:
+            self.update_signal.emit("Start Restoring...")
+            for name in collection_names:
+                file_path = self.file_dir
+                if name in file_path:
+                    try:
+                        # Open and load the JSON data
+                        with open(file_path, "r") as file:
+                            data = json.load(file)
+
+                        for item in data:
+                            # Convert `_id` to ObjectId
+                            id_dict = item.get("_id", {})
+                            if "$oid" in id_dict:
+                                try:
+                                    item["_id"] = ObjectId(id_dict["$oid"])
+                                except InvalidId:
+                                    print(f"Invalid ObjectId: {id_dict['$oid']}")
+                            
+                            # Convert `created_at` to datetime
+                            created_at_dict = item.get("created_at", {})
+                            if "$date" in created_at_dict:
+                                try:
+                                    item["created_at"] = datetime.datetime.fromisoformat(
+                                        created_at_dict["$date"].replace("Z", "+00:00")
+                                    )
+                                except ValueError:
+                                    print(f"Invalid datetime format: {created_at_dict['$date']}")
+
+                        # Insert the data into the collection
+                        print('restoring collection')
+                        self.connect_to_db(name).insert_many(data)
+
+                    except FileNotFoundError:
+                        self.update_signal.emit(f"File not found for collection: {name}")
+                    except json.JSONDecodeError:
+                        self.update_signal.emit(f"Invalid JSON format in file: {file_path}")
+
+            self.backup_done_signal.emit("The system has been successfully restored.", "Done")
+        except Exception as e:
+            self.update_signal.emit(f"Error during restore: {e}")
+
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        return client[db][collection_name]
+
 class settingsPage(QWidget, Ui_settings_page):
     def __init__(self, main_window):
         super().__init__()
@@ -216,6 +293,37 @@ class settingsPage(QWidget, Ui_settings_page):
 
         self.timeFormat_comboBox.addItem("12hr")
         self.timeFormat_comboBox.addItem("24hr")
+
+    def restore_button_clicked(self):
+        """handle click event of restore button"""
+        collection_name = [
+            'account_archive',
+            'accounts',
+            'logs',
+            'order_archive',
+            'orders',
+            'price_history',
+            'product_archive',
+            'products',
+            'sales',
+        ]
+        # get file
+        file_dir = self.location3_lineEdit.text()
+            
+        question = CustomMessageBox.show_message('question', 'Confirm Restore', f'Are you sure you want to Restore in {format} to {dir}?')
+
+        if question == 1:
+            CustomMessageBox.show_message('information', 'Restore started', 'Restore started')
+            self.worker = RestoreWorkerThread(file_dir=file_dir)
+            self.worker.update_signal.connect(self.update_progress_label)
+            self.worker.progress_signal.connect(self.update_progress_bar)
+            self.worker.backup_done_signal.connect(self.show_done_signal)
+            self.worker.start()
+            self.logs.record_log(event='restore') # need to change
+        else:
+            CustomMessageBox.show_message('critical', 'Backup Cancelled', 'Backup cancelled')
+        
+
 
     def get_checked_collections(self):
         """Retrieve the text of all checked checkboxes in the collections frame."""
@@ -242,9 +350,7 @@ class settingsPage(QWidget, Ui_settings_page):
             'Archive Product',
             'Sales',
             'Price History',
-            'Logs',
-            'Orders',
-            'Prices',
+            'Logs'
         ]
 
         if not self.collections_frame.layout():
@@ -275,7 +381,7 @@ class settingsPage(QWidget, Ui_settings_page):
             collection_names = [
                 'accounts',
                 'account_archive',
-                'products_items',
+                'products',
                 'product_archive',
                 'sales',
                 'price_history',
@@ -314,6 +420,12 @@ class settingsPage(QWidget, Ui_settings_page):
         dir = QFileDialog.getExistingDirectory(self, "Select Directory") # get directory using file dialog
         if dir:
             self.location2_lineEdit.setText(dir)
+
+    def get_directory_restore(self):
+        """get the directory for the restore backup"""
+        file_path, _ = QFileDialog.getOpenFileName(self, "Select Backup File", "", "JSON Files (*.json)")
+        if file_path:
+            self.location3_lineEdit.setText(file_path)
 
     def load_backup_format_filters(self):
         """insert options for backup format comboBox"""
@@ -460,6 +572,8 @@ class settingsPage(QWidget, Ui_settings_page):
         self.entireBrowseFile_pushButton.clicked.connect(lambda: self.get_directory_backup_entire())
         self.collectionBrowseFile_pushButton.clicked.connect(lambda: self.get_directory_backup_collections())
         self.start_backup_pushButton.clicked.connect(lambda: self.start_backup_clicked())
+        self.restore_pushButton.clicked.connect(lambda: self.restore_button_clicked())
+        self.RestoreBrowseFile_pushButton.clicked.connect(lambda: self.get_directory_restore())
 
     def handle_update_button(self):
         """Handle click event for update time format button."""
@@ -520,3 +634,9 @@ class settingsPage(QWidget, Ui_settings_page):
         }
         for widget in widgets:
             widget.hide()
+
+    def connect_to_db(self, collection_name):
+        connection_string = "mongodb://localhost:27017/"
+        client = pymongo.MongoClient(connection_string)
+        db = "LPGTrading_DB"
+        return client[db][collection_name]

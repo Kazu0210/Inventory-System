@@ -34,6 +34,7 @@ class Logs:
             'inventory_report': 'Inventory Report Successfully Generated',
             'sales_report': 'Sales Report Successfully Generated',
             'entire_system_backup': 'Entire System Backup Successfully Completed',
+            'restore': 'Restoring data',
 
             'archived_account_restored': f"Archived Account Successfully Restored{f' for account: {account_id}' if account_id else ''}",
             'archived_product_restored': f"Archived Product Successfully Restored{f' for account: {product_id}' if product_id else ''}",

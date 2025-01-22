@@ -66,7 +66,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         self.reset_quantity_box()
 
         # Initialize Inventory Monitor
-        self.product_monitor = InventoryMonitor('products_items')
+        self.product_monitor = InventoryMonitor('products')
         self.product_monitor.start_listener_in_background()
         self.product_monitor.data_changed_signal.connect(lambda: self.update_cart_widgets())
 
@@ -413,8 +413,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             cylinder_size = product.get("cylinder_size")  # Ensure 'cylinder_size' exists
             cart_quantity = product.get("quantity", 0)  # Get quantity in the cart
 
-            # Update the 'products_items' collection by matching product_name and cylinder_size
-            self.connect_to_db('products_items').update_one(
+            # Update the 'products' collection by matching product_name and cylinder_size
+            self.connect_to_db('products').update_one(
                 {
                     "product_name": product_name,  # Match by product name
                     "cylinder_size": cylinder_size  # Match by cylinder size
@@ -481,7 +481,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         cart_data = list(self.connect_to_db('cart').find({}))
 
         for item in cart_data:
-            current_stock = self.connect_to_db('products_items').find_one(
+            current_stock = self.connect_to_db('products').find_one(
                 {
                     'product_name': item['product_name'],
                     'cylinder_size': item['cylinder_size']
@@ -554,8 +554,8 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             cylinder_size = cart_data.get("cylinder_size", "")
             price = cart_data.get("price", 0)
 
-            # Fetch the current stock from the products_items collection
-            stock_data = self.connect_to_db('products_items').find_one(
+            # Fetch the current stock from the products collection
+            stock_data = self.connect_to_db('products').find_one(
                 {"product_name": product_name, "cylinder_size": cylinder_size},
                 {"quantity_in_stock": 1, "_id": 0}
             )
@@ -670,7 +670,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         
 
     def get_product_id(self, product_name, cylinder_size):
-        product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
+        product_data = self.connect_to_db('products').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
         if product_data:
             print(f'Product ID: {product_data}')
             return product_data.get("product_id", None)
@@ -784,7 +784,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             QMessageBox.critical(self, "Database Error", f"An error occurred while recording sales: {e}")
 
     def get_quantity_in_stock(self, product_name, cylinder_size):
-        product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
+        product_data = self.connect_to_db('products').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
         if product_data:
             return product_data.get("quantity_in_stock", 0)
         else:
@@ -810,7 +810,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         print(f"Current Product's Product ID: {self.product_id}")
 
     def get_product_price(self, product_name, cylinder_size):
-        product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
+        product_data = self.connect_to_db('products').find_one({"product_name": product_name, "cylinder_size": cylinder_size})
         if product_data:
             return product_data.get("price_per_unit", 0.0)
         else:
@@ -829,7 +829,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             self.cylindersize_box.addItem(size)
 
     def get_available_cylinder_sizes(self, product_name):
-        product_data = self.connect_to_db('products_items').find({"product_name": product_name})
+        product_data = self.connect_to_db('products').find({"product_name": product_name})
         cylinder_sizes = [product['cylinder_size'] for product in product_data]
         return list(set(cylinder_sizes))
 
@@ -844,7 +844,7 @@ class OrderPage(QWidget, Ui_orderPage_Form):
 
     def add_product_name(self):
         # fill the comboBox for product name
-        product_name = self.connect_to_db('products_items').find({}, {"product_name": 1, "_id": 0}) # get all the product names on the db only
+        product_name = self.connect_to_db('products').find({}, {"product_name": 1, "_id": 0}) # get all the product names on the db only
 
         product_name_list = [product['product_name'] for product in product_name]
         self.productName_comboBox.addItems(list(set(product_name_list))) # add names to the comboBox
@@ -919,11 +919,11 @@ class OrderPage(QWidget, Ui_orderPage_Form):
             price = float(self.price_input.text() or "0.0")
             total_amount = quantity * price
             self.amount_input.setText(f"{total_amount:.2f}")
-            product_data = self.connect_to_db('products_items').find_one({"product_name": product_name})
+            product_data = self.connect_to_db('products').find_one({"product_name": product_name})
             if product_data:
                 current_total_value = product_data.get("total_value", 0)
                 new_total_value = current_total_value + total_amount
-                self.connect_to_db('products_items').update_one({"product_name": product_name}, {"$set": {"total_value": new_total_value}})
+                self.connect_to_db('products').update_one({"product_name": product_name}, {"$set": {"total_value": new_total_value}})
         except Exception as e:
             print(f"An error occurred while updating the total value: {e}")
             QMessageBox.critical(self, "Database Error", f"An error occurred while updating the total value: {e}")
@@ -932,12 +932,12 @@ class OrderPage(QWidget, Ui_orderPage_Form):
         try:
             product_name = self.productName_comboBox.currentText()
             quantity = self.quantity_box.value()
-            product_data = self.connect_to_db('products_items').find_one({"product_name": product_name, "cylinder_size": self.cylindersize_box.currentText()})
+            product_data = self.connect_to_db('products').find_one({"product_name": product_name, "cylinder_size": self.cylindersize_box.currentText()})
             print(f'Collected product data: {product_data}')
             if product_data:
                 current_quantity = product_data.get("quantity_in_stock", 0)
                 new_quantity = int(current_quantity) - int(quantity)
-                self.connect_to_db('products_items').update_one({"product_name": product_name}, {"$set": {"quantity_in_stock": new_quantity}})
+                self.connect_to_db('products').update_one({"product_name": product_name}, {"$set": {"quantity_in_stock": new_quantity}})
         except Exception as e:
             print(f"An error occurred while reducing the quantity: {e}")
             QMessageBox.critical(self, "Database Error", f"An error occurred while reducing the quantity: {e}")
