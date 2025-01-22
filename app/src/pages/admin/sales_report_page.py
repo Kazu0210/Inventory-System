@@ -677,7 +677,7 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                 # Check if sale_date is already a datetime object, if not, parse it
                 sale_date = sale["sale_date"]
                 if isinstance(sale_date, datetime):
-                    formatted_sale_date = sale_date.strftime("%b. %d, %Y")  # Formatting the sale date
+                    formatted_sale_date = sale_date.strftime("%b. %d, %Y %H:%M:%S")  # Formatting the sale date
                 else:
                     # If it's not a datetime object, then convert it using strptime()
                     sale_date = datetime.strptime(sale_date, "%Y-%m-%d")
