@@ -241,7 +241,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         file_name = icon_widget.file_name
         print(f'Pakening file name: {file_name}')
         base_dir = os.path.abspath(os.getcwd())
-        file_path = f"{base_dir}/resources/icons/{file_name}"
+        print(f'Fucking base directory: {base_dir}')
+        file_path = f"{base_dir}/../app/resources/icons/{file_name}"
+        print(f'Fucking file path: {file_path}')
         icon = QPixmap(file_path)
         icon_widget.file_name = os.path.basename(file_path)
         icon_widget.setPixmap(icon)
