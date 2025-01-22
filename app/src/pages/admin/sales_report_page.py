@@ -1095,9 +1095,10 @@ class SalesReportPage(QWidget, sales_report_UiForm):
                         elif header == 'saledate':
                             try:
                                 if value:
-                                    # Directly format the datetime object
-                                    value = value.strftime("%Y-%m-%d")
-
+                                    # convert string to datetime object
+                                    datetime_object = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                                    # convert back to string using strftime
+                                    value = datetime_object.strftime("%Y-%m-%d")
                             except Exception as e:
                                 print(f'May Error: {e}')                           
 
