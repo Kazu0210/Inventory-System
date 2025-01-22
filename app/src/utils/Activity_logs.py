@@ -10,6 +10,7 @@ class Activity_Logs:
         self.collection_name = "logs"
         self.checker = db_checker("mongodb://localhost:27017/", self.db_name)
         self.connect_to_db()
+        self.logs = ConfigPaths()
 
     def connect_to_db(self):
         self.checker.connect_to_client()
@@ -82,7 +83,8 @@ class Activity_Logs:
         }
 
         # Read logs categories from json file
-        logs_dir = "D:/Inventory-System/app/resources/data/logs.json"
+        # logs_dir = "D:/Inventory-System/app/resources/data/logs.json"
+        logs_dir = self.logs.get_path('logs')
         with open(logs_dir, 'r') as f:
             category_data = json.load(f)
 

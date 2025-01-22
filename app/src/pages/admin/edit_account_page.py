@@ -71,7 +71,7 @@ class editAccountPage(QWidget, edit_account_page_Ui):
 
     def add_comboBox_options(self, directory_name, comboBox_name, option_name):
         base_dir = os.path.abspath(os.getcwd())
-        filter_dir = f"{base_dir}/resources/config/{directory_name}"
+        filter_dir = f"{base_dir}/../app/resources/config/{directory_name}"
 
         with open(filter_dir, 'r') as f:
             options = json.load(f)
