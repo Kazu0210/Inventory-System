@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import QThread, pyqtSignal, QSize, QPropertyAnimation, Qt
+from PyQt6.QtCore import QSize, QPropertyAnimation, Qt
 
 from src.ui.ui_dashboard import Ui_Form as Ui_dashboard_page
 from src.ui.final_ui.product_in_stock_item import Ui_Frame as Ui_prodStockItem
@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 import pymongo, json, re
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
 class ProductInStockItem(QFrame, Ui_prodStockItem):
@@ -73,36 +73,38 @@ class Dashboard(QWidget, Ui_dashboard_page):
             return 0
 
     def create_cylinder_sizes_tab(self):
-        """ Get all the cylinder sizes and create a tab for each cylinder size """
+        """Get all the cylinder sizes and create a tab for each cylinder size."""
         try:
             # Get distinct cylinder sizes
-            cylinder_sizes = self.connect_to_db('products').distinct('cylinder_size')
+            cylinder_sizes = list(self.connect_to_db('products').distinct('cylinder_size'))
+            print(f"Available Cylinder Sizes: {cylinder_sizes}")
 
             # Sort the cylinder sizes in descending order
-            cylinder_sizes.sort(reverse=True)
+            # cylinder_sizes.sort(reverse=True)
 
-            # initialize tab widget
+            # Initialize tab widget
             self.tab_widget = self.sizes_tabWidget
             self.tab_widget.clear()
-            
+
             # Add a tab for each cylinder size
             for size in cylinder_sizes:
                 # Create the tab widget for this size
                 tab_widget = QWidget()
+                print(f'Creating tab widget for size: {size}')
 
                 # Create the Matplotlib figure and canvas
                 self.figure, self.ax = plt.subplots(figsize=(5, 5))
                 self.canvas = FigureCanvas(self.figure)
 
-                # initialize layout for tab widget
+                # Initialize layout for tab widget
                 tab_widget_layout = QVBoxLayout()
-                tab_widget_layout.addWidget(self.canvas) # insert pie chart canvas to the layout
-                
-                tab_widget.setLayout(tab_widget_layout) # add the layout to the tab widget
+                tab_widget_layout.addWidget(self.canvas)  # Insert pie chart canvas to the layout
 
-                # get data for the chart
+                tab_widget.setLayout(tab_widget_layout)  # Add the layout to the tab widget
+
+                # Get data for the chart
                 product_data = list(self.get_cylinder_brands(size))
-                print(f'recevied product data {product_data}')
+                print(f'Received product data: {product_data}')
 
                 brand = []
                 quantity = []
@@ -110,15 +112,20 @@ class Dashboard(QWidget, Ui_dashboard_page):
                     brand.append(data['product_name'])
                     quantity.append(data['quantity_in_stock'])
 
-                print(f'pakening quantity: {quantity}')
+                print(f'Processed brand: {brand}, quantity: {quantity}')
 
-                self.create_pie_chart(brand, quantity) # create pie chart
+                # Create the pie chart
+                self.create_pie_chart(brand, quantity)
+
+                # Refresh the canvas to display the pie chart
+                self.canvas.draw()
 
                 # Add the tab to the tab widget
                 self.tab_widget.addTab(tab_widget, f"{size}")
 
         except Exception as e:
             print(f"Error: {e}")
+
 
     def create_pie_chart(self, brand, quantity):
         """

@@ -120,20 +120,48 @@
 # current_datetime = datetime.now()
 # print(current_datetime)
 
-dir = r"C:\Users\dmfls\Downloads\InventoryBackup_2025-01-22\sales_backup.json"
-collection_name = [
-    'account_archive',
-    'accounts',
-    'logs',
-    'order_archive',
-    'orders',
-    'price_history',
-    'product_archive',
-    'products',
-    'sales',
-]
-for name in collection_name:
-    if name in dir:
-        print('meron', f'collection name: {name}')
-    else:
-        print('wala')
+# dir = r"C:\Users\dmfls\Downloads\InventoryBackup_2025-01-22\sales_backup.json"
+# collection_name = [
+#     'account_archive',
+#     'accounts',
+#     'logs',
+#     'order_archive',
+#     'orders',
+#     'price_history',
+#     'product_archive',
+#     'products',
+#     'sales',
+# ]
+# for name in collection_name:
+#     if name in dir:
+#         print('meron', f'collection name: {name}')
+#     else:
+#         print('wala')
+import sys
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.pyplot as plt
+
+class TestWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Matplotlib Pie Chart")
+        
+        # Create the main widget
+        main_widget = QWidget()
+        layout = QVBoxLayout(main_widget)
+        self.setCentralWidget(main_widget)
+        
+        # Create Matplotlib figure and canvas
+        figure, ax = plt.subplots()
+        canvas = FigureCanvas(figure)
+        layout.addWidget(canvas)
+        
+        # Create a simple pie chart
+        ax.pie([25, 35, 40], labels=['A', 'B', 'C'], autopct='%1.1f%%')
+        canvas.draw()
+
+app = QApplication(sys.argv)
+window = TestWindow()
+window.show()
+sys.exit(app.exec())
